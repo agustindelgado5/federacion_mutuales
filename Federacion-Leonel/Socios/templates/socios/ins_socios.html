@@ -1,0 +1,38 @@
+{% extends 'Administracion/base.html' %}
+{% load static %}
+{% block title %}
+    <title>Registrarse</title>
+{% endblock  %}
+
+{% block content %} 
+
+{% if 'valido' in request.GET %}        
+<p style="color: white; background-color: black;">Los datos se han registrado exitosamente</p>
+
+<div style="background-color: green; color:white; text-align: left;">
+    <p>
+        Alrededor de 30 dias le estaremos informando sobre la aprobacion o no
+        de su solicitud, este atento a su correo electronico.
+        Hasta entonces, que tenga un buen dia.
+    </p>
+</div>
+
+{% else %}
+    {% if 'novalido' in request.GET %}  
+        <p style="color: red; background-color: black;">Por favor ingrese nuevamente los datos</p> 
+    {% endif %}
+{% endif %}
+<h2>Ingrese los datos</h2>
+<div class="container">
+        <div class="intro">
+            <div style="text-align: left; font-size: 1.8em; background-color: darkgreen; color: white;">
+                <form action="" method="POST">{% csrf_token %}
+                    <table>
+                        {{form.as_table}}
+                    </table>
+                    <input type="submit" value="Enviar" title="Enviar">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock  %}
