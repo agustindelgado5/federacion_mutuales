@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+
+  # Django Backend
+  backend:
+    ports:
+      - 8081:8081
+    environment:
+      - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
+    container_name: backend
+    build:
+      context: backend
+      dockerfile: backend.Dockerfile
+    depends_on:
+      - database
+    volumes:
+      - "./backend:/usr/src/backend"
+    image: backend:1.0
+    networks:
+      - federacion-network
+
+  database:
+    image: postgres:13.3-alpine
+    volumes:
+      - ./data/database:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - federacion-network
+
+networks:
+    federacion-network:
