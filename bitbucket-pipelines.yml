@@ -24,3 +24,14 @@ pipelines:
             - cd backend
             - pip install flake8
             - flake8 . --extend-exclude=dist,build --show-source --statistics
+      - step:
+          name: Deploy to production
+          deployment: production
+          caches:
+            - pip
+          script:
+            - pipe: atlassian/heroku-deploy:0.1.1
+              variables:
+                HEROKU_API_KEY: 3c58e65e-1344-49c9-a8e6-fbffcc004e58
+                HEROKU_APP_NAME: federacion
+
