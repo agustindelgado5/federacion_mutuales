@@ -1,6 +1,19 @@
 version: "3.9"
 
 services:
+  # Vue js Frontend
+  frontend:
+    ports:
+      - 8082:80
+    container_name: frontend
+    build:
+      context: frontend
+      dockerfile: frontend.Dockerfile
+    volumes:
+      - "./nginx/conf:/etc/nginx/conf.d"
+    image: frontend:1.0
+    networks:
+      - federacion-network
 
   # Django Backend
   backend:
@@ -32,4 +45,4 @@ services:
       - federacion-network
 
 networks:
-    federacion-network:
+  federacion-network:
