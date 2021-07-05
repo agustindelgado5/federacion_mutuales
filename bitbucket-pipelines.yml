@@ -27,7 +27,7 @@ pipelines:
       - step:
           name: Create ZIP_FILE
           script:
-            - tar czfv my_app.tgz .
+            - tar czfv my_app.tgz /zip
           artifacts:
             - my_app.tgz
       - step:
