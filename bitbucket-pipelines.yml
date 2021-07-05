@@ -27,6 +27,6 @@ pipelines:
       - step:
           name: Deploy to heroku
           script: # Modify the commands below to build your repository.
-            - git push https://heroku:3c58e65e-1344-49c9-a8e6-fbffcc004e58@git.heroku.com/federaciondemutuales_beta.git HEAD
+            - git push https://heroku:3c58e65e-1344-49c9-a8e6-fbffcc004e58@git.heroku.com/federacion.git HEAD
 
 
