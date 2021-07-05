@@ -25,20 +25,8 @@ pipelines:
             - pip install flake8
             - flake8 . --extend-exclude=dist,build --show-source --statistics
       - step:
-          name: Create ZIP_FILE
-          script:
-            - tar czfv my_app.tgz /zip
-          artifacts:
-            - my_app.tgz
-      - step:
-          name: Deploy to production
-          deployment: production
-          caches:
-            - pip
-          script:
-            - pipe: atlassian/heroku-deploy:0.1.1
-              variables:
-                HEROKU_API_KEY: 3c58e65e-1344-49c9-a8e6-fbffcc004e58
-                HEROKU_APP_NAME: federacion
-                ZIP_FILE: "my_app.tgz"
+          name: Deploy to heroku
+          script: # Modify the commands below to build your repository.
+            - git push https://heroku:3c58e65e-1344-49c9-a8e6-fbffcc004e58@git.heroku.com/federaciondemutuales_beta.git HEAD
+
 
