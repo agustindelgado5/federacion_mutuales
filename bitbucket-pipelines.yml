@@ -25,6 +25,12 @@ pipelines:
             - pip install flake8
             - flake8 . --extend-exclude=dist,build --show-source --statistics
       - step:
+          name: Create ZIP_FILE
+          script:
+            - tar czfv my_app.tgz .
+          artifacts:
+            - my_app.tgz
+      - step:
           name: Deploy to production
           deployment: production
           caches:
@@ -34,4 +40,5 @@ pipelines:
               variables:
                 HEROKU_API_KEY: 3c58e65e-1344-49c9-a8e6-fbffcc004e58
                 HEROKU_APP_NAME: federacion
+                ZIP_FILE: "my_app.tgz"
 
