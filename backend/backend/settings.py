@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-x*)5s_om!jooy5ewy8n*oqjc#6ziymj=2%a5jdjg^urmp*e8k5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Django REST framework 
+    'rest_framework',
+    # CORS
+    'corsheaders',
+    'django.contrib.postgres',
+    'Administracion',
+    'Socios',
+    'Profesionales.apps.ProfesionalesAppConfig',
+    'Farmacias',
+    'Medicamentos',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +79,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend', ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
+}
+
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.base import Model
 from django.contrib.auth.models import User
-from Federacion.deptos import provincias
+from backend.deptos import provincias
 # Create your models here.
 
 """

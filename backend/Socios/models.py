@@ -1,6 +1,6 @@
 from django.db import models
-from Federacion.deptos import deptos_tucuman
-from .utils import calcular_edad
+from backend.deptos import deptos_tucuman
+# from .utils import calcular_edad
 # Create your models here.
 
 """
@@ -32,7 +32,7 @@ class socios(models.Model):
 
     @property
     def edad_socio(self):
-        return calcular_edad(self.fecha_nacimiento)
+        return 1
     
     def save(self):
         self.edad=self.edad_socio
@@ -66,7 +66,7 @@ class familiar(models.Model):
     
     @property
     def edad_socio(self):
-        return calcular_edad(self.fecha_nacimiento)
+        return 1
     
     def save(self):
         self.edad=self.edad_socio

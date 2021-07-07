@@ -1,5 +1,12 @@
 #!/bin/bash
 
+echo "tirando un makemigrations"
+
+while ! python manage.py makemigrations 2>&1; do
+    echo "makemigrations corriendo :V"
+    sleep 2
+done
+
 echo "tirando un migrate"
 
 while ! python manage.py migrate 2>&1; do
@@ -7,9 +14,11 @@ while ! python manage.py migrate 2>&1; do
     sleep 2
 done
 
+
 echo "Iniciando server de backend"
 
 python manage.py runserver 0.0.0.0:8081
+# bash
 
 echo "El backend esta listo para que explotar"
 
