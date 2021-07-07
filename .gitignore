@@ -34,6 +34,8 @@ parts/
 sdist/
 var/
 wheels/
+__pycache__
+migrations/
 *.egg-info/
 .installed.cfg
 *.egg

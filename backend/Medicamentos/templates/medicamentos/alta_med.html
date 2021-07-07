@@ -1,0 +1,37 @@
+{% extends 'Administracion/base.html' %}
+{% load static %}
+{% block title %}
+    <title>Emitir Receta</title>
+{% endblock  %}
+
+{% block content %} 
+<a href="{% url 'Listado_Medicam' %}" class="btn btn sm btn-success" title="Volver atras"> Volver atras </a>
+
+{# Me fijo si no hay error al enviar los datos #}
+{% if 'valido' in request.GET %}
+<div class="alert alert-success" role="alert">        
+    <p><b>Los datos se han registrado exitosamente</b></p>
+</div>
+{% else %}
+    {% if 'novalido' in request.GET %} 
+        <div class="alert alert-danger" role="alert">  
+            <p><b>Por favor ingrese nuevamente los datos</b></p> 
+        </div>   
+    {% endif %}
+{% endif %}
+
+<h2>Ingrese los datos</h2>
+
+<div class="container">
+        <div class="intro">
+            <div style="text-align: left; font-size: 1.8em; background-color: darkgreen; color: white;">
+                <form action="" method="POST">{% csrf_token %}
+                    <table>
+                        {{form.as_table}}
+                    </table>
+                    <input type="submit" value="Enviar" title="Enviar">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock  %}
