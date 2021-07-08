@@ -4,7 +4,22 @@
 # from .models import medicamentos
 # from django.conf import settings
 # from django.contrib.postgres.search import SearchQuery, SearchVector
+from rest_framework import  viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
+from Medicamentos.models import medicamentos,receta
+from Medicamentos.serializers import MedicamentosSerializer, RecetasSerializer
+
+
+class MedicamentosViewSet(viewsets.ModelViewSet):
+    serializer_class = MedicamentosSerializer
+    queryset = medicamentos.objects.all()
+
+
+class RecetasViewSet(viewsets.ModelViewSet):
+    serializer_class = RecetasSerializer
+    queryset = receta.objects.all()
 
 
 # """

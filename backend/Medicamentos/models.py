@@ -13,8 +13,6 @@ class medicamentos(models.Model):
     presentacion=models.CharField(max_length=100)
     laboratorio=models.CharField(max_length=30)
     cod_farmacia=models.ForeignKey(farmacias, on_delete=models.DO_NOTHING)
-    numero_socio=models.ForeignKey(socios,on_delete=models.DO_NOTHING)
-    dni_familiar=models.ForeignKey(familiar,on_delete=models.DO_NOTHING)
 
     created=models.DateTimeField(auto_now_add=True) 
     updated=models.DateTimeField(auto_now_add=True)
@@ -33,7 +31,6 @@ class medicamentos(models.Model):
 Construyo la entidad para el grupo familiar con sus atributos
 """
 class receta(models.Model):
-    dni_familiar=models.IntegerField(primary_key=True)
     numero_socio=models.ForeignKey(socios, on_delete=models.DO_NOTHING)
     dni_familiar=models.ForeignKey(familiar, on_delete=models.DO_NOTHING)
     cod_farmacia=models.ForeignKey(farmacias, on_delete=models.DO_NOTHING)

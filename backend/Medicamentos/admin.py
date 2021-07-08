@@ -1,8 +1,8 @@
-from django.contrib import admin
-from django.contrib.admin.sites import site
-from .models import medicamentos
+#from django.contrib import admin
+#from django.contrib.admin.sites import site
+#from .models import medicamentos
 # Register your models here.
-
+"""
 class recetasAdmin(admin.ModelAdmin):
     list_display=('id_medicamento','nombre','numero_socio', 'dni_familiar')
     search_fields=('id_medicamento','nombre','numero_socio', 'dni_familiar')
@@ -11,3 +11,4 @@ class recetasAdmin(admin.ModelAdmin):
     readonly_fields=('created', 'updated')
 
 admin.site.register(medicamentos, recetasAdmin)
+"""

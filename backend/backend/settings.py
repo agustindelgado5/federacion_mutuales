@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'Socios',
     'Profesionales.apps.ProfesionalesAppConfig',
     'Farmacias.apps.FarmaciasAppConfig',
-    'Medicamentos',
+    'Medicamentos.apps.MedicamentosAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -101,10 +101,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'federacion',
-        'USER': 'admin',
-        'PASSWORD': 'contraseniasegura',
-        'HOST': 'database',
-        'PORT': 5432,
+        'USER': 'postgres',
+        'PASSWORD': 'leonel',
+        'HOST': '127.0.0.1',
+        'DATABASE_PORT': '5432',
     }
 }
 
