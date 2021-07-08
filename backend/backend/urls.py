@@ -23,6 +23,6 @@ urlpatterns = [
     # path('', include('Administracion.urls')),
     # path('socios/',include('Socios.urls')),
     # path('profesional/',include('Profesionales.urls')),
-    # path('farmacia/',include('Farmacias.urls')),
+    path('',include('Farmacias.urls')),
     # path('medicamento/',include('Medicamentos.urls')),
 ]

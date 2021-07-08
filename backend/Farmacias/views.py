@@ -4,7 +4,17 @@
 # from .models import farmacias
 # from django.conf import settings
 # from django.contrib.postgres.search import SearchQuery, SearchVector
+from rest_framework import  viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
+from .models import farmacias
+from .serializers import FarmaciasSerializer
+
+
+class FarmaciasViewSet(viewsets.ModelViewSet):
+    serializer_class = FarmaciasSerializer
+    queryset = farmacias.objects.all()
 
 
 # """
