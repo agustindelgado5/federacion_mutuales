@@ -10,4 +10,4 @@ class farmaciasAdmin(admin.ModelAdmin):
     #autocomplete_fields=['departamento']
     readonly_fields=('created', 'updated')
 
-admin.site.register(farmacias, farmaciasAdmin)
+admin.site.register(farmacias)

@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'Administracion',
     'Socios',
     'Profesionales.apps.ProfesionalesAppConfig',
-    'Farmacias',
+    'Farmacias.apps.FarmaciasAppConfig',
     'Medicamentos',
 ]
 

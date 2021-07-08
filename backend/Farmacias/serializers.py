@@ -13,7 +13,6 @@ class FarmaciasSerializer(serializers.HyperlinkedModelSerializer):
             'cuit',
             'direccion',
             'localidad',
-            'departamento',
             'cod_postal',
             'email',
             'tel_fijo',
