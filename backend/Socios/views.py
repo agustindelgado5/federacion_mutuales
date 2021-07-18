@@ -7,6 +7,24 @@
 # from .utils import render_to_pdf
 # from django.contrib.auth.models import User
 # # Create your views here.
+from rest_framework import  viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from Socios.models import socios, familiar
+from Socios.serializers import SociosSerializer, FamiliarSerializer
+
+
+
+class SociosViewSet(viewsets.ModelViewSet):
+    serializer_class = SociosSerializer
+    queryset = socios.objects.all()
+
+
+class FamiliarViewSet(viewsets.ModelViewSet):
+    serializer_class = FamiliarSerializer
+    queryset = familiar.objects.all()
+
 
 # """
 # Funcion que recibira los datos del formulario

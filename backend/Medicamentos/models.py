@@ -24,11 +24,11 @@ class medicamentos(models.Model):
         ordering=['id_medicamento']
 
     def __str__(self):
-        cadena = str(self.id_medicamento)+str(self.nombre)+'-'+ str(self.cod_farmacia)+'-'+ str(self.numero_socio)+'-'+ str(self.dni_familiar)
+        cadena = str(self.id_medicamento) + ' - '  + str(self.nombre) + ' - ' + str(self.cod_farmacia)
         return cadena
 
 """
-Construyo la entidad para el grupo familiar con sus atributos
+Construyo la entidad para la receta con sus atributos
 """
 class receta(models.Model):
     numero_socio=models.ForeignKey(socios, on_delete=models.DO_NOTHING)

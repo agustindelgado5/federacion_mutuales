@@ -1,6 +1,6 @@
 from django.db import models
 from backend.deptos import deptos_tucuman
-# from .utils import calcular_edad
+#from .utils import calcular_edad
 # Create your models here.
 
 """
@@ -9,7 +9,8 @@ Construyo la entidad socios con sus atributos
 class socios(models.Model):
     #nombre=models.CharField(max_length=50)
     numero_socio=models.IntegerField(primary_key=True)
-    apellido_y_nombre=models.CharField(max_length=80)
+    apellido=models.CharField(max_length=80)
+    nombre=models.CharField(max_length=80)
     dni=models.IntegerField(unique=True)
     calle=models.CharField(max_length=50)
     localidad=models.CharField(max_length=30)
@@ -33,13 +34,14 @@ class socios(models.Model):
     @property
     def edad_socio(self):
         return 1
+        #return calcular_edad(self.fecha_nacimiento)
     
     def save(self):
         self.edad=self.edad_socio
         super (socios,self).save() 
 
     def __str__(self):
-        cadena = str(self.numero_socio)+'-'+self.apellido_y_nombre+'-'+str(self.dni)  
+        cadena = str(self.numero_socio)+' - '+self.apellido+' - '+self.nombre+' - '+str(self.dni)  
         return cadena
 
 
@@ -48,7 +50,8 @@ Construyo la entidad para el grupo familiar con sus atributos
 """
 class familiar(models.Model):
     dni_familiar =models.IntegerField(primary_key=True)
-    apellido_y_nombre=models.CharField(max_length=80)
+    apellido=models.CharField(max_length=80)
+    nombre=models.CharField(max_length=80)
     fecha_nacimiento=models.DateField()
     edad=models.IntegerField()
     carencia=models.DateField(null=True, blank=True)
@@ -66,12 +69,13 @@ class familiar(models.Model):
     
     @property
     def edad_socio(self):
-        return 1
+        return  1
+        #return calcular_edad(self.fecha_nacimiento)
     
     def save(self):
         self.edad=self.edad_socio
         super (familiar,self).save()   
 
     def __str__(self):
-        cadena = str(self.dni_familiar)+'-'+self.apellido_y_nombre+'-'+str(self.carencia)  
+        cadena = str(self.dni_familiar)+' - '+self.apellido+' - '+self.nombre+' - '+str(self.carencia)  
         return cadena
