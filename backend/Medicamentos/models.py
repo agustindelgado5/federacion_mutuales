@@ -13,8 +13,6 @@ class medicamentos(models.Model):
     presentacion=models.CharField(max_length=100)
     laboratorio=models.CharField(max_length=30)
     cod_farmacia=models.ForeignKey(farmacias, on_delete=models.DO_NOTHING)
-    numero_socio=models.ForeignKey(socios,on_delete=models.DO_NOTHING)
-    dni_familiar=models.ForeignKey(familiar,on_delete=models.DO_NOTHING)
 
     created=models.DateTimeField(auto_now_add=True) 
     updated=models.DateTimeField(auto_now_add=True)
@@ -26,14 +24,13 @@ class medicamentos(models.Model):
         ordering=['id_medicamento']
 
     def __str__(self):
-        cadena = str(self.id_medicamento)+str(self.nombre)+'-'+ str(self.cod_farmacia)+'-'+ str(self.numero_socio)+'-'+ str(self.dni_familiar)
+        cadena = str(self.id_medicamento) + ' - '  + str(self.nombre) + ' - ' + str(self.cod_farmacia)
         return cadena
 
 """
-Construyo la entidad para el grupo familiar con sus atributos
+Construyo la entidad para la receta con sus atributos
 """
 class receta(models.Model):
-    dni_familiar=models.IntegerField(primary_key=True)
     numero_socio=models.ForeignKey(socios, on_delete=models.DO_NOTHING)
     dni_familiar=models.ForeignKey(familiar, on_delete=models.DO_NOTHING)
     cod_farmacia=models.ForeignKey(farmacias, on_delete=models.DO_NOTHING)
