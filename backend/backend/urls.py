@@ -23,7 +23,9 @@ urlpatterns = [
     path('', include('Profesionales.urls')),
     path('',include('Medicamentos.urls')),
     # path('', include('Administracion.urls')),
-    # path('socios/',include('Socios.urls')),
+    path('',include('Socios.urls')),
+    path('',include('Ordenes.urls')),
+    path('',include('Mutuales.urls')),
     # path('profesional/',include('Profesionales.urls')),
     # path('medicamento/',include('Medicamentos.urls')),
 ]

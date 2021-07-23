@@ -43,10 +43,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.postgres',
     'Administracion',
-    'Socios',
+    'Socios.apps.SociosAppConfig',
     'Profesionales.apps.ProfesionalesAppConfig',
     'Farmacias.apps.FarmaciasAppConfig',
     'Medicamentos.apps.MedicamentosAppConfig',
+    'Ordenes.apps.OrdenesAppConfig',
+    'Mutuales.apps.MutualesAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -101,7 +103,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'federacion',
+        'NAME': 'federacion_mutuales',
         'USER': 'postgres',
         'PASSWORD': 'leonel',
         'HOST': '127.0.0.1',

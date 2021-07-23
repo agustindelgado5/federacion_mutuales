@@ -28,6 +28,6 @@ class profesionales(models.Model):
         verbose_name_plural = 'profesionales'
         ordering = ['id_medico']
 
-    # def __str__(self):
-    #     cadena = str(self.id_medico) + '-' + self.apellido_y_nombre + '-' + str(self.dni)
-    #     return cadena
+    def __str__(self):
+        cadena = str(self.id_medico) + '-' + self.apellido+ '-' + self.nombre + '-' + str(self.dni)
+        return cadena
