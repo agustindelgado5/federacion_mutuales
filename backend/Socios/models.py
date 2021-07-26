@@ -66,17 +66,16 @@ class familiar(models.Model):
         verbose_name='familiar'
         verbose_name_plural='familiares'
         ordering=['numero_socio']
-    """"
+
     @property
     def edad_socio(self):
-        return  1
-        #return calcular_edad(self.fecha_nacimiento)
+        #return 0
+        return calcular_edad(self.fecha_nacimiento)
     
     def save(self):
         self.edad=self.edad_socio
-        super (familiar,self).save()
-    """   
-
+        super (familiar,self).save() 
+   
     def __str__(self):
         cadena = str(self.dni_familiar)+' - '+self.apellido+' - '+self.nombre+' - '+str(self.carencia)  
         return cadena

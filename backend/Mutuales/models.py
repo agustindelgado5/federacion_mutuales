@@ -19,5 +19,5 @@ class mutuales(models.Model):
         ordering=['id_mutual']
 
     def __str__(self):
-        cadena = str(self.numero_mutual) + ' - '  + str(self.nombre) + ' - '  + str(self.sucursal)
+        cadena = str(self.id_mutual) + ' - '  + str(self.nombre) + ' - '  + str(self.sucursal)
         return cadena

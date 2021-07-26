@@ -7,11 +7,12 @@ class OrdenesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ordenes
         fields = (
+            'numero_orden',
             'numero_socio',
             'paciente',
             'servicio',
             'id_medico',
-            'mutual',
+            'id_mutual',
             'fecha',
             'precio',
             'realizado',

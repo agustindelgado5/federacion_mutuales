@@ -96,6 +96,12 @@ REST_FRAMEWORK = {
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ORIGIN = [
+    'http://localhost:8080',
+]
+CORS_ORIGIN_WHITELIST = [ 
+    'http://localhost:8080'
+]
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
