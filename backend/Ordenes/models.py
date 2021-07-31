@@ -11,11 +11,11 @@ Construyo la entidad para las ordenes medicas
 """
 class ordenes(models.Model):
     numero_orden=models.IntegerField(primary_key=True)
-    numero_socio=models.ManyToManyField(socios)
-    paciente=models.ForeignKey(familiar, on_delete=models.CASCADE)
+    numero_socio=models.ForeignKey(socios, on_delete=models.DO_NOTHING)
+    paciente=models.ForeignKey(familiar, on_delete=models.DO_NOTHING)
     #paciente=models.CharField(max_length=60)
     servicio=models.CharField(max_length=30)
-    id_medico=models.ManyToManyField(profesionales)
+    id_medico=models.ForeignKey(profesionales, on_delete=models.DO_NOTHING)
     id_mutual=models.ForeignKey(mutuales, on_delete=models.DO_NOTHING)
     #mutual=models.CharField(max_length=30)
     fecha=models.DateField()
