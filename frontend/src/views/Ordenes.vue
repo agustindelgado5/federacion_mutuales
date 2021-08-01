@@ -1,6 +1,6 @@
 <template>
-  <div id="profesionales" class="myTable">
-    <h2>Listado de Profesionales</h2>
+  <div id="ordenes" class="myTable">
+    <h2>Listado de Ordenes</h2>
     <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
     <b-table
       :fields="fields"
@@ -8,7 +8,7 @@
       sortable
       responsive
       hover
-      :items="tabla_profesionales"
+      :items="tabla_ordenes"
     >
     <!-- 
       <template slot="action">
@@ -22,36 +22,25 @@
 
 <script>
 let api = new URL("http://localhost");
-api.pathname = "profesionales";
+api.pathname = "ordenes";
 api.port = 8000;
 //api.port = 8081;
 
 export default {
   data() {
     return {
-      tabla_profesionales: [],
+      tabla_ordenes: [],
       fields: [
-        {
-          key: "id_medico",
-          sortable: true,
-        },
-        {
-          key: "apellido",
-          sortable: true,
-        },
-        {
-          key: "nombre",
-          sortable: true,
-        },
-        {
-          key: "dni",
-          sortable: true,
-        },
-        {
-          key: "especialidad",
-          sortable: true,
-        },
-      ],
+            {key:'numero_orden' ,label: 'N° Orden', sortable: true,},
+            {key:'numero_socio' ,label: 'N° Socio', sortable: true,},
+            {key:'paciente' ,label: 'Paciente',sortable: true,},
+            {key:'servicio' ,label: 'Servicio', sortable: true,},
+            {key:'id_medico' ,label: 'Id Medico',sortable: true,},
+            {key:'id_mutual' ,label: 'Id Mutual',sortable: true,},
+            {key:'fecha' ,label: 'Fecha', sortable: true,},
+            {key:'precio' ,label: 'Precio', sortable: true,},
+            {key:'realizado' ,label: 'Realizado', sortable: true,},  
+        ],
     };
   },
   methods: {
@@ -60,11 +49,11 @@ export default {
         const res = await fetch(api);
         const data = await res.json();
 
-        var lista_profesioales = data.results;
+        var lista_ordenes = data.results;
 
-        console.log(lista_profesioales);
+        console.log(lista_ordenes);
 
-        this.tabla_profesionales = lista_profesioales;
+        this.tabla_ordenes = lista_ordenes;
       } catch (error) {
         console.log(error);
       }

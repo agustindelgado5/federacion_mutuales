@@ -1,9 +1,11 @@
 <template>
   <div>
     <b-jumbotron
-      header="Federación de Mutuales"
+      header="Federación Tucumana de Mutuales"
       lead="Los mejores beneficios para vos"
     >
+      <img src="../assets/logo_fed.jpg" alt="Logo Federación" srcset="" id="Logo_fed">
+
       <p>¿Que onda chango todo bien? ahre</p>
       <b-button>Botoncito de prueba</b-button>
     </b-jumbotron>
@@ -14,4 +16,13 @@
 export default {};
 </script>
 
-<style></style>
+<style>
+h1{
+  text-align: center;
+}
+#Logo_fed {
+  width: 25%;
+  display: block;
+  margin: auto;
+}
+</style>

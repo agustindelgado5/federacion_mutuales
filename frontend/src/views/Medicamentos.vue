@@ -1,6 +1,6 @@
 <template>
-  <div id="profesionales" class="myTable">
-    <h2>Listado de Profesionales</h2>
+  <div id="medicamentos" class="myTable">
+    <h2>Listado de Medicamentos</h2>
     <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
     <b-table
       :fields="fields"
@@ -8,7 +8,7 @@
       sortable
       responsive
       hover
-      :items="tabla_profesionales"
+      :items="tabla_med"
     >
     <!-- 
       <template slot="action">
@@ -22,36 +22,21 @@
 
 <script>
 let api = new URL("http://localhost");
-api.pathname = "profesionales";
+api.pathname = "medicamentos";
 api.port = 8000;
 //api.port = 8081;
 
 export default {
   data() {
     return {
-      tabla_profesionales: [],
+      tabla_med: [],
       fields: [
-        {
-          key: "id_medico",
-          sortable: true,
-        },
-        {
-          key: "apellido",
-          sortable: true,
-        },
-        {
-          key: "nombre",
-          sortable: true,
-        },
-        {
-          key: "dni",
-          sortable: true,
-        },
-        {
-          key: "especialidad",
-          sortable: true,
-        },
-      ],
+            {key:'id_medicamento' ,label: 'Id', sortable: true,},
+            {key:'nombre' ,label: 'Nombre', sortable: true,},
+            {key:'presentacion' ,label: 'Presentacion',sortable: true,},
+            {key:'laboratorio' ,label: 'Laboratotio', sortable: true,},
+            {key:'cod_farmacia' ,label: 'Id Farmacia',sortable: true,},
+        ],
     };
   },
   methods: {
@@ -60,11 +45,11 @@ export default {
         const res = await fetch(api);
         const data = await res.json();
 
-        var lista_profesioales = data.results;
+        var lista_med = data.results;
 
-        console.log(lista_profesioales);
+        console.log(lista_med);
 
-        this.tabla_profesionales = lista_profesioales;
+        this.tabla_med = lista_med;
       } catch (error) {
         console.log(error);
       }

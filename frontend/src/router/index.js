@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+//import Socios from "../components/Socios/Socios.vue";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,67 @@ const routes = [
       import(
         /* webpackChunkName: "profesionales" */ "../views/Profesionales.vue"
       ),
+  },
+  {
+    path: "/socios",
+    name: "Socios",
+    //component: Socios,
+    
+    component: () =>
+      import(
+         "../views/Socios.vue"
+      ),
+    
+  },
+  {
+    path: "/mutuales",
+    name: "Mutuales",
+    
+    component: () =>
+      import(
+         "../views/Mutuales.vue"
+      ),
+    
+  },
+  {
+    path: "/farmacias",
+    name: "Farmacias",
+    
+    component: () =>
+      import(
+         "../views/Farmacias.vue"
+      ),
+    
+  },
+  {
+    path: "/ordenes",
+    name: "Ordenes",
+    
+    component: () =>
+      import(
+         "../views/Ordenes.vue"
+      ),
+    
+  },
+  {
+    path: "/medicamentos",
+    name: "Medicamentos",
+    
+    component: () =>
+      import(
+         "../views/Medicamentos.vue"
+      ),
+    
+  },
+  {
+    path: "/Recetas",
+    name: "Recetas",
+    
+    component: () =>
+      import(
+         "../views/Recetas.vue"
+      ),
+    
   },
 ];
 

@@ -1,6 +1,6 @@
 <template>
-  <div id="profesionales" class="myTable">
-    <h2>Listado de Profesionales</h2>
+  <div id="recetas" class="myTable">
+    <h2>Listado de Recetas</h2>
     <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
     <b-table
       :fields="fields"
@@ -8,7 +8,7 @@
       sortable
       responsive
       hover
-      :items="tabla_profesionales"
+      :items="tabla_recetas"
     >
     <!-- 
       <template slot="action">
@@ -22,36 +22,23 @@
 
 <script>
 let api = new URL("http://localhost");
-api.pathname = "profesionales";
+api.pathname = "recetas";
 api.port = 8000;
 //api.port = 8081;
 
 export default {
   data() {
     return {
-      tabla_profesionales: [],
+      tabla_recetas: [],
       fields: [
-        {
-          key: "id_medico",
-          sortable: true,
-        },
-        {
-          key: "apellido",
-          sortable: true,
-        },
-        {
-          key: "nombre",
-          sortable: true,
-        },
-        {
-          key: "dni",
-          sortable: true,
-        },
-        {
-          key: "especialidad",
-          sortable: true,
-        },
-      ],
+            {key:'numero_socio' ,label: 'N° Socio', sortable: true,},
+            {key:'dni_familiar' ,label: 'Paciente', sortable: true,},
+            {key:'diagnostico' ,label: 'Diagnostico',sortable: true,},
+            {key:'id_medicamento' ,label: 'Id Medicamento',sortable: true,},
+            {key:'cod_farmacia' ,label: 'Id Farmacia',sortable: true,},
+            {key:'fecha' ,label: 'Fecha', sortable: true,},
+            {key:'carencia' ,label: 'Carencia', sortable: true,},  
+        ],
     };
   },
   methods: {
@@ -60,11 +47,11 @@ export default {
         const res = await fetch(api);
         const data = await res.json();
 
-        var lista_profesioales = data.results;
+        var lista_recetas = data.results;
 
-        console.log(lista_profesioales);
+        console.log(lista_recetas);
 
-        this.tabla_profesionales = lista_profesioales;
+        this.tabla_recetas = lista_recetas;
       } catch (error) {
         console.log(error);
       }
