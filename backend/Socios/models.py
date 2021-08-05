@@ -31,14 +31,14 @@ class socios(models.Model):
         verbose_name_plural='socios'
         ordering=['numero_socio']
    
-    @property
-    def edad_socio(self):
-        #return 0
-        return calcular_edad(self.fecha_nacimiento)
+    # @property
+    # def edad_socio(self):
+    #     return 0
+    #     # return calcular_edad(self.fecha_nacimiento)
     
-    def save(self):
-        self.edad=self.edad_socio
-        super (socios,self).save() 
+    # def save(self):
+    #     self.edad=self.edad_socio
+    #     super (socios,self).save() 
    
     def __str__(self):
         cadena = str(self.numero_socio)+' - '+self.apellido+' - '+self.nombre+' - '+str(self.dni)  

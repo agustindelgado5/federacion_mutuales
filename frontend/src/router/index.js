@@ -26,62 +26,38 @@ const routes = [
     path: "/socios",
     name: "Socios",
     //component: Socios,
-    
-    component: () =>
-      import(
-         "../views/Socios.vue"
-      ),
-    
+
+    component: () => import("../views/Socios.vue"),
   },
   {
     path: "/mutuales",
     name: "Mutuales",
-    
-    component: () =>
-      import(
-         "../views/Mutuales.vue"
-      ),
-    
+
+    component: () => import("../views/Mutuales.vue"),
   },
   {
     path: "/farmacias",
     name: "Farmacias",
-    
-    component: () =>
-      import(
-         "../views/Farmacias.vue"
-      ),
-    
+
+    component: () => import("../views/Farmacias.vue"),
   },
   {
     path: "/ordenes",
     name: "Ordenes",
-    
-    component: () =>
-      import(
-         "../views/Ordenes.vue"
-      ),
-    
+
+    component: () => import("../views/Ordenes.vue"),
   },
   {
     path: "/medicamentos",
     name: "Medicamentos",
-    
-    component: () =>
-      import(
-         "../views/Medicamentos.vue"
-      ),
-    
+
+    component: () => import("../views/Medicamentos.vue"),
   },
   {
     path: "/Recetas",
     name: "Recetas",
-    
-    component: () =>
-      import(
-         "../views/Recetas.vue"
-      ),
-    
+
+    component: () => import("../views/Recetas.vue"),
   },
 ];
 
