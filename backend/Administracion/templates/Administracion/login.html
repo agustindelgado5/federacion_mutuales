@@ -1,0 +1,15 @@
+{% comment "" %}
+{% extends 'Administracion/base.html' %}
+{% endcomment %}
+{% load static %}
+
+{% block form_de_inicio %}
+
+<form class="row g-3" method="POST">
+{% csrf_token %}
+  {{forms.as_table}}
+    <button type="submit" class="btn btn-primary mb-3" title="Iniciar Sesion">Iniciar Sesion</button>
+  </div>
+</form>
+
+{% endblock %}
