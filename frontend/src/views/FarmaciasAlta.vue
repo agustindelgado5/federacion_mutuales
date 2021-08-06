@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="postFarmacia()">POST TEST</button>
+    <button @click="postFarmacias()">POST TEST</button>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Registrar nueva farmacia: </h4>
 
@@ -180,7 +180,7 @@ export default {
       let farmaciaAPI = new APIControler();
       this.data = await farmaciaAPI.getData();
     },
-    async postOrden() {
+    async postFarmacias() {
       let farmaciaAPI = new APIControler();
       farmaciaAPI.apiUrl.pathname='farmacias/';
       this.data = await farmaciaAPI.postData(this.farmacia);

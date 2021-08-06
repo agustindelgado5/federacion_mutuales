@@ -2,6 +2,14 @@
   <div id="farmacias" class="myTable">
     <h2>Listado de Farmacias</h2>
     <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
+
+    <!-- ================ALTA FARMACIA======================== -->
+    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaFarmacia()" title="Nueva Farmacia">Nueva Farmacia</b-button>
+    <b-modal id="modal-alta"> 
+      <template #modal-title><h5 class="modal-title">Alta</h5></template>
+      <farmacias-alta/>
+    </b-modal>
+
     <b-table
       :fields="fields"
       striped
@@ -10,12 +18,6 @@
       hover
       :items="tabla_farmacias"
     >
-    <!-- 
-      <template slot="action">
-        <b-button variant="warning" size="sm">Modificar</b-button>
-        <b-button variant="danger" size="sm">Eliminar</b-button>
-      </template>
-    -->
       <template slot="cell(action)" slot-scope="">
         <div class="mt-3">
           <b-button-group>
@@ -69,8 +71,9 @@ let api = new URL("http://localhost");
 api.pathname = "farmacias";
 api.port = 8000;
 //api.port = 8081;
-
+import FarmaciasAlta from './FarmaciasAlta.vue';
 export default {
+  components: { FarmaciasAlta },
   data() {
     return {
       tabla_farmacias: [],
@@ -104,6 +107,15 @@ export default {
       }
     },
   },
+  //Funcion para mostrar el modal
+  showModal() {
+    this.$refs["my-modal"].show();
+  },
+  //Funcion para esconder el modal
+  hideModal() {
+    this.$refs["my-modal"].hide();
+  },
+  altaFarmacia() {},
 };
 </script>
 
