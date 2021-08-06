@@ -106,16 +106,16 @@ export default {
         console.log(error);
       }
     },
+    //Funcion para mostrar el modal
+    showModal() {
+      this.$refs["my-modal"].show();
+    },
+    //Funcion para esconder el modal
+    hideModal() {
+      this.$refs["my-modal"].hide();
+    },
+    altaFarmacia() {},
   },
-  //Funcion para mostrar el modal
-  showModal() {
-    this.$refs["my-modal"].show();
-  },
-  //Funcion para esconder el modal
-  hideModal() {
-    this.$refs["my-modal"].hide();
-  },
-  altaFarmacia() {},
 };
 </script>
 

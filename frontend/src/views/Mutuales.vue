@@ -18,12 +18,7 @@
       hover
       :items="tabla_mutuales"
     >
-    <!-- 
-      <template slot="action">
-        <b-button variant="warning" size="sm">Modificar</b-button>
-        <b-button variant="danger" size="sm">Eliminar</b-button>
-      </template>
-    -->
+    
       <template slot="cell(action)" slot-scope="">
         <div class="mt-3">
           <b-button-group>
@@ -107,15 +102,15 @@ export default {
         console.log(error);
       }
     },
-  },
-  altaMutual() {},
-  //Funcion para mostrar el modal
-  showModal() {
-    this.$refs["my-modal"].show();
-  },
-  //Funcion para esconder el modal
-  hideModal() {
-    this.$refs["my-modal"].hide();
+    //Funcion para mostrar el modal
+    showModal() {
+      this.$refs["my-modal"].show();
+    },
+    //Funcion para esconder el modal
+    hideModal() {
+      this.$refs["my-modal"].hide();
+    },
+    altaMutual() {},
   },
 };
 </script>
