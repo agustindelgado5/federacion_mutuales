@@ -30,11 +30,12 @@
     <!-- ======================================== -->
 
     <h2>Listado de Socios</h2>
-    <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
+    <b-button @click="testFetch" class="mb-4" title="Mostrar">Mostrar</b-button>
 
     <!-- ================ALTA SOCIO======================== -->
-    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaSocio()">Nuevo Socio</b-button>
+    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaSocio()" title="Nuevo Socio">Nuevo Socio</b-button>
     <b-modal id="modal-alta"> 
+      <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <socios-alta/>
     </b-modal>
 
@@ -96,7 +97,6 @@
                 class="mt-3"
                 variant="danger"
                 block
-                @click=""
                 title="Eliminar"
                 >Eliminar</b-button
               >
