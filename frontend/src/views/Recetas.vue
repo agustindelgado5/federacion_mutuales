@@ -16,6 +16,63 @@
         <b-button variant="danger" size="sm">Eliminar</b-button>
       </template>
     -->
+      <template slot="cell(numero_socio)" slot-scope="data">
+        {{data.value.split('/')[4]}}
+      </template>
+      <template slot="cell(dni_familiar)" slot-scope="data">
+        {{data.value.split('/')[4]}}
+      </template>
+      <template slot="cell(id_medicamento)" slot-scope="data">
+        {{data.value.split('/')[4]}}
+      </template>
+      <template slot="cell(cod_farmacia)" slot-scope="data">
+        {{data.value.split('/')[4]}}
+      </template>
+
+      <template slot="cell(action)" slot-scope="">
+        <div class="mt-3">
+          <b-button-group>
+            <b-button variant="info" id="button-1" title="Mostrar Info"
+              >Mostrar Info</b-button
+            >
+
+            <b-button
+              variant="warning"
+              id="button-2"
+              title="Editar este registro"
+              >Editar</b-button
+            >
+
+            <b-button
+              variant="danger"
+              id="button-3"
+              @click="showModal"
+              title="Eliminar este registro"
+              >Eliminar</b-button
+            >
+
+            <b-modal ref="my-modal" hide-footer title="Eliminar">
+              <div class="d-block text-center">
+                <h3>¿Esta seguro de eliminar los datos de ... ?</h3>
+              </div>
+              <b-button
+                class="mt-2"
+                block
+                @click="hideModal"
+                title="Volver Atras"
+                >Volver Atras</b-button
+              >
+              <b-button
+                class="mt-3"
+                variant="danger"
+                block
+                title="Eliminar"
+                >Eliminar</b-button
+              >
+            </b-modal>
+          </b-button-group>
+        </div>
+      </template>
     </b-table>
   </div>
 </template>
@@ -37,7 +94,8 @@ export default {
             {key:'id_medicamento' ,label: 'Id Medicamento',sortable: true,},
             {key:'cod_farmacia' ,label: 'Id Farmacia',sortable: true,},
             {key:'fecha' ,label: 'Fecha', sortable: true,},
-            {key:'carencia' ,label: 'Carencia', sortable: true,},  
+            {key:'carencia' ,label: 'Carencia', sortable: true,},
+            { key: "action", label: "Acciones" },  
         ],
     };
   },
