@@ -41,7 +41,7 @@
             <b-button
               variant="danger"
               id="button-3"
-              @click="showModal()"
+              @click="showModal"
               title="Eliminar este registro"
               >Eliminar</b-button
             >
@@ -53,7 +53,7 @@
               <b-button
                 class="mt-2"
                 block
-                @click="hideModal()"
+                @click="hideModal"
                 title="Volver Atras"
                 >Volver Atras</b-button
               >

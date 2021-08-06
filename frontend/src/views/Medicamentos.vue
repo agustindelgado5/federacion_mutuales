@@ -1,7 +1,15 @@
 <template>
   <div id="medicamentos" class="myTable">
     <h2>Listado de Medicamentos</h2>
+
     <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
+    <!-- ================ALTA MEDICAMENTOS======================== -->
+    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaMedicamento()" title="Nuevo Medicamento">Nuevo Medicamento</b-button>
+    <b-modal id="modal-alta"> 
+      <template #modal-title><h5 class="modal-title">Alta</h5></template>
+      <medicamento-alta/>
+    </b-modal>
+    
     <b-table
       :fields="fields"
       striped
@@ -74,7 +82,9 @@ api.pathname = "medicamentos";
 api.port = 8000;
 //api.port = 8081;
 
+import MedicamentoAlta from './MedicamentosAlta.vue';
 export default {
+  components: { MedicamentoAlta },
   data() {
     return {
       tabla_med: [],
@@ -104,6 +114,15 @@ export default {
       }
     },
   },
+  //Funcion para mostrar el modal
+  showModal() {
+    this.$refs["my-modal"].show();
+  },
+  //Funcion para esconder el modal
+  hideModal() {
+    this.$refs["my-modal"].hide();
+  },
+  altaMedicamento() {},
 };
 </script>
 

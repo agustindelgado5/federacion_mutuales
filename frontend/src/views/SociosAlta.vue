@@ -3,18 +3,19 @@
     <button @click="postSocio()">POST TEST</button>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos Personales: </h4>
-    <b-form-group label="*N° Socio" label-for="numero_socio" @submit.stop.prevent="handleSubmit">
+    
+    <b-form >
+      <b-form-group label="*N° Socio" label-for="numero_socio">
         <b-form-input
-          id="numero_socio"
-          v-model="socio.numero_socio"
-          type="number"
-          placeholder="Ingrese un Numero"
-          invalid-feedback="Complete este campo"
-          required
+            id="numero_socio"
+            v-model="socio.numero_socio"
+            type="number"
+            placeholder="Ingrese un Numero"
+            invalid-feedback="Complete este campo"
+            required
         >
         </b-form-input>
     </b-form-group>
-    <b-form >
       <b-form-group label="*Nombre/s" label-for="nombre">
         <b-form-input
           id="nombre"
