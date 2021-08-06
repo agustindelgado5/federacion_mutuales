@@ -28,7 +28,7 @@ class ordenes(models.Model):
         db_table='ordenes'
         verbose_name='orden'
         verbose_name_plural='ordenes'
-        #ordering=['id_medicamento']
+        ordering=['numero_orden']
 
     def __str__(self):
         cadena = str(self.numero_orden) + ' - '  + str(self.numero_socio) + ' - ' + str(self.id_medico)
