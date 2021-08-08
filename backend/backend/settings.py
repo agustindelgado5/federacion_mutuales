@@ -120,7 +120,7 @@ DATABASES = {
         'NAME': 'federacion',
         'USER': 'admin',
         'PASSWORD': 'contraseniasegura',
-        'HOST': 'localhost',
+        'HOST': 'database',
         'DATABASE_PORT': '5432',
     }
 }

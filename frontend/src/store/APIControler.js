@@ -42,4 +42,20 @@ export class APIControler {
       console.log(error);
     }
   }
+
+  async putData(payload) {
+    try{
+      let response = await fetch(this.apiUrl + payload.id, {
+        method: "PUT",
+        body: JSON.stringify(payload),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+    }catch (error) {
+
+    }
+  }
+
 }
