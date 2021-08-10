@@ -1,6 +1,5 @@
 <template>
   <div>
-    <button @click="postSocio()">POST TEST</button>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos Personales: </h4>
     
@@ -74,6 +73,7 @@
         >
         </b-form-input>
       </b-form-group>
+
       <b-form-group label="*Localidad" label-for="localidad">
         <b-form-input
           id="localidad"
@@ -85,6 +85,7 @@
         >
         </b-form-input>
       </b-form-group>
+      <!--
       <b-form-group label="*Departamento" label-for="departamento">
         <b-form-input
           id="departamento"
@@ -96,6 +97,22 @@
         >
         </b-form-input>
       </b-form-group>
+      -->
+
+      <b-form-group label="*Departamento" label-for="departamento">
+        <b-form-select
+          id="departamento"
+          v-model="socio.departamento"
+          type="text"
+          placeholder="Ingrese un departamento"
+          invalid-feedback="Complete este campo"
+          required
+          :options="options"
+        >
+        </b-form-select>
+      </b-form-group>
+
+
       <b-form-group label="*Codigo postal" label-for="cod_postal">
         <b-form-input
           id="cod_postal"
@@ -153,6 +170,11 @@
     </b-form>
     {{ socio }}
     {{ data }}
+    <!--
+    <b-button class="mt-3"  block @click="hideModal">CERRAR</b-button>
+    -->
+    <b-button class="mt-2" variant="success" block @click="postSocio()">POST TEST</b-button>
+    
   </div>
 </template>
 
@@ -164,6 +186,27 @@ export default {
     return {
       socio: {},
       data: {},
+      select: null,
+      options: [
+        {value: null, text: 'Elija un departamento'},
+        {value: 'Burruyacú', text: '1- Burruyacú'},
+        {value: 'Capital', text: '2- Capital'},
+        {value: 'Chicligasta', text: '3- Chicligasta'},
+        {value: 'Cruz Alta', text: '4- Cruz Alta'},
+        {value: 'Famaillá', text: '5- Famaillá'},
+        {value: 'Graneros', text: '6- Graneros'},
+        {value: 'Juan Bautista Alberdi', text: '7- Juan Bautista Alberdi'},
+        {value: 'La Cocha', text: '8- La Cocha'},
+        {value: 'Leales', text: '9- Leales'},
+        {value: 'Lules', text: '10- Lules'},
+        {value: 'Monteros', text: '11- Monteros'},
+        {value: 'Río Chico', text: '12- Río Chico'},
+        {value: 'Simoca', text: '13- Simoca'},
+        {value: 'Tafí del Valle', text: '14- Tafí del Valle'},
+        {value: 'Tafí Viejo', text: '15- Tafí Viejo'},
+        {value: 'Trancas', text: '16- Trancas'},
+        {value: 'Yerba Buena', text: '17- Yerba Buena'},
+      ]
     };
   },
   methods: {

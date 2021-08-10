@@ -34,7 +34,7 @@
 
     <!-- ================ALTA SOCIO======================== -->
     <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaSocio()" title="Nuevo Socio">Nuevo Socio</b-button>
-    <b-modal id="modal-alta"> 
+    <b-modal id="modal-alta" ref="my-modal" hide-footer> 
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <socios-alta/>
     </b-modal>
@@ -98,6 +98,7 @@
                 variant="danger"
                 block
                 title="Eliminar"
+                @click="deleteSocio()"
                 >Eliminar</b-button
               >
             </b-modal>
@@ -112,8 +113,8 @@
 <script>
 let api = new URL("http://localhost");
 api.pathname = "socios";
-api.port = 8000; //Cambien uds los puertos
-// api.port = 8081;
+//api.port = 8000; //Cambien uds los puertos
+api.port = 8081;
 
 import Holmes from "holmes-js";
 import SociosAlta from './SociosAlta.vue';
@@ -169,6 +170,8 @@ export default {
     },
 
     altaSocio() {},
+
+    deleteSocio(){},
 
     buscar() {
       Holmes({
