@@ -1,6 +1,6 @@
-
+import swal from "sweetalert";
 export class APIControler {
-  constructor(apiUrl = "http://localhost", port = 8000, pathname = "socios/") {
+  constructor(apiUrl = "http://localhost", port = 8081, pathname = "socios/") {
     this.apiUrl = new URL(apiUrl);
     this.apiUrl.port = port;
     this.apiUrl.pathname = pathname;
@@ -37,10 +37,17 @@ export class APIControler {
         body: JSON.stringify(payload)
       });
       const content = await response.json();
+      swal("Carga Exitosa", " ", "success")
       console.log(content)
+      //location.href = '/socios'
+      
+      
     } catch (error) {
+      swal("¡ERROR!", "Se ha detectado un problema ", "error")
       console.log(error);
+      //swal("¡ERROR!", "{error}", "error")
     }
+    
   }
 
   async putData(payload) {
