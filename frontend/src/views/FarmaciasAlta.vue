@@ -1,6 +1,5 @@
 <template>
   <div>
-    <button @click="postFarmacias()">POST TEST</button>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Registrar nueva farmacia: </h4>
 
@@ -162,6 +161,7 @@
     </b-form>
     {{ farmacia }}
     {{ data }}
+    <b-button class="mt-2" variant="success" block @click="postFarmacias()">POST TEST</b-button>
   </div>
 </template>
 

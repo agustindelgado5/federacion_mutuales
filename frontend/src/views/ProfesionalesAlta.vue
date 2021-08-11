@@ -1,6 +1,5 @@
 <template>
   <div>
-    <button @click="postProfesional()">POST TEST</button>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos Personales: </h4>
     <b-form-group label="*Id Medico" label-for="id_medico">
@@ -107,15 +106,16 @@
         </b-form-input>
       </b-form-group>
       <b-form-group label="*Provincia" label-for="provincia">
-        <b-form-input
+        <b-form-select
           id="provincia"
           v-model="profesional.provincia"
           type="text"
           placeholder="Ingrese una provincia"
           invalid-feedback="Complete este campo"
           required
+          :options="options"
         >
-        </b-form-input>
+        </b-form-select>
       </b-form-group>
       
       <h4>Contacto: </h4>
@@ -153,6 +153,7 @@
     </b-form>
     {{ profesional }}
     {{ data }}
+    <b-button class="mt-2" variant="success" block @click="postProfesional()">POST TEST</b-button>
   </div>
 </template>
 
@@ -164,6 +165,31 @@ export default {
     return {
       profesional: {},
       data: {},
+      options: [    
+        {value: 'Buenos Aires', text: '1- Buenos Aires'},
+        {value: 'Catamarca', text: '2- Catamarca'},
+        {value: 'Chaco', text: '3- Chaco'},
+        {value: 'Chubut', text: '4- Chubut'},
+        {value: 'Córdoba', text: '5- Córdoba'},
+        {value: 'Corrientes', text: '6- Corrientes'},
+        {value: 'Entre Ríos', text: '7- Entre Ríos'},
+        {value: 'Formosa', text: '8- Formosa'},
+        {value: 'Jujuy', text: '9- Jujuy'},
+        {value: 'La Pampa', text: '10- La Pampa'},
+        {value: 'La Rioja', text: '11- La Rioja'},
+        {value: 'Mendoza', text: '12- Mendoza'},
+        {value: 'Misiones', text: '13- Misiones'},
+        {value: 'Neuquén', text: '14- Neuquén'},
+        {value: 'Río Negro', text: '15- Río Negro'},
+        {value: 'Salta', text: '16- Salta'},
+        {value: 'San Juan', text: '17- San Juan'},
+        {value: 'San Luis', text: '18- San Luis'},
+        {value: 'Santa Cruz', text: '19- Santa Cruz'},
+        {value: 'Santa Fe', text: '20- Santa Fe'},
+        {value: 'Santiago del Estero', text: '21- Santiago del Estero'},
+        {value: 'Tierra del Fuego', text: '22- Tierra del Fuego'},
+        {value: 'Tucumán', text: '23- Tucumán'},
+      ]
     };
   },
   methods: {

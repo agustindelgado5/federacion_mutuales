@@ -5,7 +5,7 @@
 
     <!-- ================ALTA PROFESIONAL======================== -->
     <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaProfesional()" title="Nuevo Profesional">Nuevo Profesional</b-button>
-    <b-modal id="modal-alta"> 
+    <b-modal id="modal-alta" hide-footer> 
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <profesionales-alta/>
     </b-modal>
@@ -18,6 +18,13 @@
       hover
       :items="tabla_profesionales"
     >
+      <template slot="cell(apellido)" slot-scope="data">
+        {{data.value.toUpperCase()}}
+      </template>
+
+      <template slot="cell(nombre)" slot-scope="data">
+        {{data.value.toUpperCase()}}
+      </template>
     <!-- 
       <template slot="action">
         <b-button variant="warning" size="sm">Modificar</b-button>
@@ -75,8 +82,8 @@
 <script>
 let api = new URL("http://localhost");
 api.pathname = "profesionales";
-api.port = 8000;
-//api.port = 8081;
+//api.port = 8000;
+api.port = 8081;
 
 import ProfesionalesAlta from './ProfesionalesAlta.vue';
 

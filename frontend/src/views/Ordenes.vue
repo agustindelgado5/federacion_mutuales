@@ -2,6 +2,14 @@
   <div id="ordenes" class="myTable">
     <h2>Listado de Ordenes</h2>
     <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
+
+    <!-- ================ALTA ORDENES======================== -->
+    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaOrden()" title="Nueva Orden">Nueva Orden</b-button>
+    <b-modal id="modal-alta" hide-footer> 
+      <template #modal-title><h5 class="modal-title">Alta</h5></template>
+      <ordenes-alta/>
+    </b-modal>
+
     <b-table
       :fields="fields"
       striped
@@ -98,10 +106,13 @@
 <script>
 let api = new URL("http://localhost");
 api.pathname = "ordenes";
-api.port = 8000;
-//api.port = 8081;
+//api.port = 8000;
+api.port = 8081;
+
+import OrdenesAlta from './OrdenesAlta.vue';
 
 export default {
+  components: { OrdenesAlta },
   data() {
     return {
       tabla_ordenes: [],
@@ -134,6 +145,15 @@ export default {
         console.log(error);
       }
     },
+    //Funcion para mostrar el modal
+    showModal() {
+      this.$refs["my-modal"].show();
+    },
+    //Funcion para esconder el modal
+    hideModal() {
+      this.$refs["my-modal"].hide();
+    },
+    altaOrden(){},
   },
 };
 </script>

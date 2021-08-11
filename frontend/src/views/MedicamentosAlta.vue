@@ -1,6 +1,5 @@
 <template>
   <div>
-    <button @click="postMedicamento()">POST TEST</button>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos </h4>   
     <b-form >
@@ -26,10 +25,10 @@
         >
         </b-form-input>
       </b-form-group>
-
+      <!--
       <b-form-group label="*Presentacion" label-for="presentacion">
         <b-form-input
-          id="sucursal"
+          id="presentacion"
           v-model="medicamentos.presentacion"
           type="text"
           placeholder="Describa la presentacion"
@@ -38,7 +37,20 @@
         >
         </b-form-input>
       </b-form-group>
-
+      -->
+      <b-form-group label="*Presentacion" label-for="presentacion">
+        <b-form-textarea
+          id="presentacion"
+          v-model="medicamentos.presentacion"
+          type="text"
+          placeholder="Describa la presentacion"
+          invalid-feedback="Complete este campo"
+          required
+          rows="3"
+          max-rows="6"
+        >
+        </b-form-textarea>
+      </b-form-group>
       <b-form-group label="*Laboratorio" label-for="laboratorio">
         <b-form-input
             id="laboratorio"
@@ -50,7 +62,7 @@
         >
         </b-form-input>
       </b-form-group>
-
+      <!--
       <b-form-group label="*ID Farmacia" label-for="cod_farmacia">
         <b-form-input
             id="cod_farmacia"
@@ -62,29 +74,60 @@
         >
         </b-form-input>
       </b-form-group>
+      -->
+      <b-button @click="getFarmacias()">GET TEST</b-button>
+      {{farmacias}}
+      <b-form-group label="*Farmacia" label-for="cod_farmacia">
+        <b-form-select
+            id="cod_farmacia"
+            v-model="medicamentos.cod_farmacia"
+            type="text"
+            placeholder="Ingrese un Numero"
+            invalid-feedback="Complete este campo"
+            required
+        >
+          <!--
+          <b-form-select-option value="">{{farmacias.farmacia}}</b-form-select-option>
+          -->
+          <b-form-select-option v-for="farm in farmacias" v-bind:key="farm.cod_farmacia" v-bind:value="farm.cod_farmacia">{{farm.farmacia}}</b-form-select-option>
+        </b-form-select>
+      </b-form-group>
+      
 
       
     </b-form>
     {{ medicamentos}}
     {{ data }}
+     <b-button class="mt-2" variant="success" block @click="postMedicamento()">POST TEST</b-button>
   </div>
 </template>
 
 <script>
 import { APIControler } from "../store/APIControler";
 
+
 export default {
   data() {
     return {
       medicamentos: {},
+      farmacias:{},
       data: {},
+      options: [
+        {value: null, text: 'Elija una farmacia', disabled: true},
+      ]
     };
   },
   methods: {
+    async getFarmacias() {
+      let farmaciaAPI = new APIControler();
+      farmaciaAPI.apiUrl.pathname='farmacias/'
+      this.data = await farmaciaAPI.getData(this.farmacias);
+    },
+    /*
     async getMedicamento() {
       let medicamentosAPI = new APIControler();
       this.data = await medicamentosAPI.getData();
-    },
+    },*/
     async postMedicamento() {
       let medicamentosAPI = new APIControler();
       medicamentosAPI.apiUrl.pathname='medicamentos/'

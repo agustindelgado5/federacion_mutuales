@@ -1,6 +1,5 @@
 <template>
   <div>
-    <button @click="postMutual()">POST TEST</button>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos </h4>   
     <b-form >
@@ -29,6 +28,7 @@
     </b-form>
     {{ mutuales }}
     {{ data }}
+    <b-button class="mt-2" variant="success" block @click="postMutual()">POST TEST</b-button>
   </div>
 </template>
 

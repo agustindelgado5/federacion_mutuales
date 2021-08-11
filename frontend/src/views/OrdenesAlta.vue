@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="postOrden()">POST TEST</button>
+  
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Nueva Orden: </h4>
 
@@ -16,12 +16,8 @@
     <!-- Realizado -->
 
     <!------------------------------------------------------------------------------------------->
-
-    
-
-    
     <b-form >
-        <b-form-group label="*N° Orden" label-for="numero_orden" @submit.stop.prevent="handleSubmit">
+        <b-form-group label="*N° Orden" label-for="numero_orden">
             <!-- Numero de Orden -->
             <b-form-input
             id="numero_orden"
@@ -34,7 +30,7 @@
             </b-form-input>
         </b-form-group>
 
-        <b-form-group label="*N° Socio" label-for="numero_socio" @submit.stop.prevent="handleSubmit">
+        <b-form-group label="*N° Socio" label-for="numero_socio">
             <!-- Numero de Socio -->
             <b-form-input
             id="numero_socio"
@@ -52,7 +48,7 @@
         <b-form-input
           id="paciente"
           v-model="orden.paciente"
-          type="text"
+          type="number"
           placeholder="*Ingrese el nombre completo del paciente"
           invalid-feedback="Complete este campo"
           required
@@ -74,10 +70,10 @@
       </b-form-group>
       
       <!-- Id del medico -->
-      <b-form-group label="*ID Medico" label-for="idMedico">
+      <b-form-group label="*ID Medico" label-for="id_medico">
         <b-form-input
-          id="idMedico"
-          v-model="orden.idMedico"
+          id="id_medico"
+          v-model="orden.id_medico"
           type="number"
           placeholder="Ingrese el ID del medico"
           invalid-feedback="Complete este campo"
@@ -87,10 +83,10 @@
       </b-form-group>
 
       <!-- Id de la mutual -->
-      <b-form-group label="*ID Mutual" label-for="idMutual">
+      <b-form-group label="*ID Mutual" label-for="id_mutual">
         <b-form-input
-          id="idMutual"
-          v-model="orden.idMutual"
+          id="id_mutual"
+          v-model="orden.id_mutual"
           type="number"
           placeholder="Ingrese el ID de la mutual"
           invalid-feedback="Complete este campo"
@@ -100,12 +96,25 @@
       </b-form-group>
 
       <!-- Fecha de emision -->
-      <b-form-group label="*Fecha de emision" label-for="fecha_emision">
+      <b-form-group label="*Fecha" label-for="fecha">
         <b-form-input
-          id="fecha_emision"
-          v-model="orden.fecha_emision"
+          id="fecha"
+          v-model="orden.fecha"
           type="date"
           placeholder="Ingrese una fecha"
+          invalid-feedback="Complete este campo"
+          required
+        >
+        </b-form-input>
+      </b-form-group>
+
+      <!-- Hora -->
+      <b-form-group label="*Hora" label-for="hora">
+        <b-form-input
+          id="hora"
+          v-model="orden.hora"
+          type="time"
+          placeholder="Ingrese una hora"
           invalid-feedback="Complete este campo"
           required
         >
@@ -127,20 +136,22 @@
 
       <!-- Realizado -->
       <b-form-group label="*Realizado" label-for="realizado">
-        <b-form-input
+        <b-form-checkbox
           id="realizado"
           v-model="orden.realizado"
+          value="true"
           type="boolean"
-          placeholder="true or false"
           invalid-feedback="Complete este campo"
           required
+          unchecked-value="false"
         >
-        </b-form-input>
+        </b-form-checkbox>
       </b-form-group>
 
     </b-form>
     {{ orden }}
     {{ data }}
+    <b-button class="mt-2" variant="success" block @click="postOrden()">POST TEST</b-button>
   </div>
 </template>
 
@@ -152,6 +163,10 @@ export default {
     return {
       orden: {},
       data: {},
+      options: [
+        { value: true, text: 'SI' },
+        { value: false, text: 'NO' },
+      ]
     };
   },
   methods: {

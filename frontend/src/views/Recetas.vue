@@ -2,6 +2,14 @@
   <div id="recetas" class="myTable">
     <h2>Listado de Recetas</h2>
     <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
+    
+    <!-- ================ALTA RECETASS======================== -->
+    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaReceta()" title="Nueva Receta">Nueva Receta</b-button>
+    <b-modal id="modal-alta" hide-footer> 
+      <template #modal-title><h5 class="modal-title">Alta</h5></template>
+      <recetas-alta/>
+    </b-modal>
+    
     <b-table
       :fields="fields"
       striped
@@ -80,10 +88,13 @@
 <script>
 let api = new URL("http://localhost");
 api.pathname = "recetas";
-api.port = 8000;
-//api.port = 8081;
+//api.port = 8000;
+api.port = 8081;
+
+import RecetasAlta from './RecetasAlta.vue';
 
 export default {
+  components: { RecetasAlta },
   data() {
     return {
       tabla_recetas: [],
@@ -114,6 +125,15 @@ export default {
         console.log(error);
       }
     },
+    //Funcion para mostrar el modal
+    showModal() {
+      this.$refs["my-modal"].show();
+    },
+    //Funcion para esconder el modal
+    hideModal() {
+      this.$refs["my-modal"].hide();
+    },
+    altaReceta(){},
   },
 };
 </script>

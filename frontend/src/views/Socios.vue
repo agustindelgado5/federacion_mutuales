@@ -34,7 +34,7 @@
 
     <!-- ================ALTA SOCIO======================== -->
     <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaSocio()" title="Nuevo Socio">Nuevo Socio</b-button>
-    <b-modal id="modal-alta" ref="my-modal" hide-footer> 
+    <b-modal id="modal-alta"  hide-footer> 
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <socios-alta/>
     </b-modal>
@@ -45,9 +45,18 @@
       striped
       sortable
       responsive
+      sticky-header
       hover
       :items="tabla_socios"
     >
+      <template slot="cell(apellido)" slot-scope="data">
+        {{data.value.toUpperCase()}}
+      </template>
+
+      <template slot="cell(nombre)" slot-scope="data">
+        {{data.value.toUpperCase()}}
+      </template>
+
       <!--Libreria Luxon para formatear las fechas, no esta del todo bien aun XD
       -->
       <!-- 
@@ -59,12 +68,13 @@
         {{data.value|luxon}}
       </template>
       -->
+     
 
       <template slot="cell(action)" slot-scope="">
         <div class="mt-3">
           <b-button-group>
             <b-button variant="info" id="button-1" title="Mostrar Info"
-              >Mostrar Info</b-button
+              > Mostrar Info</b-button
             >
 
             <b-button
@@ -142,7 +152,7 @@ export default {
         //{key: 'tel_fijo',label: 'Telefono Fijo', sortable: true,},
         //{key:'tel_celular' ,label: 'Telefono Celular', sortable: true,},
         { key: "carencia", label: "Carencia", sortable: true },
-        { key: "action", label: "Acciones" },
+        { key: "action", label: "Acciones", variant: "secondary" },
       ],
     };
   },
@@ -168,6 +178,8 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
+    
+   
 
     altaSocio() {},
 
@@ -193,4 +205,5 @@ export default {
   transition: 0.5s;
   width: 100%;
 }
+
 </style>

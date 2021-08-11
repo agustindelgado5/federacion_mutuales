@@ -5,7 +5,7 @@
     <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
     <!-- ================ALTA MEDICAMENTOS======================== -->
     <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaMedicamento()" title="Nuevo Medicamento">Nuevo Medicamento</b-button>
-    <b-modal id="modal-alta"> 
+    <b-modal id="modal-alta" hide-footer> 
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <medicamento-alta/>
     </b-modal>
@@ -79,8 +79,8 @@
 <script>
 let api = new URL("http://localhost");
 api.pathname = "medicamentos";
-api.port = 8000;
-//api.port = 8081;
+//api.port = 8000;
+api.port = 8081;
 
 import MedicamentoAlta from './MedicamentosAlta.vue';
 export default {

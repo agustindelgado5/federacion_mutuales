@@ -5,7 +5,7 @@
 
     <!-- ================ALTA MUTUAL======================== -->
     <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaMutual()" title="Nueva Mutual">Nueva Mutual</b-button>
-    <b-modal id="modal-alta"> 
+    <b-modal id="modal-alta" hide-footer> 
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <mutual-alta/>
     </b-modal>
@@ -70,8 +70,8 @@
 <script>
 let api = new URL("http://localhost");
 api.pathname = "mutuales";
-api.port = 8000;
-//api.port = 8081;
+//api.port = 8000;
+api.port = 8081;
 
 import MutualAlta from './MutualAlta.vue';
 
