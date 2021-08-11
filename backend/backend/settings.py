@@ -118,9 +118,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'federacion',
-        'USER': 'admin',
+        'USER': 'postgres',
         'PASSWORD': 'contraseniasegura',
-        'HOST': 'database',
+        'HOST': '127.0.0.1',
         'DATABASE_PORT': '5432',
     }
 }
