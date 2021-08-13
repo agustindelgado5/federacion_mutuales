@@ -10,6 +10,8 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    meta: { title: 'Home - Federación Tucumana de Mutuales' },
+    webpackChunkName: "Home",  
   },
   {
     path: "/profesionales",
@@ -21,6 +23,7 @@ const routes = [
       import(
         /* webpackChunkName: "profesionales" */ "../views/Profesionales.vue"
       ),
+      meta: { title: 'Profesionales - Federación Tucumana de Mutuales' } 
   },
   {
     path: "/socios",
@@ -40,24 +43,28 @@ const routes = [
     name: "Farmacias",
 
     component: () => import("../views/Farmacias.vue"),
+    meta: { title: 'Farmacias - Federación Tucumana de Mutuales' } 
   },
   {
     path: "/ordenes",
     name: "Ordenes",
 
     component: () => import("../views/Ordenes.vue"),
+    meta: { title: 'Ordenes - Federación Tucumana de Mutuales' } 
   },
   {
     path: "/medicamentos",
     name: "Medicamentos",
 
     component: () => import("../views/Medicamentos.vue"),
+    meta: { title: 'Medicamentos - Federación Tucumana de Mutuales' } 
   },
   {
     path: "/Recetas",
     name: "Recetas",
 
     component: () => import("../views/Recetas.vue"),
+    meta: { title: 'Recetas - Federación Tucumana de Mutuales' } 
   },
 ];
 

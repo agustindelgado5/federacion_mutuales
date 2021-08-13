@@ -25,19 +25,7 @@
         >
         </b-form-input>
       </b-form-group>
-      <!--
-      <b-form-group label="*Presentacion" label-for="presentacion">
-        <b-form-input
-          id="presentacion"
-          v-model="medicamentos.presentacion"
-          type="text"
-          placeholder="Describa la presentacion"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
-      -->
+      
       <b-form-group label="*Presentacion" label-for="presentacion">
         <b-form-textarea
           id="presentacion"
@@ -62,19 +50,7 @@
         >
         </b-form-input>
       </b-form-group>
-      <!--
-      <b-form-group label="*ID Farmacia" label-for="cod_farmacia">
-        <b-form-input
-            id="cod_farmacia"
-            v-model="medicamentos.cod_farmacia"
-            type="text"
-            placeholder="Ingrese un Numero"
-            invalid-feedback="Complete este campo"
-            required
-        >
-        </b-form-input>
-      </b-form-group>
-      -->
+      
       <b-button @click="getFarmacias()">GET TEST</b-button>
       {{farmacias}}
       <b-form-group label="*Farmacia" label-for="cod_farmacia">
@@ -85,11 +61,8 @@
             placeholder="Ingrese un Numero"
             invalid-feedback="Complete este campo"
             required
+            :options="options"
         >
-          <!--
-          <b-form-select-option value="">{{farmacias.farmacia}}</b-form-select-option>
-          -->
-          <b-form-select-option v-for="farm in farmacias" v-bind:key="farm.cod_farmacia" v-bind:value="farm.cod_farmacia">{{farm.farmacia}}</b-form-select-option>
         </b-form-select>
       </b-form-group>
       
@@ -122,6 +95,13 @@ export default {
       let farmaciaAPI = new APIControler();
       farmaciaAPI.apiUrl.pathname='farmacias/'
       this.data = await farmaciaAPI.getData(this.farmacias);
+      this.data.forEach(element => {   
+        let option={}
+        option.value='http://localhost:8081/farmacias/'+ element.cod_farmacia +'/';
+        option.text=element.farmacia;
+        console.log(option);
+        this.options.push(option);
+      });
     },
     /*
     async getMedicamento() {

@@ -1,5 +1,6 @@
 <template>
   <div id="socios" class="myTable">
+
     <!-- ======== Formulario de Busqueda ======== -->
     <div>
       <b-input-group size="sm" class="mb-2">
@@ -23,7 +24,6 @@
         <b-form-input
           type="search"
           placeholder="Busque un registro"
-          @click="buscar"
         ></b-form-input>
       </b-input-group>
     </div>
@@ -126,11 +126,12 @@ api.pathname = "socios";
 //api.port = 8000; //Cambien uds los puertos
 api.port = 8081;
 
-import Holmes from "holmes-js";
+//import Holmes from "holmes-js";
+import VueAwesomplete from 'vue-awesomplete';
 import SociosAlta from './SociosAlta.vue';
 
 export default {
-  components: { SociosAlta },
+  components: { SociosAlta, VueAwesomplete },
   data() {
     return {
       tabla_socios: [],
@@ -185,12 +186,17 @@ export default {
 
     deleteSocio(){},
 
+    changeSkills() {
+      this.$refs.skills.list(['Angular', 'React', 'Vue'])
+    },
+    /*
     buscar() {
       Holmes({
         input: ".search input", // predeterminado: input [type = search]
         find: ".results div", // querySelectorAll que coincide con cada uno de los resultados individualmente
       });
     },
+    */
   },
 };
 </script>

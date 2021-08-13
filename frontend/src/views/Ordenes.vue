@@ -124,6 +124,7 @@ export default {
             {key:'id_medico' ,label: 'Id Medico',sortable: true,},
             {key:'id_mutual' ,label: 'Id Mutual',sortable: true,},
             {key:'fecha' ,label: 'Fecha', sortable: true,},
+            {key:'hora' ,label: 'Hora', sortable: true,},
             {key:'precio' ,label: 'Precio', sortable: true,},
             {key:'realizado' ,label: 'Realizado', sortable: true,},
             { key: "action", label: "Acciones" },  
