@@ -14,6 +14,7 @@ class OrdenesSerializer(serializers.HyperlinkedModelSerializer):
             'id_medico',
             'id_mutual',
             'fecha',
+            'hora',
             'precio',
             'realizado',
         )

@@ -19,11 +19,9 @@ class RecetasSerializer(serializers.HyperlinkedModelSerializer):
         model = receta
         fields = (
             'numero_socio',
-            'dni_familiar',
             'diagnostico', 
+            'paciente',
             'id_medicamento',
-            'cod_farmacia',
-            'fecha',
-            'carencia'
-            
+            'cod_farmacia',            
         )
+        read_only_fields = ['created ','updated']

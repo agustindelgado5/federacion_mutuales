@@ -14,10 +14,10 @@ class medicamentosAdmin(admin.ModelAdmin):
 
 
 class recetasAdmin(admin.ModelAdmin):
-    list_display=('id_medicamento','numero_socio', 'dni_familiar')
-    search_fields=('id_medicamento','numero_socio', 'dni_familiar')
+    list_display=('id_medicamento','numero_socio')
+    search_fields=('id_medicamento','numero_socio')
     ordering=['id_medicamento']
-    autocomplete_fields=['id_medicamento','numero_socio', 'dni_familiar']
+    autocomplete_fields=['id_medicamento','numero_socio']
     readonly_fields=('created', 'updated')
 
 admin.site.register(medicamentos, medicamentosAdmin)

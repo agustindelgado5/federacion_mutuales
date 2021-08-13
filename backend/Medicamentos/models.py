@@ -32,9 +32,10 @@ Construyo la entidad para la receta con sus atributos
 """
 class receta(models.Model):
     numero_socio=models.ForeignKey(socios, on_delete=models.DO_NOTHING)
-    dni_familiar=models.ForeignKey(familiar, on_delete=models.DO_NOTHING)
+    #dni_familiar=models.ForeignKey(familiar, on_delete=models.DO_NOTHING)
     cod_farmacia=models.ForeignKey(farmacias, on_delete=models.DO_NOTHING)
     id_medicamento=models.ForeignKey(medicamentos, on_delete=models.DO_NOTHING)
+    paciente=models.CharField(max_length=60)
     diagnostico = models.TextField(max_length=200)
     fecha=models.DateField()
     carencia=models.DateField(null=True, blank=True)
