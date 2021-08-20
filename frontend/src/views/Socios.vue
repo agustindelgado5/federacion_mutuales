@@ -32,12 +32,15 @@
     <h2>Listado de Socios</h2>
     <b-button @click="testFetch" class="mb-4" title="Mostrar">Mostrar</b-button>
 
-    <!-- ================ALTA SOCIO======================== -->
-    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaSocio()" title="Nuevo Socio">Nuevo Socio</b-button>
+    <!-- ================ALTA SOCIO======================== --> 
     <b-modal id="modal-alta"  hide-footer> 
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <socios-alta/>
     </b-modal>
+
+    <!-- ================ PAGO DE AFILIACION ======================== -->
+    <b-button @click="GenerarPagoAfiliacion()" class="mb-4" id="btn_Pago_afiliacion" title="Pago Afiliacion" v-b-modal.modal-alta>Pago de Afiliacion</b-button>
+    
 
     <!-- ======== Tabla con los registros ======= -->
     <b-table
@@ -129,9 +132,10 @@ api.port = 8081;
 //import Holmes from "holmes-js";
 import VueAwesomplete from 'vue-awesomplete';
 import SociosAlta from './SociosAlta.vue';
+import PagoAfiliacion from './PagoAfiliacion.vue';
 
 export default {
-  components: { SociosAlta, VueAwesomplete },
+  components: { SociosAlta, VueAwesomplete, PagoAfiliacion },
   data() {
     return {
       tabla_socios: [],
@@ -186,6 +190,8 @@ export default {
 
     deleteSocio(){},
 
+    GenerarPagoAfiliacion(){},
+
     changeSkills() {
       this.$refs.skills.list(['Angular', 'React', 'Vue'])
     },
@@ -210,6 +216,10 @@ export default {
   overflow: auto;
   transition: 0.5s;
   width: 100%;
+}
+
+#btn_Pago_afiliacion{
+  margin-left: 0.5em;
 }
 
 </style>
