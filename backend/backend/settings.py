@@ -118,8 +118,16 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'federacion',
-        'USER': 'postgres',
+        'USER': 'admin',
         'PASSWORD': 'contraseniasegura',
+        'HOST': 'database',
+        'DATABASE_PORT': '5432',
+    },
+    'postgres_leonel': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'federacion',
+        'USER': 'postgres',
+        'PASSWORD': 'leonel',
         'HOST': '127.0.0.1',
         'DATABASE_PORT': '5432',
     }
@@ -148,7 +156,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ar'
 
 TIME_ZONE = 'UTC'
 
