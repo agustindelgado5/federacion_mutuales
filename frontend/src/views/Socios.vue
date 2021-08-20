@@ -49,13 +49,7 @@
       hover
       :items="tabla_socios"
     >
-      <template slot="cell(apellido)" slot-scope="data">
-        {{data.value.toUpperCase()}}
-      </template>
-
-      <template slot="cell(nombre)" slot-scope="data">
-        {{data.value.toUpperCase()}}
-      </template>
+    
 
       <!--Libreria Luxon para formatear las fechas, no esta del todo bien aun XD
       -->
@@ -69,13 +63,27 @@
       </template>
       -->
      
+      <template slot="cell(apellido)" slot-scope="row">
+        {{row.value.toUpperCase()}}
+      </template>
 
-      <template slot="cell(action)" slot-scope="">
+      <template slot="cell(nombre)" slot-scope="row">
+        {{row.value.toUpperCase()}}
+      </template>
+
+     
+      <template slot="cell(action)" slot-scope="row">
+        
         <div class="mt-3">
           <b-button-group>
             <b-button variant="info" id="button-1" title="Mostrar Info"
               > Mostrar Info</b-button
             >
+            
+            <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
+          Info modal
+          </b-button>
+
 
             <b-button
               variant="warning"
@@ -91,10 +99,10 @@
               title="Eliminar este registro"
               >Eliminar</b-button
             >
-
+             
             <b-modal ref="my-modal" hide-footer title="Eliminar">
               <div class="d-block text-center">
-                <h3>¿Esta seguro de eliminar los datos de ... ?</h3>
+                <h3>¿Esta seguro de eliminar los datos del socio?</h3>
               </div>
               <b-button
                 class="mt-2"
@@ -117,6 +125,9 @@
       </template>
     </b-table>
     <!-- ========================================= -->
+    <b-modal :id="infoModal.id" :title="infoModal.title" ok-only >
+      <pre>{{ infoModal.content }}</pre>
+    </b-modal>
   </div>
 </template>
 
@@ -147,7 +158,7 @@ export default {
         },
         //{key: 'calle' ,label: 'Direccion', sortable: true,},
         //{key:'localidad' ,label: 'Localidad', sortable: true,},
-        //{key:'departamento' ,label: 'Departamento', sortable: true,},
+        {key:'departamento' ,label: 'Departamento', sortable: true,},
         //{key:'cod_postal' ,label: 'Codigo Postal', sortable: true,},
         //{key: 'email' ,label: 'Mail', sortable: true,},
         //{key: 'tel_fijo',label: 'Telefono Fijo', sortable: true,},
@@ -155,8 +166,15 @@ export default {
         { key: "carencia", label: "Carencia", sortable: true },
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
+      infoModal: {
+          id: 'info-modal',
+          title: '',
+          content: ''
+        }
     };
+    
   },
+  
   methods: {
     async testFetch() {
       try {
@@ -175,12 +193,16 @@ export default {
     showModal() {
       this.$refs["my-modal"].show();
     },
+    info(item, index, button) {
+        this.infoModal.title = `Row index: ${index}`
+        this.infoModal.content = JSON.stringify(item, null, 2)
+        this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+      },
     //Funcion para esconder el modal
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-    
-   
+       
 
     altaSocio() {},
 

@@ -118,10 +118,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'federacion',
-        'USER': 'postgres',
+        'USER': 'admin',
         'PASSWORD': 'contraseniasegura',
-        'HOST': '127.0.0.1',
-        'DATABASE_PORT': '5432',
+        'HOST': 'database',
+        'DATABASE_PORT': '5430',
     }
 }
 
