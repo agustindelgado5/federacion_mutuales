@@ -5,15 +5,14 @@ from rest_framework import routers
 from . import views
 
 
-#app_name='medico'
+# app_name='medico'
 
 router = routers.DefaultRouter()
-router.register(r'profesionales', views.ProfesionalesViewSet, basename='profesionales')
-
+router.register(r"profesionales", views.ProfesionalesViewSet, basename="profesionales")
 
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path("", include(router.urls)),
     # path('', views.listado_medicos , name="Profesionales"),
     # path('listmedico/', views.listado_medicos , name="Listado_Med"),
     # path('altamedico/', views.alta_medico , name="Alta_Med"),
