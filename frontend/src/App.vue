@@ -9,6 +9,7 @@
             <router-link to="/medicamentos">Medicamentos</router-link>  |
             <router-link to="/recetas">Recetas</router-link>  |
             <router-link to="/ordenes">Ordenes Medicas</router-link>  |
+            <router-link to="/Login">Iniciar Sesion</router-link>  |
         </div>
         <div class="Menu">
 
