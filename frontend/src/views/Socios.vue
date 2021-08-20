@@ -1,33 +1,41 @@
 <template>
   <div id="socios" class="myTable">
-
     <h2>Listado de Socios</h2>
-    
-    <b-button @click="testFetch" class="mb-4" title="Mostrar"  variant="light" >
-      <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>
+
+    <b-button @click="testFetch" class="mb-4" title="Mostrar" variant="light">
+      <v-icon dark style="color: black">mdi-format-list-bulleted-square</v-icon>
       Mostrar
     </b-button>
 
     <!-- ================ALTA SOCIO======================== -->
-    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaSocio()" title="Nuevo Socio" style="color: white;">
-      <v-icon dark>
-        mdi-plus
-      </v-icon>
+    <b-button
+      class="mb-4 ml-2"
+      v-b-modal.modal-alta
+      @click="altaSocio()"
+      title="Nuevo Socio"
+      style="color: white"
+    >
+      <v-icon dark> mdi-plus </v-icon>
       Nuevo Socio
     </b-button>
-    <b-modal id="modal-alta"  hide-footer> 
+    <b-modal id="modal-alta" hide-footer>
       <template #modal-title>
         <h5 class="modal-title">Alta</h5>
       </template>
-      <socios-alta/>
+      <socios-alta />
     </b-modal>
 
     <!-- ================ PAGO DE AFILIACION ======================== -->
-    <b-button @click="GenerarPagoAfiliacion()" class="mb-4 ml-2" id="btn_Pago_afiliacion" title="Pago Afiliacion">Pago de Afiliacion</b-button>
+    <b-button
+      @click="GenerarPagoAfiliacion()"
+      class="mb-4 ml-2"
+      id="btn_Pago_afiliacion"
+      title="Pago Afiliacion"
+      >Pago de Afiliacion</b-button
+    >
 
     <!-- ======== Formulario de Busqueda ======== -->
     <div>
-      
       <b-input-group size="sm" class="mb-2">
         <b-input-group-prepend is-text>
           <svg
@@ -60,28 +68,27 @@
       striped
       sortable
       responsive
-      :sticky-header= true
-      :no-border-collapse= false
+      :sticky-header="true"
+      :no-border-collapse="false"
       hover
       :items="tabla_socios"
       show-empty
       :per-page="perPage"
       :current-page="currentPage"
     >
-
       <template #empty="">
         <b>No hay registros para mostrar</b>
       </template>
       <template slot="cell(numero_socio)" slot-scope="data">
-        <b>{{data.value}}</b>
+        <b>{{ data.value }}</b>
       </template>
 
       <template slot="cell(apellido)" slot-scope="data">
-        {{data.value.toUpperCase()}}
+        {{ data.value.toUpperCase() }}
       </template>
 
       <template slot="cell(nombre)" slot-scope="data">
-        {{data.value.toUpperCase()}}
+        {{ data.value.toUpperCase() }}
       </template>
 
       <!--Libreria Luxon para formatear las fechas, no esta del todo bien aun XD
@@ -95,12 +102,11 @@
         {{data.value|luxon}}
       </template>
       -->
-     
 
       <template slot="cell(action)" slot-scope="">
         <div class="mt-3">
           <b-button-group>
-            <b-button variant="info" id="button-1" title="Mostrar Info" > 
+            <b-button variant="info" id="button-1" title="Mostrar Info">
               Mostrar Info
             </b-button>
 
@@ -130,26 +136,25 @@
               id="button-2"
               title="Editar este registro"
             >
-              <v-icon class="mr-2">
-                mdi-pencil
-              </v-icon>
+              <v-icon class="mr-2"> mdi-pencil </v-icon>
               Editar
             </b-button>
-        
+
             <b-button
               variant="danger"
               id="button-3"
               @click="showModal"
               title="Eliminar este registro"
-              >
-              <v-icon class="mr-2">
-                mdi-delete
-              </v-icon>
+            >
+              <v-icon class="mr-2"> mdi-delete </v-icon>
               Eliminar
             </b-button>
             <b-modal ref="my-modal" hide-footer title="Eliminar">
-              <div class="d-block text-center" >
-                <h3 >¿Esta seguro de eliminar los datos de ... ? {{socios.apellido}} </h3>
+              <div class="d-block text-center">
+                <h3>
+                  ¿Esta seguro de eliminar los datos de ... ?
+                  {{ socios.apellido }}
+                </h3>
               </div>
               <b-button
                 class="mt-2"
@@ -167,14 +172,10 @@
                 >Eliminar</b-button
               >
             </b-modal>
-
           </b-button-group>
         </div>
       </template>
     </b-table>
-
-    
-
 
     <b-container fluid>
       <b-col sm="7" md="6" class="my-1">
@@ -187,7 +188,6 @@
         </b-pagination>
       </b-col>
     </b-container>
-    
   </div>
 </template>
 
@@ -198,13 +198,13 @@ api.pathname = "socios";
 api.port = 8081;
 
 //import Holmes from "holmes-js";
-import VueAwesomplete from 'vue-awesomplete';
-import SociosAlta from './SociosAlta.vue';
+import VueAwesomplete from "vue-awesomplete";
+import SociosAlta from "./SociosAlta.vue";
 //import SociosBorrar from './SociosBorrar.vue';
 import { deleteSearchParams } from "../store/APIControler";
 
 export default {
-  components: { SociosAlta,VueAwesomplete },
+  components: { SociosAlta, VueAwesomplete },
   data() {
     return {
       tabla_socios: [],
@@ -235,9 +235,9 @@ export default {
   },
 
   computed: {
-      rows() {
-        return this.tabla_socios.length;
-      }
+    rows() {
+      return this.tabla_socios.length;
+    },
   },
 
   methods: {
@@ -263,23 +263,17 @@ export default {
       this.$refs["my-modal"].hide();
     },
 
-    
-    
-   
-
     altaSocio() {},
 
-    async deleteSocio(){
+    async deleteSocio() {
       var numero_socio = this.tabla_socios.numero_socio;
-      
-      deleteSearchParams(numero_socio)
-      .then(datos=>{
-        console.log(datos)
-        location.href = '/socios'
+
+      deleteSearchParams(numero_socio).then((datos) => {
+        console.log(datos);
+        location.href = "/socios";
       });
-      
     },
-    GenerarPagoAfiliacion(){},
+    GenerarPagoAfiliacion() {},
     /*
     buscar() {
       Holmes({
@@ -302,5 +296,4 @@ export default {
   transition: 0.5s;
   width: 100%;
 }
-
 </style>
