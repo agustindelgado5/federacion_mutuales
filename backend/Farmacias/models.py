@@ -32,7 +32,7 @@ class farmacias(models.Model):
         ordering=['cod_farmacia']
 
     def __str__(self):
-        cadena = str(self.cod_farmacia)+str(self.matricula_farm)+'-'+ self.farmacia
+        cadena = str(self.cod_farmacia)+'-'+str(self.matricula_farm)+'-'+ self.farmacia
         return cadena
 
 

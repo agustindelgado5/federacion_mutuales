@@ -17,7 +17,7 @@ class socios(models.Model):
     departamento=models.CharField(max_length=30, choices=deptos_tucuman)
     cod_postal=models.IntegerField()
     fecha_nacimiento=models.DateField()
-    edad=models.IntegerField(blank=True, null=True)
+    edad=models.IntegerField(blank=True, null=True, editable=False)
     email=models.EmailField()   
     tel_fijo=models.IntegerField(null=True, blank=True)
     tel_celular=models.IntegerField(null=True, blank=True)
@@ -30,16 +30,16 @@ class socios(models.Model):
         verbose_name='socio'
         verbose_name_plural='socios'
         ordering=['numero_socio']
-   
-    # @property
-    # def edad_socio(self):
-    #     return 0
-    #     # return calcular_edad(self.fecha_nacimiento)
+    """
+    @property
+    def edad_socio(self):
+        #return 0
+        return calcular_edad(self.fecha_nacimiento)
     
-    # def save(self):
-    #     self.edad=self.edad_socio
-    #     super (socios,self).save() 
-   
+    def save(self):
+        self.edad=self.edad_socio
+        super (socios,self).save() 
+    """
     def __str__(self):
         cadena = str(self.numero_socio)+' - '+self.apellido+' - '+self.nombre+' - '+str(self.dni)  
         return cadena
@@ -66,7 +66,7 @@ class familiar(models.Model):
         verbose_name='familiar'
         verbose_name_plural='familiares'
         ordering=['numero_socio']
-
+    """
     @property
     def edad_socio(self):
         #return 0
@@ -74,7 +74,9 @@ class familiar(models.Model):
     
     def save(self):
         self.edad=self.edad_socio
-        super (familiar,self).save() 
+        super (familiar,self).save()
+
+    """ 
    
     def __str__(self):
         cadena = str(self.dni_familiar)+' - '+self.apellido+' - '+self.nombre+' - '+str(self.carencia)  
