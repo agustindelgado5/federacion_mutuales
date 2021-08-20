@@ -1,8 +1,33 @@
 <template>
   <div id="socios" class="myTable">
 
+    <h2>Listado de Socios</h2>
+    
+    <b-button @click="testFetch" class="mb-4" title="Mostrar"  variant="light" >
+      <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>
+      Mostrar
+    </b-button>
+
+    <!-- ================ALTA SOCIO======================== -->
+    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaSocio()" title="Nuevo Socio" style="color: white;">
+      <v-icon dark>
+        mdi-plus
+      </v-icon>
+      Nuevo Socio
+    </b-button>
+    <b-modal id="modal-alta"  hide-footer> 
+      <template #modal-title>
+        <h5 class="modal-title">Alta</h5>
+      </template>
+      <socios-alta/>
+    </b-modal>
+
+    <!-- ================ PAGO DE AFILIACION ======================== -->
+    <b-button @click="GenerarPagoAfiliacion()" class="mb-4 ml-2" id="btn_Pago_afiliacion" title="Pago Afiliacion">Pago de Afiliacion</b-button>
+
     <!-- ======== Formulario de Busqueda ======== -->
     <div>
+      
       <b-input-group size="sm" class="mb-2">
         <b-input-group-prepend is-text>
           <svg
@@ -29,29 +54,28 @@
     </div>
     <!-- ======================================== -->
 
-    <h2>Listado de Socios</h2>
-    <b-button @click="testFetch" class="mb-4" title="Mostrar">Mostrar</b-button>
-
-    <!-- ================ALTA SOCIO======================== --> 
-    <b-modal id="modal-alta"  hide-footer> 
-      <template #modal-title><h5 class="modal-title">Alta</h5></template>
-      <socios-alta/>
-    </b-modal>
-
-    <!-- ================ PAGO DE AFILIACION ======================== -->
-    <b-button @click="GenerarPagoAfiliacion()" class="mb-4" id="btn_Pago_afiliacion" title="Pago Afiliacion" v-b-modal.modal-alta>Pago de Afiliacion</b-button>
-    
-
     <!-- ======== Tabla con los registros ======= -->
     <b-table
       :fields="fields"
       striped
       sortable
       responsive
-      sticky-header
+      :sticky-header= true
+      :no-border-collapse= false
       hover
       :items="tabla_socios"
+      show-empty
+      :per-page="perPage"
+      :current-page="currentPage"
     >
+
+      <template #empty="">
+        <b>No hay registros para mostrar</b>
+      </template>
+      <template slot="cell(numero_socio)" slot-scope="data">
+        <b>{{data.value}}</b>
+      </template>
+
       <template slot="cell(apellido)" slot-scope="data">
         {{data.value.toUpperCase()}}
       </template>
@@ -76,28 +100,56 @@
       <template slot="cell(action)" slot-scope="">
         <div class="mt-3">
           <b-button-group>
-            <b-button variant="info" id="button-1" title="Mostrar Info"
-              > Mostrar Info</b-button
-            >
+            <b-button variant="info" id="button-1" title="Mostrar Info" > 
+              Mostrar Info
+            </b-button>
+
+            <template #row-details="">
+              <b-card>
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Apellido:</b></b-col>
+                  <!--
+                  <b-col>{{ row.item.age }}</b-col>
+                  -->
+                </b-row>
+
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Nombre:</b></b-col>
+                  <!--
+                  <b-col>{{ row.item.isActive }}</b-col>
+                  -->
+                </b-row>
+                <!--
+                <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
+                -->
+              </b-card>
+            </template>
 
             <b-button
               variant="warning"
               id="button-2"
               title="Editar este registro"
-              >Editar</b-button
             >
-
+              <v-icon class="mr-2">
+                mdi-pencil
+              </v-icon>
+              Editar
+            </b-button>
+        
             <b-button
               variant="danger"
               id="button-3"
               @click="showModal"
               title="Eliminar este registro"
-              >Eliminar</b-button
-            >
-
+              >
+              <v-icon class="mr-2">
+                mdi-delete
+              </v-icon>
+              Eliminar
+            </b-button>
             <b-modal ref="my-modal" hide-footer title="Eliminar">
-              <div class="d-block text-center">
-                <h3>¿Esta seguro de eliminar los datos de ... ?</h3>
+              <div class="d-block text-center" >
+                <h3 >¿Esta seguro de eliminar los datos de ... ? {{socios.apellido}} </h3>
               </div>
               <b-button
                 class="mt-2"
@@ -110,16 +162,32 @@
                 class="mt-3"
                 variant="danger"
                 block
-                title="Eliminar"
                 @click="deleteSocio()"
+                title="Eliminar"
                 >Eliminar</b-button
               >
             </b-modal>
+
           </b-button-group>
         </div>
       </template>
     </b-table>
-    <!-- ========================================= -->
+
+    
+
+
+    <b-container fluid>
+      <b-col sm="7" md="6" class="my-1">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="table_socios"
+        >
+        </b-pagination>
+      </b-col>
+    </b-container>
+    
   </div>
 </template>
 
@@ -132,10 +200,11 @@ api.port = 8081;
 //import Holmes from "holmes-js";
 import VueAwesomplete from 'vue-awesomplete';
 import SociosAlta from './SociosAlta.vue';
-import PagoAfiliacion from './PagoAfiliacion.vue';
+//import SociosBorrar from './SociosBorrar.vue';
+import { deleteSearchParams } from "../store/APIControler";
 
 export default {
-  components: { SociosAlta, VueAwesomplete, PagoAfiliacion },
+  components: { SociosAlta,VueAwesomplete },
   data() {
     return {
       tabla_socios: [],
@@ -159,8 +228,18 @@ export default {
         { key: "carencia", label: "Carencia", sortable: true },
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
+      totalRows: 1, //Total de filas
+      currentPage: 1, //Pagina actual
+      perPage: 3, // Datos en la tabla por pagina
     };
   },
+
+  computed: {
+      rows() {
+        return this.tabla_socios.length;
+      }
+  },
+
   methods: {
     async testFetch() {
       try {
@@ -183,18 +262,24 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
+
+    
     
    
 
     altaSocio() {},
 
-    deleteSocio(){},
-
-    GenerarPagoAfiliacion(){},
-
-    changeSkills() {
-      this.$refs.skills.list(['Angular', 'React', 'Vue'])
+    async deleteSocio(){
+      var numero_socio = this.tabla_socios.numero_socio;
+      
+      deleteSearchParams(numero_socio)
+      .then(datos=>{
+        console.log(datos)
+        location.href = '/socios'
+      });
+      
     },
+    GenerarPagoAfiliacion(){},
     /*
     buscar() {
       Holmes({
@@ -216,10 +301,6 @@ export default {
   overflow: auto;
   transition: 0.5s;
   width: 100%;
-}
-
-#btn_Pago_afiliacion{
-  margin-left: 0.5em;
 }
 
 </style>
