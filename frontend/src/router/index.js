@@ -66,6 +66,13 @@ const routes = [
     component: () => import("../views/Recetas.vue"),
     meta: { title: 'Recetas - Federación Tucumana de Mutuales' } 
   },
+  {
+    path: "/Servicios",
+    name: "Servicios",
+
+    component: () => import("../views/Servicios.vue"),
+    meta: { title: 'Servicios - Federación Tucumana de Mutuales' } 
+  },
 ];
 
 const router = new VueRouter({
