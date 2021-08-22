@@ -1,10 +1,18 @@
 <template>
   <div id="profesionales" class="myTable">
     <h2>Listado de Profesionales</h2>
-    <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
+    <b-button @click="testFetch" class="mb-4" variant="light">
+      <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>
+      Mostrar
+    </b-button>
 
     <!-- ================ALTA PROFESIONAL======================== -->
-    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaProfesional()" title="Nuevo Profesional">Nuevo Profesional</b-button>
+    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaProfesional()" title="Nuevo Profesional" style="color: white;">
+      <v-icon dark>
+        mdi-plus
+      </v-icon>
+      Nuevo Profesional
+    </b-button>
     <b-modal id="modal-alta" hide-footer> 
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <profesionales-alta/>
@@ -17,7 +25,19 @@
       responsive
       hover
       :items="tabla_profesionales"
+      show-empty
+      :per-page="perPage"
+      :current-page="currentPage"
+      :sticky-header= true
+      :no-border-collapse= false
     >
+      <template #empty="">
+        <b>No hay registros para mostrar</b>
+      </template>
+      <template slot="cell(id_medico)" slot-scope="data">
+        <b>{{data.value}}</b>
+      </template>
+
       <template slot="cell(apellido)" slot-scope="data">
         {{data.value.toUpperCase()}}
       </template>
@@ -42,16 +62,24 @@
               variant="warning"
               id="button-2"
               title="Editar este registro"
-              >Editar</b-button
             >
+              <v-icon class="mr-2">
+                mdi-pencil
+              </v-icon>
+              Editar
+            </b-button>
 
             <b-button
               variant="danger"
               id="button-3"
               @click="showModal"
               title="Eliminar este registro"
-              >Eliminar</b-button
             >
+              <v-icon class="mr-2">
+                mdi-delete
+              </v-icon>
+              Eliminar
+            </b-button>
 
             <b-modal ref="my-modal" hide-footer title="Eliminar">
               <div class="d-block text-center">
@@ -76,6 +104,21 @@
         </div>
       </template>
     </b-table>
+
+    <b-container fluid>
+      <b-col class="my-1">
+        <b-pagination
+          v-model="currentPage"
+          align="center"
+          pills 
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="table_profesionales"
+        >
+        </b-pagination>
+      </b-col>
+    </b-container>
+
   </div>
 </template>
 
@@ -96,6 +139,7 @@ export default {
       fields: [
         {
           key: "id_medico",
+          label: "ID",
           sortable: true,
         },
         {
@@ -108,16 +152,27 @@ export default {
         },
         {
           key: "dni",
+          label:"DNI",
           sortable: true,
         },
         {
           key: "especialidad",
           sortable: true,
         },
-        { key: "action", label: "Acciones" },
+        { key: "action", label: "Acciones" , variant: "secondary"},
       ],
+      totalRows: 1, //Total de filas
+      currentPage: 1, //Pagina actual
+      perPage: 3, // Datos en la tabla por pagina
     };
   },
+
+  computed: {
+      rows() {
+        return this.tabla_profesionales.length;
+      },
+  },
+
   methods: {
     async testFetch() {
       try {

@@ -1,10 +1,18 @@
 <template>
   <div id="ordenes" class="myTable">
     <h2>Listado de Ordenes</h2>
-    <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
+    <b-button @click="testFetch" class="mb-4" variant="light">
+      <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>
+      Mostrar
+    </b-button>
 
     <!-- ================ALTA ORDENES======================== -->
-    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaOrden()" title="Nueva Orden">Nueva Orden</b-button>
+    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaOrden()" title="Nueva Orden" style="color: white;">
+      <v-icon dark>
+        mdi-plus
+      </v-icon>
+      Nueva Orden
+    </b-button>
     <b-modal id="modal-alta" hide-footer> 
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <ordenes-alta/>
@@ -17,7 +25,18 @@
       responsive
       hover
       :items="tabla_ordenes"
+      show-empty
+      :per-page="perPage"
+      :current-page="currentPage"
+      :sticky-header= true
+      :no-border-collapse= false
     >
+      <template #empty="">
+        <b>No hay registros para mostrar</b>
+      </template>
+      <template slot="cell(numero_orden)" slot-scope="data">
+        <b>{{data.value}}</b>
+      </template>
       <template slot="cell(numero_socio)" slot-scope="data">
         {{data.value.split('/')[4]}}
       </template>
@@ -60,16 +79,24 @@
               variant="warning"
               id="button-2"
               title="Editar este registro"
-              >Editar</b-button
             >
+              <v-icon class="mr-2">
+                mdi-pencil
+              </v-icon>
+              Editar
+            </b-button>
 
             <b-button
               variant="danger"
               id="button-3"
               @click="showModal"
               title="Eliminar este registro"
-              >Eliminar</b-button
             >
+              <v-icon class="mr-2">
+                mdi-delete
+              </v-icon>
+              Eliminar
+            </b-button>
 
             <b-modal ref="my-modal" hide-footer title="Eliminar">
               <div class="d-block text-center">
@@ -100,6 +127,21 @@
       </template>
     -->
     </b-table>
+
+    <b-container fluid>
+      <b-col class="my-1">
+        <b-pagination
+          v-model="currentPage"
+          align="center"
+          pills 
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="table_ordenes"
+        >
+        </b-pagination>
+      </b-col>
+    </b-container>
+
   </div>
 </template>
 
@@ -127,9 +169,17 @@ export default {
             {key:'hora' ,label: 'Hora', sortable: true,},
             {key:'precio' ,label: 'Precio', sortable: true,},
             {key:'realizado' ,label: 'Realizado', sortable: true,},
-            { key: "action", label: "Acciones" },  
-        ],
+            { key: "action", label: "Acciones" , variant: "secondary"},  
+      ],
+      totalRows: 1, //Total de filas
+      currentPage: 1, //Pagina actual
+      perPage: 3, // Datos en la tabla por pagina
     };
+  },
+  computed: {
+      rows() {
+        return this.tabla_ordenes.length;
+      },
   },
   methods: {
     async testFetch() {

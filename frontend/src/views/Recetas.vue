@@ -1,10 +1,18 @@
 <template>
   <div id="recetas" class="myTable">
     <h2>Listado de Recetas</h2>
-    <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
+    <b-button @click="testFetch" class="mb-4" variant="light">
+      <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>
+      Mostrar
+    </b-button>
     
     <!-- ================ALTA RECETASS======================== -->
-    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaReceta()" title="Nueva Receta">Nueva Receta</b-button>
+    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaReceta()" title="Nueva Receta" style="color: white;">
+      <v-icon dark>
+        mdi-plus
+      </v-icon>
+      Nueva Receta
+    </b-button>
     <b-modal id="modal-alta" hide-footer> 
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <recetas-alta/>
@@ -17,6 +25,7 @@
       responsive
       hover
       :items="tabla_recetas"
+      show-empty
     >
     <!-- 
       <template slot="action">
@@ -24,6 +33,9 @@
         <b-button variant="danger" size="sm">Eliminar</b-button>
       </template>
     -->
+      <template #empty="">
+        <b>No hay registros para mostrar</b>
+      </template>
       <template slot="cell(numero_socio)" slot-scope="data">
         {{data.value.split('/')[4]}}
       </template>
@@ -48,16 +60,24 @@
               variant="warning"
               id="button-2"
               title="Editar este registro"
-              >Editar</b-button
             >
+              <v-icon class="mr-2">
+                mdi-pencil
+              </v-icon>
+              Editar
+            </b-button>
 
             <b-button
               variant="danger"
               id="button-3"
               @click="showModal"
               title="Eliminar este registro"
-              >Eliminar</b-button
             >
+              <v-icon class="mr-2">
+                mdi-delete
+              </v-icon>
+              Eliminar
+            </b-button>
 
             <b-modal ref="my-modal" hide-footer title="Eliminar">
               <div class="d-block text-center">
@@ -68,15 +88,17 @@
                 block
                 @click="hideModal"
                 title="Volver Atras"
-                >Volver Atras</b-button
               >
+                Volver Atras
+              </b-button>
               <b-button
                 class="mt-3"
                 variant="danger"
                 block
                 title="Eliminar"
-                >Eliminar</b-button
               >
+                Eliminar
+              </b-button>
             </b-modal>
           </b-button-group>
         </div>
@@ -106,7 +128,7 @@ export default {
             {key:'cod_farmacia' ,label: 'Id Farmacia',sortable: true,},
             {key:'fecha' ,label: 'Fecha', sortable: true,},
             {key:'carencia' ,label: 'Carencia', sortable: true,},
-            { key: "action", label: "Acciones" },  
+            { key: "action", label: "Acciones" , variant: "secondary"},  
         ],
     };
   },
