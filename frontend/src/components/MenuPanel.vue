@@ -13,11 +13,8 @@
                 </span>
                 {{ list.title }}
             </div>
-            <form style="text-align:center;margin:0.3em;">
-                <input type="text" class="buscador" id="buscador" />
-                <button type="submit">Busca</button>
-            </form>
-            <ul class="Menu__list">
+            <input type="text" onkeyup="buscarnow()" class="buscador" placeholder="Buscar Acciones..." />
+            <ul class="Menu__list" id="myUL">
                 <li v-for="item in list.children"
                     @click="handleItemClicked(item)"
                     class="Menu__item"
@@ -71,8 +68,6 @@ export default {
             type: Function,
             default: () => {},
         },
-
-        // @TODO: create createMenuPanel.js to assign `functionalityStyle` which is not diff from next, staging, and prev panel in parent component.
         functionalityStyle: {
             type: Object,
             required: true,
@@ -82,7 +77,29 @@ export default {
             required: true,
         },
     },
+    methods:
+    {
+        async buscarnow() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementByClass('buscador');
+            filter = input.value.toUpperCase();
+            ul = document.getElementByClass("Menu__list");
+            li = ul.getElementsByClass('Menu__item');
+            console.log()
+
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a").getElementsByTagName("div")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    },
 };
+
 </script>
 
 <style lang="scss" scoped>
