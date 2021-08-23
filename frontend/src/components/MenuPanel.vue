@@ -165,6 +165,7 @@ ul, li {
 
     a {
         color: #4a4a4a;
+        width:100%;
         text-decoration: none;
     }
 
