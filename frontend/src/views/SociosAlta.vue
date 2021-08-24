@@ -2,24 +2,8 @@
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
     
-    
     <b-form >
-      <h4>Servicios: </h4>
-      <b-form-group label="*Servicios" label-for="servicios">
-        <div id='plan_servicios'>
-          <input type="checkbox" id="salud" value="Salud" v-model="plan">
-          <label for="salud">Salud</label>
-          <input type="checkbox" id="sepelio" value="Sepelio" v-model="plan">
-          <label for="sepelio">Sepelio</label>
-          <input type="checkbox" id="optica" value="Optica" v-model="plan">
-          <label for="optica">Optica</label>
-          <input type="checkbox" id="odontologia" value="Odontologia" v-model="plan">
-          <label for="odontologia">Odontologia</label>
-          <br>
-          <span>Plan de servicios: {{ plan }}</span>
-        </div>
-      </b-form-group>
-
+      
       <h4>Datos Personales: </h4>
       <b-form-group label="*N° Socio" label-for="numero_socio">
         <b-form-input
@@ -183,6 +167,22 @@
           required
         >
         </b-form-input>
+      </b-form-group>
+
+      <h4>Servicios: </h4>
+      <b-form-group label="*Servicios" label-for="servicios">
+        <div id='plan_servicios'>
+          <input type="checkbox" id="salud" value="Salud" v-model="plan">
+          <label for="salud">Salud</label>
+          <input type="checkbox" id="sepelio" value="Sepelio" v-model="plan">
+          <label for="sepelio">Sepelio</label>
+          <input type="checkbox" id="optica" value="Optica" v-model="plan">
+          <label for="optica">Optica</label>
+          <input type="checkbox" id="odontologia" value="Odontologia" v-model="plan">
+          <label for="odontologia">Odontologia</label>
+          <br>
+          <span>Plan de servicios: {{ plan }}</span>
+        </div>
       </b-form-group>
     </b-form>
     {{ socio }}

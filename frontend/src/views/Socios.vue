@@ -1,5 +1,9 @@
 <template>
+
   <div id="socios" class="myTable">
+
+    <!--HEAD DE LA PAGINA -->
+    <vue-headful title="Socios - Federación Tucumana de Mutuales"></vue-headful>
 
     <h2>Listado de Socios</h2>
     
@@ -149,8 +153,8 @@
               Eliminar
             </b-button>
             <b-modal ref="my-modal" hide-footer title="Eliminar">
-              <div class="d-block text-center" :v-for="id" >
-                <h3>¿Esta seguro de eliminar los datos de ... ? {{id}} </h3>
+              <div class="d-block text-center" >
+                <h3>¿Esta seguro de eliminar los datos de ... ? </h3>
               </div>
               <b-button
                 class="mt-2"
@@ -203,8 +207,9 @@ api.port = 8081;
 //import Holmes from "holmes-js";
 import VueAwesomplete from 'vue-awesomplete';
 import SociosAlta from './SociosAlta.vue';
+import axios from 'axios';
 //import SociosBorrar from './SociosBorrar.vue';
-import { deleteSearchParams } from "../store/APIControler";
+//import { deleteSearchParams } from "../store/APIControler";
 
 export default {
   components: { SociosAlta,VueAwesomplete },
@@ -283,6 +288,7 @@ export default {
     altaSocio() {},
 
     async deleteSocio(){
+      /*
       var numero_socio = this.tabla_socios.numero_socio;
       
       deleteSearchParams(numero_socio)
@@ -290,6 +296,17 @@ export default {
         console.log(datos)
         location.href = '/socios'
       });
+      */
+     var enviar ={
+       'numero_socio': this.tabla_socios.numero_socio,
+       'apellido': this.tabla_socios.apellido,
+       'nombre': this.tabla_socios.nombre
+     };
+     axios.delete("http://localhost:8081/socios/", {headers: enviar})
+     .then(datos =>{
+       swal("Carga Exitosa", " ", "success");
+       console.log(datos);
+     });
       
     },
     GenerarPagoAfiliacion(){},

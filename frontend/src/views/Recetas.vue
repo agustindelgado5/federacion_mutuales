@@ -1,5 +1,9 @@
 <template>
   <div id="recetas" class="myTable">
+
+    <!--HEAD DE LA PAGINA -->
+    <vue-headful title="Recetas - Federación Tucumana de Mutuales"></vue-headful>
+
     <h2>Listado de Recetas</h2>
     <b-button @click="testFetch" class="mb-4" variant="light">
       <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>

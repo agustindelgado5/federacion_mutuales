@@ -1,5 +1,9 @@
 <template>
     <div>
+
+        <!--HEAD DE LA PAGINA -->
+        <vue-headful title="Home - Federación Tucumana de Mutuales"></vue-headful>
+        
         <b-jumbotron header="Federación Tucumana de Mutuales">
             <img src="../assets/logo.jpg" alt="Logo Federación" srcset="" id="Logo_fed" style="margin-top:1em;margin-bottom:1em;">
 

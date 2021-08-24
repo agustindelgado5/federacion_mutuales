@@ -1,5 +1,9 @@
 <template>
   <div id="medicamentos" class="myTable">
+
+    <!--HEAD DE LA PAGINA -->
+    <vue-headful title="Medicamentos - Federación Tucumana de Mutuales"></vue-headful>
+
     <h2>Listado de Medicamentos</h2>
 
     <b-button @click="testFetch" class="mb-4" variant="light">
