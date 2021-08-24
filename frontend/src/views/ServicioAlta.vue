@@ -3,9 +3,9 @@
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos </h4>   
     <b-form >
-      <b-form-group label="*Nombre del servicio" label-for="nombre">
+      <b-form-group label="*Nombre del servicio" label-for="servicio">
         <b-form-input
-          id="nombre"
+          id="servicio"
           v-model="servicios.nombre"
           type="text"
           placeholder="*Ingrese el nombre del servicio"
@@ -14,17 +14,7 @@
         >
         </b-form-input>
       </b-form-group>
-      <b-form-group label="*Carencia" label-for="carencia">
-        <b-form-input
-          id="carencia"
-          v-model="servicios.carencia"
-          type="number"
-          placeholder="Ingrese la carencia en meses"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-    </b-form-group>
+      
     </b-form>
     {{ servicios }}
     {{ data }}
