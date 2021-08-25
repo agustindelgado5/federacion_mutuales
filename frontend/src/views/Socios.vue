@@ -33,7 +33,7 @@
     <div>
       
       <b-input-group size="sm" class="mb-2">
-        <b-input-group-prepend is-text onke>
+        <b-input-group-prepend is-text>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -46,15 +46,12 @@
               d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
             />
           </svg>
-          <!--
-          <b-icon icon="search"></b-icon>
-          -->
         </b-input-group-prepend>
         <b-form-input
           v-model="buscar"
           type="text"
           placeholder="Busque un registro"
-          v-on:keyup="buscarnow2()" 
+          v-on:keyup="buscarnow()" 
           ref="buscadorlista"
         ></b-form-input>
       </b-input-group>
@@ -106,10 +103,10 @@
       -->
      
 
-      <template slot="cell(action)" slot-scope="">
+      <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
           <b-button-group>
-            <b-button variant="info" id="button-1" title="Mostrar Info" > 
+            <b-button variant="info" id="button-1" title="Mostrar Info" @click="info(row.item.numero_socio)"> 
               Mostrar Info
             </b-button>
 
@@ -148,7 +145,7 @@
             <b-button
               variant="danger"
               id="button-3"
-              @click="showModal"
+              @click="showModalinfo(row.item, row.index)"
               title="Eliminar este registro"
               >
               <v-icon class="mr-2">
@@ -156,9 +153,11 @@
               </v-icon>
               Eliminar
             </b-button>
-            <b-modal ref="my-modal" hide-footer title="Eliminar">
+
+            <!-- ================ELIMINAR SOCIO======================== -->
+            <b-modal id="modal_eliminar" ref="my-modal" hide-footer title="Eliminar" ok-only>
               <div class="d-block text-center" >
-                <h3>¿Esta seguro de eliminar los datos de ... ? </h3>
+                <h3>¿Esta seguro de eliminar los datos de {{infoEliminar.socio.apellido}}, {{infoEliminar.socio.nombre}}  ? </h3>
               </div>
               <b-button
                 class="mt-2"
@@ -171,11 +170,13 @@
                 class="mt-3"
                 variant="danger"
                 block
-                @click="deleteSocio()"
+                @click="deleteSocio(infoEliminar.socio.numero_socio)"
                 title="Eliminar"
-                >Eliminar</b-button
               >
+                Eliminar
+              </b-button>
             </b-modal>
+            <!-- ==================================================== -->
 
           </b-button-group>
         </div>
@@ -243,7 +244,11 @@ export default {
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
       perPage: 10, // Datos en la tabla por pagina
-      buscar : '',
+      buscar: '',
+      infoEliminar:{
+        id:"modal_eliminar",
+        socio: -1
+      },
     };
   },
 
@@ -284,8 +289,34 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
+    
+    
+    info(numero_socio){
+      alert('id: ' + numero_socio);
+    },
+    
+    showModalinfo(item, index) {
+      this.infoEliminar.socio=item;
+      this.showModal();
+    },
 
-    async buscarnow2() {
+    altaSocio() {},
+
+    async deleteSocio(numero_socio){
+    
+     axios.delete('http://localhost:8081/socios/'+ numero_socio +'/')
+     .then(datos =>{
+       swal("Carga Exitosa", " ", "success");
+       console.log(datos);
+     })
+     .catch(error=>{
+       swal("¡ERROR!", "Se ha detectado un problema ", "error")
+       console.log(error);
+     })
+     .finally(() => this.testFetch());
+    },
+
+    async buscarnow() {
         // Declare variables
         var input, filter, table, tr, td, i, txtValue, NumSocio, Apellido, Nombre, DNI;
         input = this.$refs.buscadorlista;
@@ -309,30 +340,7 @@ export default {
         }
     },
 
-    altaSocio() {},
 
-    async deleteSocio(){
-      /*
-      var numero_socio = this.tabla_socios.numero_socio;
-      
-      deleteSearchParams(numero_socio)
-      .then(datos=>{
-        console.log(datos)
-        location.href = '/socios'
-      });
-      */
-     var enviar ={
-       'numero_socio': this.tabla_socios.numero_socio,
-       'apellido': this.tabla_socios.apellido,
-       'nombre': this.tabla_socios.nombre
-     };
-     axios.delete("http://localhost:8081/socios/", {headers: enviar})
-     .then(datos =>{
-       swal("Carga Exitosa", " ", "success");
-       console.log(datos);
-     });
-      
-    },
     GenerarPagoAfiliacion(){},
     /*
     buscar() {
