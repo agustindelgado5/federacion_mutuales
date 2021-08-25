@@ -33,7 +33,7 @@
     <div>
       
       <b-input-group size="sm" class="mb-2">
-        <b-input-group-prepend is-text>
+        <b-input-group-prepend is-text onke>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -54,6 +54,8 @@
           v-model="buscar"
           type="text"
           placeholder="Busque un registro"
+          v-on:keyup="buscarnow2()" 
+          ref="buscadorlista"
         ></b-form-input>
       </b-input-group>
     </div>
@@ -72,6 +74,8 @@
       show-empty
       :per-page="perPage"
       :current-page="currentPage"
+      ref="tablaregistros"
+      id="tablaregistros"
     >
 
       <template #empty="">
@@ -281,9 +285,29 @@ export default {
       this.$refs["my-modal"].hide();
     },
 
-    
-    
-   
+    async buscarnow2() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue, NumSocio, Apellido, Nombre, DNI;
+        input = this.$refs.buscadorlista;
+        filter = input.value.toUpperCase();
+        table = document.getElementById('tablaregistros');
+        tr = table.getElementsByTagName('tr');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 1; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            NumSocio = td[0].textContent || td[0].innerText;
+            Apellido = td[1].textContent || td[1].innerText;
+            Nombre = td[2].textContent || td[2].innerText;
+            DNI = td[3].textContent || td[3].innerText;
+            txtValue = NumSocio + Apellido + Nombre + DNI;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    },
 
     altaSocio() {},
 
