@@ -6,7 +6,7 @@
       <b-form-group label="*Nombre del servicio" label-for="servicio">
         <b-form-input
           id="servicio"
-          v-model="servicios.nombre"
+          v-model="servicios.servicio"
           type="text"
           placeholder="*Ingrese el nombre del servicio"
           invalid-feedback="Complete este campo"
