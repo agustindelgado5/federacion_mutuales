@@ -133,3 +133,6 @@ dmypy.json
 *.db
 data
 migrations
+
+#Carpeta npm modules
+frontend/node_modules

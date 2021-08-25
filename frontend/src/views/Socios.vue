@@ -80,11 +80,6 @@
               > Mostrar Info</b-button
             >
             
-            <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
-          Info modal
-          </b-button>
-
-
             <b-button
               variant="warning"
               id="button-2"
@@ -95,14 +90,14 @@
             <b-button
               variant="danger"
               id="button-3"
-              @click="showModal"
+              @click="showModalinfo(row.item, row.index)"
               title="Eliminar este registro"
               >Eliminar</b-button
             >
-             
-            <b-modal ref="my-modal" hide-footer title="Eliminar">
+
+            <b-modal id="modal_eliminar" ref="my-modal" hide-footer title="Eliminar" ok-only >
               <div class="d-block text-center">
-                <h3>¿Esta seguro de eliminar los datos del socio?</h3>
+                <h3>¿Esta seguro de eliminar los datos del socio {{infoEliminar.socio.apellido}}?</h3>
               </div>
               <b-button
                 class="mt-2"
@@ -116,7 +111,7 @@
                 variant="danger"
                 block
                 title="Eliminar"
-                @click="deleteSocio()"
+                @click="deleteSocio(infoEliminar.socio.numero_socio)"
                 >Eliminar</b-button
               >
             </b-modal>
@@ -125,9 +120,7 @@
       </template>
     </b-table>
     <!-- ========================================= -->
-    <b-modal :id="infoModal.id" :title="infoModal.title" ok-only >
-      <pre>{{ infoModal.content }}</pre>
-    </b-modal>
+
   </div>
 </template>
 
@@ -166,11 +159,11 @@ export default {
         { key: "carencia", label: "Carencia", sortable: true },
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
-      infoModal: {
-          id: 'info-modal',
-          title: '',
-          content: ''
-        }
+      
+      infoEliminar:{
+        id:"modal_eliminar",
+        socio: -1
+      }
     };
     
   },
@@ -189,15 +182,15 @@ export default {
         console.log(error);
       }
     },
-    //Funcion para mostrar el modal
+    // Funcion para mostrar el modal
     showModal() {
       this.$refs["my-modal"].show();
     },
-    info(item, index, button) {
-        this.infoModal.title = `Row index: ${index}`
-        this.infoModal.content = JSON.stringify(item, null, 2)
-        this.$root.$emit('bv::show::modal', this.infoModal.id, button)
-      },
+    
+    showModalinfo(item, index) {
+      this.infoEliminar.socio=item
+      this.showModal()
+    },
     //Funcion para esconder el modal
     hideModal() {
       this.$refs["my-modal"].hide();
@@ -206,11 +199,16 @@ export default {
 
     altaSocio() {},
 
-    deleteSocio(){},
+    deleteSocio(id){
+      alert(id)
+    },
 
     changeSkills() {
       this.$refs.skills.list(['Angular', 'React', 'Vue'])
     },
+    alert(index){
+      alert(index)
+    }
     /*
     buscar() {
       Holmes({
