@@ -51,8 +51,6 @@
         </b-form-input>
       </b-form-group>
       
-      <b-button @click="getFarmacias()">GET TEST</b-button>
-      {{farmacias}}
       <b-form-group label="*Farmacia" label-for="cod_farmacia">
         <b-form-select
             id="cod_farmacia"
@@ -90,6 +88,11 @@ export default {
       ]
     };
   },
+  created: function() {
+    //console.log('Funcion realizada');
+    this.getFarmacias();
+  }
+  ,
   methods: {
     async getFarmacias() {
       let farmaciaAPI = new APIControler();
