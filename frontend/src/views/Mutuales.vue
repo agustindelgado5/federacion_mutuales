@@ -1,10 +1,22 @@
 <template>
   <div id="mutuales" class="myTable">
+
+    <!--HEAD DE LA PAGINA -->
+    <vue-headful title="Mutuales - Federación Tucumana de Mutuales"></vue-headful>
+
     <h2>Listado de Mutuales</h2>
-    <b-button @click="testFetch" class="mb-4">Mostrar</b-button>
+    <b-button @click="testFetch" class="mb-4" variant="light">
+      <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>
+      Mostrar
+    </b-button>
 
     <!-- ================ALTA MUTUAL======================== -->
-    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaMutual()" title="Nueva Mutual">Nueva Mutual</b-button>
+    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaMutual()" title="Nueva Mutual" style="color: white;">
+      <v-icon dark>
+        mdi-plus
+      </v-icon>
+      Nueva Mutual
+    </b-button>
     <b-modal id="modal-alta" hide-footer> 
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <mutual-alta/>
@@ -17,7 +29,13 @@
       responsive
       hover
       :items="tabla_mutuales"
+      show-empty
+      :sticky-header= true
+      :no-border-collapse= false
     >
+      <template #empty="">
+        <b>No hay registros para mostrar</b>
+      </template>
     
       <template slot="cell(action)" slot-scope="">
         <div class="mt-3">
@@ -30,16 +48,24 @@
               variant="warning"
               id="button-2"
               title="Editar este registro"
-              >Editar</b-button
             >
+              <v-icon class="mr-2">
+                mdi-pencil
+              </v-icon>
+              Editar
+            </b-button>
 
             <b-button
               variant="danger"
               id="button-3"
               @click="showModal"
               title="Eliminar este registro"
-              >Eliminar</b-button
             >
+              <v-icon class="mr-2">
+                mdi-delete
+              </v-icon>
+              Eliminar
+            </b-button>
 
             <b-modal ref="my-modal" hide-footer title="Eliminar">
               <div class="d-block text-center">
@@ -83,7 +109,7 @@ export default {
       fields: [
             {key:'nombre' ,label: 'Mutual', sortable: true,},
             {key:'sucursal' ,label: 'Filial',sortable: true,},
-            { key: "action", label: "Acciones" },
+            { key: "action", label: "Acciones", variant: "secondary" },
         ],
     };
   },

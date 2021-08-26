@@ -2,6 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 //import Socios from "../components/Socios/Socios.vue";
+import vueHeadful from 'vue-headful';
+
+Vue.component('vue-headful', vueHeadful);
 
 Vue.use(VueRouter);
 
@@ -65,6 +68,13 @@ const routes = [
 
     component: () => import("../views/Recetas.vue"),
     meta: { title: 'Recetas - Federación Tucumana de Mutuales' } 
+  },
+  {
+    path: "/Servicios",
+    name: "Servicios",
+
+    component: () => import("../views/Servicios.vue"),
+    meta: { title: 'Servicios - Federación Tucumana de Mutuales' } 
   },
 ];
 

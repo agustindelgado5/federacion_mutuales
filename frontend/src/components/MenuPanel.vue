@@ -13,11 +13,8 @@
                 </span>
                 {{ list.title }}
             </div>
-            <form style="text-align:center;margin:0.3em;">
-                <input type="text" class="buscador" id="buscador" />
-                <button type="submit">Busca</button>
-            </form>
-            <ul class="Menu__list">
+            <input type="text" id="buscadorepico" v-on:keyup="buscarnow()" class="buscador" ref="buscadormenu" placeholder="Buscar Acciones..." />
+            <ul class="Menu__list" ref="menuul">
                 <li v-for="item in list.children"
                     @click="handleItemClicked(item)"
                     class="Menu__item"
@@ -71,8 +68,6 @@ export default {
             type: Function,
             default: () => {},
         },
-
-        // @TODO: create createMenuPanel.js to assign `functionalityStyle` which is not diff from next, staging, and prev panel in parent component.
         functionalityStyle: {
             type: Object,
             required: true,
@@ -82,7 +77,30 @@ export default {
             required: true,
         },
     },
+    methods:
+    {
+        async buscarnow() {
+            // Declare variables
+            var input, filter, ul, li, a, i, txtValue;
+            input = this.$refs.buscadormenu;
+            filter = input.value.toUpperCase();
+            ul = this.$refs.menuul;
+            li = ul.getElementsByTagName('li');
+
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("div")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    },
 };
+
 </script>
 
 <style lang="scss" scoped>
@@ -90,6 +108,19 @@ export default {
 ul, li {
     padding: 0;
     margin: 0;
+}
+
+#buscadorepico {
+    background-image: url('../assets/search.png');
+    background-size:8%;
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+    padding-left:3em;
 }
 
 .Menu__header {
@@ -134,6 +165,7 @@ ul, li {
 
     a {
         color: #4a4a4a;
+        width:100%;
         text-decoration: none;
     }
 

@@ -2,9 +2,10 @@
     <div id="app">
         <div id="nav" style="text-align:center;align-content:center;">
             <router-link to="/">Home</router-link> |
+            <router-link to="/servicios">Servicios</router-link>  |
+            <router-link to="/mutuales">Mutuales</router-link>  |
             <router-link to="/socios">Socios</router-link>  |
             <router-link to="/profesionales">Profesionales</router-link>  |
-            <router-link to="/mutuales">Mutuales</router-link>  |
             <router-link to="/farmacias">Farmacias</router-link>  |
             <router-link to="/medicamentos">Medicamentos</router-link>  |
             <router-link to="/recetas">Recetas</router-link>  |

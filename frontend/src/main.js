@@ -6,6 +6,10 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import VueSidebarMenu from 'vue-sidebar-menu'
+import vuetify from './plugins/vuetify'
+import '@babel/polyfill'
+import 'roboto-fontface/css/roboto/roboto-fontface.css'
+import '@mdi/font/css/materialdesignicons.css'
 
 Vue.use(VueSidebarMenu)
 
@@ -18,9 +22,10 @@ export default {
 };
 
 new Vue({
-  router,
-  store,
-  render: (h) => h(App),
+    router,
+    store,
+    vuetify,
+    render: (h) => h(App)
 }).$mount("#app");
 
 
