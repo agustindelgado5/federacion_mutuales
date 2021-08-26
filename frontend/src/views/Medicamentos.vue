@@ -153,7 +153,7 @@ api.pathname = "medicamentos";
 api.port = 8081;
 
 import MedicamentoAlta from './MedicamentosAlta.vue';
-import MedicamentoUpdate from './MedicamentosUpdate.vue';
+// import MedicamentoUpdate from './MedicamentosUpdate.vue';
 import axios from 'axios';
 
 export default {
