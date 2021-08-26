@@ -320,7 +320,7 @@ export default {
     
      axios.delete('http://localhost:8081/socios/'+ numero_socio +'/')
      .then(datos =>{
-       swal("Carga Exitosa", " ", "success");
+       swal("Operación Exitosa", " ", "success");
        console.log(datos);
      })
      .catch(error=>{
