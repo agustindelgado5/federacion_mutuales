@@ -84,6 +84,7 @@
       <template #empty="">
         <b>No hay registros para mostrar</b>
       </template>
+      
       <template slot="cell(numero_socio)" slot-scope="data">
         <b>{{ data.value }}</b>
       </template>
