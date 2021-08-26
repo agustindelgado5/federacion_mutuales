@@ -102,6 +102,14 @@
       </template>
       -->
      
+      <template slot="cell(apellido)" slot-scope="row">
+        {{row.value.toUpperCase()}}
+      </template>
+
+      <template slot="cell(nombre)" slot-scope="row">
+        {{row.value.toUpperCase()}}
+      </template>
+
 
       <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
@@ -233,7 +241,7 @@ export default {
         },
         //{key: 'calle' ,label: 'Direccion', sortable: true,},
         //{key:'localidad' ,label: 'Localidad', sortable: true,},
-        //{key:'departamento' ,label: 'Departamento', sortable: true,},
+        {key:'departamento' ,label: 'Departamento', sortable: true,},
         //{key:'cod_postal' ,label: 'Codigo Postal', sortable: true,},
         //{key: 'email' ,label: 'Mail', sortable: true,},
         //{key: 'tel_fijo',label: 'Telefono Fijo', sortable: true,},
@@ -250,6 +258,7 @@ export default {
         socio: -1
       },
     };
+    
   },
 
   computed: {
@@ -281,9 +290,14 @@ export default {
         console.log(error);
       }
     },
-    //Funcion para mostrar el modal
+    // Funcion para mostrar el modal
     showModal() {
       this.$refs["my-modal"].show();
+    },
+    
+    showModalinfo(item, index) {
+      this.infoEliminar.socio=item
+      this.showModal()
     },
     //Funcion para esconder el modal
     hideModal() {
@@ -306,7 +320,7 @@ export default {
     
      axios.delete('http://localhost:8081/socios/'+ numero_socio +'/')
      .then(datos =>{
-       swal("Carga Exitosa", " ", "success");
+       swal("Operación Exitosa", " ", "success");
        console.log(datos);
      })
      .catch(error=>{
