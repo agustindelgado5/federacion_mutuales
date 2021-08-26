@@ -22,6 +22,8 @@
       <medicamento-alta/>
     </b-modal>
 
+    <b-button @click="generarPDF()" class="mb-4 ml-2" title="Generar PDF">Generar PDF</b-button>
+
     <!-- ======== Formulario de Busqueda ======== -->
     <div>
       <b-input-group size="sm" class="mb-2">
@@ -49,7 +51,6 @@
       </b-input-group>
     </div>
     <!-- ======================================== -->
-    
     <b-table
       :fields="fields"
       striped
@@ -137,12 +138,46 @@
               >
                 Eliminar
               </b-button>
-
             </b-modal>
           </b-button-group>
         </div>
       </template>
     </b-table>
+
+    <vue-html2pdf
+        :show-layout="false"
+        :float-layout="true"
+        :enable-download="true"
+        :preview-modal="true"
+        :paginate-elements-by-height="1400"
+        filename="hee hee"
+        :pdf-quality="2"
+        :manual-pagination="false"
+        pdf-format="a4"
+        pdf-orientation="landscape"
+        pdf-content-width="800px"
+ 
+        @progress="onProgress($event)"
+        @hasStartedGeneration="hasStartedGeneration()"
+        @hasGenerated="hasGenerated($event)"
+        ref="html2Pdf"
+    >
+      <section slot="pdf-content">
+            <!-- PDF Content Here -->
+            <h2>Listado de Medicamentos</h2>
+            <b-table
+              :fields="fields"
+              responsive
+              :items="tabla_med"
+              show-empty
+              :no-border-collapse= false
+            >
+              <template slot="cell(cod_farmacia)" slot-scope="data">
+                {{data.value.split('/')[4]}}
+              </template>
+            </b-table>
+      </section>
+    </vue-html2pdf>
   </div>
 </template>
 
@@ -155,9 +190,10 @@ api.port = 8081;
 import MedicamentoAlta from './MedicamentosAlta.vue';
 import MedicamentoUpdate from './MedicamentosUpdate.vue';
 import axios from 'axios';
+import VueHtml2pdf from 'vue-html2pdf';
 
 export default {
-  components: { MedicamentoAlta, MedicamentoUpdate },
+  components: {MedicamentoAlta, MedicamentoUpdate,VueHtml2pdf},
   data() {
     return {
       tabla_med: [],
@@ -208,6 +244,10 @@ export default {
     showModalinfo(item, index) {
       this.infoEliminar.medicamento=item;
       this.showModal();
+    },
+
+    generarPDF(){
+      this.$refs.html2Pdf.generatePdf();
     },
 
     altaMedicamento() {},
