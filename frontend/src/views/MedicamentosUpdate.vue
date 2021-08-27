@@ -75,7 +75,7 @@
 
 <script>
 import { APIControler } from "../store/APIControler";
-
+import axios from "axios";
 
 export default {
   data() {
@@ -120,9 +120,18 @@ export default {
 
     
     async putMedicamento() {
-      let medicamentosAPI = new APIControler();
-      medicamentosAPI.apiUrl.pathname='medicamentos/'+this.medicamentos.id_medicamento + '/';
-      this.data = await medicamentosAPI.postData(this.medicamentos);
+      try{
+        this.data= await axios.put('http://localhost:8081/medicamentos/'+this.medicamentos.id_medicamento + '/', this.data)
+        //let medicamentosAPI = new APIControler();
+        //medicamentosAPI.apiUrl.pathname='medicamentos/'+this.medicamentos.id_medicamento + '/';
+        //this.data = await medicamentosAPI.putData(this.medicamentos);
+        swal("Operación Exitosa", " ", "success");
+      }
+      catch(error) {
+          swal("¡ERROR!", "Se ha detectado un problema ", "error");
+          console.log(error);
+      }
+      //finally{this.getData()} ;
     },
   },
 };
