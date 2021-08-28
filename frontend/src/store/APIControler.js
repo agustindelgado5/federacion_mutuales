@@ -37,8 +37,15 @@ export class APIControler {
         body: JSON.stringify(payload)
       });
       const content = await response.json();
-      swal("Carga Exitosa", " ", "success")
-      console.log(content)
+      if(response.ok)
+      {
+        swal("Carga Exitosa", " ", "success")
+        console.log(content)
+      }
+      else{
+        console.log(content);
+        swal("¡ERROR!", "Los datos no son válidos" , "error")
+      }
       //location.href = '/socios'
       
       
