@@ -22,6 +22,33 @@
       <servicio-alta/>
     </b-modal>
 
+    <!-- ======== Formulario de Busqueda ======== -->
+    <div>
+      <b-input-group size="sm" class="mb-2">
+        <b-input-group-prepend is-text>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-search"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+            />
+          </svg>
+        </b-input-group-prepend>
+        <b-form-input
+          v-model="buscar"
+          type="text"
+          placeholder="Busque un registro"
+          v-on:keyup="buscarnow()" 
+          ref="buscadorlista"
+        ></b-form-input>
+      </b-input-group>
+    </div>
+
     <b-table
       :fields="fields"
       striped
@@ -35,6 +62,8 @@
       show-empty
       :per-page="perPage"
       :current-page="currentPage"
+      ref="tablaregistros"
+      id="tablaregistros"
     >
       <template #empty="">
         <b>No hay registros para mostrar</b>
@@ -44,7 +73,7 @@
         {{data.value.toUpperCase()}}
       </template>
     
-      <template slot="cell(action)" slot-scope="">
+      <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
           <b-button-group>
             <!--
@@ -67,7 +96,7 @@
             <b-button
               variant="danger"
               id="button-3"
-              @click="showModal"
+              @click="showModalinfo(row.item, row.index)"
               title="Eliminar este registro"
             >
               <v-icon class="mr-2">
@@ -76,27 +105,29 @@
               Eliminar
             </b-button>
 
-            <b-modal ref="my-modal" hide-footer title="Eliminar">
+            <b-modal id="modal_eliminar" ref="my-modal" hide-footer title="Eliminar" ok-only>
               <div class="d-block text-center">
-                <!--
-                <h3>¿Esta seguro de eliminar los datos de ... ?</h3>
-                -->
-                <h3>¿Esta seguro de eliminar el servicio de ... ?</h3>
+                <h3>¿Esta seguro de eliminar el servicio de '{{infoEliminar.server.servicio}}' ?</h3>
               </div>
               <b-button
                 class="mt-2"
                 block
                 @click="hideModal"
                 title="Volver Atras"
-                >Volver Atras</b-button
               >
+                Volver Atras
+              </b-button>
+
               <b-button
                 class="mt-3"
                 variant="danger"
                 block
                 title="Eliminar"
-                >Eliminar</b-button
+                @click="deleteServicio(infoEliminar.server.id_servicio)"
               >
+                Eliminar
+              </b-button>
+
             </b-modal>
           </b-button-group>
         </div>
@@ -127,6 +158,8 @@ api.pathname = "servicios";
 api.port = 8081;
 
 import ServicioAlta from './ServicioAlta.vue';
+import axios from 'axios';
+
 
 export default {
   components: { ServicioAlta },
@@ -135,12 +168,18 @@ export default {
       tabla_servicios: [],
       fields: [
             {key:'servicio' ,label: 'Servicio', sortable: true,},
-            //{key:'carencia' ,label: 'Carencia',sortable: true,},
             { key: "action", label: "Acciones" , variant: "secondary",},
-        ],
-        totalRows: 1, //Total de filas
-        currentPage: 1, //Pagina actual
-        perPage: 10, // Datos en la tabla por pagina
+      ],
+      totalRows: 1, //Total de filas
+      currentPage: 1, //Pagina actual
+      perPage: 20, // Datos en la tabla por pagina
+
+      infoEliminar:{
+        id:"modal_eliminar",
+        server: -1
+      },
+
+      buscar: '',
     };
   },
 
@@ -173,8 +212,58 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
+
+    showModalinfo(item, index) {
+      this.infoEliminar.server=item;
+      this.showModal();
+    },
+
     altaServicio() {},
+
+    async deleteServicio(id){
+
+     axios.delete('http://localhost:8081/servicios/'+ id +'/')
+     .then(datos =>{
+       swal("Carga Exitosa", " ", "success");
+       console.log(datos);
+     })
+     .catch(error=>{
+       swal("¡ERROR!", "Se ha detectado un problema ", "error")
+       console.log(error);
+     })
+     .finally(() => this.testFetch());
+    },
+
+    async buscarnow() {
+        // Declare variables
+        
+        var input, 
+            filter, 
+            table, 
+            tr, td, i, 
+            txtValue, id, servicio;
+
+        input = this.$refs.buscadorlista;
+        filter = input.value.toUpperCase();
+        table = document.getElementById('tablaregistros');
+        tr = table.getElementsByTagName('tr');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 1; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            id = td[0].textContent || td[0].innerText;
+            servicio = td[1].textContent || td[1].innerText;
+            txtValue = id + servicio;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    },
   },
+
+  
 };
 </script>
 
