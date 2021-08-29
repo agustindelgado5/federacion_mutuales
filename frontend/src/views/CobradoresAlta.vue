@@ -101,7 +101,7 @@
         >
         </b-form-input>
       </b-form-group>
-      <b-form-group label="*Provincia" label-for="provincia">
+      <!-- <b-form-group label="*Provincia" label-for="provincia">
         <b-form-select
           id="provincia"
           v-model="Cobradores.provincia"
@@ -112,7 +112,7 @@
           :options="options"
         >
         </b-form-select>
-      </b-form-group>
+      </b-form-group>-->
       
       <h4>Contacto: </h4>
       <b-form-group label="*Email" label-for="email">
