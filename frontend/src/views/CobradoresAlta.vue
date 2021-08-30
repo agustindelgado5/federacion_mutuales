@@ -179,9 +179,7 @@ export default {
         option.text= element.numero_socio +'-- '+ element.apellido +', '+ element.nombre ;
         console.log(option);
         this.op_socios.push(option);
-        if (element.numero_socio==this.cobradores.numero_socio){
-          this.list_pacientes.push(option);
-        }
+        
       });
     },
 
