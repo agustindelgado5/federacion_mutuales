@@ -5,9 +5,9 @@
 
     <h2>Listado de Socios</h2>
 
-    <b-button @click="testFetch" class="mb-4" title="Mostrar" variant="light">
-      <v-icon dark style="color: black">mdi-format-list-bulleted-square</v-icon>
-      Mostrar
+    <b-button @click="testFetch" class="mb-4" title="Refrescar" variant="light">
+      <v-icon dark style="color: black">mdi-cached</v-icon>
+      Actualizar
     </b-button>
 
     <!-- ================ALTA SOCIO======================== -->
@@ -381,6 +381,9 @@ export default {
     },
     */
   },
+    beforeMount(){
+      this.testFetch()
+    }
 };
 </script>
 

@@ -43,8 +43,8 @@
             </b-form-input>
         </b-form-group>
       -->
-      <b-button @click="getSocios()">GET TEST</b-button>
-      {{ list_socios }}
+      <!-- <b-button @click="getSocios()">GET TEST</b-button> -->
+      <!-- {{ list_socios }} -->
       <b-form-group label="*Socio" label-for="numero_socio">
             <b-form-select
             id="numero_socio"
@@ -115,8 +115,8 @@
         </b-form-input>
       </b-form-group>
       -->
-      <b-button @click="getProfesionales()">GET TEST</b-button>
-      {{ list_profesionales }}
+      <!-- <b-button @click="getProfesionales()">GET TEST</b-button>
+      {{ list_profesionales }} -->
       <b-form-group label="*Medico" label-for="id_medico">
         <b-form-select
           id="id_medico"
@@ -143,8 +143,8 @@
         </b-form-input>
       </b-form-group>
       -->
-      <b-button @click="getMutuales()">GET TEST</b-button>
-      {{ list_mutuales }}
+      <!-- <b-button @click="getMutuales()">GET TEST</b-button>
+      {{ list_mutuales }} -->
       <b-form-group label="*ID Mutual" label-for="id_mutual">
         <b-form-select
           id="id_mutual"
@@ -216,7 +216,7 @@
     </b-form>
     {{ orden }}
     
-    <b-button class="mt-2" variant="success" block @click="postOrden()">POST TEST</b-button>
+    <b-button class="mt-2" variant="success" block @click="postOrden()">Guardar</b-button>
   </div>
 </template>
 
@@ -319,6 +319,13 @@ export default {
       this.data = await ordenAPI.postData(this.orden);
     },
   },
+  beforeMount(){
+
+    this.getSocios();
+    this.getProfesionales()
+    this.getMutuales()
+
+ },
 };
 </script>
 
