@@ -98,6 +98,10 @@
         {{ data.value.toUpperCase() }}
       </template>
 
+      <template slot="cell(departamento)" slot-scope="data">
+        {{ data.value.toUpperCase() }}
+      </template>
+
       <!--Libreria Luxon para formatear las fechas, no esta del todo bien aun XD
       -->
       <!-- 
@@ -187,27 +191,27 @@
       </template>
 
       <template #row-details="row">
-        <b-card>
+        <b-card title="Datos del socio: " >
           <div>
             <b-list-group horizontal>
               <b-list-group>
-                <b-list-group-item>Nombre Completo: {{ row.item.apellido }}, {{ row.item.nombre }}</b-list-group-item>
-                <b-list-group-item>DNI: {{ row.item.dni }}</b-list-group-item>
-                <b-list-group-item>Fecha de Nacimiento: {{ row.item.fecha_nacimiento }}</b-list-group-item>
-                <b-list-group-item>Edad: {{ row.item.edad }}</b-list-group-item>
+                <b-list-group-item><b>Nombre Completo:</b> {{ row.item.apellido.toUpperCase() }}, {{ row.item.nombre.toUpperCase() }}</b-list-group-item>
+                <b-list-group-item><b>DNI:</b> {{ row.item.dni }}</b-list-group-item>
+                <b-list-group-item><b>Fecha de Nacimiento:</b> {{ row.item.fecha_nacimiento }}</b-list-group-item>
+                <b-list-group-item><b>Edad:</b> {{ row.item.edad }}</b-list-group-item>
               </b-list-group>
               &nbsp;
               <b-list-group>
-                <b-list-group-item>Domicilio: {{ row.item.calle }} - {{ row.item.localidad }} </b-list-group-item>
-                <b-list-group-item>Departamento: {{ row.item.departamento }}</b-list-group-item>
-                <b-list-group-item>Codigo Postal: {{ row.item.cod_postal }}</b-list-group-item>
-                <b-list-group-item>Correo: {{ row.item.email }} </b-list-group-item>
+                <b-list-group-item><b>Domicilio:</b> {{ row.item.calle.toUpperCase() }} - {{ row.item.localidad.toUpperCase() }} </b-list-group-item>
+                <b-list-group-item><b>Departamento:</b> {{ row.item.departamento.toUpperCase() }}</b-list-group-item>
+                <b-list-group-item><b>Codigo Postal:</b> {{ row.item.cod_postal }}</b-list-group-item>
+                <b-list-group-item><b>Correo:</b> {{ row.item.email }} </b-list-group-item>
               </b-list-group>
               &nbsp;
               <b-list-group>
-                <b-list-group-item>Telefono Fijo: {{ row.item.tel_fijo }}</b-list-group-item>
-                <b-list-group-item>Celular: {{ row.item.tel_celular }}</b-list-group-item>
-                <b-list-group-item>Carencia: {{ row.item.carencia }} </b-list-group-item>
+                <b-list-group-item><b>Telefono Fijo:</b> {{ row.item.tel_fijo }}</b-list-group-item>
+                <b-list-group-item><b>Celular:</b> {{ row.item.tel_celular }}</b-list-group-item>
+                <b-list-group-item><b>Carencia:</b> {{ row.item.carencia }} </b-list-group-item>
               </b-list-group>
                 
             </b-list-group>
@@ -262,7 +266,7 @@ import { APIControler } from "../store/APIControler";
 
 
 export default {
-  components: { SociosAlta, VueAwesomplete },
+  components: { SociosAlta, APIControler ,VueAwesomplete },
   data() {
     return {
       tabla_socios: [],
