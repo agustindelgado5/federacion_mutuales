@@ -2,7 +2,7 @@
 
 echo "tirando un makemigrations"
 
-while ! python manage.py makemigrations 2>&1; do
+while ! python manage.py makemigrations Socios Profesionales Ordenes Mutuales Medicamentos Farmacias Administracion 2>&1; do
     echo "makemigrations corriendo :V"
     sleep 2
 done
