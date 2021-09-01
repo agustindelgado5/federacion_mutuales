@@ -5,9 +5,9 @@
 
     <h2>Listado de Socios</h2>
 
-    <b-button @click="testFetch" class="mb-4" title="Refrescar" variant="light">
-      <v-icon dark style="color: black">mdi-cached</v-icon>
-      Actualizar
+    <b-button @click="testFetch" class="mb-4" title="Mostrar" variant="light">
+      <v-icon dark style="color: black">mdi-format-list-bulleted-square</v-icon>
+      Mostrar
     </b-button>
 
     <!-- ================ALTA SOCIO======================== -->
@@ -80,6 +80,7 @@
       :current-page="currentPage"
       ref="tablaregistros"
       id="tablaregistros"
+      small
     >
       <template #empty="">
         <b>No hay registros para mostrar</b>
@@ -126,7 +127,7 @@
               title="Mostrar Info"
               @click="row.toggleDetails"
             >
-              {{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+              {{ row.detailsShowing ? "Ocultar" : "Mostrar" }} Detalles
             </b-button>
 
             <b-button
@@ -187,18 +188,46 @@
 
       <template #row-details="row">
         <b-card>
-          <ul>
-            <!-- Para cargar todos los campos automáticamente (habría que darle formato) -->
-            <!-- <li v-for="(value, key) in row.item" :key="key">
-              {{ key }}: {{ value }}
-            </li> -->
-              
-              <!-- A mano, es más facil pero "menos automático" Dx -->
-              <li>Edad: {{ row.item.edad }}</li>
-              <li>Calle: {{ row.item.calle }}</li>
-              <li>Localidad: {{ row.item.calle }}</li>
+          <div>
+            <b-list-group horizontal>
+              <b-list-group>
+                <b-list-group-item>Nombre Completo: {{ row.item.apellido }}, {{ row.item.nombre }}</b-list-group-item>
+                <b-list-group-item>DNI: {{ row.item.dni }}</b-list-group-item>
+                <b-list-group-item>Fecha de Nacimiento: {{ row.item.fecha_nacimiento }}</b-list-group-item>
+                <b-list-group-item>Edad: {{ row.item.edad }}</b-list-group-item>
+              </b-list-group>
+              &nbsp;
+              <b-list-group>
+                <b-list-group-item>Domicilio: {{ row.item.calle }} - {{ row.item.localidad }} </b-list-group-item>
+                <b-list-group-item>Departamento: {{ row.item.departamento }}</b-list-group-item>
+                <b-list-group-item>Codigo Postal: {{ row.item.cod_postal }}</b-list-group-item>
+                <b-list-group-item>Correo: {{ row.item.email }} </b-list-group-item>
+              </b-list-group>
+              &nbsp;
+              <b-list-group>
+                <b-list-group-item>Telefono Fijo: {{ row.item.tel_fijo }}</b-list-group-item>
+                <b-list-group-item>Celular: {{ row.item.tel_celular }}</b-list-group-item>
+                <b-list-group-item>Carencia: {{ row.item.carencia }} </b-list-group-item>
+              </b-list-group>
+                
+            </b-list-group>
+          </div>
+          <b-button
+            class="mt-2"
+            size="sm"
+            title="Ver mas"
+            style="color: white;"  
+            @click="getFamiliares()"
+          >
+            <b>(↓)</b>  
+          </b-button>
+            {{list_familiares}}
+          <b-table
+            stacked 
+            :items="list_familiares" 
+            @click="getFamiliares()">
+          </b-table>
             
-          </ul>
         </b-card>
       </template>
     </b-table>
@@ -225,12 +254,12 @@ api.pathname = "socios";
 //api.port = 8000; //Cambien uds los puertos
 api.port = 8081;
 
-//import Holmes from "holmes-js";
+
 import VueAwesomplete from "vue-awesomplete";
 import SociosAlta from "./SociosAlta.vue";
 import axios from "axios";
-//import SociosBorrar from './SociosBorrar.vue';
-//import { deleteSearchParams } from "../store/APIControler";
+import { APIControler } from "../store/APIControler";
+
 
 export default {
   components: { SociosAlta, VueAwesomplete },
@@ -260,6 +289,8 @@ export default {
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
       perPage: 10, // Datos en la tabla por pagina
+      list_familiares:{},
+      data:{},
       buscar: "",
       infoEliminar: {
         id: "modal_eliminar",
@@ -283,6 +314,11 @@ export default {
       });
     },
   },
+  /*
+  created: function() {
+    //console.log('Funcion realizada');
+    this.getFamiliar();
+  },*/
 
   methods: {
     async testFetch() {
@@ -294,6 +330,21 @@ export default {
         console.log(lista_socios);
 
         this.tabla_socios = lista_socios;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getFamiliar() {
+      try {
+        this.api.pathname='familiar'
+        const res = await fetch(api);
+        const data = await res.json();
+
+        var lista = data.results;
+        console.log(lista);
+
+        this.list_familiares = lista;
       } catch (error) {
         console.log(error);
       }
@@ -372,18 +423,11 @@ export default {
     },
 
     GenerarPagoAfiliacion() {},
-    /*
-    buscar() {
-      Holmes({
-        input: ".search input", // predeterminado: input [type = search]
-        find: ".results div", // querySelectorAll que coincide con cada uno de los resultados individualmente
-      });
-    },
-    */
+   
   },
-    beforeMount(){
-      this.testFetch()
-    }
+  beforeMount(){
+    this.testFetch()
+  }
 };
 </script>
 
