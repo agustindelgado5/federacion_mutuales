@@ -45,6 +45,7 @@ export class APIControler {
       else{
         console.log(content);
         swal("¡ERROR!", "Los datos no son válidos" , "error")
+        return content;
       }
       //location.href = '/socios'
       
