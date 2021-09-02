@@ -46,7 +46,7 @@
       <!-- <b-button @click="getSocios()">GET TEST</b-button> -->
       <!-- {{ list_socios }} -->
       <b-form-group label="*Socio" label-for="numero_socio">
-            <b-form-select
+            <b-form-select 
             id="numero_socio"
             v-model="orden.numero_socio"
             type="text"
@@ -54,6 +54,7 @@
             invalid-feedback="Complete este campo"
             required
             :options="op_socios"
+            @change="getPaciente()"
             >
             </b-form-select>
         </b-form-group>
@@ -73,10 +74,10 @@
         </b-form-input>
       </b-form-group>
       -->
-      <b-button @click="getPaciente()">GET TEST</b-button>
-      {{ list_pacientes }}
+      <!-- <b-button @click="getPaciente()">GET TEST</b-button>
+      {{ list_pacientes }} -->
       <b-form-group label="*Paciente" label-for="dni_familiar">
-        <b-form-select
+        <b-form-select 
           id="dni_familiar"
           v-model="orden.dni_familiar"
           type="text"
@@ -290,6 +291,7 @@ export default {
       let familiarAPI = new APIControler();
       familiarAPI.apiUrl.pathname='familiar/';
       this.data = await familiarAPI.getData(this.list_familiar);
+      this.list_pacientes=this.list_pacientes.slice(0,1)
       this.data.forEach(element => {
         if (element.numero_socio ==this.orden.numero_socio){
             //let option_titular={}
