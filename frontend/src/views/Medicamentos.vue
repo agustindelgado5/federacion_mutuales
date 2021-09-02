@@ -21,7 +21,9 @@
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <medicamento-alta/>
     </b-modal>
+    <!-- =========================================================== -->
 
+    <!-- ==================================CREAR PDF================================== -->
     <b-button @click="generarPDF()"
       id="btn_down_pdf" 
       class="mb-4 ml-2" 
@@ -36,6 +38,7 @@
       </svg>
       Generar PDF
     </b-button>
+    <!-- ============================================================================== -->
 
     <b-button
       class="mb-4 ml-2"
@@ -59,9 +62,13 @@
     -->
     <div>  
       <b-modal id="modal-eliminarTodo" hide-footer title="Eliminar" ok-only>
-        <div class="d-block text-center">
-          <h3>¿Esta seguro de eliminar todos los datos ?</h3>
+        <div class="d-block text-center" v-if="selected.length===rows">
+          <h3>¿Esta seguro de eliminar todos los registros ?</h3>
         </div>
+        <div class="d-block text-center" v-else>
+          <h3>¿Esta seguro de eliminar {{selected.length}} registros ?</h3>
+        </div>
+
         <b-button
           class="mt-2"
           block
@@ -110,9 +117,30 @@
       </b-input-group>
     </div>
     <!-- ======================================== -->
-    <pre>Cantidad de registros: {{rows}}</pre> 
-    <pre>Filas seleccionadas: {{selected.length}}</pre>
-    <pre>Filas seleccionadas: {{selected}}</pre>
+    <pre>Cantidad de registros: {{rows}}</pre>
+    <div v-if="rows > 0">
+      <b-button
+        class="mt-2"
+        size="sm"
+        title="Seleccionar Todo"     
+        @click="seleccionar_todas"
+      >
+        Seleccionar Todo
+      </b-button>
+      <div v-if="selected.length>0">
+        <pre>Filas seleccionadas: {{selected.length}}</pre>
+        <!--
+        <pre>Filas seleccionadas: {{selected}}</pre>
+        -->
+      </div> 
+    </div>
+    
+    
+    
+
+    
+
+
     <b-table
       :fields="fields"
       striped
@@ -155,8 +183,14 @@
       <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
           <b-button-group>
-            <b-button variant="info" id="button-1" title="Mostrar Info" @click="info(row.item.id_medicamento)">
-              Mostrar Info
+            <b-button
+              variant="info"
+              id="button-1"
+              title="Mostrar Info"
+              :disabled="btn_mostrar"
+              @click="row.toggleDetails"
+            >
+              {{ row.detailsShowing ? "Ocultar" : "Mostrar" }} Detalles
             </b-button>
 
             <b-button
@@ -165,23 +199,25 @@
               title="Editar este registro"
               v-b-modal.modal-editar 
               @click="editarMedicamento(row.item, row.index)"
+              :disabled="btn_editar"
             >
               <v-icon class="mr-2">
                 mdi-pencil
               </v-icon>
               Editar
             </b-button>
-
+            <!--
             <b-modal id="modal-editar" hide-footer> 
               <template #modal-title><h5 class="modal-title">Editar</h5></template>
                 <medicamento-update/>
             </b-modal>
-
+            -->
             <b-button
               variant="danger"
               id="button-3"
               @click="showModalinfo(row.item, row.index)"
               title="Eliminar este registro"
+              :disabled="btn_eliminar"
             >
               <v-icon class="mr-2">
                 mdi-delete
@@ -216,8 +252,32 @@
           </b-button-group>
         </div>
       </template>
+      <template #row-details="row">
+        <b-card>
+          <b-list-group horizontal>
+              <b-list-group>
+                <b-list-group-item><b>Nombre :</b> {{ row.item.nombre.toUpperCase() }}</b-list-group-item>
+                <b-list-group-item><b>Presentacion:</b> {{ row.item.presentacion }}</b-list-group-item>
+                <b-list-group-item><b>Laboratorio:</b> {{ row.item.laboratorio }}</b-list-group-item>
+                <b-list-group-item><b>Farmacia:</b> {{ row.item.cod_farmacia }}</b-list-group-item>
+              </b-list-group>
+              &nbsp;
+              
+                
+            </b-list-group>
+          <!--
+          <ul>
+              <b-row class="mb-2" v-for="(value,key) in row.item" :key="key">
+                <b-col sm="3" class="text-sm-right"><b>{{ key }}: </b></b-col>
+                <b-col>{{ value }}</b-col>
+              </b-row>
+          </ul>
+          -->
+        </b-card>
+      </template>
     </b-table>
 
+    <!-- ==================================CREAR PDF================================== -->
     <vue-html2pdf
         :show-layout="false"
         :float-layout="true"
@@ -264,6 +324,7 @@
           </section>
       </section>
     </vue-html2pdf>
+    <!-- ============================================================================== -->
   </div>
 </template>
 
@@ -284,13 +345,13 @@ export default {
     return {
       tabla_med: [],
       fields: [
-            {key:'selected' ,label: 'Seleccionar', sortable: true,},
-            {key:'id_medicamento' ,label: 'ID', sortable: true,},
-            {key:'nombre' ,label: 'Nombre', sortable: true,},
-            {key:'presentacion' ,label: 'Presentacion',sortable: true,},
-            {key:'laboratorio' ,label: 'Laboratorio', sortable: true,},
-            {key:'cod_farmacia' ,label: 'Farmacia',sortable: true,},
-            { key: "action", label: "Acciones", variant: "secondary" },
+        {key:'selected' ,label: 'Seleccionar', sortable: true,},
+        {key:'id_medicamento' ,label: 'ID', sortable: true,},
+        {key:'nombre' ,label: 'Nombre', sortable: true,},
+        {key:'presentacion' ,label: 'Presentacion',sortable: true,},
+        {key:'laboratorio' ,label: 'Laboratorio', sortable: true,},
+        {key:'cod_farmacia' ,label: 'Farmacia',sortable: true,},
+        { key: "action", label: "Acciones", variant: "secondary" },
       ],
       
       buscar: '',
@@ -302,6 +363,9 @@ export default {
       btn_down_pdf : true, //Desabilito los botones, hasta que muestre los datos
       btn_del_full : true,
       msj_tabla: " Presione 'Mostrar' para ver los regitros ",
+      btn_mostrar: false,
+      btn_editar: false,
+      btn_eliminar: false,
 
     };
   },
@@ -355,10 +419,14 @@ export default {
     //Funciones de seleccion
     seleccionar_una(items) {
       this.selected = items
+
     },
 
     seleccionar_todas() {
       this.$refs.tablaregistros.selectAllRows()
+      //this.btn_mostrar=true
+      //this.btn_editar=true
+      //this.btn_eliminar=true
     },
 
     limpiar_seleccion() {
@@ -388,7 +456,18 @@ export default {
 
     altaMedicamento() {},
 
-    editarMedicamento(item, index) {},
+    editarMedicamento(item, index) {
+      var medicamento = this.lista_med[index];
+      let opciones = {
+        id_medicamento : medicamento.id_medicamento,
+        nombre : medicamento.nombre,
+        laboratorio : medicamento.laboratorio,
+        cod_farmacia : medicamento.fecha_nacimiento
+      };
+      axios.put('http://localhost:8081/medicamentos/'+ item.id_medicamento + '/', opciones).then((result) => {
+        console.log(result);
+      });
+    },
 
     //Funcion para eliminar el medicamento
     async deleteMedicamento(id){
@@ -488,6 +567,10 @@ export default {
         }).save()
     },
   },
+
+  beforeMount(){
+    this.testFetch()
+  }
   
 };
 </script>

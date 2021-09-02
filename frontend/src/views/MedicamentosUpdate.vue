@@ -44,6 +44,7 @@
             id="laboratorio"
             v-model="medicamentos.laboratorio"
             type="text"
+            :state="text.length >= 1"
             placeholder="Ingrese el nombre"
             invalid-feedback="Complete este campo"
             required
@@ -121,7 +122,7 @@ export default {
     
     async putMedicamento() {
       try{
-        this.data= await axios.put('http://localhost:8081/medicamentos/'+this.medicamentos.id_medicamento + '/', this.data)
+        this.data= await axios.put('http://localhost:8081/medicamentos/'+1+ '/', this.data)
         //let medicamentosAPI = new APIControler();
         //medicamentosAPI.apiUrl.pathname='medicamentos/'+this.medicamentos.id_medicamento + '/';
         //this.data = await medicamentosAPI.putData(this.medicamentos);
