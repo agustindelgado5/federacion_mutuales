@@ -191,7 +191,7 @@
       </template>
 
       <template #row-details="row">
-        <b-card title="Datos del socio: " >
+        <b-card title="Datos del titular: " >
           <div>
             <b-list-group horizontal>
               <b-list-group>
@@ -216,22 +216,34 @@
                 
             </b-list-group>
           </div>
-          <b-button
-            class="mt-2"
-            size="sm"
-            title="Ver mas"
-            style="color: white;"  
-            @click="getFamiliares()"
-          >
-            <b>(↓)</b>  
-          </b-button>
-            {{list_familiares}}
-          <b-table
-            stacked 
-            :items="list_familiares" 
-            @click="getFamiliares()">
-          </b-table>
-            
+        </b-card>
+        <!--
+        <b-button
+          class="mt-2"
+          size="sm"
+          title="Ver mas"
+          style="color: white;"  
+          @click="getFamiliar()"
+        >
+          <b>(↓)</b>  
+        </b-button>
+        -->
+        <b-card title="Adherentes: " >  
+          <div>
+            <b-list-group horizontal>
+              <div v-for="adherente in data" :key="adherente.dni_familiar">
+                <div v-if="adherente.numero_socio.split('/')[4]==row.item.numero_socio">
+                  <b-list-group>
+                    <b-list-group-item><b>DNI:</b> {{ adherente.dni_familiar }}</b-list-group-item>
+                    <b-list-group-item><b>Nombre Completo:</b> {{ adherente.apellido.toUpperCase() }}, {{ adherente.nombre.toUpperCase() }}</b-list-group-item>
+                    <b-list-group-item><b>Fecha de Nacimiento:</b> {{ adherente.fecha_nacimiento }}</b-list-group-item>
+                    <b-list-group-item><b>Carencia:</b> {{adherente.carencia }} </b-list-group-item>
+                  </b-list-group>
+                  &nbsp;
+                </div>
+              </div>
+            </b-list-group>
+          </div>
         </b-card>
       </template>
     </b-table>
@@ -266,7 +278,7 @@ import { APIControler } from "../store/APIControler";
 
 
 export default {
-  components: { SociosAlta, APIControler ,VueAwesomplete },
+  components: { SociosAlta,VueAwesomplete },
   data() {
     return {
       tabla_socios: [],
@@ -294,6 +306,7 @@ export default {
       currentPage: 1, //Pagina actual
       perPage: 10, // Datos en la tabla por pagina
       list_familiares:{},
+      datos_familiar: {},
       data:{},
       buscar: "",
       infoEliminar: {
@@ -318,11 +331,11 @@ export default {
       });
     },
   },
-  /*
+  
   created: function() {
     //console.log('Funcion realizada');
     this.getFamiliar();
-  },*/
+  },
 
   methods: {
     async testFetch() {
@@ -340,6 +353,13 @@ export default {
     },
 
     async getFamiliar() {
+      let familiarAPI = new APIControler();
+      familiarAPI.apiUrl.pathname='familiar/';
+      this.data = await familiarAPI.getData(this.list_familiares);
+      this.data.forEach(element => {   
+          console.log(element);
+      });
+      /*
       try {
         this.api.pathname='familiar'
         const res = await fetch(api);
@@ -352,6 +372,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
+      */
     },
     // Funcion para mostrar el modal
     showModal() {
