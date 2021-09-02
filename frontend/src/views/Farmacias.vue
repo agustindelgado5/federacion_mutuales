@@ -6,9 +6,9 @@
     ></vue-headful>
 
     <h2>Listado de Farmacias</h2>
-    <b-button @click="testFetch" class="mb-4" variant="light">
-      <v-icon dark style="color: black">mdi-format-list-bulleted-square</v-icon>
-      Mostrar
+    <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
+      <v-icon dark style="color:black;">mdi-cached</v-icon>
+      Actualizar
     </b-button>
 
     <!-- ================ALTA FARMACIA======================== -->
@@ -140,19 +140,29 @@
         </div>
       </template>
       <template #row-details="row">
-        <b-card>
-          <ul>
-            <!-- Para cargar todos los campos automáticamente (habría que darle formato) -->
-            <li v-for="(value, key) in row.item" :key="key">
-              {{ key }}: {{ value }}
-            </li>
-              
-              <!-- A mano, es más facil pero "menos automático" Dx -->
-              <!-- <li>Edad: {{ row.item.edad }}</li>
-              <li>Calle: {{ row.item.calle }}</li>
-              <li>Localidad: {{ row.item.calle }}</li> -->
-            
-          </ul>
+        <b-card title="Datos de la farmacia: " >
+          <div>
+            <b-list-group horizontal>
+              <b-list-group class="col-3">  
+                <b-list-group-item><b>Codigo:</b> {{ row.item.cod_farmacia }}</b-list-group-item>
+                <b-list-group-item><b>Matricula:</b> {{ row.item.matricula_farm }}</b-list-group-item>
+                <b-list-group-item><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item>
+              </b-list-group>
+              &nbsp;
+              <b-list-group class="col-5">
+                <b-list-group-item><b>Farmacia:</b> {{ row.item.farmacia }}</b-list-group-item>
+                <b-list-group-item><b>Sucursal:</b> {{ row.item.localidad }}</b-list-group-item>
+                <b-list-group-item><b>Correo:</b> {{ row.item.email }} </b-list-group-item>
+              </b-list-group>
+              &nbsp;
+              <b-list-group class="col-4">
+                <b-list-group-item><b>Telefono Fijo:</b> {{ row.item.tel_fijo }}</b-list-group-item>
+                <b-list-group-item><b>Celular:</b> {{ row.item.tel_celular }}</b-list-group-item>
+                <b-list-group-item><b>Representante:</b> {{ row.item.representante }} </b-list-group-item>
+              </b-list-group>
+                
+            </b-list-group>
+          </div>            
         </b-card>
       </template>
     </b-table>
@@ -299,7 +309,12 @@ export default {
         }
       }
     },
+    
   },
+
+  beforeMount(){
+    this.testFetch()
+  }
 };
 </script>
 
