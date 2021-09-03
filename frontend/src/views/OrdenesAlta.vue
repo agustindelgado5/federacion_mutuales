@@ -25,9 +25,14 @@
             type="number"
             placeholder="Ingrese un Numero"
             invalid-feedback="Complete este campo"
+            :state="validacion.numero_orden.estado"
             required
             >
             </b-form-input>
+            <b-form-invalid-feedback
+                id="numero_orden-live-feedback"
+              >{{validacion.numero_orden.mensaje}}
+            </b-form-invalid-feedback>
         </b-form-group>
       
       <!-- 
@@ -43,19 +48,26 @@
             </b-form-input>
         </b-form-group>
       -->
-      <b-button @click="getSocios()">GET TEST</b-button>
-      {{ list_socios }}
+      <!-- <b-button @click="getSocios()">GET TEST</b-button> -->
+      <!-- {{ list_socios }} -->
       <b-form-group label="*Socio" label-for="numero_socio">
-            <b-form-select
+            <b-form-select 
             id="numero_socio"
             v-model="orden.numero_socio"
             type="text"
             placeholder="Ingrese un Numero"
             invalid-feedback="Complete este campo"
+            :state="validacion.numero_socio.estado"
+
             required
             :options="op_socios"
+            @change="getPaciente()"
             >
             </b-form-select>
+            <b-form-invalid-feedback
+                id="numero_socio-live-feedback"
+              >{{validacion.numero_socio.mensaje}}
+            </b-form-invalid-feedback>
         </b-form-group>
 
 
@@ -73,19 +85,24 @@
         </b-form-input>
       </b-form-group>
       -->
-      <b-button @click="getPaciente()">GET TEST</b-button>
-      {{ list_pacientes }}
+      <!-- <b-button @click="getPaciente()">GET TEST</b-button>
+      {{ list_pacientes }} -->
       <b-form-group label="*Paciente" label-for="dni_familiar">
-        <b-form-select
+        <b-form-select 
           id="dni_familiar"
           v-model="orden.dni_familiar"
           type="text"
           placeholder="*Ingrese el nombre completo del paciente"
+          :state="validacion.paciente.estado"
           invalid-feedback="Complete este campo"
           required
           :options="list_pacientes"
         >
         </b-form-select>
+        <b-form-invalid-feedback
+                id="paciente-live-feedback"
+              >{{validacion.paciente.mensaje}}
+            </b-form-invalid-feedback>
       </b-form-group>
 
       <!-- Servicio -->
@@ -93,12 +110,17 @@
         <b-form-input
           id="servicio"
           v-model="orden.servicio"
+          :state="validacion.servicio.estado"
           type="text"
           placeholder="*Ingrese el tipo de servicio"
           invalid-feedback="Complete este campo"
           required
         >
         </b-form-input>
+        <b-form-invalid-feedback
+                id="servicio-live-feedback"
+              >{{validacion.servicio.mensaje}}
+        </b-form-invalid-feedback>
       </b-form-group>
       
       <!-- Id del medico -->
@@ -115,12 +137,13 @@
         </b-form-input>
       </b-form-group>
       -->
-      <b-button @click="getProfesionales()">GET TEST</b-button>
-      {{ list_profesionales }}
+      <!-- <b-button @click="getProfesionales()">GET TEST</b-button>
+      {{ list_profesionales }} -->
       <b-form-group label="*Medico" label-for="id_medico">
         <b-form-select
           id="id_medico"
           v-model="orden.id_medico"
+          :state="validacion.id_medico.estado"
           type="text"
           placeholder="Ingrese el ID del medico"
           invalid-feedback="Complete este campo"
@@ -128,6 +151,10 @@
           :options="op_profesionales"
         >
         </b-form-select>
+        <b-form-invalid-feedback
+                id="id_medico-live-feedback"
+              >{{validacion.id_medico.mensaje}}
+        </b-form-invalid-feedback>
       </b-form-group>
       <!-- Id de la mutual -->
       <!--
@@ -143,12 +170,13 @@
         </b-form-input>
       </b-form-group>
       -->
-      <b-button @click="getMutuales()">GET TEST</b-button>
-      {{ list_mutuales }}
+      <!-- <b-button @click="getMutuales()">GET TEST</b-button>
+      {{ list_mutuales }} -->
       <b-form-group label="*ID Mutual" label-for="id_mutual">
         <b-form-select
           id="id_mutual"
           v-model="orden.id_mutual"
+          :state="validacion.id_mutual.estado"
           type="text"
           placeholder="Ingrese el ID de la mutual"
           invalid-feedback="Complete este campo"
@@ -156,6 +184,10 @@
           :options="op_mutuales"
         >
         </b-form-select>
+        <b-form-invalid-feedback
+                id="id_mutual-live-feedback"
+              >{{validacion.id_mutual.mensaje}}
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <!-- Fecha de emision -->
@@ -163,12 +195,17 @@
         <b-form-input
           id="fecha"
           v-model="orden.fecha"
+          :state="validacion.fecha.estado"
           type="date"
           placeholder="Ingrese una fecha"
           invalid-feedback="Complete este campo"
           required
         >
         </b-form-input>
+        <b-form-invalid-feedback
+                id="fecha-live-feedback"
+              >{{validacion.fecha.mensaje}}
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <!-- Hora -->
@@ -176,12 +213,17 @@
         <b-form-input
           id="hora"
           v-model="orden.hora"
+          :state="validacion.hora.estado"
           type="time"
           placeholder="Ingrese una hora"
           invalid-feedback="Complete este campo"
           required
         >
         </b-form-input>
+        <b-form-invalid-feedback
+                id="hora-live-feedback"
+              >{{validacion.hora.mensaje}}
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <!-- Precio -->
@@ -189,12 +231,17 @@
         <b-form-input
           id="precio"
           v-model="orden.precio"
+          :state="validacion.precio.estado"
           type="decimal"
           placeholder="Ingrese el precio correspondiente a la orden "
           invalid-feedback="Complete este campo"
           required
         >
         </b-form-input>
+        <b-form-invalid-feedback
+                id="precio-live-feedback"
+              >{{validacion.precio.mensaje}}
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <!-- Realizado -->
@@ -214,9 +261,8 @@
       
 
     </b-form>
-    {{ orden }}
     
-    <b-button class="mt-2" variant="success" block @click="postOrden()">POST TEST</b-button>
+    <b-button class="mt-2" variant="success" block @click="postOrden()">Guardar</b-button>
   </div>
 </template>
 
@@ -244,8 +290,21 @@ export default {
       list_pacientes:[
         {value: null, text: 'Elija una persona', disabled: true},
       ],
+      validacion:{
+        numero_orden: {estado:null,mensaje:""},
+        numero_socio: {estado:null,mensaje:""},
+        paciente: {estado:null,mensaje:""},
+        servicio: {estado:null,mensaje:""},
+        id_medico: {estado:null,mensaje:""},
+        id_mutual: {estado:null,mensaje:""},
+        fecha: {estado:null,mensaje:""},
+        hora: {estado:null,mensaje:""},
+        precio: {estado:null,mensaje:""},
+      },
+      respuesta:null,
     };
   },
+
   methods: {
     async getSocios() {
       let socioAPI = new APIControler();
@@ -290,6 +349,7 @@ export default {
       let familiarAPI = new APIControler();
       familiarAPI.apiUrl.pathname='familiar/';
       this.data = await familiarAPI.getData(this.list_familiar);
+      this.list_pacientes=this.list_pacientes.slice(0,1)
       this.data.forEach(element => {
         if (element.numero_socio ==this.orden.numero_socio){
             //let option_titular={}
@@ -316,9 +376,26 @@ export default {
     async postOrden() {
       let ordenAPI = new APIControler();
       ordenAPI.apiUrl.pathname='ordenes/';
-      this.data = await ordenAPI.postData(this.orden);
+      this.respuesta = await ordenAPI.postData(this.orden);
+      this.cargarFeedback()
     },
+
+    cargarFeedback(){
+      let valido;
+      for(let key in this.validacion){
+        valido=!(this.respuesta.hasOwnProperty(key))
+        this.validacion[key].estado=valido
+        if (!valido)
+          this.validacion[key].mensaje=this.respuesta[key][0]
+      }
+    }
   },
+  beforeMount(){
+    this.getSocios();
+    this.getProfesionales()
+    this.getMutuales()
+    
+ },
 };
 </script>
 

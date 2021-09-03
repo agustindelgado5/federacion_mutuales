@@ -5,9 +5,9 @@
     <vue-headful title="Ordenes - Federación Tucumana de Mutuales"></vue-headful>
 
     <h2>Listado de Ordenes</h2>
-    <b-button @click="testFetch" class="mb-4" variant="light">
-      <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>
-      Mostrar
+    <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
+      <v-icon dark style="color:black;">mdi-cached</v-icon>
+      Actualizar
     </b-button>
 
     <!-- ================ALTA ORDENES======================== -->
@@ -210,6 +210,9 @@ export default {
     },
     altaOrden(){},
   },
+  beforeMount(){
+    this.testFetch()
+  }
 };
 </script>
 

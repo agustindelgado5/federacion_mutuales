@@ -80,6 +80,7 @@
       :current-page="currentPage"
       ref="tablaregistros"
       id="tablaregistros"
+      small
     >
       <template #empty="">
         <b>No hay registros para mostrar</b>
@@ -94,6 +95,10 @@
       </template>
 
       <template slot="cell(nombre)" slot-scope="data">
+        {{ data.value.toUpperCase() }}
+      </template>
+
+      <template slot="cell(departamento)" slot-scope="data">
         {{ data.value.toUpperCase() }}
       </template>
 
@@ -126,7 +131,7 @@
               title="Mostrar Info"
               @click="row.toggleDetails"
             >
-              {{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+              {{ row.detailsShowing ? "Ocultar" : "Mostrar" }} Detalles
             </b-button>
 
             <b-button
@@ -186,19 +191,59 @@
       </template>
 
       <template #row-details="row">
-        <b-card>
-          <ul>
-            <!-- Para cargar todos los campos automáticamente (habría que darle formato) -->
-            <!-- <li v-for="(value, key) in row.item" :key="key">
-              {{ key }}: {{ value }}
-            </li> -->
-              
-              <!-- A mano, es más facil pero "menos automático" Dx -->
-              <li>Edad: {{ row.item.edad }}</li>
-              <li>Calle: {{ row.item.calle }}</li>
-              <li>Localidad: {{ row.item.calle }}</li>
-            
-          </ul>
+        <b-card title="Datos del titular: " >
+          <div>
+            <b-list-group horizontal>
+              <b-list-group>
+                <b-list-group-item><b>Nombre Completo:</b> {{ row.item.apellido.toUpperCase() }}, {{ row.item.nombre.toUpperCase() }}</b-list-group-item>
+                <b-list-group-item><b>DNI:</b> {{ row.item.dni }}</b-list-group-item>
+                <b-list-group-item><b>Fecha de Nacimiento:</b> {{ row.item.fecha_nacimiento }}</b-list-group-item>
+                <b-list-group-item><b>Edad:</b> {{ row.item.edad }}</b-list-group-item>
+              </b-list-group>
+              &nbsp;
+              <b-list-group>
+                <b-list-group-item><b>Domicilio:</b> {{ row.item.calle.toUpperCase() }} - {{ row.item.localidad.toUpperCase() }} </b-list-group-item>
+                <b-list-group-item><b>Departamento:</b> {{ row.item.departamento.toUpperCase() }}</b-list-group-item>
+                <b-list-group-item><b>Codigo Postal:</b> {{ row.item.cod_postal }}</b-list-group-item>
+                <b-list-group-item><b>Correo:</b> {{ row.item.email }} </b-list-group-item>
+              </b-list-group>
+              &nbsp;
+              <b-list-group>
+                <b-list-group-item><b>Telefono Fijo:</b> {{ row.item.tel_fijo }}</b-list-group-item>
+                <b-list-group-item><b>Celular:</b> {{ row.item.tel_celular }}</b-list-group-item>
+                <b-list-group-item><b>Carencia:</b> {{ row.item.carencia }} </b-list-group-item>
+              </b-list-group>
+                
+            </b-list-group>
+          </div>
+        </b-card>
+        <!--
+        <b-button
+          class="mt-2"
+          size="sm"
+          title="Ver mas"
+          style="color: white;"  
+          @click="getFamiliar()"
+        >
+          <b>(↓)</b>  
+        </b-button>
+        -->
+        <b-card title="Adherentes: " >  
+          <div>
+            <b-list-group horizontal>
+              <div v-for="adherente in data" :key="adherente.dni_familiar">
+                <div v-if="adherente.numero_socio.split('/')[4]==row.item.numero_socio">
+                  <b-list-group>
+                    <b-list-group-item><b>DNI:</b> {{ adherente.dni_familiar }}</b-list-group-item>
+                    <b-list-group-item><b>Nombre Completo:</b> {{ adherente.apellido.toUpperCase() }}, {{ adherente.nombre.toUpperCase() }}</b-list-group-item>
+                    <b-list-group-item><b>Fecha de Nacimiento:</b> {{ adherente.fecha_nacimiento }}</b-list-group-item>
+                    <b-list-group-item><b>Carencia:</b> {{adherente.carencia }} </b-list-group-item>
+                  </b-list-group>
+                  &nbsp;
+                </div>
+              </div>
+            </b-list-group>
+          </div>
         </b-card>
       </template>
     </b-table>
@@ -225,15 +270,15 @@ api.pathname = "socios";
 //api.port = 8000; //Cambien uds los puertos
 api.port = 8081;
 
-//import Holmes from "holmes-js";
+
 import VueAwesomplete from "vue-awesomplete";
 import SociosAlta from "./SociosAlta.vue";
 import axios from "axios";
-//import SociosBorrar from './SociosBorrar.vue';
-//import { deleteSearchParams } from "../store/APIControler";
+import { APIControler } from "../store/APIControler";
+
 
 export default {
-  components: { SociosAlta, VueAwesomplete },
+  components: { SociosAlta,VueAwesomplete },
   data() {
     return {
       tabla_socios: [],
@@ -260,6 +305,9 @@ export default {
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
       perPage: 10, // Datos en la tabla por pagina
+      list_familiares:{},
+      datos_familiar: {},
+      data:{},
       buscar: "",
       infoEliminar: {
         id: "modal_eliminar",
@@ -283,6 +331,11 @@ export default {
       });
     },
   },
+  
+  created: function() {
+    //console.log('Funcion realizada');
+    this.getFamiliar();
+  },
 
   methods: {
     async testFetch() {
@@ -297,6 +350,29 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+
+    async getFamiliar() {
+      let familiarAPI = new APIControler();
+      familiarAPI.apiUrl.pathname='familiar/';
+      this.data = await familiarAPI.getData(this.list_familiares);
+      this.data.forEach(element => {   
+          console.log(element);
+      });
+      /*
+      try {
+        this.api.pathname='familiar'
+        const res = await fetch(api);
+        const data = await res.json();
+
+        var lista = data.results;
+        console.log(lista);
+
+        this.list_familiares = lista;
+      } catch (error) {
+        console.log(error);
+      }
+      */
     },
     // Funcion para mostrar el modal
     showModal() {
@@ -372,15 +448,11 @@ export default {
     },
 
     GenerarPagoAfiliacion() {},
-    /*
-    buscar() {
-      Holmes({
-        input: ".search input", // predeterminado: input [type = search]
-        find: ".results div", // querySelectorAll que coincide con cada uno de los resultados individualmente
-      });
-    },
-    */
+   
   },
+  beforeMount(){
+    this.testFetch()
+  }
 };
 </script>
 
