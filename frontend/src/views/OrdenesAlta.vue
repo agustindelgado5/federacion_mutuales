@@ -301,6 +301,7 @@ export default {
         hora: {estado:null,mensaje:""},
         precio: {estado:null,mensaje:""},
       },
+      respuesta:null,
     };
   },
 
@@ -374,19 +375,18 @@ export default {
     },
     async postOrden() {
       let ordenAPI = new APIControler();
-      let respuesta;
       ordenAPI.apiUrl.pathname='ordenes/';
-      respuesta = await ordenAPI.postData(this.orden);
-      this.cargarFeedback(respuesta)
+      this.respuesta = await ordenAPI.postData(this.orden);
+      this.cargarFeedback()
     },
 
-    cargarFeedback(respuestaAPI){
+    cargarFeedback(){
       let valido;
       for(let key in this.validacion){
-        valido=!(key in respuestaAPI)
+        valido=!(this.respuesta.hasOwnProperty(key))
         this.validacion[key].estado=valido
         if (!valido)
-          this.validacion[key].mensaje=respuestaAPI[key][0]
+          this.validacion[key].mensaje=this.respuesta[key][0]
       }
     }
   },
