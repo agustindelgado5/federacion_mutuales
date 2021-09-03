@@ -88,6 +88,7 @@
             placeholder="Ingrese un Numero"
             invalid-feedback="Complete este campo"
             required
+            :state="validacion.cod_farmacia.estado"
             :options="options"
         >
         </b-form-select>
@@ -150,14 +151,27 @@ export default {
       let medicamentosAPI = new APIControler();
       this.data = await medicamentosAPI.getData();
     },*/
+
     async postMedicamento() {
       let medicamentosAPI = new APIControler();
       medicamentosAPI.apiUrl.pathname='medicamentos/'
       //this.data = await medicamentosAPI.postData(this.medicamentos);
-      let respuesta = await medicamentosAPI.postData(this.medicamentos); 
+      let respuesta = await medicamentosAPI.postData(this.medicamentos);
       this.cargarFeedback(respuesta);
-      this.btn_post=false;
+      this.resetForm();
     },
+
+    
+    async resetForm() {
+        
+        this.medicamentos.id_medicamento = null;
+        this.medicamentos.nombre = "";
+        this.medicamentos.presentacion = "";
+        this.medicamentos.laboratorio = "";
+        this.medicamentos.cod_farmacia = "";
+
+    },
+    
 
     cargarFeedback(respuestaAPI){
       for(let key in this.validacion){

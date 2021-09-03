@@ -117,23 +117,39 @@
       </b-input-group>
     </div>
     <!-- ======================================== -->
-    <pre>Cantidad de registros: {{rows}}</pre>
+    
     <div v-if="rows > 0">
+      <div v-if="selected.length>0">
+        <pre>Cantidad de registros: {{rows}} | Filas seleccionadas: {{selected.length}}</pre>
+      </div>
+      <div v-else>
+        <pre>Cantidad de registros: {{rows}}</pre>
+      </div>
       <b-button
-        class="mt-2"
+        class="mb-4 ml-2"
         size="sm"
+        style="color: white;"
         title="Seleccionar Todo"     
         @click="seleccionar_todas"
+        :disabled="btn_select"
       >
         Seleccionar Todo
       </b-button>
-      <div v-if="selected.length>0">
-        <pre>Filas seleccionadas: {{selected.length}}</pre>
-        <!--
-        <pre>Filas seleccionadas: {{selected}}</pre>
-        -->
-      </div> 
+      <b-button
+        class="mb-4 ml-2"
+        size="sm"
+        style="color: white;"
+        title="Limpiar Seleccion"     
+        @click="limpiar_seleccion"
+        :disabled="btn_limpiar"
+      >
+        Limpiar Seleccion
+      </b-button>  
     </div>
+    <div v-else>
+      <pre>Cantidad de registros: {{rows}}</pre>
+    </div>
+    
     
 
     <b-table
@@ -254,7 +270,7 @@
                 <b-list-group-item><b>Nombre :</b> {{ row.item.nombre.toUpperCase() }}</b-list-group-item>
                 <b-list-group-item><b>Presentacion:</b> {{ row.item.presentacion }}</b-list-group-item>
                 <b-list-group-item><b>Laboratorio:</b> {{ row.item.laboratorio }}</b-list-group-item>
-                <b-list-group-item><b>Farmacia:</b> {{ row.item.cod_farmacia }}</b-list-group-item>
+                <b-list-group-item><b>Farmacia:</b> {{ row.item.cod_farmacia.split('/')[4] }}</b-list-group-item>
               </b-list-group>
               &nbsp;
               
@@ -361,6 +377,8 @@ export default {
       btn_mostrar: false,
       btn_editar: false,
       btn_eliminar: false,
+      btn_select: false,
+      btn_limpiar: true,
 
     };
   },
@@ -435,6 +453,9 @@ export default {
       this.btn_mostrar=true
       this.btn_editar=true
       this.btn_eliminar=true
+
+      this.btn_select=true;
+      this.btn_limpiar=false;
     },
 
     limpiar_seleccion() {
@@ -443,6 +464,9 @@ export default {
       this.btn_mostrar=false
       this.btn_editar=false
       this.btn_eliminar=false
+
+      this.btn_select=false;
+      this.btn_limpiar=true;
     },
     /*
     filtrarFilas(){
@@ -508,14 +532,16 @@ export default {
             console.log('Eliminacion Exitosa');
             break;
           }
-        }  
+        }
+        this.hideModal();  
         swal("Eliminacion Exitosa", " ", "success");
           
         }catch(error){
+          this.hideModal();
           swal("¡ERROR!", "Se ha detectado un problema ", "error")
           console.log(error);
         }finally{
-          this.testFetch()
+          this.testFetch();
         }
     },
      
