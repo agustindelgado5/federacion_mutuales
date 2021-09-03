@@ -61,7 +61,7 @@
     <div v-for="item in tabla_med" :key="item.id_medicamento">
     -->
     <div>  
-      <b-modal id="modal-eliminarTodo" hide-footer title="Eliminar" ok-only>
+      <b-modal ref="my-modal" id="modal-eliminarTodo" hide-footer title="Eliminar" ok-only>
         <div class="d-block text-center" v-if="selected.length===rows">
           <h3>¿Esta seguro de eliminar todos los registros ?</h3>
         </div>
@@ -77,13 +77,13 @@
         >
           Volver Atras
         </b-button>
-
+      
         <b-button
           class="mt-3"
           variant="danger"
           block
           title="Eliminar"
-          @click="delete_all_Medicamentos(item)"
+          @click="delete_all_Medicamentos()"
         >
           Eliminar
         </b-button>
@@ -135,11 +135,6 @@
       </div> 
     </div>
     
-    
-    
-
-    
-
 
     <b-table
       :fields="fields"
@@ -335,7 +330,7 @@ api.pathname = "medicamentos";
 api.port = 8081;
 
 import MedicamentoAlta from './MedicamentosAlta.vue';
-// import MedicamentoUpdate from './MedicamentosUpdate.vue';
+import MedicamentoUpdate from './MedicamentosUpdate.vue';
 import axios from 'axios';
 import VueHtml2pdf from 'vue-html2pdf';
 
@@ -388,7 +383,6 @@ export default {
 
         //Habilito los botones
         this.btn_down_pdf=false;
-        this.btn_del_full=false;
         
         if(this.tabla_med.length==0){
           this.msj_tabla = " No se encuentran regitros en esta tabla ";
@@ -419,18 +413,36 @@ export default {
     //Funciones de seleccion
     seleccionar_una(items) {
       this.selected = items
-
+      if(this.selected.length > 0){
+        this.btn_del_full = false
+        if(this.selected.length > 1){
+          this.btn_mostrar=true
+          this.btn_editar=true
+          this.btn_eliminar=true
+        }
+      }
+      else{
+        this.btn_del_full = true
+        this.btn_mostrar=false
+        this.btn_editar=false
+        this.btn_eliminar=false
+      }
     },
 
     seleccionar_todas() {
       this.$refs.tablaregistros.selectAllRows()
-      //this.btn_mostrar=true
-      //this.btn_editar=true
-      //this.btn_eliminar=true
+      this.btn_del_full = false
+      this.btn_mostrar=true
+      this.btn_editar=true
+      this.btn_eliminar=true
     },
 
     limpiar_seleccion() {
       this.$refs.tablaregistros.clearSelected()
+      this.btn_del_full = true
+      this.btn_mostrar=false
+      this.btn_editar=false
+      this.btn_eliminar=false
     },
     /*
     filtrarFilas(){
@@ -486,41 +498,27 @@ export default {
 
     //Funcion para eliminar todos los medicamentos
     async delete_all_Medicamentos(){
-      var cantidad = this.tabla_med.length;
-      if (cantidad<1){
-        swal("Debe tener al menos 1 registro")
-      }
-      else{
-        try{
-          //this.tabla_med.splice(0, cantidad);
-          axios.delete('http://localhost:8081/medicamentos/'+ tabla_med.id_medicamento +'/')
-          if(this.tabla_med.length==0){
-            swal("Eliminacion Exitosa", " ", "success");
+      var cantidad = this.selected.length;
+      
+      try{
+
+        for(var i=0; i<cantidad; i++){
+          axios.delete('http://localhost:8081/medicamentos/'+ this.selected[i].id_medicamento +'/')
+          if(this.selected.length==0){
+            console.log('Eliminacion Exitosa');
+            break;
           }
+        }  
+        swal("Eliminacion Exitosa", " ", "success");
+          
         }catch(error){
           swal("¡ERROR!", "Se ha detectado un problema ", "error")
           console.log(error);
-        }finally{this.testFetch}
-      } 
-    },
-    /*
-    async delete_all_Medicamentos(item){
-      //var aux=0, cant=this.tabla_med.length;
-      try{
-        axios.delete('http://localhost:8081/medicamentos/'+ item.id_medicamento +'/')
-        if(this.tabla_med==null){
-          swal("Eliminacion Exitosa", " ", "success");
+        }finally{
+          this.testFetch()
         }
-        else{
-          //swal("¡ERROR!", "No se han podido eliminar todos los registros", "error")
-        }
-      }catch (error) {
-        swal("¡ERROR!", "Se ha detectado un problema ", "error")
-        console.log(error);
-      //swal("¡ERROR!", "{error}", "error")
-      }finally{this.testFetch}
     },
-    */ 
+     
 
     //Funcion de busqueda
     async buscarnow() {
