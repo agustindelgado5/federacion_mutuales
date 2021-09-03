@@ -61,7 +61,7 @@
       :sticky-header="true"
       :no-border-collapse="false"
       hover
-      :items="table_cobradores"
+      :items="tabla_cobradores"
       show-empty
       :per-page="perPage"
       :current-page="currentPage"
@@ -114,7 +114,7 @@
               <div class="d-block text-center">
                 <h3>
                   ¿Esta seguro de eliminar los datos de
-                  {{ infoEliminar.cobradores.cobrador}}?
+                  {{ infoEliminar.Cobradores.cobrador}}?
                 </h3>
               </div>
               <b-button
@@ -200,6 +200,7 @@ export default {
         totalRows: 1, //Total de filas
         currentPage: 1, //Pagina actual
         perPage: 10, // Datos en la tabla por pagina
+        buscar: "",
     };
   },
 
