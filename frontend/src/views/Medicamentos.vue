@@ -388,6 +388,7 @@ export default {
     },
   },
   methods: {
+    //Funcion para mostrar todos los medicamentos
     async testFetch() {
       try {
         const res = await fetch(api);
@@ -399,8 +400,7 @@ export default {
 
         this.tabla_med = lista_med;
 
-        //Habilito los botones
-        this.btn_down_pdf=false;
+        this.btn_down_pdf=false;  //Habilito los botones
         
         if(this.tabla_med.length==0){
           this.msj_tabla = " No se encuentran regitros en esta tabla ";
@@ -428,15 +428,24 @@ export default {
       this.showModal();
     },
 
-    //Funciones de seleccion
+    //-----Funciones de seleccion
+    //Selecciona una a una
     seleccionar_una(items) {
       this.selected = items
       if(this.selected.length > 0){
         this.btn_del_full = false
+        this.btn_limpiar=false
         if(this.selected.length > 1){
           this.btn_mostrar=true
           this.btn_editar=true
           this.btn_eliminar=true
+        }
+        if(this.selected.length==this.rows){
+          
+          this.btn_select=true
+        }
+        else{
+          this.btn_select=false
         }
       }
       else{
@@ -444,9 +453,10 @@ export default {
         this.btn_mostrar=false
         this.btn_editar=false
         this.btn_eliminar=false
+        this.btn_limpiar=true
       }
     },
-
+    //Selecciona todas
     seleccionar_todas() {
       this.$refs.tablaregistros.selectAllRows()
       this.btn_del_full = false
@@ -457,7 +467,7 @@ export default {
       this.btn_select=true;
       this.btn_limpiar=false;
     },
-
+    //Limpia todas las selecciones
     limpiar_seleccion() {
       this.$refs.tablaregistros.clearSelected()
       this.btn_del_full = true
@@ -489,9 +499,10 @@ export default {
       }
     },
 
-
+    //Alta de medicamento
     altaMedicamento() {},
 
+    //Editar medicamento
     editarMedicamento(item, index) {
       var medicamento = this.lista_med[index];
       let opciones = {
@@ -520,7 +531,7 @@ export default {
      .finally(() => this.testFetch());
     },
 
-    //Funcion para eliminar todos los medicamentos
+    //Funcion para eliminar todos los medicamentos seleccionados
     async delete_all_Medicamentos(){
       var cantidad = this.selected.length;
       
@@ -578,7 +589,7 @@ export default {
         }
     },
 
-    
+    //Edicion del pdf antes de descargar
     async beforeDownload ({ html2pdf, options, pdfContent }) {
       await html2pdf().set(options).from(pdfContent).toPdf().get('pdf').then((pdf) => {
         const totalPages = pdf.internal.getNumberOfPages()
