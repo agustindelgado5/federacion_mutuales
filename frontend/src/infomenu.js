@@ -20,29 +20,7 @@ const data = {
         {
             title: `Profesionales`,
             link: '/profesionales',
-            children: [
-                {
-                    title: `Prueba 1`,
-                    children: [
-                        {
-                            title: `Prueba 1.1`,
-                            link: `/`,
-                            children: [],
-                        },
-                        {
-                            title: `Prueba 1.2`,
-                            link: `/`,
-                            children: [],
-                        },
-                        {
-                            title: `Prueba 1.3`,
-                            link: `/`,
-                            children: [],
-                        },
-                    ],
-                },
-            ],
-         
+            children: [],
         },
         {
             title: `Cobradores`,
@@ -55,7 +33,7 @@ const data = {
             children: [
                 {
                     title: `Ordenes Medicas`,
-                    link: '/ordenesmedicas',
+                    link: '/ordenes',
                     children: [],
                 },
                 {
