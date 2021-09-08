@@ -87,10 +87,10 @@
       -->
       <!-- <b-button @click="getPaciente()">GET TEST</b-button>
       {{ list_pacientes }} -->
-      <b-form-group label="*Paciente" label-for="dni_familiar">
+      <b-form-group label="*Paciente" label-for="paciente">
         <b-form-select 
           id="dni_familiar"
-          v-model="orden.dni_familiar"
+          v-model="orden.paciente"
           type="text"
           placeholder="*Ingrese el nombre completo del paciente"
           :state="validacion.paciente.estado"
