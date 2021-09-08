@@ -7,6 +7,7 @@
       <b-form-group label="*ID" >
         <b-form-input
             id="id_medicamento"
+            :disabled="true"
             v-model="item_med.id_medicamento"
             type="number"
             placeholder="Ingrese un Numero"
