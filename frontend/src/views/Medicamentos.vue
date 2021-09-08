@@ -60,6 +60,7 @@
     <!--
     <div v-for="item in tabla_med" :key="item.id_medicamento">
     -->
+    <!-- ================ELIMINAR VARIOS MEDICAMENTOS======================== -->
     <div>  
       <b-modal ref="my-modal" id="modal-eliminarTodo" hide-footer title="Eliminar" ok-only>
         <div class="d-block text-center" v-if="selected.length===rows">
@@ -217,12 +218,13 @@
               </v-icon>
               Editar
             </b-button>
-            <!--
-            <b-modal id="modal-editar" hide-footer> 
+            
+            <b-modal id="modal-editar"  hide-footer > 
               <template #modal-title><h5 class="modal-title">Editar</h5></template>
-                <medicamento-update/>
+                {{editar}}
+                <medicamento-update :item_med="editar"/>
             </b-modal>
-            -->
+            
             <b-button
               variant="danger"
               id="button-3"
@@ -235,31 +237,6 @@
               </v-icon>
               Eliminar
             </b-button>
-            
-
-            <b-modal id="modal_eliminar" ref="my-modal" hide-footer title="Eliminar" ok-only>
-              <div class="d-block text-center">
-                <h3>¿Esta seguro de eliminar los datos de '{{infoEliminar.medicamento.nombre}}'?</h3>
-              </div>
-              <b-button
-                class="mt-2"
-                block
-                @click="hideModal"
-                title="Volver Atras"
-              >
-                Volver Atras
-              </b-button>
-
-              <b-button
-                class="mt-3"
-                variant="danger"
-                block
-                title="Eliminar"
-                @click="deleteMedicamento(infoEliminar.medicamento.id_medicamento)"
-              >
-                Eliminar
-              </b-button>
-            </b-modal>
           </b-button-group>
         </div>
       </template>
@@ -276,17 +253,34 @@
               
                 
             </b-list-group>
-          <!--
-          <ul>
-              <b-row class="mb-2" v-for="(value,key) in row.item" :key="key">
-                <b-col sm="3" class="text-sm-right"><b>{{ key }}: </b></b-col>
-                <b-col>{{ value }}</b-col>
-              </b-row>
-          </ul>
-          -->
         </b-card>
       </template>
     </b-table>
+
+    <!-- ================ELIMINAR UN MEDICAMENTO======================== -->
+    <b-modal id="modal_eliminar" ref="my-modal" hide-footer title="Eliminar" ok-only>
+      <div class="d-block text-center">
+        <h3>¿Esta seguro de eliminar los datos de '{{infoEliminar.medicamento.nombre}}'?</h3>
+      </div>
+      <b-button
+        class="mt-2"
+        block
+        @click="hideModal"
+        title="Volver Atras"
+      >
+        Volver Atras
+      </b-button>
+
+      <b-button
+        class="mt-3"
+        variant="danger"
+        block
+        title="Eliminar"
+        @click="deleteMedicamento(infoEliminar.medicamento.id_medicamento)"
+      >
+        Eliminar
+      </b-button>
+    </b-modal>
 
     <!-- ==================================CREAR PDF================================== -->
     <vue-html2pdf
@@ -364,7 +358,7 @@ export default {
         {key:'cod_farmacia' ,label: 'Farmacia',sortable: true,},
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
-      
+      editar:{},
       buscar: '',
       selected: [],
       infoEliminar:{
@@ -503,6 +497,10 @@ export default {
     altaMedicamento() {},
 
     //Editar medicamento
+    editarMedicamento(item, index){
+      this.editar=item;
+    },
+    /*
     editarMedicamento(item, index) {
       var medicamento = this.lista_med[index];
       let opciones = {
@@ -514,7 +512,7 @@ export default {
       axios.put('http://localhost:8081/medicamentos/'+ item.id_medicamento + '/', opciones).then((result) => {
         console.log(result);
       });
-    },
+    },*/
 
     //Funcion para eliminar el medicamento
     async deleteMedicamento(id){
@@ -523,13 +521,16 @@ export default {
      .then(datos =>{
        swal("Eliminacion Exitosa", " ", "success");
        console.log(datos);
+       this.hideModal();
      })
      .catch(error=>{
        swal("¡ERROR!", "Se ha detectado un problema ", "error")
        console.log(error);
+       this.hideModal();
      })
      .finally(() => this.testFetch());
     },
+    
 
     //Funcion para eliminar todos los medicamentos seleccionados
     async delete_all_Medicamentos(){

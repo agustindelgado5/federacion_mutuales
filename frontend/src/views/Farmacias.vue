@@ -264,15 +264,16 @@ export default {
     },
     altaFarmacia() {},
     async deleteFarmacia(cod_Farmacia) {
-      axios
-        .delete("http://localhost:8081/farmacias/" + cod_Farmacia + "/")
+        axios.delete("http://localhost:8081/farmacias/" + cod_Farmacia + "/")
         .then((datos) => {
           swal("Operación Exitosa", " ", "success");
           console.log(datos);
+          this.hideModal();
         })
         .catch((error) => {
           swal("¡ERROR!", "Se ha detectado un problema ", "error");
           console.log(error);
+          this.hideModal();
         })
         .finally(() => this.testFetch());
     },
