@@ -1,12 +1,13 @@
 <template>
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
-    <h4>Datos </h4>   
-    <b-form >
-      <b-form-group label="*ID" label-for="id_medicamento">
+    <h4>Datos </h4>
+ 
+    <b-form>
+      <b-form-group label="*ID" >
         <b-form-input
             id="id_medicamento"
-            v-model="medicamentos.id_medicamento"
+            v-model="item_med.id_medicamento"
             type="number"
             placeholder="Ingrese un Numero"
             invalid-feedback="Complete este campo"
@@ -14,10 +15,10 @@
         >
         </b-form-input>
       </b-form-group>
-      <b-form-group label="*Nombre" label-for="nombre">
+      <b-form-group label="*Nombre" >
         <b-form-input
             id="nombre"
-            v-model="medicamentos.nombre"
+            v-model="item_med.nombre"
             type="text"
             placeholder="Ingrese el nombre"
             invalid-feedback="Complete este campo"
@@ -26,10 +27,10 @@
         </b-form-input>
       </b-form-group>
       
-      <b-form-group label="*Presentacion" label-for="presentacion">
+      <b-form-group label="*Presentacion" >
         <b-form-textarea
           id="presentacion"
-          v-model="medicamentos.presentacion"
+          v-model="item_med.presentacion"
           type="text"
           placeholder="Describa la presentacion"
           invalid-feedback="Complete este campo"
@@ -39,12 +40,11 @@
         >
         </b-form-textarea>
       </b-form-group>
-      <b-form-group label="*Laboratorio" label-for="laboratorio">
+      <b-form-group label="*Laboratorio">
         <b-form-input
             id="laboratorio"
-            v-model="medicamentos.laboratorio"
+            v-model="item_med.laboratorio"
             type="text"
-            :state="text.length >= 1"
             placeholder="Ingrese el nombre"
             invalid-feedback="Complete este campo"
             required
@@ -52,10 +52,10 @@
         </b-form-input>
       </b-form-group>
       
-      <b-form-group label="*Farmacia" label-for="cod_farmacia">
+      <b-form-group label="*Farmacia">
         <b-form-select
             id="cod_farmacia"
-            v-model="medicamentos.cod_farmacia"
+            v-model="item_med.cod_farmacia"
             type="text"
             placeholder="Ingrese un Numero"
             invalid-feedback="Complete este campo"
@@ -64,13 +64,15 @@
         >
         </b-form-select>
       </b-form-group>
-      
-
-      
     </b-form>
-    {{ medicamentos}}
+    
+    
+    {{item_med}}
+    <br>
+    <br>
     {{ data }}
-     <b-button class="mt-2" variant="success" block @click="putMedicamento()">PUT TEST</b-button>
+    
+    <b-button class="mt-2" variant="success" block @click="putMedicamento()">PUT TEST</b-button>
   </div>
 </template>
 
@@ -79,9 +81,12 @@ import { APIControler } from "../store/APIControler";
 import axios from "axios";
 
 export default {
+  props: {
+    item_med: {},
+  },
   data() {
     return {
-      medicamentos: {},
+      //medicamentos: {},
       farmacias:{},
       data: {},
       options: [
@@ -107,32 +112,18 @@ export default {
         this.options.push(option);
       });
     },
-    /*
-    async getMedicamento() {
-      let medicamentosAPI = new APIControler();
-      this.data = await medicamentosAPI.getData();
-    },*/
-    /*
-    async postMedicamento() {
-      let medicamentosAPI = new APIControler();
-      medicamentosAPI.apiUrl.pathname='medicamentos/'
-      this.data = await medicamentosAPI.postData(this.medicamentos);
-    },*/
-
     
     async putMedicamento() {
       try{
-        this.data= await axios.put('http://localhost:8081/medicamentos/'+1+ '/', this.data)
-        //let medicamentosAPI = new APIControler();
-        //medicamentosAPI.apiUrl.pathname='medicamentos/'+this.medicamentos.id_medicamento + '/';
-        //this.data = await medicamentosAPI.putData(this.medicamentos);
+        this.item_med= await axios.put('http://localhost:8081/medicamentos/'+this.item_med.id_medicamento+ '/', this.item_med)
         swal("Operación Exitosa", " ", "success");
+        console.log(this.item_med);
       }
       catch(error) {
           swal("¡ERROR!", "Se ha detectado un problema ", "error");
           console.log(error);
       }
-      //finally{this.getData()} ;
+      finally{location.href = '/medicamentos'} ;
     },
   },
 };
