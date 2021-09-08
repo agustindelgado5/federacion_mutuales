@@ -104,7 +104,38 @@
               <v-icon class="mr-2"> mdi-delete </v-icon>
               Eliminar
             </b-button>
-            <!-- ================ELIMINAR SOCIO======================== -->
+            
+          </b-button-group>
+        </div>
+      </template>
+      <template #row-details="row">
+        <b-card title="Datos de la farmacia: " >
+          <div>
+            <b-list-group horizontal>
+              <b-list-group class="col-3">  
+                <b-list-group-item><b>Codigo:</b> {{ row.item.cod_farmacia }}</b-list-group-item>
+                <b-list-group-item><b>Matricula:</b> {{ row.item.matricula_farm }}</b-list-group-item>
+                <b-list-group-item><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item>
+              </b-list-group>
+              &nbsp;
+              <b-list-group class="col-5">
+                <b-list-group-item><b>Farmacia:</b> {{ row.item.farmacia }}</b-list-group-item>
+                <b-list-group-item><b>Sucursal:</b> {{ row.item.localidad }}</b-list-group-item>
+                <b-list-group-item><b>Correo:</b> {{ row.item.email }} </b-list-group-item>
+              </b-list-group>
+              &nbsp;
+              <b-list-group class="col-4">
+                <b-list-group-item><b>Telefono Fijo:</b> {{ row.item.tel_fijo }}</b-list-group-item>
+                <b-list-group-item><b>Celular:</b> {{ row.item.tel_celular }}</b-list-group-item>
+                <b-list-group-item><b>Representante:</b> {{ row.item.representante }} </b-list-group-item>
+              </b-list-group>
+                
+            </b-list-group>
+          </div>            
+        </b-card>
+      </template>
+    </b-table>
+    <!-- ================ELIMINAR FARMACIA======================== -->
 
             <b-modal
               id="modal_eliminar"
@@ -136,36 +167,6 @@
                 Eliminar
               </b-button>
             </b-modal>
-          </b-button-group>
-        </div>
-      </template>
-      <template #row-details="row">
-        <b-card title="Datos de la farmacia: " >
-          <div>
-            <b-list-group horizontal>
-              <b-list-group class="col-3">  
-                <b-list-group-item><b>Codigo:</b> {{ row.item.cod_farmacia }}</b-list-group-item>
-                <b-list-group-item><b>Matricula:</b> {{ row.item.matricula_farm }}</b-list-group-item>
-                <b-list-group-item><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item>
-              </b-list-group>
-              &nbsp;
-              <b-list-group class="col-5">
-                <b-list-group-item><b>Farmacia:</b> {{ row.item.farmacia }}</b-list-group-item>
-                <b-list-group-item><b>Sucursal:</b> {{ row.item.localidad }}</b-list-group-item>
-                <b-list-group-item><b>Correo:</b> {{ row.item.email }} </b-list-group-item>
-              </b-list-group>
-              &nbsp;
-              <b-list-group class="col-4">
-                <b-list-group-item><b>Telefono Fijo:</b> {{ row.item.tel_fijo }}</b-list-group-item>
-                <b-list-group-item><b>Celular:</b> {{ row.item.tel_celular }}</b-list-group-item>
-                <b-list-group-item><b>Representante:</b> {{ row.item.representante }} </b-list-group-item>
-              </b-list-group>
-                
-            </b-list-group>
-          </div>            
-        </b-card>
-      </template>
-    </b-table>
     <b-container fluid>
       <b-col class="my-1">
         <b-pagination
@@ -227,8 +228,8 @@ export default {
       return this.tabla_farmacias.cod_farmacia;
     },
     items() {
-      return tabla_socios.filter((item) => {
-        return item.numero_socio
+      return tabla_farmacias.filter((item) => {
+        return item.cod_farmacia
           .toLowerCase()
           .includes(this.buscar.toLowerCase());
       });
@@ -285,10 +286,10 @@ export default {
         td,
         i,
         txtValue,
-        NumSocio,
-        Apellido,
-        Nombre,
-        DNI;
+        p1,//codigo
+        p2,//matricula
+        p3,//CUIT
+        p4;//Nombre de la farmacia
       input = this.$refs.buscadorlista;
       filter = input.value.toUpperCase();
       table = document.getElementById("tablaregistros");
@@ -297,11 +298,11 @@ export default {
       // Loop through all list items, and hide those who don't match the search query
       for (i = 1; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td");
-        NumSocio = td[0].textContent || td[0].innerText;
-        Apellido = td[1].textContent || td[1].innerText;
-        Nombre = td[2].textContent || td[2].innerText;
-        DNI = td[3].textContent || td[3].innerText;
-        txtValue = NumSocio + Apellido + Nombre + DNI;
+        p1 = td[0].textContent || td[0].innerText;
+        p2 = td[1].textContent || td[1].innerText;
+        p3 = td[2].textContent || td[2].innerText;
+        p4 = td[3].textContent || td[3].innerText;
+        txtValue = p1 + p2 + p3 + p4;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
         } else {
