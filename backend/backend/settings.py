@@ -25,8 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # Django custom apps
-    'authentication',
+    
     # Django REST framework
     "rest_framework",
     'rest_framework.authtoken',
@@ -87,6 +86,7 @@ REST_FRAMEWORK = {
 
 
 # CORS
+CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ORIGIN = [
     "http://localhost:8080",
@@ -124,7 +124,7 @@ DATABASES = {
 }
 
 # Custom user model
-AUTH_USER_MODEL = "authentication.CustomUser"
+AUTH_USER_MODEL = 'Administracion.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
