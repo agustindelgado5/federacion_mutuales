@@ -84,7 +84,19 @@ const routes = [
     component: () => import("../views/Cobradores.vue"),
     meta: { title: 'Cobradores - Federación Tucumana de Mutuales' }
   },
-  
+  {
+    path: "/login",
+    name: "Login",
+    //component: Cobradores,
+
+    component: () => import("../views/Login.vue"),
+    meta: { title: 'Login - Federación Tucumana de Mutuales' }
+  },
+  {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: () => import('../views/ForgotPassword.vue')
+  },
 ];
 
 const router = new VueRouter({
