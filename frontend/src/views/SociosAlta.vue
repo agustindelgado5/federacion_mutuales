@@ -1,174 +1,198 @@
 <template>
-  <div>
+  <div class="accordion" role="tablist">
+    
     <h6>Los campos en (*) son obligatorios</h6>
     
-    <b-form >
-      
-      <h4>Datos Personales: </h4>
-      <b-form-group label="*N° Socio" label-for="numero_socio">
-        <b-form-input
-            id="numero_socio"
-            v-model="socio.numero_socio"
-            type="number"
-            placeholder="Ingrese un Numero"
-            invalid-feedback="Complete este campo"
-            required
-        >
-        </b-form-input>
-    </b-form-group>
-      <b-form-group label="*Nombre/s" label-for="nombre">
-        <b-form-input
-          id="nombre"
-          v-model="socio.nombre"
-          type="text"
-          placeholder="*Ingrese los Nombre/s"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
-      <b-form-group label="*Apellido/s" label-for="apellido">
-        <b-form-input
-          id="apellido"
-          v-model="socio.apellido"
-          type="text"
-          placeholder="*Ingrese los Apellido/s"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
-      <b-form-group label="*DNI" label-for="dni">
-        <b-form-input
-          id="dni"
-          v-model="socio.dni"
-          type="number"
-          placeholder="Ingrese un DNI"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
+    <b-form>
+      <b-card no-body class="mb-1">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button block v-b-toggle.accordion-1 style="background-color:darkorange;">Datos Personales:</b-button>
+        </b-card-header>
+        <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+          <b-card-body>
+            <b-form-group label="*N° Socio" label-for="numero_socio">
+              <b-form-input
+              id="numero_socio"
+              v-model="socio.numero_socio"
+              type="number"
+              placeholder="Ingrese un Numero"
+              invalid-feedback="Complete este campo"
+              required
+              >
+              </b-form-input>
+            </b-form-group>
+            <b-form-group label="*Nombre/s" label-for="nombre">
+              <b-form-input
+                id="nombre"
+                v-model="socio.nombre"
+                type="text"
+                placeholder="*Ingrese los Nombre/s"
+                invalid-feedback="Complete este campo"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+            <b-form-group label="*Apellido/s" label-for="apellido">
+              <b-form-input
+                id="apellido"
+                v-model="socio.apellido"
+                type="text"
+                placeholder="*Ingrese los Apellido/s"
+                invalid-feedback="Complete este campo"
+                required
+              >
+              </b-form-input>
+          </b-form-group>
+          <b-form-group label="*DNI" label-for="dni">
+            <b-form-input
+              id="dni"
+              v-model="socio.dni"
+              type="number"
+              placeholder="Ingrese un DNI"
+              invalid-feedback="Complete este campo"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
 
-      
-      <b-form-group label="*Fecha de nacimiento" label-for="fecha_nacimiento">
-        <b-form-input
-          id="fecha_nacimiento"
-          v-model="socio.fecha_nacimiento"
-          type="date"
-          placeholder="Ingrese una fecha"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
-      <h4>Domicilio: </h4>
-      <b-form-group label="*Calle" label-for="calle">
-        <b-form-input
-          id="calle"
-          v-model="socio.calle"
-          type="text"
-          placeholder="Ingrese una calle"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
+          <b-form-group label="*Fecha de nacimiento" label-for="fecha_nacimiento">
+            <b-form-input
+              id="fecha_nacimiento"
+              v-model="socio.fecha_nacimiento"
+              type="date"
+              placeholder="Ingrese una fecha"
+              invalid-feedback="Complete este campo"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+            
+        </b-card-body>
+      </b-collapse>
+    </b-card>
 
-      <b-form-group label="*Localidad" label-for="localidad">
-        <b-form-input
-          id="localidad"
-          v-model="socio.localidad"
-          type="text"
-          placeholder="Ingrese una localidad"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
+    <b-card no-body class="mb-1">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button block v-b-toggle.accordion-2 style="background-color:darkorange;">Domicilio:</b-button>
+        </b-card-header>
+        <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
+          <b-card-body>
+            <b-form-group label="*Calle" label-for="calle">
+              <b-form-input
+                id="calle"
+                v-model="socio.calle"
+                type="text"
+                placeholder="Ingrese una calle"
+                invalid-feedback="Complete este campo"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+
+            <b-form-group label="*Localidad" label-for="localidad">
+              <b-form-input
+                id="localidad"
+                v-model="socio.localidad"
+                type="text"
+                placeholder="Ingrese una localidad"
+                invalid-feedback="Complete este campo"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+      
+
+            <b-form-group label="*Departamento" label-for="departamento">
+              <b-form-select
+                id="departamento"
+                v-model="socio.departamento"
+                type="text"
+                placeholder="Ingrese un departamento"
+                invalid-feedback="Complete este campo"
+                required
+                :options="options"
+              >
+              </b-form-select>
+            </b-form-group>
+
+
+            <b-form-group label="*Codigo postal" label-for="cod_postal">
+              <b-form-input
+                id="cod_postal"
+                v-model="socio.cod_postal"
+                type="number"
+                placeholder="Ingrese un numero"
+                invalid-feedback="Complete este campo"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+          </b-card-body>
+      </b-collapse>
+    </b-card>
+
+    <b-card no-body class="mb-1">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button block v-b-toggle.accordion-3 style="background-color:darkorange;">Contacto:</b-button>
+        </b-card-header>
+        <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
+          <b-card-body>
+            <b-form-group label="*Email" label-for="email">
+             <b-form-input
+              id="email"
+              v-model="socio.email"
+              type="email"
+              placeholder="Ingrese un email"
+              invalid-feedback="Complete este campo"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Telefono fijo" label-for="tel_fijo">
+            <b-form-input
+              id="tel_fijo"
+              v-model="socio.tel_fijo"
+              type="number"
+              placeholder="Ingrese un numero"
+            >
+            </b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Celular" label-for="tel_celular">
+            <b-form-input
+              id="tel_celular"
+              v-model="socio.tel_celular"
+              type="number"
+              placeholder="Ingrese un numero"
+            >
+            </b-form-input>
+          </b-form-group>
+          <b-form-group label="Carencia" label-for="carencia">
+            <b-form-input
+              id="carencia"
+              v-model="socio.carencia"
+              type="date"
+              placeholder="Ingrese una fecha"
+              invalid-feedback="Complete este campo"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+        </b-card-body>
+      </b-collapse>
+    </b-card>
+
+          
+          
+      
+      
+      
+      
+      
+      
+      
       <!--
-      <b-form-group label="*Departamento" label-for="departamento">
-        <b-form-input
-          id="departamento"
-          v-model="socio.departamento"
-          type="text"
-          placeholder="Ingrese un departamento"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
-      -->
-
-      <b-form-group label="*Departamento" label-for="departamento">
-        <b-form-select
-          id="departamento"
-          v-model="socio.departamento"
-          type="text"
-          placeholder="Ingrese un departamento"
-          invalid-feedback="Complete este campo"
-          required
-          :options="options"
-        >
-        </b-form-select>
-      </b-form-group>
-
-
-      <b-form-group label="*Codigo postal" label-for="cod_postal">
-        <b-form-input
-          id="cod_postal"
-          v-model="socio.cod_postal"
-          type="number"
-          placeholder="Ingrese un numero"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
-      <h4>Contacto: </h4>
-      <b-form-group label="*Email" label-for="email">
-        <b-form-input
-          id="email"
-          v-model="socio.email"
-          type="email"
-          placeholder="Ingrese un email"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
-
-      <b-form-group label="Telefono fijo" label-for="tel_fijo">
-        <b-form-input
-          id="tel_fijo"
-          v-model="socio.tel_fijo"
-          type="number"
-          placeholder="Ingrese un numero"
-        >
-        </b-form-input>
-      </b-form-group>
-
-      <b-form-group label="Celular" label-for="tel_celular">
-        <b-form-input
-          id="tel_celular"
-          v-model="socio.tel_celular"
-          type="number"
-          placeholder="Ingrese un numero"
-        >
-        </b-form-input>
-      </b-form-group>
-      <b-form-group label="Carencia" label-for="carencia">
-        <b-form-input
-          id="carencia"
-          v-model="socio.carencia"
-          type="date"
-          placeholder="Ingrese una fecha"
-          invalid-feedback="Complete este campo"
-          required
-        >
-        </b-form-input>
-      </b-form-group>
-
       <h4>Servicios: </h4>
       <b-form-group label="*Servicios" label-for="servicios">
         <div id='plan_servicios'>
@@ -184,12 +208,95 @@
           <span>Plan de servicios: {{ plan }}</span>
         </div>
       </b-form-group>
-    </b-form>
-    {{ socio }}
-    {{ data }}
-    <!--
-    <b-button class="mt-3"  block @click="hideModal">CERRAR</b-button>
     -->
+    </b-form>
+    
+
+    <!---------------- FAMILIARES ---------------------------->
+    <b-button class="mt-2" variant="primary"  @click="sumarFliares()" style="color:white;">¿Agregar adherentes?</b-button>
+    <div v-show="btn_familiar" v-for="i in cantidad" :key="i">
+      <b-form>
+        <h4>Datos de los Adherentes: </h4>
+        <!--
+        <b-form-group label="*N° Socio">
+          <b-form-input
+            id="numero_socio"
+            v-model="socio.numero_socio"
+            type="number"
+            placeholder="Ingrese un Numero"
+            invalid-feedback="Complete este campo"
+            required
+          >
+          </b-form-input>
+        </b-form-group>
+        -->
+        <b-form-group label="*Nombre/s" label-for="nombre">
+          <b-form-input
+            id="nombre"
+            v-model="familiar.nombre"
+            type="text"
+            placeholder="*Ingrese los Nombre/s"
+            invalid-feedback="Complete este campo"
+            required
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group label="*Apellido/s" label-for="apellido">
+          <b-form-input
+            id="apellido"
+            v-model="familiar.apellido"
+            type="text"
+            placeholder="*Ingrese los Apellido/s"
+            invalid-feedback="Complete este campo"
+            required
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group label="*DNI" label-for="dni_familiar">
+          <b-form-input
+            id="dni_familiar"
+            v-model="familiar.dni_familiar"
+            type="number"
+            placeholder="Ingrese un DNI"
+            invalid-feedback="Complete este campo"
+            required
+          >
+          </b-form-input>
+        </b-form-group>
+
+      
+        <b-form-group label="*Fecha de nacimiento" label-for="fecha_nacimiento">
+          <b-form-input
+            id="fecha_nacimiento"
+            v-model="familiar.fecha_nacimiento"
+            type="date"
+            placeholder="Ingrese una fecha"
+            invalid-feedback="Complete este campo"
+            required
+          >
+          </b-form-input>
+        </b-form-group>
+  
+
+        <b-form-group label="Carencia" label-for="carencia">
+          <b-form-input
+            id="carencia"
+            v-model="familiar.carencia"
+            type="date"
+            placeholder="Ingrese una fecha"
+            invalid-feedback="Complete este campo"
+            required
+          >
+          </b-form-input>
+      </b-form-group>
+    </b-form>
+    <b-button class="mt-2" variant="primary" @click="sumarFliares()" style="color:white;">+</b-button>
+    
+  </div>
+
+    {{ socio }}
+    {{familiar}}
+    {{ data }}
     <b-button class="mt-2" variant="success" block @click="postSocio()">POST TEST</b-button>
     
   </div>
@@ -203,8 +310,11 @@ export default {
   data() {
     return {
       socio: {},
+      familiar:{},
       data: {},
       plan: [],
+      btn_familiar: false,
+      cantidad: 0,
       select: null,
       options: [
         {value: null, text: 'Elija un departamento'},
@@ -237,6 +347,41 @@ export default {
     async postSocio() {
       let socioAPI = new APIControler();
       this.data = await socioAPI.postData(this.socio);
+      if(this.familiar.length>0){this.postFamiliar();}
+      
+      this.resetForm();
+    },
+    async sumarFliares(){
+      this.btn_familiar=true;
+      this.resetFormAdh();
+      this.cantidad=this.cantidad +1;
+    },
+    async postFamiliar() {
+      let familiarAPI = new APIControler();
+      this.familiar.numero_socio=this.data.numero_socio;
+      this.data = await familiarAPI.postData(this.familiar);
+      this.resetFormAdh();
+    },
+    async resetForm() {
+        this.socio.numero_socio = null;
+        this.socio.apellido = "";
+        this.socio.nombre = "";
+        this.socio.dni = null;
+        this.socio.fecha_nacimiento=null;
+        this.socio.calle = "";
+        this.socio.localidad = "";
+        this.socio.departamento = "";
+        this.socio.cod_postal = null;
+        this.socio.tel_fijo = null;
+        this.socio.tel_celular = null;
+        this.socio.carencia= null;
+    },
+    async resetFormAdh() {
+        this.familiar.apellido = "";
+        this.familiar.nombre = "";
+        this.familiar.dni_familiar = null;
+        this.familiar.fecha_nacimiento=null;
+        this.familiar.carencia= null;
     },
   },
 };

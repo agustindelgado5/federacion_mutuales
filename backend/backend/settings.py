@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "Medicamentos.apps.MedicamentosAppConfig",
     "Ordenes.apps.OrdenesAppConfig",
     "Mutuales.apps.MutualesAppConfig",
+    "Cobradores.apps.CobradoresAppConfig"
 ]
 
 MIDDLEWARE = [
@@ -119,7 +120,7 @@ DATABASES = {
         "USER": "admin",
         "PASSWORD": "contraseniasegura",
         "HOST": "database",
-        "DATABASE_PORT": "5430",
+        "DATABASE_PORT": "5432",
     },
     "postgres_leonel": {
         "ENGINE": "django.db.backends.postgresql",

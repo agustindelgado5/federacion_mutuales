@@ -1,3 +1,6 @@
+# Node
+node_modules/
+
 # Editors
 .vscode/
 .idea/
@@ -134,3 +137,7 @@ dmypy.json
 *.db
 data
 migrations
+
+#Carpeta npm modules
+frontend/node_modules/
+node_modules/

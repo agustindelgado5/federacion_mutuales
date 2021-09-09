@@ -21,6 +21,35 @@
       <profesionales-alta/>
     </b-modal>
 
+    <!-- ======== Formulario de Busqueda ======== -->
+    <div>
+      <b-input-group size="sm" class="mb-2">
+        <b-input-group-prepend is-text>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-search"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+            />
+          </svg>
+        </b-input-group-prepend>
+        <b-form-input
+          v-model="buscar"
+          type="text"
+          placeholder="Busque un registro"
+          v-on:keyup="buscarnow()"
+          ref="buscadorlista"
+          id="buscadorlista"
+        ></b-form-input>
+      </b-input-group>
+    </div>
+    <!-- ======================================== -->
+
     <b-table
       :fields="fields"
       striped
@@ -33,10 +62,13 @@
       :current-page="currentPage"
       :sticky-header= true
       :no-border-collapse= false
+      ref="tablaregistros"
+      id="tablaregistros"
     >
       <template #empty="">
         <b>No hay registros para mostrar</b>
       </template>
+
       <template slot="cell(id_medico)" slot-scope="data">
         <b>{{data.value}}</b>
       </template>
@@ -54,12 +86,17 @@
         <b-button variant="danger" size="sm">Eliminar</b-button>
       </template>
     -->
-      <template slot="cell(action)" slot-scope="">
+      <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
           <b-button-group>
-            <b-button variant="info" id="button-1" title="Mostrar Info"
-              >Mostrar Info</b-button
+            <b-button
+              variant="info"
+              id="button-1"
+              title="Mostrar Info"
+              @click="row.toggleDetails"
             >
+              {{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+            </b-button>
 
             <b-button
               variant="warning"
@@ -75,7 +112,7 @@
             <b-button
               variant="danger"
               id="button-3"
-              @click="showModal"
+              @click="showModalinfo(row.item, row.index)"
               title="Eliminar este registro"
             >
               <v-icon class="mr-2">
@@ -84,9 +121,19 @@
               Eliminar
             </b-button>
 
-            <b-modal ref="my-modal" hide-footer title="Eliminar">
+            <b-modal
+              id="modal_eliminar"
+              ref="my-modal"
+              hide-footer
+              title="Eliminar"
+              ok-only
+            >
               <div class="d-block text-center">
-                <h3>¿Esta seguro de eliminar los datos de ... ?</h3>
+                <h3>
+                  ¿Esta seguro de eliminar los datos de
+                  {{ infoEliminar.profesional.apellido }},
+                  {{ infoEliminar.profesional.nombre }} ?
+                </h3>
               </div>
               <b-button
                 class="mt-2"
@@ -100,11 +147,27 @@
                 variant="danger"
                 block
                 title="Eliminar"
+                @click="deleteProfesional(infoEliminar.profesional.id_medico)"
                 >Eliminar</b-button
               >
             </b-modal>
           </b-button-group>
         </div>
+      </template>
+      <template #row-details="row">
+          <b-card>
+              <ul>
+                  <!-- Para cargar todos los campos automáticamente (habría que darle formato) -->
+                  <!-- <li v-for="(value, key) in row.item" :key="key">
+              {{ key }}: {{ value }}
+            </li> -->
+                  <!-- A mano, es más facil pero "menos automático" Dx -->
+                  <li>Edad: {{ row.item.localidad }}</li>
+                  <li>Calle: {{ row.item.calle }}</li>
+                  <li>Localidad: {{ row.item.calle }}</li>
+
+              </ul>
+          </b-card>
       </template>
     </b-table>
 
@@ -121,7 +184,10 @@
         </b-pagination>
       </b-col>
     </b-container>
-
+    <b-modal id="modal-modificar" hide-footer> 
+      <template #modal-title><h5 class="modal-title">Modificar Profesional</h5></template>
+      <profesionales-alta/>
+    </b-modal>
   </div>
 </template>
 
@@ -132,7 +198,7 @@ api.pathname = "profesionales";
 api.port = 8081;
 
 import ProfesionalesAlta from './ProfesionalesAlta.vue';
-
+import axios from "axios";
 
 export default {
   components: { ProfesionalesAlta },
@@ -167,12 +233,26 @@ export default {
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
       perPage: 3, // Datos en la tabla por pagina
+      infoEliminar: {
+        id: "modal_eliminar",
+        profesional: -1,
+      },
     };
   },
 
   computed: {
       rows() {
         return this.tabla_profesionales.length;
+      },
+      id() {
+          return this.tabla_profesionales.id_medico;
+      },
+      items() {
+          return tabla_profesionales.filter((item) => {
+              return item.id_medico
+                  .toLowerCase()
+                  .includes(this.buscar.toLowerCase());
+          });
       },
   },
 
@@ -196,9 +276,60 @@ export default {
     showModal() {
       this.$refs["my-modal"].show();
     },
+    showModalinfo(item, index) {
+        this.infoEliminar.profesional = item;
+        this.showModal();
+    },
     //Funcion para esconder el modal
     hideModal() {
       this.$refs["my-modal"].hide();
+    },
+    async deleteProfesional(id_medico) {
+        axios
+            .delete("http://localhost:8081/profesionales/" + id_medico + "/")
+            .then((datos) => {
+                swal("Operación Exitosa", " ", "success");
+                console.log(datos);
+            })
+            .catch((error) => {
+                swal("¡ERROR!", "Se ha detectado un problema ", "error");
+                console.log(error);
+            })
+            .finally(() => this.testFetch());
+    },
+    async buscarnow() {
+      // Declare variables
+      var input,
+        filter,
+        table,
+        tr,
+        td,
+        i,
+        txtValue,
+        NumSocio,
+        Apellido,
+        Nombre,
+        DNI;
+      input = document.getElementById("buscadorlista");;
+      filter = input.value.toUpperCase();
+      table = document.getElementById("tablaregistros");
+      tr = table.getElementsByTagName("tr");
+      
+
+      // Loop through all list items, and hide those who don't match the search query
+      for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td");
+        NumSocio = td[0].textContent || td[0].innerText;
+        Apellido = td[1].textContent || td[1].innerText;
+        Nombre = td[2].textContent || td[2].innerText;
+        DNI = td[3].textContent || td[3].innerText;
+        txtValue = NumSocio + Apellido + Nombre + DNI;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
     },
   },
 };
