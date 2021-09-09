@@ -1,3 +1,11 @@
-# from django.db import models
+from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-# # Create your models here.
+# Create your models here.
+
+class CustomUser(AbstractUser):
+    email = models.EmailField(max_length=150, unique=True)
+    """
+    class Meta (AbstractUser.Meta):
+        swappable = 'AUTH_USER_MODEL'
+    """
