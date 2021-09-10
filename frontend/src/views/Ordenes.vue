@@ -21,7 +21,35 @@
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <ordenes-alta/>
     </b-modal>
-
+<!-- ======== Formulario de Busqueda ======== -->
+    <div>
+      <b-input-group size="sm" class="mb-2">
+        <b-input-group-prepend is-text>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-search"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+            />
+          </svg>
+        </b-input-group-prepend>
+        <b-form-input
+          v-model="buscar"
+          type="text"
+          placeholder="Busque un registro"
+          v-on:keyup="buscarnow()"
+          ref="buscadorlista"
+        ></b-form-input>
+      </b-input-group>
+    </div>
+    <!-- ======================================== -->
+    <!-- ======== Tabla con los registros ======= -->
+ 
     <b-table
       :fields="fields"
       striped
@@ -34,6 +62,8 @@
       :current-page="currentPage"
       :sticky-header= true
       :no-border-collapse= false
+      ref="tablaregistros"
+      id="tablaregistros"
     >
       <template #empty="">
         <b>No hay registros para mostrar</b>
@@ -72,17 +102,19 @@
           NO
         </div>
       </template>
-      <template slot="cell(action)" slot-scope="">
+      <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
           <b-button-group>
-            <b-button variant="info" id="button-1" title="Mostrar Info"
+            <!-- <b-button variant="info" id="button-1" title="Mostrar Info"
               >Mostrar Info</b-button
-            >
+            > -->
 
-            <b-button
+            <b-button 
               variant="warning"
               id="button-2"
               title="Editar este registro"
+              v-b-modal.modal-editar
+              @click="editarOrden(row.item, row.index)"
             >
               <v-icon class="mr-2">
                 mdi-pencil
@@ -93,7 +125,7 @@
             <b-button
               variant="danger"
               id="button-3"
-              @click="showModal"
+              @click="showModalinfo(row.item, row.index)"
               title="Eliminar este registro"
             >
               <v-icon class="mr-2">
@@ -101,26 +133,6 @@
               </v-icon>
               Eliminar
             </b-button>
-
-            <b-modal ref="my-modal" hide-footer title="Eliminar">
-              <div class="d-block text-center">
-                <h3>¿Esta seguro de eliminar los datos de ... ?</h3>
-              </div>
-              <b-button
-                class="mt-2"
-                block
-                @click="hideModal"
-                title="Volver Atras"
-                >Volver Atras</b-button
-              >
-              <b-button
-                class="mt-3"
-                variant="danger"
-                block
-                title="Eliminar"
-                >Eliminar</b-button
-              >
-            </b-modal>
           </b-button-group>
         </div>
       </template>
@@ -131,13 +143,40 @@
       </template>
     -->
     </b-table>
+<!-- ================ELIMINAR ORDEN======================== -->
 
+    <b-modal
+      id="modal_eliminar"
+      ref="my-modal"
+      hide-footer
+      title="Eliminar"
+      ok-only
+    >
+      <div class="d-block text-center">
+        <h3>
+          ¿Esta seguro de eliminar los datos de la orden
+          {{ infoEliminar.orden.numero_orden }}?
+        </h3>
+      </div>
+      <b-button class="mt-2" block @click="hideModal" title="Volver Atras"
+        >Volver Atras</b-button
+      >
+      <b-button
+        class="mt-3"
+        variant="danger"
+        block
+        @click="deleteOrden(infoEliminar.orden.numero_orden)"
+        title="Eliminar"
+      >
+        Eliminar
+      </b-button>
+    </b-modal>
     <b-container fluid>
       <b-col class="my-1">
         <b-pagination
           v-model="currentPage"
           align="center"
-          pills 
+          pills
           :total-rows="rows"
           :per-page="perPage"
           aria-controls="table_ordenes"
@@ -145,7 +184,10 @@
         </b-pagination>
       </b-col>
     </b-container>
-
+    <b-modal id="modal-editar" hide-footer>
+      <template #modal-title><h5 class="modal-title">Editar</h5></template>
+      <ordenes-update :orden="editar" />
+    </b-modal>
   </div>
 </template>
 
@@ -156,9 +198,12 @@ api.pathname = "ordenes";
 api.port = 8081;
 
 import OrdenesAlta from './OrdenesAlta.vue';
+import OrdenesUpdate from "./OrdenesUpdate.vue";
+
+import axios from "axios";
 
 export default {
-  components: { OrdenesAlta },
+  components: { OrdenesAlta, OrdenesUpdate },
   data() {
     return {
       tabla_ordenes: [],
@@ -177,13 +222,29 @@ export default {
       ],
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
-      perPage: 3, // Datos en la tabla por pagina
+      perPage: 10, // Datos en la tabla por pagina
+      buscar: "",
+      editar: {},
+      infoEliminar: {
+        id: "modal_eliminar",
+        orden: -1,
+      },
     };
   },
   computed: {
       rows() {
         return this.tabla_ordenes.length;
       },
+      id() {
+        return this.tabla_ordenes.numero_orden;
+      },
+    items() {
+      return tabla_ordenes.filter((item) => {
+        return item.numero_orden
+          .toLowerCase()
+          .includes(this.buscar.toLowerCase());
+      });
+    },
   },
   methods: {
     async testFetch() {
@@ -200,15 +261,74 @@ export default {
         console.log(error);
       }
     },
+    editarOrden(item, index) {
+      this.editar = item;
+    },
     //Funcion para mostrar el modal
     showModal() {
       this.$refs["my-modal"].show();
+    },
+    showModalinfo(item, index) {
+      this.infoEliminar.orden = item;
+      this.showModal();
     },
     //Funcion para esconder el modal
     hideModal() {
       this.$refs["my-modal"].hide();
     },
     altaOrden(){},
+
+    async deleteOrden(nro_orden) {
+      axios
+        .delete("http://localhost:8081/ordenes/" + nro_orden + "/")
+        .then((datos) => {
+          swal("Operación Exitosa", " ", "success");
+          console.log(datos);
+          this.hideModal();
+        })
+        .catch((error) => {
+          swal("¡ERROR!", "Se ha detectado un problema ", "error");
+          console.log(error);
+          this.hideModal();
+        })
+        .finally(() => this.testFetch());
+    },
+    async buscarnow() {
+      // Declare variables
+      var input,
+        filter,
+        table,
+        tr,
+        td,
+        i,
+        txtValue,
+        p1, //nro de orden
+        p2, //nro de socio
+        p3, //servicio
+        p4, //id medico
+        p5; //fecha
+      input = this.$refs.buscadorlista;
+      filter = input.value.toUpperCase();
+      table = document.getElementById("tablaregistros");
+      tr = table.getElementsByTagName("tr");
+
+      // Loop through all list items, and hide those who don't match the search query
+      for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td");
+        p1 = td[0].textContent || td[0].innerText;
+        p2 = td[1].textContent || td[1].innerText;
+        p3 = td[3].textContent || td[3].innerText;
+        p4 = td[4].textContent || td[4].innerText;
+        p5 = td[6].textContent || td[6].innerText;
+        txtValue = p1 + p2 + p3 + p4 + p5;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    },
+
   },
   beforeMount(){
     this.testFetch()
