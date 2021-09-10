@@ -97,6 +97,11 @@ const routes = [
     name: 'forgot-password',
     component: () => import('../views/ForgotPassword.vue')
   },
+  {
+    path: '/cuotas',
+    name: 'cuotas',
+    component: () => import('../views/Cuotas.vue')
+  },
 ];
 
 const router = new VueRouter({

@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "Medicamentos.apps.MedicamentosAppConfig",
     "Ordenes.apps.OrdenesAppConfig",
     "Mutuales.apps.MutualesAppConfig",
-    "Cobradores.apps.CobradoresAppConfig"
+    "Cobradores.apps.CobradoresAppConfig",
+    "Cuotas.apps.CuotasAppConfig"
 ]
 
 MIDDLEWARE = [
