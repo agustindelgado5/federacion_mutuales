@@ -2,16 +2,16 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework import status , generics
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
-#from rest_framework.views import APIView
+from rest_framework.views import APIView
 from .serializers import UserSerializer
 from django.contrib.auth.hashers import make_password
 
 #Models
 from  Administracion.models import CustomUser
 
-class LoginView(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
-    queryset = CustomUser.objects.all()
+class LoginView(APIView):
+    #serializer_class = UserSerializer
+    #queryset = CustomUser.objects.all()
 
     def post(self, request):
         # Recuperamos las credenciales y autenticamos al usuario
@@ -30,26 +30,35 @@ class LoginView(viewsets.ModelViewSet):
     
     def validate_password(self, value):
         return make_password(value)
+
+    @classmethod
+    def get_extra_actions(cls):
+        return []
+
     
       
 
-class LogoutView(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
-    queryset = CustomUser.objects.all()
+class LogoutView(APIView):
+    #serializer_class = UserSerializer
+    #queryset = CustomUser.objects.all()
     def post(self, request):
         # Borramos de la request la información de sesión
         logout(request)
 
         # Devolvemos la respuesta al cliente
         return Response(status=status.HTTP_200_OK)
+    
+    @classmethod
+    def get_extra_actions(cls):
+        return []
+
 
     
 
 
-class SignupView(viewsets.ModelViewSet):
+class SignupView(generics.CreateAPIView):
     serializer_class = UserSerializer
-    #serializer_class = UserSerializer
-    queryset = CustomUser.objects.all()
+    #queryset = CustomUser.objects.all()
 
     def validate_password(self, value):
         return make_password(value)

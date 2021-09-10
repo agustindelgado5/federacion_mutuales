@@ -385,6 +385,7 @@ export default {
         //{key: 'tel_fijo',label: 'Telefono Fijo', sortable: true,},
         //{key:'tel_celular' ,label: 'Telefono Celular', sortable: true,},
         { key: "carencia", label: "Carencia", sortable: true },
+        {key: "aldia", label: "Al Día", sortable:true},
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
       totalRows: 1, //Total de filas
