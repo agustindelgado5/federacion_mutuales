@@ -102,12 +102,23 @@
               variant="warning"
               id="button-2"
               title="Editar este registro"
+              v-b-modal.modal-editar 
+              @click="editarProfesional(row.item, row.index)"
+              :disabled="btn_editar"
             >
               <v-icon class="mr-2">
                 mdi-pencil
               </v-icon>
               Editar
             </b-button>
+
+            <b-modal id="modal-editar" hide-footer>
+                <template #modal-title>
+                    <h5 class="modal-title">Editar</h5>
+                </template>
+                {{editar}}
+                <profesionales-update :item_prof="editar" />
+            </b-modal>
 
             <b-button
               variant="danger"
@@ -198,10 +209,11 @@ api.pathname = "profesionales";
 api.port = 8081;
 
 import ProfesionalesAlta from './ProfesionalesAlta.vue';
+import ProfesionalesUpdate from './ProfesionalesUpdate.vue';
 import axios from "axios";
 
 export default {
-  components: { ProfesionalesAlta },
+  components: { ProfesionalesAlta, ProfesionalesUpdate },
   data() {
     return {
       tabla_profesionales: [],
@@ -230,6 +242,7 @@ export default {
         },
         { key: "action", label: "Acciones" , variant: "secondary"},
       ],
+      editar: {},
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
       perPage: 3, // Datos en la tabla por pagina
@@ -296,6 +309,9 @@ export default {
                 console.log(error);
             })
             .finally(() => this.testFetch());
+    },
+    editarProfesional(item, index) {
+        this.editar = item;
     },
     async buscarnow() {
       // Declare variables

@@ -1,0 +1,14 @@
+http://localhost:8081/login/
+
+Content-Type: : application/json
+
+{
+    "email": "admin@admin.com",
+    "username": "admin",
+    "password": "pbkdf2_sha256$260000$JKRnfcCbcEkWSPx00Hxkva$+QB0/7EJ1MJ85p6MrT38ErOivEgY9BAk9V+TaMY8hkw="
+}
+{
+    "email": "leonelherreradkno@gmail.com",
+    "username": "leonel",
+    "password": "leonel29"
+}
