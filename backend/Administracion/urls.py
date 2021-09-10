@@ -8,7 +8,9 @@ from rest_framework.routers import DefaultRouter
 from Administracion import views
 
 router = DefaultRouter()
-router.register(r'users', views.UserViewSet, basename='users')
+router.register(r'login', views.LoginView, basename='login')
+router.register(r'logout', views.LogoutView, basename='logout')
+router.register(r'alta', views.SignupView, basename='alta')
 
 urlpatterns = [
     path('', include(router.urls))
