@@ -7,7 +7,7 @@
 
     <h2>Listado de Farmacias</h2>
     <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
-      <v-icon dark style="color:black;">mdi-cached</v-icon>
+      <v-icon dark style="color: black">mdi-cached</v-icon>
       Actualizar
     </b-button>
 
@@ -26,7 +26,7 @@
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
       <farmacias-alta />
     </b-modal>
-<!-- ======== Formulario de Busqueda ======== -->
+    <!-- ======== Formulario de Busqueda ======== -->
     <div>
       <b-input-group size="sm" class="mb-2">
         <b-input-group-prepend is-text>
@@ -90,6 +90,8 @@
               variant="warning"
               id="button-2"
               title="Editar este registro"
+              v-b-modal.modal-editar
+              @click="editarFarmacia(row.item, row.index)"
             >
               <v-icon class="mr-2"> mdi-pencil </v-icon>
               Editar
@@ -104,69 +106,84 @@
               <v-icon class="mr-2"> mdi-delete </v-icon>
               Eliminar
             </b-button>
-            
           </b-button-group>
         </div>
       </template>
+
       <template #row-details="row">
-        <b-card title="Datos de la farmacia: " >
+        <b-card title="Datos de la farmacia: ">
           <div>
             <b-list-group horizontal>
-              <b-list-group class="col-3">  
-                <b-list-group-item><b>Codigo:</b> {{ row.item.cod_farmacia }}</b-list-group-item>
-                <b-list-group-item><b>Matricula:</b> {{ row.item.matricula_farm }}</b-list-group-item>
-                <b-list-group-item><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item>
+              <b-list-group class="col-3">
+                <b-list-group-item
+                  ><b>Codigo:</b> {{ row.item.cod_farmacia }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>Matricula:</b>
+                  {{ row.item.matricula_farm }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item
+                >
               </b-list-group>
               &nbsp;
               <b-list-group class="col-5">
-                <b-list-group-item><b>Farmacia:</b> {{ row.item.farmacia }}</b-list-group-item>
-                <b-list-group-item><b>Sucursal:</b> {{ row.item.localidad }}</b-list-group-item>
-                <b-list-group-item><b>Correo:</b> {{ row.item.email }} </b-list-group-item>
+                <b-list-group-item
+                  ><b>Farmacia:</b> {{ row.item.farmacia }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>Sucursal:</b> {{ row.item.localidad }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>Correo:</b> {{ row.item.email }}
+                </b-list-group-item>
               </b-list-group>
               &nbsp;
               <b-list-group class="col-4">
-                <b-list-group-item><b>Telefono Fijo:</b> {{ row.item.tel_fijo }}</b-list-group-item>
-                <b-list-group-item><b>Celular:</b> {{ row.item.tel_celular }}</b-list-group-item>
-                <b-list-group-item><b>Representante:</b> {{ row.item.representante }} </b-list-group-item>
+                <b-list-group-item
+                  ><b>Telefono Fijo:</b>
+                  {{ row.item.tel_fijo }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>Celular:</b> {{ row.item.tel_celular }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>Representante:</b> {{ row.item.representante }}
+                </b-list-group-item>
               </b-list-group>
-                
             </b-list-group>
-          </div>            
+          </div>
         </b-card>
       </template>
     </b-table>
     <!-- ================ELIMINAR FARMACIA======================== -->
 
-            <b-modal
-              id="modal_eliminar"
-              ref="my-modal"
-              hide-footer
-              title="Eliminar"
-              ok-only
-            >
-              <div class="d-block text-center">
-                <h3>
-                  ¿Esta seguro de eliminar los datos de
-                  {{ infoEliminar.farmacia.farmacia}}?
-                </h3>
-              </div>
-              <b-button
-                class="mt-2"
-                block
-                @click="hideModal"
-                title="Volver Atras"
-                >Volver Atras</b-button
-              >
-              <b-button
-                class="mt-3"
-                variant="danger"
-                block
-                @click="deleteFarmacia(infoEliminar.farmacia.cod_farmacia)"
-                title="Eliminar"
-              >
-                Eliminar
-              </b-button>
-            </b-modal>
+    <b-modal
+      id="modal_eliminar"
+      ref="my-modal"
+      hide-footer
+      title="Eliminar"
+      ok-only
+    >
+      <div class="d-block text-center">
+        <h3>
+          ¿Esta seguro de eliminar los datos de
+          {{ infoEliminar.farmacia.farmacia }}?
+        </h3>
+      </div>
+      <b-button class="mt-2" block @click="hideModal" title="Volver Atras"
+        >Volver Atras</b-button
+      >
+      <b-button
+        class="mt-3"
+        variant="danger"
+        block
+        @click="deleteFarmacia(infoEliminar.farmacia.cod_farmacia)"
+        title="Eliminar"
+      >
+        Eliminar
+      </b-button>
+    </b-modal>
     <b-container fluid>
       <b-col class="my-1">
         <b-pagination
@@ -180,6 +197,10 @@
         </b-pagination>
       </b-col>
     </b-container>
+    <b-modal id="modal-editar" hide-footer>
+      <template #modal-title><h5 class="modal-title">Editar</h5></template>
+      <farmacias-update :farmacia="editar" />
+    </b-modal>
   </div>
 </template>
 
@@ -191,10 +212,12 @@ api.port = 8081;
 import VueAwesomplete from "vue-awesomplete";
 
 import FarmaciasAlta from "./FarmaciasAlta.vue";
+import FarmaciasUpdate from "./FarmaciasUpdate.vue";
+
 import axios from "axios";
 
 export default {
-  components: { FarmaciasAlta },
+  components: { FarmaciasAlta, FarmaciasUpdate },
   data() {
     return {
       tabla_farmacias: [],
@@ -214,6 +237,7 @@ export default {
       currentPage: 1, //Pagina actual
       perPage: 10, // Datos en la tabla por pagina
       buscar: "",
+      editar: {},
       infoEliminar: {
         id: "modal_eliminar",
         farmacia: -1,
@@ -250,6 +274,9 @@ export default {
         console.log(error);
       }
     },
+    editarFarmacia(item, index) {
+      this.editar = item;
+    },
     //Funcion para mostrar el modal
     showModal() {
       this.$refs["my-modal"].show();
@@ -263,8 +290,10 @@ export default {
       this.$refs["my-modal"].hide();
     },
     altaFarmacia() {},
+
     async deleteFarmacia(cod_Farmacia) {
-        axios.delete("http://localhost:8081/farmacias/" + cod_Farmacia + "/")
+      axios
+        .delete("http://localhost:8081/farmacias/" + cod_Farmacia + "/")
         .then((datos) => {
           swal("Operación Exitosa", " ", "success");
           console.log(datos);
@@ -287,10 +316,10 @@ export default {
         td,
         i,
         txtValue,
-        p1,//codigo
-        p2,//matricula
-        p3,//CUIT
-        p4;//Nombre de la farmacia
+        p1, //codigo
+        p2, //matricula
+        p3, //CUIT
+        p4; //Nombre de la farmacia
       input = this.$refs.buscadorlista;
       filter = input.value.toUpperCase();
       table = document.getElementById("tablaregistros");
@@ -311,12 +340,11 @@ export default {
         }
       }
     },
-    
   },
 
-  beforeMount(){
-    this.testFetch()
-  }
+  beforeMount() {
+    this.testFetch();
+  },
 };
 </script>
 
