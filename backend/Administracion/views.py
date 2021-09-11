@@ -4,7 +4,7 @@ from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import UserSerializer
-from django.contrib.auth.hashers import make_password
+
 
 #Models
 from  Administracion.models import CustomUser
@@ -27,16 +27,11 @@ class LoginView(APIView):
 
         # Si no es correcto devolvemos un error en la petición
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    def validate_password(self, value):
-        return make_password(value)
 
     @classmethod
     def get_extra_actions(cls):
         return []
-
     
-      
 
 class LogoutView(APIView):
     #serializer_class = UserSerializer
@@ -60,7 +55,6 @@ class SignupView(generics.CreateAPIView):
     serializer_class = UserSerializer
     #queryset = CustomUser.objects.all()
 
-    def validate_password(self, value):
-        return make_password(value)
+    
     
     
