@@ -107,7 +107,7 @@ export default {
       this.data = await socioAPI.getData(this.list_socios);
       this.data.forEach(element => {   
         let option={}
-        option.value='http://localhost:8080/socios/'+ element.numero_socio +'/';
+        option.value='http://localhost:8081/socios/'+ element.numero_socio +'/';
         option.text= element.numero_socio +'-- '+ element.apellido +', '+ element.nombre ;
         console.log(option);
         this.op_socios.push(option);

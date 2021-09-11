@@ -1,12 +1,14 @@
 <template>
   <div id="cobradores" class="myTable">
     <!--HEAD DE LA PAGINA -->
-   <vue-headful title="Cobradores - Federación Tucumana de Mutuales"></vue-headful>
+    <vue-headful
+      title="Cobradores - Federación Tucumana de Mutuales"
+    ></vue-headful>
 
     <h2>Listado de Cobradores</h2>
-    <b-button @click="testFetch" class="mb-4" variant="light">
-      <v-icon dark style="color: black">mdi-format-list-bulleted-square</v-icon>
-      Mostrar
+    <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
+      <v-icon dark style="color: black">mdi-cached</v-icon>
+      Actualizar
     </b-button>
 
     <!-- ================ALTA Cobradores======================== -->
@@ -14,7 +16,7 @@
       class="mb-4 ml-2"
       v-b-modal.modal-alta
       @click="altaCobrador()"
-      title="Nuevo Cobrador"
+      title="Nueva Cobrador"
       style="color: white"
     >
       <v-icon dark> mdi-plus </v-icon>
@@ -85,13 +87,16 @@
             </b-button>
 
             <b-button
-              variant="warning"
-              id="button-2"
-              title="Editar este registro"
-            >
-              <v-icon class="mr-2"> mdi-pencil </v-icon>
-              Editar
-            </b-button>
+               variant="warning"
+               id="button-2"
+               title="Editar este registro"
+              v-b-modal.modal-editar
+              @click="editarCobrador(row.item, row.index)"
+              
+             >
+               <v-icon class="mr-2"> mdi-pencil </v-icon>
+               Editar
+             </b-button>
 
             <b-button
               variant="danger"
@@ -102,7 +107,33 @@
               <v-icon class="mr-2"> mdi-delete </v-icon>
               Eliminar
             </b-button>
-            <!-- ================ELIMINAR SOCIO======================== -->
+            
+          </b-button-group>
+        </div>
+      </template>
+      <template #row-details="row">
+        <b-card title="Datos del cobrador: " >
+          <div>
+            <b-list-group horizontal>
+              <b-list-group class="col-3">  
+                <b-list-group-item><b>id cobrador:</b> {{ row.item.id_cobrador }}</b-list-group-item>
+                <b-list-group-item><b>N socio:</b> {{ row.item.numero_socio }}</b-list-group-item>
+            
+              </b-list-group>
+              &nbsp;
+              <b-list-group class="col-5">
+                <b-list-group-item><b>Apellido:</b> {{ row.item.apellido }}</b-list-group-item>
+                <b-list-group-item><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item>
+                <b-list-group-item><b>DNI:</b> {{ row.item.dni }} </b-list-group-item>
+              </b-list-group>
+      
+                
+            </b-list-group>
+          </div>            
+        </b-card>
+      </template>
+    </b-table>
+    <!-- ================ELIMINAR Cobrador======================== -->
 
             <b-modal
               id="modal_eliminar"
@@ -114,7 +145,7 @@
               <div class="d-block text-center">
                 <h3>
                   ¿Esta seguro de eliminar los datos de
-                  {{ infoEliminar.Cobradores.cobrador}}?
+                  {{ infoEliminar.cobrador}}?
                 </h3>
               </div>
               <b-button
@@ -128,32 +159,12 @@
                 class="mt-3"
                 variant="danger"
                 block
-                @click="deleteCobrador(infoEliminar.Cobradores.numero_socio)"
+                @click="deleteCobrador(infoEliminar.cobrador.id_cobrador)"
                 title="Eliminar"
               >
                 Eliminar
               </b-button>
             </b-modal>
-          </b-button-group>
-        </div>
-      </template>
-      <template #row-details="row">
-        <b-card>
-          <ul>
-            <!-- Para cargar todos los campos automáticamente (habría que darle formato) -->
-            <li v-for="(value, key) in row.item" :key="key">
-              {{ key }}: {{ value }}
-            </li>
-              
-              <!-- A mano, es más facil pero "menos automático" Dx -->
-              <!-- <li>Edad: {{ row.item.edad }}</li>
-              <li>Calle: {{ row.item.calle }}</li>
-              <li>Localidad: {{ row.item.calle }}</li> -->
-            
-          </ul>
-        </b-card>
-      </template>
-    </b-table>
     <b-container fluid>
       <b-col class="my-1">
         <b-pagination
@@ -167,25 +178,26 @@
         </b-pagination>
       </b-col>
     </b-container>
+    <b-modal id="modal-editar" hide-footer>
+      <template #modal-title><h5 class="modal-title">Editar</h5></template>
+     <cobradores-update :cobrador="editar" />
+   </b-modal>
   </div>
 </template>
 
 <script>
 let api = new URL("http://localhost");
-api.pathname = "Cobradores";
-api.port = 8000;
-//api.port = 8081;
+api.pathname = "cobradores";
+//api.port = 8000;
+api.port = 8081;
 import VueAwesomplete from "vue-awesomplete";
 
-import FarmaciasAlta from "./FarmaciasAlta.vue";
-
-
 import CobradoresAlta from './CobradoresAlta.vue';
+import CobradoresUpdate from './CobradoresUpdate.vue';
 import axios from "axios";
 
-
 export default {
-  components: { CobradoresAlta },
+  components: { CobradoresAlta,CobradoresUpdate },
   data() {
     return {
       tabla_cobradores: [],
@@ -201,15 +213,28 @@ export default {
         currentPage: 1, //Pagina actual
         perPage: 10, // Datos en la tabla por pagina
         buscar: "",
+        editar:{},
+        infoEliminar: {
+        id: "modal_eliminar",
+        cobrador: -1,
+      },
     };
   },
-
   computed: {
     rows() {
       return this.tabla_cobradores.length;
     },
+    id() {
+      return this.tabla_cobradores.id_cobrador;
+    },
+    items() {
+      return tabla_cobradores.filter((item) => {
+        return item.id_cobrador
+          .toLowerCase()
+          .includes(this.buscar.toLowerCase());
+      });
+    },
   },
-
   methods: {
     async testFetch() {
       try {
@@ -225,21 +250,78 @@ export default {
         console.log(error);
       }
     },
+    editarCobrador(item, index) {
+      this.editar = item;
+    },
     //Funcion para mostrar el modal
     showModal() {
       this.$refs["my-modal"].show();
+    },
+    showModalinfo(item, index) {
+      this.infoEliminar.cobrador = item;
+      this.showModal();
     },
     //Funcion para esconder el modal
     hideModal() {
       this.$refs["my-modal"].hide();
     },
     altaCobrador() {},
+    async deleteCobrador(id_cobrador) {
+        axios.delete("http://localhost:8081/cobradores/" + id_cobrador + "/")
+        .then((datos) => {
+          swal("Operación Exitosa", " ", "success");
+          console.log(datos);
+          this.hideModal();
+        })
+        .catch((error) => {
+          swal("¡ERROR!", "Se ha detectado un problema ", "error");
+          console.log(error);
+          this.hideModal();
+        })
+        .finally(() => this.testFetch());
+    },
+
+    async buscarnow() {
+      // Declare variables
+      var input,
+        filter,
+        table,
+        tr,
+        td,
+        i,
+        txtValue,
+        p1,//id_cobrador
+        p2,//n socio
+        p3,//apellido cobrador
+        p4;//Nombre cobrador
+      input = this.$refs.buscadorlista;
+      filter = input.value.toUpperCase();
+      table = document.getElementById("tablaregistros");
+      tr = table.getElementsByTagName("tr");
+
+      // Loop through all list items, and hide those who don't match the search query
+      for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td");
+        p1 = td[0].textContent || td[0].innerText;
+        p2 = td[1].textContent || td[1].innerText;
+        p3 = td[2].textContent || td[2].innerText;
+        p4 = td[3].textContent || td[3].innerText;
+        txtValue = p1 + p2 + p3 + p4;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    },
+    
   },
+
+  beforeMount(){
+    this.testFetch()
+  }
 };
 </script>
-
-
-
 
 <style scoped>
 .myTable {
@@ -252,4 +334,3 @@ export default {
   width: 100%;
 }
 </style>
-
