@@ -214,9 +214,9 @@
 
     <!---------------- FAMILIARES ---------------------------->
     <b-button class="mt-2" variant="primary"  @click="sumarFliares()" style="color:white;">¿Agregar adherentes?</b-button>
-    <div v-show="btn_familiar" v-for="i in cantidad" :key="i">
+    <div v-show="btn_familiar" v-for="(item,index) in familiar" :key="item.dni_familiar">
       <b-form>
-        <h4>Datos de los Adherentes: </h4>
+        <h4>Datos del Adherente: {{index+1}}</h4>
         <!--
         <b-form-group label="*N° Socio">
           <b-form-input
@@ -233,7 +233,7 @@
         <b-form-group label="*Nombre/s" label-for="nombre">
           <b-form-input
             id="nombre"
-            v-model="familiar.nombre"
+            v-model="item.nombre"
             type="text"
             placeholder="*Ingrese los Nombre/s"
             invalid-feedback="Complete este campo"
@@ -244,7 +244,7 @@
         <b-form-group label="*Apellido/s" label-for="apellido">
           <b-form-input
             id="apellido"
-            v-model="familiar.apellido"
+            v-model="item.apellido"
             type="text"
             placeholder="*Ingrese los Apellido/s"
             invalid-feedback="Complete este campo"
@@ -255,7 +255,7 @@
         <b-form-group label="*DNI" label-for="dni_familiar">
           <b-form-input
             id="dni_familiar"
-            v-model="familiar.dni_familiar"
+            v-model="item.dni_familiar"
             type="number"
             placeholder="Ingrese un DNI"
             invalid-feedback="Complete este campo"
@@ -268,7 +268,7 @@
         <b-form-group label="*Fecha de nacimiento" label-for="fecha_nacimiento">
           <b-form-input
             id="fecha_nacimiento"
-            v-model="familiar.fecha_nacimiento"
+            v-model="item.fecha_nacimiento"
             type="date"
             placeholder="Ingrese una fecha"
             invalid-feedback="Complete este campo"
@@ -281,7 +281,7 @@
         <b-form-group label="Carencia" label-for="carencia">
           <b-form-input
             id="carencia"
-            v-model="familiar.carencia"
+            v-model="item.carencia"
             type="date"
             placeholder="Ingrese una fecha"
             invalid-feedback="Complete este campo"
@@ -296,7 +296,7 @@
 
     {{ socio }}
     {{familiar}}
-    {{ data }}
+    <!-- {{ data }} -->
     <b-button class="mt-2" variant="success" block @click="postSocio()">POST TEST</b-button>
     
   </div>
@@ -310,7 +310,9 @@ export default {
   data() {
     return {
       socio: {},
-      familiar:{},
+      familiar:[
+        
+      ],
       data: {},
       plan: [],
       btn_familiar: false,
@@ -347,20 +349,37 @@ export default {
     async postSocio() {
       let socioAPI = new APIControler();
       this.data = await socioAPI.postData(this.socio);
-      if(this.familiar.length>0){this.postFamiliar();}
+     if(this.familiar.length>0){this.postFamiliar();}
       
-      this.resetForm();
+      //this.resetForm();
     },
     async sumarFliares(){
       this.btn_familiar=true;
-      this.resetFormAdh();
-      this.cantidad=this.cantidad +1;
+      // this.resetFormAdh();
+      // this.cantidad=this.cantidad +1;
+      this.familiar.push({
+          numero_socio:null, 
+          apellido : "",
+          nombre : "",
+          dni_familiar : null,
+          fecha_nacimiento:null,
+          carencia: null,
+        })
     },
     async postFamiliar() {
       let familiarAPI = new APIControler();
-      this.familiar.numero_socio=this.data.numero_socio;
-      this.data = await familiarAPI.postData(this.familiar);
-      this.resetFormAdh();
+      let _nroSocio='http://localhost:8081/socios/'+ this.socio.numero_socio +'/';
+      familiarAPI.apiUrl.pathname='familiar/';
+      console.log("Mostrando familiar")
+      console.log(this.familiar)
+      for (const adherente of this.familiar) {
+        console.log("Mostrando adherente")
+        console.log(adherente)
+        adherente.numero_socio=_nroSocio          
+        await familiarAPI.postData(adherente);
+      }
+      
+      // this.resetFormAdh();
     },
     async resetForm() {
         this.socio.numero_socio = null;
@@ -377,11 +396,13 @@ export default {
         this.socio.carencia= null;
     },
     async resetFormAdh() {
+      /*
         this.familiar.apellido = "";
         this.familiar.nombre = "";
         this.familiar.dni_familiar = null;
         this.familiar.fecha_nacimiento=null;
         this.familiar.carencia= null;
+        */
     },
   },
 };
