@@ -1,16 +1,16 @@
 <template>
     <div class="vue-tempalte">
-        <form>
+        <form @submit.prevent="login">
             <h3>Sign In</h3>
 
             <div class="form-group">
-                <label>Email address</label>
-                <input type="email" class="form-control form-control-lg" />
+                <label>Username</label>
+                <input type="text" id="username" name="username" class="form-control form-control-lg" v-model="username"/>
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control form-control-lg" />
+                <input type="password" id="password" name="password" class="form-control form-control-lg" v-model="password"/>
             </div>
 
             <button type="submit" class="btn btn-dark btn-lg btn-block">Log In</button>
@@ -24,9 +24,27 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         data() {
-            return {}
+            return {
+                username: '',
+                password: ''
+            }
+        },
+        methods:
+        {
+            login()
+            {
+                axios.post('http://localhost:8081/auth/login/',
+                {
+                    "email": "juancastelli12345@gmail.com",
+                    "username": this.username,
+                    "password": this.password
+                })
+                    .then(resp => console.log(resp))
+                    .catch(err => console.log(err))
+            }
         }
     }
 </script>
