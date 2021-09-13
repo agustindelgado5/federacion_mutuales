@@ -294,9 +294,9 @@
     <b-button class="mt-2" variant="primary" @click="sumarFliares()" style="color:white;">+</b-button>
     
   </div>
-
+<!-- 
     {{ socio }}
-    {{familiar}}
+    {{familiar}} -->
     <!-- {{ data }} -->
     <b-button class="mt-2" variant="success" block @click="putSocio()">PUT TEST</b-button>
     
@@ -356,15 +356,15 @@ export default {
       // try{
       await axios.put('http://localhost:8081/socios/'+this.socio.numero_socio+ '/', this.socio)
       .then(function (data){
-        
-        // if(this.familiar.length>0){this.putFamiliar();}
-        // else
-          swal("Operación Exitosa", " ", "success");
+        console.log("Data")
+        console.log(data)
+        swal("Operación Exitosa", " ", "success");
       })
+      .then(this.putFamiliar)
       .catch(function (error) {
         swal("¡ERROR!", "Se ha detectado un problema ", "error");
-        respuesta=error.response.data;
-        
+        console.log(error)
+        // respuesta=error.response.data;
         //console.log(error.response.data);
       })
 
@@ -388,16 +388,55 @@ export default {
       let familiarAPI = new APIControler();
       let _nroSocio='http://localhost:8081/socios/'+ this.socio.numero_socio +'/';
       familiarAPI.apiUrl.pathname='familiar/';
-      console.log("Mostrando familiar")
-      console.log(this.familiar)
+
+      // console.log("Mostrando nro socio")
+      // console.log(_nroSocio)
       for (const adherente of this.familiar) {
         console.log("Mostrando adherente")
         console.log(adherente)
-        adherente.numero_socio=_nroSocio          
-        await familiarAPI.putData(adherente);
+        if(adherente.numero_socio){
+          console.log("Modificando familiar")
+          axios.put('http://localhost:8081/familiar/'+adherente.dni_familiar+ '/', adherente)
+          .catch(function (error) {
+            swal("¡ERROR!", "Se ha detectado un problema al actualizar un familiar", "error");
+            console.log(error)
+          })
+
+        }
+        else{
+          console.log("Agregando familiar")
+          adherente.numero_socio=_nroSocio          
+          axios.post('http://localhost:8081/familiar/', adherente)
+
+        }
+
+
+      //   .then(function (data){
+      //     swal("Operación Exitosa", " ", "success");
+      // })
+      // .catch(function (error) {
+      //   swal("¡ERROR!", "Se ha detectado un problema ", "error");
+        // respuesta=error.response.data;
+        
+        //console.log(error.response.data);
       }
+      // )
+        // await familiarAPI.putData(adherente);
+      // }
       
       // this.resetFormAdh();
+    },
+    async getPaciente() {
+      let familiarAPI = new APIControler();
+      familiarAPI.apiUrl.pathname = "familiar/";
+      this.data = await familiarAPI.getData();
+      this.data.forEach((element) => {
+        if (element.numero_socio.split('/')[4] == this.socio.numero_socio) {
+          this.familiar.push(element)
+          this.btn_familiar=true
+        }
+          console.log(this.familiar)
+      });
     },
     async resetForm() {
         this.socio.numero_socio = null;
@@ -422,6 +461,9 @@ export default {
         this.familiar.carencia= null;
         
     },
+  },
+  beforeMount() {
+    this.getPaciente();
   },
 };
 </script>
