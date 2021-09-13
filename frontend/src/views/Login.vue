@@ -4,13 +4,18 @@
             <h3>Sign In</h3>
 
             <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" name="email" class="form-control form-control-lg" v-model="email" />
+            </div>
+
+            <div class="form-group">
                 <label>Username</label>
-                <input type="text" id="username" name="username" class="form-control form-control-lg" v-model="username"/>
+                <input type="text" id="username" name="username" class="form-control form-control-lg" v-model="username" />
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="password" name="password" class="form-control form-control-lg" v-model="password"/>
+                <input type="password" id="password" name="password" class="form-control form-control-lg" v-model="password" />
             </div>
 
             <button type="submit" class="btn btn-dark btn-lg btn-block">Log In</button>
@@ -24,7 +29,10 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import VueAwesomplete from "vue-awesomplete";
+    import axios from "axios";
+    import { APIControler } from "../store/APIControler";
+
     export default {
         data() {
             return {
@@ -38,12 +46,19 @@
             {
                 axios.post('http://localhost:8081/auth/login/',
                 {
-                    "email": "juancastelli12345@gmail.com",
+                    "email": this.email,
                     "username": this.username,
                     "password": this.password
                 })
-                    .then(resp => console.log(resp))
-                    .catch(err => console.log(err))
+                    .then(resp => {
+                        swal("Operación Exitosa", " ", "success");
+                        console.log(resp)
+                        window.location.replace("/");
+                    })
+                    .catch(err => {
+                        swal("¡ERROR!", "Usuario o contraseña incorrectos", "error");
+                        console.log(err)
+                    })
             }
         }
     }
