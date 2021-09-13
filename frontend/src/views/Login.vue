@@ -36,8 +36,10 @@
     export default {
         data() {
             return {
+                email: '',
                 username: '',
-                password: ''
+                password: '',
+                token: null,
             }
         },
         methods:
@@ -51,12 +53,14 @@
                     "password": this.password
                 })
                     .then(resp => {
-                        swal("Operación Exitosa", " ", "success");
+                        swal("OperaciÃ³n Exitosa", " ", "success");
+                        this.token = resp.data.token
                         console.log(resp)
+                        console.log(this.token)
                         window.location.replace("/");
                     })
                     .catch(err => {
-                        swal("¡ERROR!", "Usuario o contraseña incorrectos", "error");
+                        swal("Â¡ERROR!", "Usuario o contraseÃ±a incorrectos", "error");
                         console.log(err)
                     })
             }
