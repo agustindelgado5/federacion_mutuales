@@ -11,7 +11,7 @@ from .serializers import UserSerializer
 from  Administracion.models import CustomUser
 
 class LoginView(APIView):
-    #serializer_class = UserSerializer
+    serializer_class = UserSerializer
     #queryset = CustomUser.objects.all()
 
     def post(self, request):

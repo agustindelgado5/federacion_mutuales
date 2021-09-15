@@ -39,7 +39,6 @@
                 email: '',
                 username: '',
                 password: '',
-                token: null,
             }
         },
         methods:
@@ -54,9 +53,8 @@
                 })
                     .then(resp => {
                         swal("Operación Exitosa", " ", "success");
-                        this.token = resp.data.token
+                        //this.$usuario = resp.data.username
                         console.log(resp)
-                        console.log(this.token)
                         window.location.replace("/");
                     })
                     .catch(err => {

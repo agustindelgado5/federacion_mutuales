@@ -30,7 +30,7 @@ class RecetasViewSet(PermissionRequiredMixin,viewsets.ModelViewSet):
         'Medicamentos.change_recetas',
         'Medicamentos.delete_recetas',
     )
-    login_url = '/auth/login/'
-    redirect_field_name = 'redirect_to'
+    #login_url = '/auth/login/'
+    #redirect_field_name = 'redirect_to'
 
 
