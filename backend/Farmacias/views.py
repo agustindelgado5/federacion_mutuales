@@ -8,8 +8,8 @@ class FarmaciasViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     serializer_class = FarmaciasSerializer
     queryset = farmacias.objects.all()
     permission_required = (
-        'Farmacias.view_farmacias',
-        'Farmacias.add_farmacias',
-        'Farmacias.change_farmacias',
-        'Farmacias.delete_farmacias',
+    #    'Farmacias.view_farmacias',
+    #    'Farmacias.add_farmacias',
+    #    'Farmacias.change_farmacias',
+    #    'Farmacias.delete_farmacias',
     )

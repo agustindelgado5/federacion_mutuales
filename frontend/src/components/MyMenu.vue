@@ -6,8 +6,11 @@
         
         <b-jumbotron header="Federación Tucumana de Mutuales">
             <img src="../assets/logo.jpg" alt="Logo Federación" srcset="" id="Logo_fed" style="margin-top:1em;margin-bottom:1em;">
-            <form @submit.prevent="logout" v-if="" style="text-align:center;">
+            <form @submit.prevent="logout" v-if="logout" style="text-align:center;">
                 <b-button class="accesorapido" type="submit" style="background-color:red;align-content:center;">Logout</b-button>
+            </form>
+            <form @submit.prevent="prueba" style="text-align:center;">
+                <b-button class="accesorapido" type="submit" style="background-color:red;align-content:center;">probar</b-button>
             </form>
             <p style="text-align:center;font-size:1.7em;">Accesos Rápidos</p>
             <div id="accesosrapidos">
@@ -25,27 +28,53 @@
     import VueAwesomplete from "vue-awesomplete";
     import axios from "axios";
     import { APIControler } from "../store/APIControler";
+    import VueCookies from 'vue-cookies';
 
     export default {
         data() {
             return {
+                usuario: true
             }
         },
         methods: {
+            prueba()
+            {
+                console.log($cookies.get('usuario'))
+            },
             logout()
             {
                 axios.post('http://localhost:8081/auth/logout/',
                     {})
                     .then(resp => {
                         swal("Operación Exitosa", " ", "success");
-                        this.$usuario = null
+                        $cookies.set('usuario', null);
                         window.location.replace("/login");
                     })
                     .catch(err => {
                         swal("¡ERROR!", "Error en logout", "error");
                         console.log(err)
                     })
+            },
+            controlarusuario() {
+                if ($cookies.get('usuario') != null) {
+                    this.usuario = true
+                } else {
+                    this.usuario = false
+                }
+            },
+        },
+        computed:
+        {
+            controlarusuario: function () {
+                if ($cookies.get('usuario') != null) {
+                    this.usuario = true
+                } else {
+                    this.usuario = false
+                }
             }
+        },
+        beforeMount() {
+            this.controlarusuario();
         }
     };
 </script>

@@ -40,8 +40,7 @@
                               placeholder="Ingrese el nombre de la persona que pago"
                               invalid-feedback="Complete este campo"
                               :state="validacion.personapago.estado"
-                              required
-                              :options="list_familiar">
+                              required>
                 </b-form-input>
                 <b-form-invalid-feedback id="personapago-live-feedback">
                     {{validacion.personapago.mensaje}}
@@ -76,8 +75,8 @@ import { APIControler } from "../store/APIControler";
 export default {
   data() {
     return {
+      list_socios: {},
       cuotas: {},
-      socios:{},
       data: {},
       list_familiar: {},
       op_socios: [{ value: null, text: "Elija un socio", disabled: true }],
@@ -155,6 +154,9 @@ methods: {
         this.validacion[key].mensaje=respuestaAPI[key][0]
       }
     },
+  },
+  beforeMount() {
+    this.getSocios();
   },
   /*
   computed: {

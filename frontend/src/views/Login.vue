@@ -32,6 +32,7 @@
     import VueAwesomplete from "vue-awesomplete";
     import axios from "axios";
     import { APIControler } from "../store/APIControler";
+    import VueCookies from 'vue-cookies';
 
     export default {
         data() {
@@ -53,7 +54,9 @@
                 })
                     .then(resp => {
                         swal("Operación Exitosa", " ", "success");
-                        //this.$usuario = resp.data.username
+                        console.log(this.$usuario)
+                        $cookies.set('usuario', resp.data.username);
+                        console.log(this.$usuario)
                         console.log(resp)
                         window.location.replace("/");
                     })
@@ -62,7 +65,10 @@
                         console.log(err)
                     })
             }
-        }
+        },
+        beforeMount() {
+            $cookies.set('usuario', null);
+        },
     }
 </script>
 
