@@ -326,7 +326,7 @@ export default {
         Apellido,
         Nombre,
         DNI;
-      input = document.getElementById("buscadorlista");;
+      input = document.getElementById("buscadorlista");
       filter = input.value.toUpperCase();
       table = document.getElementById("tablaregistros");
       tr = table.getElementsByTagName("tr");

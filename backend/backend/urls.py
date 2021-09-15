@@ -28,6 +28,7 @@ urlpatterns = [
     path('',include('Socios.urls')),
     path('',include('Ordenes.urls')),
     path('',include('Mutuales.urls')),
+    path('',include('Cobradores.urls')),
     path('',include('Cuotas.urls')),
     # path('profesional/',include('Profesionales.urls')),
     # path('medicamento/',include('Medicamentos.urls')),

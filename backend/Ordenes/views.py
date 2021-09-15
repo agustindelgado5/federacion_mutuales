@@ -11,8 +11,8 @@ from Ordenes.serializers import OrdenesSerializer
 class OrdenesViewSet(viewsets.ModelViewSet):
     serializer_class = OrdenesSerializer
     queryset = ordenes.objects.all()
-    login_url = '/auth/login/'
-    redirect_field_name = 'redirect_to'
+    #login_url = '/auth/login/'
+    #redirect_field_name = 'redirect_to'
 
 
 

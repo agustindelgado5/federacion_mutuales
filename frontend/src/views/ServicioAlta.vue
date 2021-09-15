@@ -47,6 +47,7 @@ export default {
     },
     async postServicios() {
       let servicioAPI = new APIControler();
+      console.log(servicioAPI.apiUrl)
       servicioAPI.apiUrl.pathname='servicios/';
       let respuesta = await servicioAPI.postData(this.servicio); 
       this.cargarFeedback(respuesta)
