@@ -4,7 +4,6 @@
     <h4>Nueva Receta: </h4>
 
     <!-- CAMPOS REQUERIDOS -->
-    <!-- Id Receta -->
     <!-- Numero de Socio -->
     <!-- Paciente para el cual se emite la receta -->
     <!-- Diagnostico -->
@@ -15,11 +14,8 @@
 
     <!------------------------------------------------------------------------------------------->
 
-    
-
-    
     <b-form >
-      <!-- Id Receta -->
+        <!-- Id Receta -->
         <b-form-group label="*Id Receta" label-for="id_receta">
           <b-form-input
             id="id_receta"
@@ -33,17 +29,17 @@
         </b-form-group>
 
       <!-- Numero de Orden -->
-        <b-form-group label="*N° Orden" label-for="numero_orden">
-          <b-form-input
-            id="numero_orden"
-            v-model="receta.numero_orden"
-            type="number"
-            placeholder="Ingrese un Numero"
-            invalid-feedback="Complete este campo"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
+      <b-form-group label="*N° Orden" label-for="numero_orden">
+        <b-form-input
+          id="numero_orden"
+          v-model="receta.numero_orden"
+          type="number"
+          placeholder="Ingrese un Numero"
+          invalid-feedback="Complete este campo"
+          required
+        >
+        </b-form-input>
+      </b-form-group>
 
       <!-- Numero de Socio -->
       <b-button @click="getSocios()">GET TEST</b-button>
@@ -124,14 +120,18 @@
     </b-form>
     {{ receta }}
     {{ data }}
-     <b-button class="mt-2" variant="success" block @click="postReceta()">POST TEST</b-button>
+     <b-button class="mt-2" variant="success" block @click="putReceta()">Modificar</b-button>
   </div>
 </template>
 
 <script>
 import { APIControler } from "../store/APIControler";
+import axios from "axios";
 
 export default {
+  props: {
+    receta: {},
+  },
   data() {
     return {
       list_socios:{},
@@ -152,8 +152,23 @@ export default {
       list_pacientes:[
         {value: null, text: 'Elija una persona', disabled: true},
       ],
+      validacion:{
+        id_receta:{estado:null,mensaje:""},
+        numero_orden:{estado:null,mensaje:""},
+        numero_socio: {estado:null,mensaje:""},
+        dni_familiar: {estado:null,mensaje:""},
+        diagnostico: {estado:null,mensaje:""},
+        id_medicamento: {estado:null,mensaje:""},
+        cod_farmacia: {estado:null,mensaje:""},
+        
+      }
     };
   },
+
+  created: function() {
+    this.getReceta();
+  },
+
   methods: {
     async getSocios() {
       let socioAPI = new APIControler();
@@ -203,14 +218,7 @@ export default {
       this.data = await familiarAPI.getData(this.list_familiar);
       this.data.forEach(element => {
         if (element.numero_socio ==this.receta.numero_socio){
-            //let option_titular={}
             let option_adherente={}
-            //option_titular.value='http://localhost:8081/socios/'+ element.numero_socio +'/';
-            //option_titular.text='Titular';
-            //option_titular.text= socios.dni +'-- '+ socios.apellido +', '+ socios.nombre ;
-            //console.log(option_titular);
-            //this.list_pacientes.push(option_titular);
-
             option_adherente.value='http://localhost:8081/familiar/'+ element.dni_familiar +'/';
             option_adherente.text= element.dni_familiar +'-- '+ element.apellido +', '+ element.nombre ;
             console.log(option_adherente);
@@ -221,13 +229,41 @@ export default {
 
     async getRecetas() {
       let recetaAPI = new APIControler();
-      this.data = await recetaAPI.getData();
+      recetaAPI.apiUrl.pathname='recetas/'
+      this.data = await recetaAPI.getData(this.recetas);
+      this.data.forEach(element => {   
+        let option={}
+        option.value='http://localhost:8081/recetas/'+ element.id_receta +'/';
+        option.text=element.receta;
+        console.log(option);
+        this.options.push(option);
+      });
     },
-    async postReceta() {
-      let recetaAPI = new APIControler();
-      recetaAPI.apiUrl.pathname='recetas/';
-      this.data = await recetaAPI.postData(this.receta);
+
+    async putReceta() {
+      let respuesta ="vacio"
+      await axios.put('http://localhost:8081/recetas/'+this.receta.id_receta+ '/', this.receta)
+      .then(function (data){
+        
+        swal("Operación Exitosa", " ", "success");
+      })
+      .catch(function (error) {
+        swal("¡ERROR!", "Se ha detectado un problema ", "error");
+        respuesta=error.response.data;
+        
+      })
+      this.cargarFeedback(respuesta)
+     
+      console.log("respuesta:");
+      console.log(respuesta);
     },
+  },
+  
+  beforeMount(){
+    this.getSocios();
+    this.getMedicamentos();
+    this.getFarmacias();
+    this.getPaciente();
   },
 };
 </script>
