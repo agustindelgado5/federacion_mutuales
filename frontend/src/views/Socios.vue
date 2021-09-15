@@ -436,10 +436,21 @@ export default {
     },
   },
   
+  mounted: function() {
+    if (localStorage.getItem('user-token')) {
+      this.getData();
+      this.getFamiliar();
+    }
+    else {
+      location.href = '/login'
+    }
+  }, 
+  /*
   created: function() {
     //console.log('Funcion realizada');
     this.getFamiliar();
   },
+  */
 
   methods: {
     async testFetch() {

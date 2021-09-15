@@ -3,23 +3,6 @@
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos </h4>   
     <b-form >
-      <b-form-group label="*ID Servicio" label-for="id_servicio" @submit.stop.prevent="handleSubmit">
-            <b-form-input
-            id="id_servicio"
-            v-model="servicio.id_servicio"
-            :state="validacion.id_servicio.estado"
-            type="number"
-            placeholder="Ingrese el ID del servicio"
-            invalid-feedback="Complete este campo"
-            required
-            >
-            </b-form-input>
-            <b-form-invalid-feedback
-                id="id_servicio-live-feedback"
-              >{{validacion.id_servicio.mensaje}}
-            </b-form-invalid-feedback>
-      </b-form-group>
-
       <b-form-group label="*Nombre del servicio" label-for="nombre">
         <b-form-input
           id="nombre"
@@ -53,7 +36,6 @@ export default {
       servicio: {},
       data: {},
       validacion:{
-        id_servicio: {estado:null,mensaje:""},
         nombre: {estado:null,mensaje:""},
       }
     };

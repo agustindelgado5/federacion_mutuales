@@ -55,13 +55,6 @@
                         console.log(err)
                     })
             },
-            controlarusuario() {
-                if ($cookies.get('usuario') != null) {
-                    this.usuario = true
-                } else {
-                    this.usuario = false
-                }
-            },
         },
         computed:
         {

@@ -18,6 +18,7 @@ class RecetasSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = receta
         fields = (
+            'id_receta',
             'numero_socio',
             'diagnostico', 
             'paciente',
