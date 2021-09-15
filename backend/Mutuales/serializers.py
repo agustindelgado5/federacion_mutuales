@@ -20,7 +20,6 @@ class MutualesSerializer(serializers.HyperlinkedModelSerializer):
             'id_mutual',
             'nombre',
             'sucursal',
-            'id_servicio',
         )
         read_only_fields = ['id_mutual','created ','updated']
 

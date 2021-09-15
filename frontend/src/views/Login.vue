@@ -1,16 +1,21 @@
 <template>
     <div class="vue-tempalte">
-        <form>
+        <form @submit.prevent="login">
             <h3>Sign In</h3>
 
             <div class="form-group">
-                <label>Email address</label>
-                <input type="email" class="form-control form-control-lg" />
+                <label>Email</label>
+                <input type="email" id="email" name="email" class="form-control form-control-lg" v-model="email" />
+            </div>
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" name="username" class="form-control form-control-lg" v-model="username" />
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control form-control-lg" />
+                <input type="password" id="password" name="password" class="form-control form-control-lg" v-model="password" />
             </div>
 
             <button type="submit" class="btn btn-dark btn-lg btn-block">Log In</button>
@@ -24,9 +29,41 @@
 </template>
 
 <script>
+    import VueAwesomplete from "vue-awesomplete";
+    import axios from "axios";
+    import { APIControler } from "../store/APIControler";
+
     export default {
         data() {
-            return {}
+            return {
+                email: '',
+                username: '',
+                password: '',
+                token: null,
+            }
+        },
+        methods:
+        {
+            login()
+            {
+                axios.post('http://localhost:8081/auth/login/',
+                {
+                    "email": this.email,
+                    "username": this.username,
+                    "password": this.password
+                })
+                    .then(resp => {
+                        swal("Operación Exitosa", " ", "success");
+                        this.token = resp.data.token
+                        console.log(resp)
+                        console.log(this.token)
+                        window.location.replace("/");
+                    })
+                    .catch(err => {
+                        swal("¡ERROR!", "Usuario o contraseña incorrectos", "error");
+                        console.log(err)
+                    })
+            }
         }
     }
 </script>

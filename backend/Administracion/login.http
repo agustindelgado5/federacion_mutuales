@@ -1,9 +1,14 @@
 http://localhost:8081/auth/alta/
 
 Content-Type: : application/json
-
+//Super Usuario
 {
-    "email": "agus@gmail.com",
-    "username": "agustin",
+    "email": "admin@admin.com",
+    "username": "admin",
+    "password": "admin"
+}
+{
+    "email": "user@gmail.com",
+    "username": "user",
     "password": "contraseña"
 }

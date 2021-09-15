@@ -230,8 +230,10 @@
               variant="warning"
               id="button-2"
               title="Editar este registro"
-              :disabled="btn_editar"
+              v-b-modal.modal-editar
+              @click="editarSocio(row.item, row.index)"
             >
+              <!-- :disabled="btn_editar" -->
               <v-icon class="mr-2"> mdi-pencil </v-icon>
               Editar
             </b-button>
@@ -345,6 +347,10 @@
         </b-pagination>
       </b-col>
     </b-container>
+    <b-modal id="modal-editar" hide-footer>
+      <template #modal-title><h5 class="modal-title">Editar</h5></template>
+      <socios-update :socio="editar" />
+    </b-modal>
   </div>
 </template>
 
@@ -357,12 +363,14 @@ api.port = 8081;
 
 import VueAwesomplete from "vue-awesomplete";
 import SociosAlta from "./SociosAlta.vue";
+import SociosUpdate from "./SociosUpdate.vue";
+
 import axios from "axios";
 import { APIControler } from "../store/APIControler";
 
 
 export default {
-  components: { SociosAlta,VueAwesomplete },
+  components: { SociosAlta,SociosUpdate,VueAwesomplete },
   data() {
     return {
       tabla_socios: [],
@@ -394,6 +402,7 @@ export default {
       list_familiares:{},
       datos_familiar: {},
       data:{},
+      editar: {},
       buscar: "",
       selected: [],
       infoEliminar: {
@@ -460,7 +469,9 @@ export default {
           console.log(element);
       });
     },
-
+    editarSocio(item, index) {
+          this.editar = item;
+        },
     
     // Funcion para mostrar el modal
     showModal() {

@@ -13,6 +13,7 @@
             <b-form-group label="*N° Socio" label-for="numero_socio">
               <b-form-input
               id="numero_socio"
+              :disabled=true
               v-model="socio.numero_socio"
               type="number"
               placeholder="Ingrese un Numero"
@@ -293,23 +294,27 @@
     <b-button class="mt-2" variant="primary" @click="sumarFliares()" style="color:white;">+</b-button>
     
   </div>
-
+<!-- 
     {{ socio }}
-    {{familiar}}
+    {{familiar}} -->
     <!-- {{ data }} -->
-    <b-button class="mt-2" variant="success" block @click="postSocio()">POST TEST</b-button>
+    <b-button class="mt-2" variant="success" block @click="putSocio()">PUT TEST</b-button>
     
   </div>
 </template>
 
 <script>
 import { APIControler } from "../store/APIControler";
+import axios from "axios";
 
 
 export default {
+  props: {
+    socio: {},
+  },
   data() {
     return {
-      socio: {},
+      // socio: {},
       familiar:[
         
       ],
@@ -346,10 +351,23 @@ export default {
       let socioAPI = new APIControler();
       this.data = await socioAPI.getData();
     },
-    async postSocio() {
-      let socioAPI = new APIControler();
-      this.data = await socioAPI.postData(this.socio);
-     if(this.familiar.length>0){this.postFamiliar();}
+    async putSocio() {
+      let respuesta ="vacio"
+      // try{
+      await axios.put('http://localhost:8081/socios/'+this.socio.numero_socio+ '/', this.socio)
+      .then(function (data){
+        console.log("Data")
+        console.log(data)
+        swal("Operación Exitosa", " ", "success");
+      })
+      .then(this.putFamiliar)
+      .catch(function (error) {
+        swal("¡ERROR!", "Se ha detectado un problema ", "error");
+        console.log(error)
+        // respuesta=error.response.data;
+        //console.log(error.response.data);
+      })
+
       
       //this.resetForm();
     },
@@ -366,20 +384,59 @@ export default {
           carencia: null,
         })
     },
-    async postFamiliar() {
+    async putFamiliar() {
       let familiarAPI = new APIControler();
       let _nroSocio='http://localhost:8081/socios/'+ this.socio.numero_socio +'/';
       familiarAPI.apiUrl.pathname='familiar/';
-      console.log("Mostrando familiar")
-      console.log(this.familiar)
+
+      // console.log("Mostrando nro socio")
+      // console.log(_nroSocio)
       for (const adherente of this.familiar) {
         console.log("Mostrando adherente")
         console.log(adherente)
-        adherente.numero_socio=_nroSocio          
-        await familiarAPI.postData(adherente);
+        if(adherente.numero_socio){
+          console.log("Modificando familiar")
+          axios.put('http://localhost:8081/familiar/'+adherente.dni_familiar+ '/', adherente)
+          .catch(function (error) {
+            swal("¡ERROR!", "Se ha detectado un problema al actualizar un familiar", "error");
+            console.log(error)
+          })
+
+        }
+        else{
+          console.log("Agregando familiar")
+          adherente.numero_socio=_nroSocio          
+          axios.post('http://localhost:8081/familiar/', adherente)
+
+        }
+
+
+      //   .then(function (data){
+      //     swal("Operación Exitosa", " ", "success");
+      // })
+      // .catch(function (error) {
+      //   swal("¡ERROR!", "Se ha detectado un problema ", "error");
+        // respuesta=error.response.data;
+        
+        //console.log(error.response.data);
       }
+      // )
+        // await familiarAPI.putData(adherente);
+      // }
       
       // this.resetFormAdh();
+    },
+    async getPaciente() {
+      let familiarAPI = new APIControler();
+      familiarAPI.apiUrl.pathname = "familiar/";
+      this.data = await familiarAPI.getData();
+      this.data.forEach((element) => {
+        if (element.numero_socio.split('/')[4] == this.socio.numero_socio) {
+          this.familiar.push(element)
+          this.btn_familiar=true
+        }
+          console.log(this.familiar)
+      });
     },
     async resetForm() {
         this.socio.numero_socio = null;
@@ -396,14 +453,17 @@ export default {
         this.socio.carencia= null;
     },
     async resetFormAdh() {
-      /*
+      
         this.familiar.apellido = "";
         this.familiar.nombre = "";
         this.familiar.dni_familiar = null;
         this.familiar.fecha_nacimiento=null;
         this.familiar.carencia= null;
-        */
+        
     },
+  },
+  beforeMount() {
+    this.getPaciente();
   },
 };
 </script>
