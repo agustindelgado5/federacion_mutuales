@@ -441,13 +441,23 @@ export default {
       }
     },
     //Funcion para crear el PDF
-    generarPDF(item) {
-      if (this.tabla_ordenes.length != 0) {
-        this.ordenAPDF = item;
+    async generarPDF(item) {
+
+      let resultMed=(await axios.get(item.id_medico)).data;
+      let resultMutual=(await axios.get(item.id_mutual)).data;
+      let resultSocio=(await axios.get(item.numero_socio)).data;
+      let resultPaciente=(await axios.get(item.paciente)).data;
+         
+      
+        this.ordenAPDF = {...item};
+        this.ordenAPDF.realizado=item.realizado?"Si":"No"
+        this.ordenAPDF.id_medico=resultMed.apellido + ", "+resultMed.nombre
+        this.ordenAPDF.id_mutual=resultMutual.nombre
+        this.ordenAPDF.numero_socio=resultSocio.apellido + ", "+resultSocio.nombre
+        this.ordenAPDF.paciente=resultPaciente.apellido + ", "+resultPaciente.nombre
+
+
         this.$refs.html2Pdf.generatePdf();
-      } else {
-        swal("Debe tener al menos 1 registro");
-      }
     },
   },
   beforeMount() {
