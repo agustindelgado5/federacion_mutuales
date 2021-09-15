@@ -1,27 +1,33 @@
 <template>
   <div id="ordenes" class="myTable">
-
     <!--HEAD DE LA PAGINA -->
-    <vue-headful title="Ordenes - Federación Tucumana de Mutuales"></vue-headful>
+    <vue-headful
+      title="Ordenes - Federación Tucumana de Mutuales"
+    ></vue-headful>
 
     <h2>Listado de Ordenes</h2>
     <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
-      <v-icon dark style="color:black;">mdi-cached</v-icon>
+      <v-icon dark style="color: black">mdi-cached</v-icon>
       Actualizar
     </b-button>
 
     <!-- ================ALTA ORDENES======================== -->
-    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaOrden()" title="Nueva Orden" style="color: white;">
-      <v-icon dark>
-        mdi-plus
-      </v-icon>
+    <b-button
+      class="mb-4 ml-2"
+      v-b-modal.modal-alta
+      @click="altaOrden()"
+      title="Nueva Orden"
+      style="color: white"
+    >
+      <v-icon dark> mdi-plus </v-icon>
       Nueva Orden
     </b-button>
-    <b-modal id="modal-alta" hide-footer> 
+    <b-modal id="modal-alta" hide-footer>
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
-      <ordenes-alta/>
+      <ordenes-alta />
     </b-modal>
-<!-- ======== Formulario de Busqueda ======== -->
+
+    <!-- ======== Formulario de Busqueda ======== -->
     <div>
       <b-input-group size="sm" class="mb-2">
         <b-input-group-prepend is-text>
@@ -49,7 +55,7 @@
     </div>
     <!-- ======================================== -->
     <!-- ======== Tabla con los registros ======= -->
- 
+
     <b-table
       :fields="fields"
       striped
@@ -60,8 +66,8 @@
       show-empty
       :per-page="perPage"
       :current-page="currentPage"
-      :sticky-header= true
-      :no-border-collapse= false
+      :sticky-header="true"
+      :no-border-collapse="false"
       ref="tablaregistros"
       id="tablaregistros"
     >
@@ -69,35 +75,55 @@
         <b>No hay registros para mostrar</b>
       </template>
       <template slot="cell(numero_orden)" slot-scope="data">
-        <b>{{data.value}}</b>
+        <b>{{ data.value }}</b>
       </template>
       <template slot="cell(numero_socio)" slot-scope="data">
-        {{data.value.split('/')[4]}}
+        {{ data.value.split("/")[4] }}
       </template>
       <template slot="cell(paciente)" slot-scope="data">
-        {{data.value.split('/')[4]}}
+        {{ data.value.split("/")[4] }}
       </template>
       <template slot="cell(id_medico)" slot-scope="data">
-        {{data.value.split('/')[4]}}
+        {{ data.value.split("/")[4] }}
       </template>
       <template slot="cell(id_mutual)" slot-scope="data">
-        {{data.value.split('/')[4]}}
+        {{ data.value.split("/")[4] }}
       </template>
 
       <template slot="cell(precio)" slot-scope="data">
-        $ {{data.value}}
+        $ {{ data.value }}
       </template>
 
       <template slot="cell(realizado)" slot-scope="data">
         <div v-if="data.value === true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16" style="color: green">
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-check-circle-fill"
+            viewBox="0 0 16 16"
+            style="color: green"
+          >
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+            />
           </svg>
           SI
         </div>
         <div v-else>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16" style="color: red">
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-x-circle-fill"
+            viewBox="0 0 16 16"
+            style="color: red"
+          >
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+            />
           </svg>
           NO
         </div>
@@ -108,17 +134,43 @@
             <!-- <b-button variant="info" id="button-1" title="Mostrar Info"
               >Mostrar Info</b-button
             > -->
-
-            <b-button 
+            <!-- ==================================CREAR PDF================================== -->
+            <!-- Generar PDF -->
+            <b-button
+              @click="generarPDF(row.item)"
+              id="btn_down_pdf"
+              class="mb-0 ml-2"
+              title="Generar PDF"
+              variant="info"
+              style="color: white"
+            >
+              <!-- :disabled="btn_down_pdf" -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-file-pdf-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
+                />
+              </svg>
+              <!-- ============================================================================== -->
+            </b-button>
+            <b-button
               variant="warning"
               id="button-2"
               title="Editar este registro"
               v-b-modal.modal-editar
               @click="editarOrden(row.item, row.index)"
             >
-              <v-icon class="mr-2">
-                mdi-pencil
-              </v-icon>
+              <v-icon class="mr-2"> mdi-pencil </v-icon>
               Editar
             </b-button>
 
@@ -128,22 +180,20 @@
               @click="showModalinfo(row.item, row.index)"
               title="Eliminar este registro"
             >
-              <v-icon class="mr-2">
-                mdi-delete
-              </v-icon>
+              <v-icon class="mr-2"> mdi-delete </v-icon>
               Eliminar
             </b-button>
           </b-button-group>
         </div>
       </template>
-    <!-- 
+      <!-- 
       <template slot="action">
         <b-button variant="warning" size="sm">Modificar</b-button>
         <b-button variant="danger" size="sm">Eliminar</b-button>
       </template>
     -->
     </b-table>
-<!-- ================ELIMINAR ORDEN======================== -->
+    <!-- ================ELIMINAR ORDEN======================== -->
 
     <b-modal
       id="modal_eliminar"
@@ -188,6 +238,66 @@
       <template #modal-title><h5 class="modal-title">Editar</h5></template>
       <ordenes-update :orden="editar" />
     </b-modal>
+
+    <!-- ==================================CREAR PDF================================== -->
+    <vue-html2pdf
+      :show-layout="false"
+      :float-layout="true"
+      :enable-download="false"
+      :preview-modal="true"
+      :paginate-elements-by-height="1400"
+      filename="DetalleOrden"
+      :pdf-quality="2"
+      :manual-pagination="false"
+      pdf-format="a4"
+      pdf-orientation="portrait"
+      pdf-content-width="80%"
+      @progress="onProgress($event)"
+      @startPagination="startPagination()"
+      @hasPaginated="hasPaginated()"
+      @beforeDownload="beforeDownload($event)"
+      @hasDownloaded="hasDownloaded($event)"
+      ref="html2Pdf"
+    >
+      <section slot="pdf-content">
+        <!-- PDF Content Here -->
+        <section class="pdf-item">
+          <h3>Federación Tucumana de Mutuales</h3>
+          <img
+            src="../assets/logo.jpg"
+            alt="Logo Federación"
+            srcset=""
+            id="Logo_fed"
+          />
+        </section>
+        <section class="pdf-item">
+          <h3>Orden Médica</h3>
+          <!-- <b-table
+              :fields="fields"
+              responsive
+              :items="tabla_ordenes"
+              :no-border-collapse= false
+              small
+              fixed
+              bordered
+              head-variant="light"
+            >
+              <!-- <template slot="cell(cod_farmacia)" slot-scope="data">
+                {{data.value.split('/')[4]}}
+              </template> 
+            </b-table> -->
+
+          <b-list-group>
+            <b-list-group-item
+              v-for="value in fields.slice(0, -1)"
+              :key="value.key"
+              >{{ value.label }}: {{ ordenAPDF[value.key] }}</b-list-group-item
+            >
+          </b-list-group>
+        </section>
+      </section>
+    </vue-html2pdf>
+    <!-- ============================================================================== -->
   </div>
 </template>
 
@@ -197,28 +307,29 @@ api.pathname = "ordenes";
 //api.port = 8000;
 api.port = 8081;
 
-import OrdenesAlta from './OrdenesAlta.vue';
+import OrdenesAlta from "./OrdenesAlta.vue";
 import OrdenesUpdate from "./OrdenesUpdate.vue";
+import VueHtml2pdf from "vue-html2pdf";
 
 import axios from "axios";
 
 export default {
-  components: { OrdenesAlta, OrdenesUpdate },
+  components: { OrdenesAlta, OrdenesUpdate, VueHtml2pdf },
   data() {
     return {
       tabla_ordenes: [],
       fields: [
-            {key:'numero_orden' ,label: 'N° Orden', sortable: true,},
-            {key:'numero_socio' ,label: 'N° Socio', sortable: true,},
-            {key:'paciente' ,label: 'Paciente',sortable: true,},
-            {key:'servicio' ,label: 'Servicio', sortable: true,},
-            {key:'id_medico' ,label: 'Id Medico',sortable: true,},
-            {key:'id_mutual' ,label: 'Id Mutual',sortable: true,},
-            {key:'fecha' ,label: 'Fecha', sortable: true,},
-            {key:'hora' ,label: 'Hora', sortable: true,},
-            {key:'precio' ,label: 'Precio', sortable: true,},
-            {key:'realizado' ,label: 'Realizado', sortable: true,},
-            { key: "action", label: "Acciones" , variant: "secondary"},  
+        { key: "numero_orden", label: "N° Orden", sortable: true },
+        { key: "numero_socio", label: "N° Socio", sortable: true },
+        { key: "paciente", label: "Paciente", sortable: true },
+        { key: "servicio", label: "Servicio", sortable: true },
+        { key: "id_medico", label: "Id Medico", sortable: true },
+        { key: "id_mutual", label: "Id Mutual", sortable: true },
+        { key: "fecha", label: "Fecha", sortable: true },
+        { key: "hora", label: "Hora", sortable: true },
+        { key: "precio", label: "Precio", sortable: true },
+        { key: "realizado", label: "Realizado", sortable: true },
+        { key: "action", label: "Acciones", variant: "secondary" },
       ],
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
@@ -229,15 +340,16 @@ export default {
         id: "modal_eliminar",
         orden: -1,
       },
+      ordenAPDF: {}, //Se carga cuando se hace clic en exportar a pdf, con la orden a exportar
     };
   },
   computed: {
-      rows() {
-        return this.tabla_ordenes.length;
-      },
-      id() {
-        return this.tabla_ordenes.numero_orden;
-      },
+    rows() {
+      return this.tabla_ordenes.length;
+    },
+    id() {
+      return this.tabla_ordenes.numero_orden;
+    },
     items() {
       return tabla_ordenes.filter((item) => {
         return item.numero_orden
@@ -276,7 +388,7 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-    altaOrden(){},
+    altaOrden() {},
 
     async deleteOrden(nro_orden) {
       axios
@@ -328,11 +440,19 @@ export default {
         }
       }
     },
-
+    //Funcion para crear el PDF
+    generarPDF(item) {
+      if (this.tabla_ordenes.length != 0) {
+        this.ordenAPDF = item;
+        this.$refs.html2Pdf.generatePdf();
+      } else {
+        swal("Debe tener al menos 1 registro");
+      }
+    },
   },
-  beforeMount(){
-    this.testFetch()
-  }
+  beforeMount() {
+    this.testFetch();
+  },
 };
 </script>
 
@@ -346,5 +466,4 @@ export default {
   transition: 0.5s;
   width: 100%;
 }
-
 </style>
