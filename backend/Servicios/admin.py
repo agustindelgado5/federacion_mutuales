@@ -1,26 +1,14 @@
 from django.contrib import admin
-
-# from django.contrib.admin.sites import site
-from .models import socios, familiar
+from .models import servicios
 
 # Register your models here.
 
 
-class sociosAdmin(admin.ModelAdmin):
-    list_display = ("numero_socio", "apellido", "nombre", "dni")
-    search_fields = ("numero_socio", "apellido", "nombre", "dni")
-    ordering = ["numero_socio"]
-    # autocomplete_fields=['departamento']
-    readonly_fields = ("edad", "created", "updated")
+class serviciosAdmin(admin.ModelAdmin):
+    list_display = ("id_servicio", "nombre")
+    search_fields = ("id_servicio", "nombre")
+    ordering = ["id_servicio"]
+    readonly_fields = ("created", "updated")
 
 
-class familiaresAdmin(admin.ModelAdmin):
-    list_display = ("dni_familiar", "apellido", "nombre", "numero_socio")
-    search_fields = ("dni_familiar", "apellido", "nombre", "numero_socio")
-    ordering = ["dni_familiar"]
-    autocomplete_fields = ["numero_socio"]
-    readonly_fields = ("edad", "created", "updated")
-
-
-admin.site.register(socios, sociosAdmin)
-admin.site.register(familiar, familiaresAdmin)
+admin.site.register(servicios)

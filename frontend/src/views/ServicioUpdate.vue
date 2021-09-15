@@ -40,44 +40,75 @@
     </b-form>
     {{ servicio }}
     {{ data }}
-    <b-button class="mt-2" variant="success" block @click="postServicios()">Guardar</b-button>
+    <b-button class="mt-2" variant="success" block @click="putServicios()">Modificar</b-button>
   </div>
 </template>
 
 <script>
 import { APIControler } from "../store/APIControler";
+import axios from "axios";
 
 export default {
+  props: {
+    servicio: {},
+  },
   data() {
     return {
-      servicio: {},
+      servicios: {},
       data: {},
+      options: [
+        {value: null, text: 'Elija un servicio', disabled: true},
+      ],
       validacion:{
         id_servicio: {estado:null,mensaje:""},
         nombre: {estado:null,mensaje:""},
       }
     };
   },
+  created: function() {
+    this.getServicios();
+  },
+
   methods: {
     async getServicios() {
       let servicioAPI = new APIControler();
-      this.data = await servicioAPI.getData();
+      servicioAPI.apiUrl.pathname='servicios/'
+      this.data = await servicioAPI.getData(this.servicios);
+      this.data.forEach(element => {   
+        let option={}
+        option.value='http://localhost:8081/servicios/'+ element.id_servicio +'/';
+        option.text=element.servicio;
+        console.log(option);
+        this.options.push(option);
+      });
     },
-    async postServicios() {
-      let servicioAPI = new APIControler();
-      servicioAPI.apiUrl.pathname='servicios/';
-      let respuesta = await servicioAPI.postData(this.servicio); 
+
+    async putServicios() {
+      let respuesta ="vacio"
+      await axios.put('http://localhost:8081/servicios/'+this.servicio.id_servicio+ '/', this.servicio)
+      .then(function (data){
+        swal("Operación Exitosa", " ", "success");
+      })
+      .catch(function (error) {
+        swal("¡ERROR!", "Se ha detectado un problema ", "error");
+        respuesta=error.response.data;
+      })
       this.cargarFeedback(respuesta)
+      console.log("respuesta:");
+      console.log(respuesta);
     },
 
     cargarFeedback(respuestaAPI){
+      console.log("respuestaAPI")
+      console.log(respuestaAPI)
+      let valido;
       for(let key in this.validacion){
-        this.validacion[key].estado=true
-      }
-      for(let key in respuestaAPI){
-        this.validacion[key].estado=false
-        this.validacion[key].mensaje=respuestaAPI[key][0]
-        
+        valido=!(respuestaAPI.hasOwnProperty(key))
+        this.validacion[key].estado=valido
+        console.log(key)
+
+        if (!valido)
+          this.validacion[key].mensaje=respuestaAPI[key][0]
       }
     }
   },

@@ -1,15 +1,16 @@
 from rest_framework import viewsets
 
 
-from Socios.models import socios, familiar
-from Socios.serializers import SociosSerializer, FamiliarSerializer
+from Servicios.models import servicios
+from Servicios.serializers import ServiciosSerializer
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
-
-class SociosViewSet(viewsets.ModelViewSet):
-    serializer_class = SociosSerializer
-    queryset = socios.objects.all()
-
-
-class FamiliarViewSet(viewsets.ModelViewSet):
-    serializer_class = FamiliarSerializer
-    queryset = familiar.objects.all()
+class ServiciosViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
+    serializer_class = ServiciosSerializer
+    queryset = servicios.objects.all()
+    permission_required = (
+        'Servicios.view_servicios',
+        'Servicios.add_servicios',
+        'Servicios.change_servicios',
+        'Servicios.delete_servicios',
+    )
