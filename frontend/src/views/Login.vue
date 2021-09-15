@@ -1,5 +1,7 @@
 <template>
     <div class="vue-tempalte">
+        <!--HEAD DE LA PAGINA -->
+        <vue-headful title="Iniciar Sesión - Federación Tucumana de Mutuales"></vue-headful>
         <form @submit.prevent="login">
             <h3>Sign In</h3>
 
@@ -54,16 +56,19 @@
                 })
                     .then(resp => {
                         swal("Operación Exitosa", " ", "success");
-                        this.token = resp.data.token
-                        console.log(resp)
+                        //console.log(resp)
+                        this.token = resp
                         console.log(this.token)
+                        localStorage.setItem('user-token', resp.data)     
                         window.location.replace("/");
+                        
                     })
                     .catch(err => {
                         swal("¡ERROR!", "Usuario o contraseña incorrectos", "error");
                         console.log(err)
+                        localStorage.removeItem('user-token') 
                     })
-            }
+            },
         }
     }
 </script>

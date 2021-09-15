@@ -20,7 +20,20 @@
 </template>
 
 <script>
-    export default {};
+    export default {
+        mounted: function() {
+            if (localStorage.getItem('user-token')) {
+                //this.getData();
+                //this.getFamiliar();
+                console.log('SESION INICIADA')
+            }
+            else {
+                console.log('TOKEN NO ENCONTRADO')
+                location.href = '/login'
+            }
+        },
+    };
+    
 </script>
 
 <style>
