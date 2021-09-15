@@ -4,6 +4,7 @@ from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 from .serializers import UserSerializer
 
 
@@ -11,7 +12,7 @@ from .serializers import UserSerializer
 from  Administracion.models import CustomUser
 
 class LoginView(APIView):
-    #serializer_class = UserSerializer
+    serializer_class = UserSerializer
     #queryset = CustomUser.objects.all()
 
     def post(self, request):
@@ -22,11 +23,12 @@ class LoginView(APIView):
 
         # Si es correcto añadimos a la request la información de sesión
         if user:
-            _token = Token.objects.get_or_create(user=user)
+            _token, created = Token.objects.get_or_create(user=user)
+            print(f"TOKEN : {_token}")
             if _token:
                 login(request, user)
-                #return Response(status=status.HTTP_200_OK)
-                return Response(UserSerializer(user).data,status=status.HTTP_200_OK)
+                return Response(_token.key ,status=status.HTTP_200_OK)
+                #return Response(UserSerializer(user).data,status=status.HTTP_200_OK)
 
         # Si no es correcto devolvemos un error en la petición
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -51,12 +53,10 @@ class LogoutView(APIView):
         return []
 
 
-    
-
-
 class SignupView(generics.CreateAPIView):
     serializer_class = UserSerializer
     #queryset = CustomUser.objects.all()
+
 
     
     
