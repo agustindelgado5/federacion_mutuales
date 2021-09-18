@@ -2,8 +2,7 @@
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos </h4>
-    <b-button @click="getSocios()">GET TEST</b-button>
-      {{ list_socios }}
+    
       <b-form-group label="*Socio" label-for="numero_socio"  @submit.stop.prevent="handleSubmit">
         <b-form-select
         id="numero_socio"

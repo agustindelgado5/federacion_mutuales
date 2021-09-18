@@ -2,8 +2,8 @@
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos </h4>   
-    <b-button @click="getSocios()">GET TEST</b-button>
-      {{ list_socios }}
+    
+      
       <b-form-group label="*Socio" label-for="numero_socio">
         <b-form-select
           id="numero_socio"
@@ -81,7 +81,7 @@
     </b-form>
     {{ Cobradores }}
     {{ data }}
-    <b-button class="mt-2" variant="success" block @click="postCobrador()">POST TEST</b-button>
+    <b-button class="mt-2" variant="success" block @click="postCobrador()">Enviar</b-button>
   </div>
 </template>
 
@@ -125,7 +125,12 @@ export default {
       this.data = await cobradorAPI.postData(this.Cobradores);
     },
   },
+   beforeMount(){
+    this.getSocios();
+  },
+
 };
+
 </script>
 
 <style>
