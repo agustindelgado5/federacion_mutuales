@@ -12,6 +12,5 @@ class CobradoresSerializer(serializers.HyperlinkedModelSerializer):
             "apellido",
             "dni",
             "fecha_cobro",
-            
         )
         read_only_fields = ["created ", "updated"]

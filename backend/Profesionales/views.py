@@ -1,4 +1,4 @@
-from rest_framework import  viewsets
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -7,44 +7,9 @@ from Profesionales.serializers import ProfesionalesSerializer
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
-class ProfesionalesViewSet(PermissionRequiredMixin,viewsets.ModelViewSet):
+class ProfesionalesViewSet(viewsets.ModelViewSet):
     serializer_class = ProfesionalesSerializer
     queryset = profesionales.objects.all()
-    permission_required = (
-        'Profesionales.view_profesionales',
-        'Profesionales.add_profesionales',
-        'Profesionales.change_profesionales',
-        'Profesionales.delete_profesionales',
-    )
-    login_url = '/auth/login/'
-    redirect_field_name = 'redirect_to'
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # from django.contrib.postgres import search
@@ -81,7 +46,7 @@ class ProfesionalesViewSet(PermissionRequiredMixin,viewsets.ModelViewSet):
 # los datos a la base de datos
 # """
 
-# def alta_medico(request):    
+# def alta_medico(request):
 #     if request.method=='POST':
 #         mi_formulario=form_alta(request.POST)
 #         if mi_formulario.is_valid():
@@ -93,32 +58,32 @@ class ProfesionalesViewSet(PermissionRequiredMixin,viewsets.ModelViewSet):
 #                 return redirect("/profesional/altamedico/?novalido")
 #     else:
 #         mi_formulario=form_alta()
-    
+
 #     return render(request, "profesionales/alta_medico.html", {"form": mi_formulario})
 
 # """
-# Funcion para obtener el formulario con los datos 
+# Funcion para obtener el formulario con los datos
 # a modificar de un profesional
 # """
 # def modificar_medico(request, id_medico):
 #     _medicos= profesionales.objects.filter(pk=id_medico).first()
 #     mi_formulario=form_alta(instance=_medicos)
 #     return render(request, "profesionales/modificar_medico.html", {"form": mi_formulario, "persona":_medicos})
-    
-   
+
+
 # """
 # Funcion para modificar los datos a un profesional
 # """
 # def actualizar_medico(request, id_medico):
 #     _medico= profesionales.objects.get(pk=id_medico)
-    
+
 #     if request.method=='POST':
 #         mi_formulario=form_alta(request.POST, instance=_medico)
 #         if mi_formulario.is_valid():
 #             mi_formulario.save()
-    
+
 #     __medicos= profesionales.objects.all()
-    
+
 #     return render(request,"profesionales/list_medico.html", {"medicos": __medicos})
 
 # """
@@ -132,6 +97,3 @@ class ProfesionalesViewSet(PermissionRequiredMixin,viewsets.ModelViewSet):
 #         return redirect("/profesional/listmedico/")
 #     _medico= profesionales.objects.all()
 #     return render(request,"profesionales/list_medico.html", {"medicos": _medico})
-
-    
-    

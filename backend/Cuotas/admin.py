@@ -11,4 +11,5 @@ class cuotasAdmin(admin.ModelAdmin):
     ordering = ["id_cuota"]
     readonly_fields = ("created", "updated")
 
+
 admin.site.register(cuotas, cuotasAdmin)

@@ -9,7 +9,7 @@ Construyo la entidad servicio con sus atributos
 class servicios(models.Model):
     id_servicio = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
-    
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
 
@@ -20,9 +20,5 @@ class servicios(models.Model):
         ordering = ["id_servicio"]
 
     def __str__(self):
-        cadena = (
-            str(self.id_servicio)
-            + "-"
-            + self.nombre
-        )
+        cadena = str(self.id_servicio) + "-" + self.nombre
         return cadena

@@ -6,14 +6,9 @@ from Cobradores.serializers import CobradoresSerializer
 # Create your views here.
 
 
-
 class CobradoresViewSet(viewsets.ModelViewSet):
     serializer_class = CobradoresSerializer
     queryset = cobradores.objects.all()
 
 
-
-
-
-#from django.shortcuts import render
-
+# from django.shortcuts import render
