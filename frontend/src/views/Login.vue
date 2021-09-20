@@ -1,7 +1,5 @@
 <template>
     <div class="vue-tempalte">
-        <!--HEAD DE LA PAGINA -->
-        <vue-headful title="Iniciar Sesión - Federación Tucumana de Mutuales"></vue-headful>
         <form @submit.prevent="login">
             <h3>Sign In</h3>
 
@@ -34,6 +32,7 @@
     import VueAwesomplete from "vue-awesomplete";
     import axios from "axios";
     import { APIControler } from "../store/APIControler";
+    import VueCookies from 'vue-cookies';
 
     export default {
         data() {
@@ -41,7 +40,6 @@
                 email: '',
                 username: '',
                 password: '',
-                token: null,
             }
         },
         methods:
@@ -56,20 +54,21 @@
                 })
                     .then(resp => {
                         swal("Operación Exitosa", " ", "success");
-                        //console.log(resp)
-                        this.token = resp
-                        console.log(this.token)
-                        localStorage.setItem('user-token', resp.data)     
+                        console.log(this.$usuario)
+                        $cookies.set('usuario', resp.data.username);
+                        console.log(this.$usuario)
+                        console.log(resp)
                         window.location.replace("/");
-                        
                     })
                     .catch(err => {
                         swal("¡ERROR!", "Usuario o contraseña incorrectos", "error");
                         console.log(err)
-                        localStorage.removeItem('user-token') 
                     })
-            },
-        }
+            }
+        },
+        beforeMount() {
+            $cookies.set('usuario', null);
+        },
     }
 </script>
 

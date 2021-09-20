@@ -572,9 +572,9 @@ export default {
     },
   },
 
-  beforeMount(){
-    this.testFetch()
-  }
+  beforeMount() {
+    this.testFetch();
+  },
 
 };
 </script>

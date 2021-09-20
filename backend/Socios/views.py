@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 class SociosViewSet(viewsets.ModelViewSet):
     serializer_class = SociosSerializer
     queryset = socios.objects.all()
+<<<<<<< HEAD
     # permission_required = (
     #     'Socios.view_socios',
     #     'Socios.add_socios',
@@ -20,6 +21,16 @@ class SociosViewSet(viewsets.ModelViewSet):
     # )
     # login_url = '/auth/login/'
     # redirect_field_name = 'redirect_to'
+=======
+    #permission_required = (
+    #    'Socios.view_socios',
+    #    'Socios.add_socios',
+    #    'Socios.change_socios',
+    #    'Socios.delete_socios',
+    #)
+    #login_url = '/auth/login/'
+    #redirect_field_name = 'redirect_to'
+>>>>>>> 22136aa83e79bce7ac841c370c6af768e1d784f5
     """
     def perform_create(self, serializers):
         _edad = calcular_edad(datetime.strptime(self.request.POST['fecha_nacimiento'],'%Y-%m-%d'))
@@ -35,6 +46,7 @@ class FamiliarViewSet(viewsets.ModelViewSet):
     serializer_class = FamiliarSerializer
     queryset = familiar.objects.all()
 
+<<<<<<< HEAD
     # permission_required = (
     #     'Socios.view_familiar',
     #     'Socios.add_familiar',
@@ -43,6 +55,16 @@ class FamiliarViewSet(viewsets.ModelViewSet):
     # )
     # login_url = '/auth/login/'
     # redirect_field_name = 'redirect_to'
+=======
+    permission_required = (
+    #    'Socios.view_familiar',
+    #    'Socios.add_familiar',
+    #    'Socios.change_familiar',
+    #    'Socios.delete_familiar',
+    )
+    #login_url = '/auth/login/'
+    #redirect_field_name = 'redirect_to'
+>>>>>>> 22136aa83e79bce7ac841c370c6af768e1d784f5
 
     """
     def perform_create(self, serializers):

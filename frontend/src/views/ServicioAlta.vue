@@ -5,18 +5,18 @@
     <b-form >
       <b-form-group label="*Nombre del servicio" label-for="nombre">
         <b-form-input
-          id="nombre"
-          v-model="servicio.nombre"
+          id="servicio"
+          v-model="servicio.servicio"
           type="text"
           placeholder="*Ingrese el nombre del servicio"
-          :state="validacion.nombre.estado"
+          :state="validacion.servicio.estado"
           invalid-feedback="Complete este campo"
           required
         >
         </b-form-input>
         <b-form-invalid-feedback
                 id="nombre-live-feedback"
-              >{{validacion.nombre.mensaje}}
+              >{{validacion.servicio.mensaje}}
             </b-form-invalid-feedback>
       </b-form-group>
       
@@ -36,7 +36,7 @@ export default {
       servicio: {},
       data: {},
       validacion:{
-        nombre: {estado:null,mensaje:""},
+        servicio: {estado:null,mensaje:""},
       }
     };
   },
@@ -47,6 +47,7 @@ export default {
     },
     async postServicios() {
       let servicioAPI = new APIControler();
+      console.log(servicioAPI.apiUrl)
       servicioAPI.apiUrl.pathname='servicios/';
       let respuesta = await servicioAPI.postData(this.servicio); 
       this.cargarFeedback(respuesta)

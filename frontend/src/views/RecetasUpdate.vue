@@ -15,19 +15,6 @@
     <!------------------------------------------------------------------------------------------->
 
     <b-form >
-        <!-- Id Receta -->
-        <b-form-group label="*Id Receta" label-for="id_receta">
-          <b-form-input
-            id="id_receta"
-            v-model="receta.id_receta"
-            type="number"
-            placeholder="Ingrese un Numero"
-            invalid-feedback="Complete este campo"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
-
       <!-- Numero de Orden -->
       <b-form-group label="*N° Orden" label-for="numero_orden">
         <b-form-input
@@ -153,7 +140,6 @@ export default {
         {value: null, text: 'Elija una persona', disabled: true},
       ],
       validacion:{
-        id_receta:{estado:null,mensaje:""},
         numero_orden:{estado:null,mensaje:""},
         numero_socio: {estado:null,mensaje:""},
         dni_familiar: {estado:null,mensaje:""},
