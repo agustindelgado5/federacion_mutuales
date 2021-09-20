@@ -10,44 +10,6 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 class ProfesionalesViewSet(viewsets.ModelViewSet):
     serializer_class = ProfesionalesSerializer
     queryset = profesionales.objects.all()
-<<<<<<< HEAD
-=======
-    permission_required = (
-    #    'Profesionales.view_profesionales',
-    #    'Profesionales.add_profesionales',
-    #    'Profesionales.change_profesionales',
-    #    'Profesionales.delete_profesionales',
-    )
-    #login_url = '/auth/login/'
-    #redirect_field_name = 'redirect_to'
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 22136aa83e79bce7ac841c370c6af768e1d784f5
 
 
 # from django.contrib.postgres import search
