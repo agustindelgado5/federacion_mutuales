@@ -24,7 +24,7 @@
     </b-button>
     <b-modal id="modal-alta" hide-footer>
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
-      <mutual-alta />
+      <mutual-alta/>
     </b-modal>
     <!-- ======== Formulario de Busqueda ======== -->
     <div>
@@ -55,7 +55,9 @@
     <!-- ======================================== -->
 
     <!-- ======== Tabla con los registros ======= -->
-
+    {{server_mutual}}
+    {{data}}
+    {{servicios}}
     <b-table
       :fields="fields"
       striped
@@ -113,16 +115,24 @@
           <div>
             <b-list-group horizontal>
               <b-list-group class="col-6">
-                <b-list-group-item
-                  ><b>Codigo:</b> {{ row.item.id_mutual }}</b-list-group-item
-                >
-                <b-list-group-item
-                  ><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item
-                >
-                <b-list-group-item
-                  ><b>Servicio:</b>
-                  {{ getServicio(row.item.id_servicio) }}</b-list-group-item
-                >
+                <b-list-group-item>
+                  <b>Codigo:</b> {{ row.item.id_mutual }}
+                </b-list-group-item>
+                <b-list-group-item>
+                  <b>Nombre:</b> {{ row.item.nombre }}
+                </b-list-group-item>
+                <b-list-group-item>
+                  <b>Servicios:</b>
+                  <div v-for="servicios in data" :key="servicios.id_mutual">    
+                    <div v-for="tareas in server_mutual" :key="tareas.id_servicio" >
+                      <div v-if="servicios.id_mutual.split('/')[4]==row.item.id_mutual && servicios.id_servicio.split('/')[4]==tareas.id_servicio">
+                        <li><b>{{tareas.id_servicio}}:</b> {{tareas.servicio}} </li>  
+                      </div>
+                        
+                    </div>
+                    
+                  </div>
+                </b-list-group-item>
               </b-list-group>
             </b-list-group>
           </div>
@@ -170,6 +180,7 @@
         </b-pagination>
       </b-col>
     </b-container>
+    
   </div>
 </template>
 
@@ -186,6 +197,7 @@ import { APIControler } from "../store/APIControler";
 
 export default {
   components: { MutualAlta },
+
   data() {
     return {
       tabla_mutuales: [],
@@ -202,9 +214,21 @@ export default {
         id: "modal_eliminar",
         mutual: -1,
       },
+      servicios:{},
+      data:{},
+      server_mutual: [
+        //{
+          //id_servicio:0,
+          //servicio:'' 
+       // }
+      ]
     };
   },
   computed: {
+    max(){
+      var id = this.rows-1
+      return this.tabla_mutuales[id].id_mutual;
+    },
     rows() {
       return this.tabla_mutuales.length;
     },
@@ -256,6 +280,7 @@ export default {
         .then((datos) => {
           swal("Operación Exitosa", " ", "success");
           console.log(datos);
+          this.hideModal();
         })
         .catch((error) => {
           swal("¡ERROR!", "Se ha detectado un problema ", "error");
@@ -263,9 +288,7 @@ export default {
         })
         .finally(() => this.testFetch());
     },
-    getServicio(id_servicio) {
-      return id_servicio.split("/")[4];
-    },
+    
     async buscarnow() {
       // Declare variables
       var input,
@@ -300,9 +323,40 @@ export default {
         }
       }
     },
+
+    async getServicios() {
+      var count =0;
+      let serviciosAPI = new APIControler();
+      serviciosAPI.apiUrl.pathname='servicio_mutual/';
+      this.data = await serviciosAPI.getData(this.servicios);
+      this.data.forEach(element => {   
+          console.log(element);
+          this.getPublic(element.id_servicio)
+      });
+    },
+
+    
+    async getPublic(id) {
+      //let url = 'http://localhost:8081/'+ id + '/'
+      
+      axios.get(id)
+      .then(response=>{
+        console.log(response)
+        this.server_mutual.push(response.data)        
+        //this.server_mutual[count].id_servicio=response.data.id_servicio
+        //this.server_mutual[count].servicio=response.data.servicio
+      })
+      .catch(error=>{
+        console.log(error)
+      })
+    },
+
+    
+    
   },
   beforeMount() {
     this.testFetch();
+    this.getServicios();
   },
 };
 </script>
