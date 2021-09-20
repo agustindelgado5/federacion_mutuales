@@ -316,12 +316,12 @@
               >
               <b-button
                 class="mt-3"
-                variant="danger"
+                variant="success"
                 block
-                @click="deleteSocio(infoEliminar.socio.numero_socio)"
-                title="Eliminar"
+                href="/cuotas/"
+                title="Pagar"
               >
-                Eliminar
+                Pagar
               </b-button>
             </b-modal>
             <!-- ==================================================== -->
@@ -456,7 +456,7 @@ export default {
         id: "modal_pagado",
         socio: -1,
         dias: -1,
-        mensaje: 'no esta al dia',
+        mensaje: 'no esta al dia ❌',
       },
       btn_down_pdf : true, //Desabilito los botones, hasta que muestre los datos
       btn_del_full : true,
@@ -512,7 +512,14 @@ export default {
         
         //for (var i = 0; i < lista_socios.length; i++)
         //{
-        //    lista_socios[i].aldia = await this.getAldia(lista_socios[i].numero_socio)
+        //    var numerillo = await this.getAldia(lista_socios[i].numero_socio);
+        //    if (numerillo < 30 && numerillo >= 0) {
+        //        lista_socios[i].aldia = '✔'
+        //    } else
+        //    {
+        //        lista_socios[i].aldia = '❌'
+        //    }
+            
         //}
         //console.log(lista_socios[0].aldia);
 
@@ -556,10 +563,10 @@ export default {
        this.infopagado.socio = item;
        this.infopagado.dias = await this.getAldia(item.numero_socio);
         if (this.infopagado.dias < 31 && this.infopagado.dias >= 0) {
-            this.infopagado.mensaje = 'si esta al dia'
+            this.infopagado.mensaje = 'si esta al dia ✔️'
         } else
         {
-            this.infopagado.mensaje = 'no esta al dia'
+            this.infopagado.mensaje = 'no esta al dia ❌'
         }
        this.showModal1();
     },

@@ -46,22 +46,32 @@
                     {{validacion.personapago.mensaje}}
                 </b-form-invalid-feedback>
             </b-form-group>
-
-            <b-form @submit.stop.prevent>
-                <b-form-group label="*Monto" label-for="monto" @submit.stop.prevent="handleSubmit">
-                    <b-form-input id="monto"
-                                  v-model="cuotas.monto"
-                                  type="number"
-                                  :state="validacion.monto.estado"
-                                  placeholder="Ingrese un Numero"
-                                  invalid-feedback="Complete este campo"
-                                  required>
-                    </b-form-input>
-                    <b-form-invalid-feedback id="monto-live-feedback">
-                        {{validacion.monto.mensaje}}
-                    </b-form-invalid-feedback>
-                </b-form-group>
-
+            <b-form-group label="*Monto" label-for="monto" @submit.stop.prevent="handleSubmit">
+                <b-form-input id="monto"
+                                v-model="cuotas.monto"
+                                type="number"
+                                :state="validacion.monto.estado"
+                                placeholder="Ingrese un Numero"
+                                invalid-feedback="Complete este campo"
+                                required>
+                </b-form-input>
+                <b-form-invalid-feedback id="monto-live-feedback">
+                    {{validacion.monto.mensaje}}
+                </b-form-invalid-feedback>
+            </b-form-group>
+            <b-form-group label="*Fecha Realizacion" label-for="fecharealizacion" @submit.stop.prevent="handleSubmit">
+                <b-form-input id="fecharealizacion"
+                                v-model="cuotas.fecharealizacion"
+                                type="date"
+                                :state="validacion.fecharealizacion.estado"
+                                placeholder="Ingrese una Fecha"
+                                invalid-feedback="Complete este campo"
+                                required>
+                </b-form-input>
+                <b-form-invalid-feedback id="fecharealizacion-live-feedback">
+                    {{validacion.fecharealizacion.mensaje}}
+                </b-form-invalid-feedback>
+            </b-form-group>
             </b-form>
         </b-form>
         <b-button class="mt-2" variant="success" block @click="postCuota()">Guardar</b-button>
@@ -89,7 +99,8 @@ export default {
         id_cuota: {estado:null,mensaje:""},
         personapago: {estado:null,mensaje:""},
         monto: {estado:null,mensaje:""},
-        numero_socio: {estado:null,mensaje:""},
+        numero_socio: { estado: null, mensaje: "" },
+        fecharealizacion: {estado: null, mensaje:""},
       },
     };
   },
