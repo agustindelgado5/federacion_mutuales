@@ -5,6 +5,8 @@ from rest_framework.response import Response
 
 from Ordenes.models import ordenes
 from Ordenes.serializers import OrdenesSerializer
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 
 # Create your views here.
 

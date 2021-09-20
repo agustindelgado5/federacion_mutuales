@@ -1,6 +1,7 @@
 from django.db import models
-from backend.deptos import provincias
-
+from django.db.models.base import Model
+from django.contrib.auth.models import User
+from backend.deptos import deptos_tucuman, provincias
 # Create your models here.
 
 
@@ -22,19 +23,11 @@ class profesionales(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = "profesionales"
-        verbose_name = "profesional"
-        verbose_name_plural = "profesionales"
-        ordering = ["id_medico"]
+        db_table = 'profesionales'
+        verbose_name = 'profesional'
+        verbose_name_plural = 'profesionales'
+        ordering = ['id_medico']
 
     def __str__(self):
-        cadena = (
-            str(self.id_medico)
-            + "-"
-            + self.apellido
-            + "-"
-            + self.nombre
-            + "-"
-            + str(self.dni)
-        )
+        cadena = str(self.id_medico) + '-' + self.apellido+ '-' + self.nombre + '-' + str(self.dni)
         return cadena

@@ -7,15 +7,15 @@ from Profesionales.serializers import ProfesionalesSerializer
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
-class ProfesionalesViewSet(PermissionRequiredMixin,viewsets.ModelViewSet):
+class ProfesionalesViewSet(viewsets.ModelViewSet):
     serializer_class = ProfesionalesSerializer
     queryset = profesionales.objects.all()
-    permission_required = (
-    #    'Profesionales.view_profesionales',
-    #    'Profesionales.add_profesionales',
-    #    'Profesionales.change_profesionales',
-    #    'Profesionales.delete_profesionales',
-    )
+    #permission_required = (
+        #'Profesionales.view_profesionales',
+        #'Profesionales.add_profesionales',
+        #'Profesionales.change_profesionales',
+        #'Profesionales.delete_profesionales',
+    #)
     #login_url = '/auth/login/'
     #redirect_field_name = 'redirect_to'
 

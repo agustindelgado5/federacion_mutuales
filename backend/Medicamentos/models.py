@@ -41,8 +41,9 @@ Construyo la entidad para la receta con sus atributos
 
 
 class receta(models.Model):
-    id_receta = models.AutoField(primary_key=True)
+    id_receta = models.IntegerField(primary_key=True)
     numero_socio = models.ForeignKey(socios, on_delete=models.DO_NOTHING)
+    # dni_familiar=models.ForeignKey(familiar, on_delete=models.DO_NOTHING)
     cod_farmacia = models.ForeignKey(farmacias, on_delete=models.DO_NOTHING)
     id_medicamento = models.ForeignKey(medicamentos, on_delete=models.DO_NOTHING)
     paciente = models.CharField(max_length=60)

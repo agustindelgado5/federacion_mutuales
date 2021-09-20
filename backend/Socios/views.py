@@ -9,14 +9,14 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 
 
-class SociosViewSet(PermissionRequiredMixin,viewsets.ModelViewSet):
+class SociosViewSet(viewsets.ModelViewSet):
     serializer_class = SociosSerializer
     queryset = socios.objects.all()
     #permission_required = (
-    #    'Socios.view_socios',
-    #    'Socios.add_socios',
-    #    'Socios.change_socios',
-    #    'Socios.delete_socios',
+        #'Socios.view_socios',
+        #'Socios.add_socios',
+        #'Socios.change_socios',
+        #'Socios.delete_socios',
     #)
     #login_url = '/auth/login/'
     #redirect_field_name = 'redirect_to'
@@ -31,16 +31,16 @@ class SociosViewSet(PermissionRequiredMixin,viewsets.ModelViewSet):
     """
 
 
-class FamiliarViewSet(PermissionRequiredMixin,viewsets.ModelViewSet):
+class FamiliarViewSet(viewsets.ModelViewSet):
     serializer_class = FamiliarSerializer
     queryset = familiar.objects.all()
 
-    permission_required = (
-    #    'Socios.view_familiar',
-    #    'Socios.add_familiar',
-    #    'Socios.change_familiar',
-    #    'Socios.delete_familiar',
-    )
+    #permission_required = (
+        #'Socios.view_familiar',
+        #'Socios.add_familiar',
+        #'Socios.change_familiar',
+        #'Socios.delete_familiar',
+    #)
     #login_url = '/auth/login/'
     #redirect_field_name = 'redirect_to'
 

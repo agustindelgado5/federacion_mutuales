@@ -12,5 +12,5 @@ urlpatterns = [
     path('auth/login/',LoginView.as_view(), name='login'),
     path('auth/logout/',LogoutView.as_view(), name='logout'),
     path('auth/alta/',SignupView.as_view(), name='alta'),
-    path('token/',views.obtain_auth_token),
+    path('token/',views.obtain_auth_token, name='token'),
 ]
