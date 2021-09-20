@@ -239,6 +239,16 @@
             </b-button>
 
             <b-button
+              variant="success"
+              id="button-2"
+              @click="showModalinfo1(row.item, row.index)"
+            >
+              <!-- isabled="btn_editar" -->
+              <v-icon class="mr-2"> mdi-cash </v-icon>
+              Pagado?
+            </b-button>
+
+            <b-button
               variant="danger"
               id="button-3"
               @click="showModalinfo(row.item, row.index)"
@@ -263,6 +273,39 @@
                   {{ infoEliminar.socio.apellido }},
                   {{ infoEliminar.socio.nombre }} ?
                 </h3>
+              </div>
+              <b-button
+                class="mt-2"
+                block
+                @click="hideModal"
+                title="Volver Atras"
+                >Volver Atras</b-button
+              >
+              <b-button
+                class="mt-3"
+                variant="danger"
+                block
+                @click="deleteSocio(infoEliminar.socio.numero_socio)"
+                title="Eliminar"
+              >
+                Eliminar
+              </b-button>
+            </b-modal>
+            <b-modal
+              id="modal_pagado"
+              ref="my-modalpagado"
+              hide-footer
+              title="Pagado?"
+              ok-only
+            >
+              <div class="d-block text-center">
+                  <h3>
+                      El socio
+                      {{ infopagado.socio.apellido }},
+                      {{ infopagado.socio.nombre }} pago hace
+                      {{ infopagado.dias }} dias por lo que
+                      {{ infopagado.mensaje }}
+                  </h3>
               </div>
               <b-button
                 class="mt-2"
@@ -409,6 +452,12 @@ export default {
         id: "modal_eliminar",
         socio: -1,
       },
+      infopagado: {
+        id: "modal_pagado",
+        socio: -1,
+        dias: -1,
+        mensaje: 'no esta al dia',
+      },
       btn_down_pdf : true, //Desabilito los botones, hasta que muestre los datos
       btn_del_full : true,
       msj_tabla: " Presione 'Mostrar' para ver los regitros ",
@@ -437,13 +486,7 @@ export default {
   },
   
   mounted: function() {
-    if (localStorage.getItem('user-token')) {
-      this.getData();
-      this.getFamiliar();
-    }
-    else {
-      location.href = '/login'
-    }
+    
   }, 
   /*
   created: function() {
@@ -453,13 +496,25 @@ export default {
   */
 
   methods: {
+    async getAldia(numero_socio) {
+        let diaAPI = new APIControler();
+        diaAPI.apiUrl.pathname = 'aldia/' + numero_socio + '/aldia/';
+        let response = await fetch(diaAPI.apiUrl);
+        let data = await response.json();
+        console.log(data);
+        return data;
+    },
     async testFetch() {
       try {
         const res = await fetch(api);
         const data = await res.json();
-
         var lista_socios = data.results;
-        console.log(lista_socios);
+        
+        //for (var i = 0; i < lista_socios.length; i++)
+        //{
+        //    lista_socios[i].aldia = await this.getAldia(lista_socios[i].numero_socio)
+        //}
+        //console.log(lista_socios[0].aldia);
 
         this.tabla_socios = lista_socios;
         this.btn_down_pdf=false;  //Habilito los botones
@@ -471,7 +526,6 @@ export default {
         console.log(error);
       }
     },
-
     async getFamiliar() {
       let familiarAPI = new APIControler();
       familiarAPI.apiUrl.pathname='familiar/';
@@ -493,6 +547,26 @@ export default {
       this.infoEliminar.socio = item;
       this.showModal();
     },
+
+    showModalinfo(item, index) {
+       this.infoEliminar.socio = item;
+       this.showModal();
+    },
+    async showModalinfo1(item, index) {
+       this.infopagado.socio = item;
+       this.infopagado.dias = await this.getAldia(item.numero_socio);
+        if (this.infopagado.dias < 31 && this.infopagado.dias >= 0) {
+            this.infopagado.mensaje = 'si esta al dia'
+        } else
+        {
+            this.infopagado.mensaje = 'no esta al dia'
+        }
+       this.showModal1();
+    },
+    showModal1() {
+       this.$refs["my-modalpagado"].show();
+    },
+
     //Funcion para esconder el modal
     hideModal() {
       this.$refs["my-modal"].hide();
@@ -637,7 +711,7 @@ export default {
    
   },
   beforeMount(){
-    this.testFetch()
+    
   }
 };
 </script>

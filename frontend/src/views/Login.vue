@@ -54,9 +54,7 @@
                 })
                     .then(resp => {
                         swal("Operación Exitosa", " ", "success");
-                        console.log(this.$usuario)
-                        $cookies.set('usuario', resp.data.username);
-                        console.log(this.$usuario)
+                        $cookies.set('usuario', this.username);
                         console.log(resp)
                         window.location.replace("/");
                     })

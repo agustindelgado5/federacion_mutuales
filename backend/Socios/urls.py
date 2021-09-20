@@ -9,6 +9,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'socios', views.SociosViewSet, basename='socios')
+router.register(r'aldia', views.SociosViewSet, basename='aldia')
 router.register(r'familiar', views.FamiliarViewSet, basename='familiar')
 
 urlpatterns = [
