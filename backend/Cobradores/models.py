@@ -15,7 +15,7 @@ class cobradores(models.Model):
     nombre = models.CharField(max_length=80)
     dni = models.IntegerField(unique=True)
     fecha_cobro = models.DateField()
-    
+
     realizado = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)

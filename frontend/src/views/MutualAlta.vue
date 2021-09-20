@@ -46,6 +46,7 @@
         </b-form-invalid-feedback>
       </b-form-group>
       <!-- id_servicio -->
+      <!--
       <b-form-group label="*Servicio" label-for="servicio">
         <b-form-select
           id="servicio"
@@ -62,25 +63,44 @@
           >{{ validacion.id_servicio.mensaje }}
         </b-form-invalid-feedback>
       </b-form-group>
+      -->
+      <b-form-group
+        label="*Servicio" label-for="servicio"
+        v-slot="{ ariaDescribedby }"
+      >
+        <b-form-checkbox-group
+          v-model="selected"
+          :options="op_servicios"
+          :aria-describedby="ariaDescribedby"
+          name="flavour-2a"
+          stacked
+        ></b-form-checkbox-group>
+    </b-form-group>
     </b-form>
-    <b-button class="mt-2" variant="success" block @click="postMutual()"
-      >Guardar</b-button
+    
+    <b-button class="mt-2" variant="success" block @click="postMutual()"><b>GUARDAR</b></b-button
     >
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import { APIControler } from "../store/APIControler";
 
 export default {
+
   data() {
     return {
       mutuales: {},
+      mutuales_anteriores: {},
+      index:[],
+      maximo: 0,
       data: {},
       list_servicios: {},
       op_servicios: [
-        { value: null, text: "Elija un servicio", disabled: true },
+        { value: null, text: "Elija los servicios", disabled: true },
       ],
+      selected: [],
       validacion: {
         nombre: { estado: null, mensaje: "" },
         sucursal: { estado: null, mensaje: "" },
@@ -107,33 +127,87 @@ export default {
         { value: "Trancas", text: "16- Trancas" },
         { value: "Yerba Buena", text: "17- Yerba Buena" },
       ],
+      /*
+      servers_mutual: {
+        id_mutual : '',
+        id_servicio : '',
+      }
+      */
     };
   },
   methods: {
-    async getMutual() {
-      let mutualAPI = new APIControler();
-      this.data = await mutualAPI.getData();
+    //Obtengo la mutual
+    
+    async getMutuales() {
+      let mutualesAPI = new APIControler();
+      mutualesAPI.apiUrl.pathname = "mutuales/";
+      this.data = await mutualesAPI.getData(this.mutuales_anteriores);
+      
+      this.data.forEach((element) => {
+        this.index.push(element.id_mutual)
+        
+      });
+      
     },
+    
+
+    //Post de la mutual
     async postMutual() {
       let mutualAPI = new APIControler();
       mutualAPI.apiUrl.pathname = "mutuales/";
-      this.respuesta = await mutualAPI.postData(this.mutuales);
-      this.cargarFeedback();
-      this.testFetch();
+      if (this.selected.length>0) {
+        this.respuesta = await mutualAPI.postData(this.mutuales);
+        this.postServicios();
+        this.cargarFeedback();
+        this.testFetch();
+      }
+      else{
+        swal("¡ERROR!", "Debe seleccionar al menos un servicio", "error");
+      }
     },
+
+    //Obtengo los servicios
     async getServicios() {
       let serviciosAPI = new APIControler();
       serviciosAPI.apiUrl.pathname = "servicios/";
       this.data = await serviciosAPI.getData(this.list_servicios);
       this.data.forEach((element) => {
         let option = {};
-        option.value =
-          "http://localhost:8081/servicios/" + element.id_servicio + "/";
-        option.text = element.id_servicio + "-- " + element.servicio;
+        option.value = "http://localhost:8081/servicios/" + element.id_servicio + "/";
+        option.text = element.servicio;
         console.log(option);
         this.op_servicios.push(option);
       });
     },
+  
+
+    //Cargo los servicios de las mutuales
+    async postServicios(){
+      var id=1
+      this.maximo = this.index.length-1 
+      if (this.index[this.maximo]!=null) {
+        id = this.index[this.maximo]+1; 
+      }
+      console.log('ID:', id);
+
+      for(var i=0; i<this.selected.length; i++){
+        
+        axios
+        .post('http://localhost:8081/servicio_mutual/', {
+          id_mutual : "http://localhost:8081/mutuales/" + id + "/",
+          id_servicio : this.selected[i]
+        })
+        .then(data=>{
+          console.log(data)
+          console.log('¡Servicios cargados con exito!')
+        })
+        .catch(error=>{
+          console.log(error)
+        })   
+      }
+      
+    },
+    //Validacion de los campos
     cargarFeedback() {
       let valido;
       for (let key in this.validacion) {
@@ -146,6 +220,14 @@ export default {
   beforeMount() {
     this.getServicios();
   },
+  created(){
+    this.getMutuales();
+    this.postServicios();
+  },
+  computed: {
+    
+  }
+
 };
 </script>
 

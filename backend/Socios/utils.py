@@ -13,10 +13,10 @@ from datetime import datetime
 
 #     if not pdf.err:
 #         return HttpResponse(result.getvalue(), content_type='application/pdf')
-    
+
 #     return None
 
-#Funcion para calcular la edad de una persona
+# Funcion para calcular la edad de una persona
 def calcular_edad(fecha_nac):
     fecha_actual = datetime.now()
 
@@ -24,17 +24,13 @@ def calcular_edad(fecha_nac):
         if fecha_actual.month > fecha_nac.month:
             edad = fecha_actual.year - fecha_nac.year
         elif fecha_actual.month < fecha_nac.month:
-            edad = (fecha_actual.year - fecha_nac.year)-1
+            edad = (fecha_actual.year - fecha_nac.year) - 1
         elif fecha_actual.day >= fecha_nac.day:
             edad = fecha_actual.year - fecha_nac.year
         else:
-            edad = (fecha_actual.year - fecha_nac.year)-1
+            edad = (fecha_actual.year - fecha_nac.year) - 1
     elif fecha_actual.year == fecha_nac.year:
         edad = 0
-    else: 
-        edad=-1
+    else:
+        edad = -1
     return edad
-
-
-     
-    

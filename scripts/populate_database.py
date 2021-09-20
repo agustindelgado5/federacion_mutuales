@@ -6,7 +6,7 @@ fake = Faker()
 url = "http://localhost:8081/socios/"
 
 # Populate socios
-for i in range(100):
+for i in range(20):
     socio = {}
     
     socio['numero_socio'] = fake.unique.random_int()

@@ -18,6 +18,7 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
+# DJANGO_APPS
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -25,22 +26,26 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
+    # THRIRTY APPS
+    # PARA VUE (cuando deployemos)
+    # 'webpack_loader',
+    # PARA POSGRESS
+    "django.contrib.postgres",
     # Django REST framework
     "rest_framework",
-    'rest_framework.authtoken',
+    "rest_framework.authtoken",
     # CORS
     "corsheaders",
-    "django.contrib.postgres",
-    "Administracion.apps.AdministracionAppConfig",
-    "Socios.apps.SociosAppConfig",
-    "Profesionales.apps.ProfesionalesAppConfig",
-    "Farmacias.apps.FarmaciasAppConfig",
-    "Medicamentos.apps.MedicamentosAppConfig",
-    "Ordenes.apps.OrdenesAppConfig",
-    "Mutuales.apps.MutualesAppConfig",
-    "Cobradores.apps.CobradoresAppConfig",
-    "Cuotas.apps.CuotasAppConfig"
+    # LOCAL APPS
+    # "users",
+    "Socios",
+    "Mutuales",
+    "Profesionales",
+    "Farmacias",
+    "Medicamentos",
+    "Ordenes",
+    "Cobradores",
+    "Cuotas",
 ]
 
 MIDDLEWARE = [
@@ -76,12 +81,12 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
-    ],
-    "DEFAULT_PERMISSIONS_CLASSES": ("rest_framework.permissions.IsAuthenticated"),
+    # "DEFAULT_AUTHENTICATION_CLASSES": [
+    #     "rest_framework.authentication.BasicAuthentication",
+    #     "rest_framework.authentication.SessionAuthentication",
+    #     "rest_framework.authentication.TokenAuthentication",
+    # ],
+    # "DEFAULT_PERMISSIONS_CLASSES": ("rest_framework.permissions.IsAuthenticated"),
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
@@ -100,6 +105,10 @@ CORS_ORIGIN_WHITELIST = ["http://localhost:8080"]
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'federacion_mutuales',
@@ -114,20 +123,18 @@ DATABASES = {
         "USER": "admin",
         "PASSWORD": "contraseniasegura",
         "HOST": "database",
-        "DATABASE_PORT": "5432",
+        "DATABASE_PORT": "5430",
     },
-    "postgres_leonel": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "federacion",
-        "USER": "postgres",
-        "PASSWORD": "leonel",
-        "HOST": "127.0.0.1",
-        "DATABASE_PORT": "5432",
-    },
+    # "postgres_leonel": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": "federacion",
+    #     "USER": "postgres",
+    #     "PASSWORD": "leonel",
+    #     "HOST": "127.0.0.1",
+    #     "DATABASE_PORT": "5432",
+    # },
 }
 
-# Custom user model
-AUTH_USER_MODEL = 'Administracion.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -146,6 +153,8 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+# AUTH_USER_MODEL = "users.User"
 
 
 # Internationalization
