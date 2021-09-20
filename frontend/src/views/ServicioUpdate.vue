@@ -7,23 +7,21 @@
       <b-form-group label="*Nombre del servicio" label-for="nombre">
         <b-form-input
           id="nombre"
-          v-model="servicio.nombre"
+          v-model="servicio.servicio"
           type="text"
           placeholder="*Ingrese el nombre del servicio"
-          :state="validacion.nombre.estado"
+          :state="validacion.servicio.estado"
           invalid-feedback="Complete este campo"
           required
         >
         </b-form-input>
         <b-form-invalid-feedback
-                id="nombre-live-feedback"
-              >{{validacion.nombre.mensaje}}
+                id="servicio-live-feedback"
+              >{{validacion.servicio.mensaje}}
             </b-form-invalid-feedback>
       </b-form-group>
       
     </b-form>
-    {{ servicio }}
-    {{ data }}
     <b-button class="mt-2" variant="success" block @click="putServicios()">Modificar</b-button>
   </div>
 </template>
@@ -44,7 +42,7 @@ export default {
         {value: null, text: 'Elija un servicio', disabled: true},
       ],
       validacion:{
-        nombre: {estado:null,mensaje:""},
+        servicio: {estado:null,mensaje:""},
       }
     };
   },
