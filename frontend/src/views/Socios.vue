@@ -239,6 +239,16 @@
             </b-button>
 
             <b-button
+              variant="success"
+              id="button-2"
+              @click="showModalinfo1(row.item, row.index)"
+            >
+              <!-- isabled="btn_editar" -->
+              <v-icon class="mr-2"> mdi-cash </v-icon>
+              Pagado?
+            </b-button>
+
+            <b-button
               variant="danger"
               id="button-3"
               @click="showModalinfo(row.item, row.index)"
@@ -459,7 +469,19 @@ export default {
         const data = await res.json();
 
         var lista_socios = data.results;
-        console.log(lista_socios);
+        
+        for (var i = 0; i < lista_socios.length; i++)
+        {
+           var numerillo = await this.getAldia(lista_socios[i].numero_socio);
+           if (numerillo < 30 && numerillo >= 0) {
+               lista_socios[i].aldia = '✔'
+           } else
+           {
+               lista_socios[i].aldia = '❌'
+           }
+            
+        }
+        console.log(lista_socios[0].aldia);
 
         this.tabla_socios = lista_socios;
         this.btn_down_pdf=false;  //Habilito los botones
