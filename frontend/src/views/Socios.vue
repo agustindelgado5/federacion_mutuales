@@ -10,6 +10,11 @@
       Mostrar
     </b-button>
 
+    <b-button @click="testFetch2" class="mb-4" style="margin-left:0.5em;" title="Mostrar" variant="success">
+      <v-icon dark style="color: black">mdi-check</v-icon>
+      Mostrar Cuotas
+    </b-button>
+
     <!-- ================ALTA SOCIO======================== -->
     <b-button
       class="mb-4 ml-2"
@@ -521,6 +526,35 @@ export default {
         //    }
             
         //}
+        //console.log(lista_socios[0].aldia);
+
+        this.tabla_socios = lista_socios;
+        this.btn_down_pdf=false;  //Habilito los botones
+        
+        if(this.tabla_socios.length==0){
+          this.msj_tabla = " No se encuentran regitros en esta tabla ";
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async testFetch2() {
+      try {
+        const res = await fetch(api);
+        const data = await res.json();
+        var lista_socios = data.results;
+        
+        for (var i = 0; i < lista_socios.length; i++)
+        {
+            var numerillo = await this.getAldia(lista_socios[i].numero_socio);
+            if (numerillo < 30 && numerillo >= 0) {
+                lista_socios[i].aldia = '✔'
+            } else
+            {
+                lista_socios[i].aldia = '❌'
+            }
+            
+        }
         //console.log(lista_socios[0].aldia);
 
         this.tabla_socios = lista_socios;
