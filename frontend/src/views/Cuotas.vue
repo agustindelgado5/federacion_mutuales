@@ -370,9 +370,8 @@ export default {
         var lista_cuot = data.results;
 
         for (var i = 0; i < lista_cuot.length; i++) {
-           var socio1 = await this.getSocio(451);
-           //var nombre = await this.getSocio(lista_cuot[i].numero_socio).nombre;
-           lista_cuot[i].socio = socio1.apellido + ', ' //+ nombre;
+           var socio1 = await this.getSocio(lista_cuot[i].numero_socio.split('/')[4]);
+           lista_cuot[i].socio = socio1.apellido + ', ' + socio1.nombre;
            lista_cuot[i].dni_socio = socio1.dni;
         }
         console.log(lista_cuot);
