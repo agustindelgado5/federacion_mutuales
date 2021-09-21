@@ -313,6 +313,8 @@ import CuotasUpdate from './CuotasUpdate.vue';
 import axios from 'axios';
 import VueHtml2pdf from 'vue-html2pdf';
 
+import { APIControler } from "../store/APIControler";
+
 export default {
   components: {CuotasAlta, CuotasUpdate,VueHtml2pdf},
   data() {
@@ -323,7 +325,9 @@ export default {
         { key: 'id_cuota', label: 'ID', sortable: true },
         {key:'personapago' ,label: 'Persona que Pago', sortable: true},
         {key:'monto' ,label: 'Monto', sortable: true},
-        {key:'fecharealizacion' ,label: 'Fecha Realizacion',sortable: true},
+        { key: 'fecharealizacion', label: 'Fecha Realizacion', sortable: true },
+        { key: 'socio', label: 'Socio', sortable: true },
+        { key: 'dni_socio', label: 'DNI Socio', sortable: true },
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
       editar:{},
@@ -351,6 +355,13 @@ export default {
   },
   methods: {
     //Funcion para mostrar todos los medicamentos
+    async getSocio(numero_socio) {
+        let socioAPI = new APIControler();
+        socioAPI.apiUrl.pathname = "socios/" + numero_socio;
+        let response = await fetch(socioAPI.apiUrl);
+        let data = await response.json();
+        return data;
+    },
     async testFetch() {
       try {
         const res = await fetch(api);
@@ -358,6 +369,12 @@ export default {
 
         var lista_cuot = data.results;
 
+        for (var i = 0; i < lista_cuot.length; i++) {
+           var socio1 = await this.getSocio(451);
+           //var nombre = await this.getSocio(lista_cuot[i].numero_socio).nombre;
+           lista_cuot[i].socio = socio1.apellido + ', ' //+ nombre;
+           lista_cuot[i].dni_socio = socio1.dni;
+        }
         console.log(lista_cuot);
 
         this.tabla_cuot = lista_cuot;
