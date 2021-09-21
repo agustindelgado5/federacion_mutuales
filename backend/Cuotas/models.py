@@ -12,7 +12,9 @@ class cuotas(models.Model):
     personapago = models.CharField(max_length=60)
     monto = models.IntegerField()
     fecharealizacion = models.DateTimeField(auto_now_add=True)
-    numero_socio=models.ForeignKey(socios, on_delete=models.DO_NOTHING, related_name = 'numsociocuotas')
+    numero_socio = models.ForeignKey(
+        socios, on_delete=models.DO_NOTHING, related_name="numsociocuotas"
+    )
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
@@ -31,5 +33,6 @@ class cuotas(models.Model):
             + " - "
             + str(self.monto)
             + " - "
-            + str(self.fecharealizacion))
+            + str(self.fecharealizacion)
+        )
         return cadena
