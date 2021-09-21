@@ -55,7 +55,7 @@
     <!-- ======================================== -->
 
     <!-- ======== Tabla con los registros ======= -->
-   
+    
     <b-table
       :fields="fields"
       striped
@@ -91,6 +91,8 @@
               variant="warning"
               id="button-2"
               title="Editar este registro"
+              v-b-modal.modal-editar 
+              @click="editarMutual(row.item, row.index)"
             >
               <v-icon class="mr-2"> mdi-pencil </v-icon>
               Editar
@@ -137,6 +139,12 @@
         </b-card>
       </template>
     </b-table>
+    <!-- ================MODIFICAR UNA MUTUAL======================== -->
+    <b-modal id="modal-editar"  hide-footer > 
+      <template #modal-title><h5 class="modal-title">Editar: {{editar.id_mutual}}- {{editar.nombre}}</h5></template>
+        
+      <mutual-update :mutual="editar"/>
+    </b-modal>
 
     <!-- ================ELIMINAR MUTUAL======================== -->
     <b-modal
@@ -192,9 +200,10 @@ import VueAwesomplete from "vue-awesomplete";
 import axios from "axios";
 import MutualAlta from "./MutualAlta.vue";
 import { APIControler } from "../store/APIControler";
+import MutualUpdate from './MutualUpdate.vue';
 
 export default {
-  components: { MutualAlta },
+  components: { MutualAlta, MutualUpdate },
 
   data() {
     return {
@@ -214,6 +223,7 @@ export default {
       },
       servicios:{},
       data:{},
+      editar:{},
       server_mutual: [
         //{
           //id_servicio:0,
@@ -271,6 +281,11 @@ export default {
       this.$refs["modal_eliminar"].hide();
     },
     altaMutual() {},
+
+    //Editar medicamento
+    editarMutual(item, index){
+      this.editar=item;
+    },
 
     async deleteMutual(id_mutual) {
       axios
