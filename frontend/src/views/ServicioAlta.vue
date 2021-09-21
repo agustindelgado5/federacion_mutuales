@@ -21,8 +21,6 @@
       </b-form-group>
       
     </b-form>
-    {{ servicio }}
-    {{ data }}
     <b-button class="mt-2" variant="success" block @click="postServicios()">Guardar</b-button>
   </div>
 </template>

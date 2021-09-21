@@ -1,5 +1,7 @@
 from django.db import models
+from django.db.models.fields import AutoField
 from Farmacias.models import farmacias
+from Profesionales.models import profesionales
 from Socios.models import socios
 
 # Create your models here.
@@ -47,6 +49,7 @@ class receta(models.Model):
     id_medicamento = models.ForeignKey(medicamentos, on_delete=models.DO_NOTHING)
     paciente = models.CharField(max_length=60)
     diagnostico = models.TextField(max_length=200)
+    id_medico = models.ForeignKey(profesionales, on_delete=models.DO_NOTHING)
     fecha = models.DateField()
     carencia = models.DateField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
