@@ -171,7 +171,7 @@
             </template>
 
             <template slot="cell(id_cuota)" slot-scope="data">
-                {{data.value.split('/')[4]}}
+                {{data.value[0]}}
             </template>
 
             <template slot="cell(action)" slot-scope="row">
@@ -222,10 +222,10 @@
                 <b-card>
                     <b-list-group horizontal>
                         <b-list-group>
-                            <b-list-group-item><b>Nombre :</b> {{ row.item.nombre.toUpperCase() }}</b-list-group-item>
-                            <b-list-group-item><b>Apellido:</b> {{ row.item.apellido }}</b-list-group-item>
+                            <b-list-group-item><b>Persona que Pago :</b> {{ row.item.personapago.toUpperCase() }}</b-list-group-item>
+                            <b-list-group-item><b>nombre de socio:</b> {{ row.item.numerosocio }}</b-list-group-item>
                             <b-list-group-item><b>Monto:</b> {{ row.item.monto }}</b-list-group-item>
-                            <b-list-group-item><b>Fecha:</b> {{ row.item.fecharealizado }}</b-list-group-item>
+                            <b-list-group-item><b>Fecha:</b> {{ row.item.fecharealizacion.split('T')[0] }}</b-list-group-item>
                         </b-list-group>
                         &nbsp;
 
@@ -292,7 +292,7 @@
                              bordered
                              head-variant="light">
                         <template slot="cell(id_cuota)" slot-scope="data">
-                            {{data.value.split('/')[4]}}
+                            {{data.value[0]}}
                         </template>
                     </b-table>
                 </section>
@@ -320,7 +320,7 @@ export default {
       tabla_cuot: [],
       fields: [
         {key:'selected' ,label: 'Seleccionar', sortable: true},
-        {key:'id_cuota' ,label: 'ID', sortable: true},
+        { key: 'id_cuota', label: 'ID', sortable: true },
         {key:'personapago' ,label: 'Persona que Pago', sortable: true},
         {key:'monto' ,label: 'Monto', sortable: true},
         {key:'fecharealizacion' ,label: 'Fecha Realizacion',sortable: true},

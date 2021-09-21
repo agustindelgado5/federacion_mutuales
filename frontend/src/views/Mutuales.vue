@@ -55,9 +55,7 @@
     <!-- ======================================== -->
 
     <!-- ======== Tabla con los registros ======= -->
-    {{server_mutual}}
-    {{data}}
-    {{servicios}}
+   
     <b-table
       :fields="fields"
       striped

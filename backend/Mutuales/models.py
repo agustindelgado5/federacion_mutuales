@@ -44,7 +44,7 @@ class mutuales(models.Model):
         return cadena
 
 class servicio_mutual(models.Model):
-    #id = AutoField(primary_key=True)
+    id_serv_mut = AutoField(primary_key=True)
     id_mutual=models.ForeignKey(mutuales, on_delete=models.CASCADE)
     id_servicio=models.ForeignKey(servicios, on_delete=models.CASCADE) 
 

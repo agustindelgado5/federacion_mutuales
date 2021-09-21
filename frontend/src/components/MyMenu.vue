@@ -1,4 +1,4 @@
-<template>
+<template >
     <div>
 
         <!--HEAD DE LA PAGINA -->
@@ -55,6 +55,14 @@
                         console.log(err)
                     })
             },
+            redirect() {
+                var user = $cookies.get('usuario');
+                if (null == user) {
+                    
+                }
+                console.log(user)
+                
+            },
         },
         computed:
         {
@@ -65,10 +73,12 @@
                     this.usuario = false
                 }
             }
+
         },
         beforeMount() {
-            this.controlarusuario();
-        }
+            this.redirect();
+        },
+        
     };
 </script>
 
