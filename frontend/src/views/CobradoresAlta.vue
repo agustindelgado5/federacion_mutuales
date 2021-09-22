@@ -108,8 +108,6 @@
       </b-form-group>
     
     </b-form>
-    {{ Cobradores }}
-    {{ data }}
     <b-button class="mt-2" variant="success" block @click="postCobrador()">Enviar</b-button>
   </div>
 </template>

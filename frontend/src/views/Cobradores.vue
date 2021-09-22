@@ -160,7 +160,7 @@
               <div class="d-block text-center">
                 <h3>
                   ¿Esta seguro de eliminar los datos de
-                  {{ infoEliminar.cobrador}}?
+                  {{ infoEliminar.cobrador.apellido}},{{infoEliminar.cobrador.nombre}}?
                 </h3>
               </div>
               <b-button
@@ -218,7 +218,7 @@ export default {
       tabla_cobradores: [],
       fields: [
        {key:"numero_socio" ,label: "N° Socio", sortable: true,},
-       {key:"id_cobrador" ,label: "id_cobrador", sortable: true,},
+       {key:"id_cobrador" ,label: "ID Cobrador", sortable: true,},
        {key: "apellido", sortable: true,},
        {key: "nombre",sortable: true,},
        { key: "dni", label:"DNI",sortable: true,},
