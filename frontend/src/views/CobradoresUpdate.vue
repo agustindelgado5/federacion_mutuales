@@ -2,8 +2,7 @@
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos </h4>
-    <b-button @click="getSocios()">GET TEST</b-button>
-      {{ list_socios }}
+    
       <b-form-group label="*Socio" label-for="numero_socio"  @submit.stop.prevent="handleSubmit">
         <b-form-select
         id="numero_socio"
@@ -61,7 +60,7 @@
         </b-form-group>
 
       
-      <b-form-group label="*Apellido/s" label-for="apellido">
+      <b-form-group label="*Apellido/s" label-for="apellido" @submit.stop.prevent="handleSubmit">
         <b-form-input
           id="apellido"
           v-model="cobrador.apellido"
@@ -75,12 +74,12 @@
         <b-form-invalid-feedback
                 id="apellido-live-feedback"
               >{{validacion.apellido.mensaje}}
-            </b-form-invalid-feedback>
+         </b-form-invalid-feedback>
       </b-form-group>
 
      
         <b-form-group label="*DNI" label-for="dni" @submit.stop.prevent="handleSubmit">
-            <b-form-input
+          <b-form-input
             id="dni"
             v-model="cobrador.dni"
             type="number"
@@ -89,15 +88,15 @@
             invalid-feedback="Complete este campo"
             required
             >
-            </b-form-input>
+          </b-form-input>
           <b-form-invalid-feedback
-                id="dni-live-feedback"
-              >{{validacion.dni.mensaje}}
+              id="dni-live-feedback"
+            >{{validacion.dni.mensaje}}
           </b-form-invalid-feedback>
         </b-form-group>
 
       
-      <b-form-group label="*Fecha de cobro" label-for="fecha_cobro">
+      <b-form-group label="*Fecha de cobro" label-for="fecha_cobro" @submit.stop.prevent="handleSubmit">
         <b-form-input
           id="fecha_cobro"
           v-model="cobrador.fecha_cobro"
