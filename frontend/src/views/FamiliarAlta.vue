@@ -75,10 +75,7 @@
         </b-form-input>
       </b-form-group>
     </b-form>
-    {{ socio }}
-    {{ data }}
-
-    <b-button class="mt-2" variant="success" block @click="postSocio()">POST TEST</b-button>
+    <b-button class="mt-2" variant="success" block @click="postSocio()">Guardar</b-button>
     
   </div>
 </template>

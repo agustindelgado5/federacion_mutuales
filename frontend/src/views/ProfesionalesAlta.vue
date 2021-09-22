@@ -177,9 +177,7 @@
       </b-collapse>
     </b-card>
   </b-form>
-    {{ profesional }}
-    {{ data }}
-    <b-button class="mt-2" variant="success" block @click="postProfesional()">POST TEST</b-button>
+    <b-button class="mt-2" variant="success" block @click.prevent="postProfesional()">Guardar</b-button>
   </div>
 </template>
 

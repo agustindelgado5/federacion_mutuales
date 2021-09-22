@@ -6,9 +6,9 @@
 
     <h2>Listado de Medicamentos</h2>
 
-    <b-button @click="testFetch" class="mb-4" variant="light">
-      <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>
-      Mostrar
+    <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
+      <v-icon dark style="color: black">mdi-cached</v-icon>
+      Actualizar
     </b-button>
     <!-- ================ALTA MEDICAMENTOS======================== -->
     <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaMedicamento()" title="Nuevo Medicamento" style="color: white;">

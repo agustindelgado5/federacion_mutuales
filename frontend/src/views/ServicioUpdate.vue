@@ -13,6 +13,7 @@
           :state="validacion.servicio.estado"
           invalid-feedback="Complete este campo"
           required
+          @keydown.enter.prevent
         >
         </b-form-input>
         <b-form-invalid-feedback

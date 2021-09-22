@@ -1,24 +1,29 @@
 <template>
   <div id="profesionales" class="myTable">
-
-    <vue-headful title="Profesionales - Federación Tucumana de Mutuales"></vue-headful>
+    <vue-headful
+      title="Profesionales - Federación Tucumana de Mutuales"
+    ></vue-headful>
 
     <h2>Listado de Profesionales</h2>
-    <b-button @click="testFetch" class="mb-4" variant="light">
-      <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>
-      Mostrar
+    <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
+      <v-icon dark style="color: black">mdi-cached</v-icon>
+      Actualizar
     </b-button>
 
     <!-- ================ALTA PROFESIONAL======================== -->
-    <b-button class="mb-4 ml-2" v-b-modal.modal-alta @click="altaProfesional()" title="Nuevo Profesional" style="color: white;">
-      <v-icon dark>
-        mdi-plus
-      </v-icon>
+    <b-button
+      class="mb-4 ml-2"
+      v-b-modal.modal-alta
+      @click="altaProfesional()"
+      title="Nuevo Profesional"
+      style="color: white"
+    >
+      <v-icon dark> mdi-plus </v-icon>
       Nuevo Profesional
     </b-button>
-    <b-modal id="modal-alta" hide-footer> 
+    <b-modal id="modal-alta" hide-footer>
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
-      <profesionales-alta/>
+      <profesionales-alta />
     </b-modal>
 
     <!-- ======== Formulario de Busqueda ======== -->
@@ -60,8 +65,8 @@
       show-empty
       :per-page="perPage"
       :current-page="currentPage"
-      :sticky-header= true
-      :no-border-collapse= false
+      :sticky-header="true"
+      :no-border-collapse="false"
       ref="tablaregistros"
       id="tablaregistros"
     >
@@ -70,17 +75,17 @@
       </template>
 
       <template slot="cell(id_medico)" slot-scope="data">
-        <b>{{data.value}}</b>
+        <b>{{ data.value }}</b>
       </template>
 
       <template slot="cell(apellido)" slot-scope="data">
-        {{data.value.toUpperCase()}}
+        {{ data.value.toUpperCase() }}
       </template>
 
       <template slot="cell(nombre)" slot-scope="data">
-        {{data.value.toUpperCase()}}
+        {{ data.value.toUpperCase() }}
       </template>
-    <!-- 
+      <!-- 
       <template slot="action">
         <b-button variant="warning" size="sm">Modificar</b-button>
         <b-button variant="danger" size="sm">Eliminar</b-button>
@@ -102,23 +107,13 @@
               variant="warning"
               id="button-2"
               title="Editar este registro"
-              v-b-modal.modal-editar 
+              v-b-modal.modal-editar
               @click="editarProfesional(row.item, row.index)"
-              :disabled="btn_editar"
             >
-              <v-icon class="mr-2">
-                mdi-pencil
-              </v-icon>
+              <!-- :disabled="btn_editar" -->
+              <v-icon class="mr-2"> mdi-pencil </v-icon>
               Editar
             </b-button>
-
-            <b-modal id="modal-editar" hide-footer>
-                <template #modal-title>
-                    <h5 class="modal-title">Editar</h5>
-                </template>
-                {{editar}}
-                <profesionales-update :item_prof="editar" />
-            </b-modal>
 
             <b-button
               variant="danger"
@@ -126,68 +121,103 @@
               @click="showModalinfo(row.item, row.index)"
               title="Eliminar este registro"
             >
-              <v-icon class="mr-2">
-                mdi-delete
-              </v-icon>
+              <v-icon class="mr-2"> mdi-delete </v-icon>
               Eliminar
             </b-button>
-
-            <b-modal
-              id="modal_eliminar"
-              ref="my-modal"
-              hide-footer
-              title="Eliminar"
-              ok-only
-            >
-              <div class="d-block text-center">
-                <h3>
-                  ¿Esta seguro de eliminar los datos de
-                  {{ infoEliminar.profesional.apellido }},
-                  {{ infoEliminar.profesional.nombre }} ?
-                </h3>
-              </div>
-              <b-button
-                class="mt-2"
-                block
-                @click="hideModal"
-                title="Volver Atras"
-                >Volver Atras</b-button
-              >
-              <b-button
-                class="mt-3"
-                variant="danger"
-                block
-                title="Eliminar"
-                @click="deleteProfesional(infoEliminar.profesional.id_medico)"
-                >Eliminar</b-button
-              >
-            </b-modal>
           </b-button-group>
         </div>
       </template>
       <template #row-details="row">
-          <b-card>
-              <ul>
-                  <!-- Para cargar todos los campos automáticamente (habría que darle formato) -->
-                  <!-- <li v-for="(value, key) in row.item" :key="key">
-              {{ key }}: {{ value }}
-            </li> -->
-                  <!-- A mano, es más facil pero "menos automático" Dx -->
-                  <li>Edad: {{ row.item.localidad }}</li>
-                  <li>Calle: {{ row.item.calle }}</li>
-                  <li>Localidad: {{ row.item.calle }}</li>
-
-              </ul>
-          </b-card>
+        <b-card title="Datos del Profesional: ">
+          <div>
+            <b-list-group horizontal>
+              <b-list-group class="col-3">
+                <b-list-group-item
+                  ><b>Fecha de ingreso:</b> {{ row.item.fecha_ingreso }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>Matricula:</b>
+                  {{row.item.matricula}}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item
+                >
+              </b-list-group>
+              &nbsp;
+              <b-list-group class="col-5">
+                <b-list-group-item
+                  ><b>Provincia:</b> {{ row.item.provincia }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>Localidad:</b> {{ row.item.localidad }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>Correo:</b> {{ row.item.email }}
+                </b-list-group-item>
+              </b-list-group>
+              &nbsp;
+              <b-list-group class="col-4">
+                <b-list-group-item
+                  ><b>Telefono Fijo:</b>
+                  {{ row.item.tel_fijo }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>Celular:</b> {{ row.item.tel_celular }}</b-list-group-item
+                >
+                <b-list-group-item
+                  ><b>Calle:</b> {{ row.item.domicilio }}
+                </b-list-group-item>
+              </b-list-group>
+            </b-list-group>
+          </div>
+        </b-card>
       </template>
     </b-table>
+    <!-- 
+    <b-modal id="modal-modificar" hide-footer> 
+      <template #modal-title><h5 class="modal-title">Modificar Profesional</h5></template>
+      <profesionales-alta/>
+    </b-modal> -->
+    <b-modal id="modal-editar" hide-footer>
+      <template #modal-title>
+        <h5 class="modal-title">Editar</h5>
+      </template>
+      <!-- {{ editar }} -->
+      <profesionales-update :item_prof="editar" />
+    </b-modal>
+    <b-modal
+      id="modal_eliminar"
+      ref="my-modal"
+      hide-footer
+      title="Eliminar"
+      ok-only
+    >
+      <div class="d-block text-center">
+        <h3>
+          ¿Esta seguro de eliminar los datos de
+          {{ infoEliminar.profesional.apellido }},
+          {{ infoEliminar.profesional.nombre }} ?
+        </h3>
+      </div>
+      <b-button class="mt-2" block @click="hideModal" title="Volver Atras"
+        >Volver Atras</b-button
+      >
+      <b-button
+        class="mt-3"
+        variant="danger"
+        block
+        title="Eliminar"
+        @click="deleteProfesional(infoEliminar.profesional.id_medico)"
+        >Eliminar</b-button
+      >
+    </b-modal>
 
     <b-container fluid>
       <b-col class="my-1">
         <b-pagination
           v-model="currentPage"
           align="center"
-          pills 
+          pills
           :total-rows="rows"
           :per-page="perPage"
           aria-controls="table_profesionales"
@@ -195,10 +225,6 @@
         </b-pagination>
       </b-col>
     </b-container>
-    <b-modal id="modal-modificar" hide-footer> 
-      <template #modal-title><h5 class="modal-title">Modificar Profesional</h5></template>
-      <profesionales-alta/>
-    </b-modal>
   </div>
 </template>
 
@@ -208,8 +234,8 @@ api.pathname = "profesionales";
 //api.port = 8000;
 api.port = 8081;
 
-import ProfesionalesAlta from './ProfesionalesAlta.vue';
-import ProfesionalesUpdate from './ProfesionalesUpdate.vue';
+import ProfesionalesAlta from "./ProfesionalesAlta.vue";
+import ProfesionalesUpdate from "./ProfesionalesUpdate.vue";
 import axios from "axios";
 
 export default {
@@ -233,15 +259,16 @@ export default {
         },
         {
           key: "dni",
-          label:"DNI",
+          label: "DNI",
           sortable: true,
         },
         {
           key: "especialidad",
           sortable: true,
         },
-        { key: "action", label: "Acciones" , variant: "secondary"},
+        { key: "action", label: "Acciones", variant: "secondary" },
       ],
+      buscar: "",
       editar: {},
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
@@ -254,19 +281,17 @@ export default {
   },
 
   computed: {
-      rows() {
-        return this.tabla_profesionales.length;
-      },
-      id() {
-          return this.tabla_profesionales.id_medico;
-      },
-      items() {
-          return tabla_profesionales.filter((item) => {
-              return item.id_medico
-                  .toLowerCase()
-                  .includes(this.buscar.toLowerCase());
-          });
-      },
+    rows() {
+      return this.tabla_profesionales.length;
+    },
+    id() {
+      return this.tabla_profesionales.id_medico;
+    },
+    items() {
+      return tabla_profesionales.filter((item) => {
+        return item.id_medico.toLowerCase().includes(this.buscar.toLowerCase());
+      });
+    },
   },
 
   methods: {
@@ -284,34 +309,34 @@ export default {
         console.log(error);
       }
     },
-    altaProfesional(){},
+    altaProfesional() {},
     //Funcion para mostrar el modal
     showModal() {
       this.$refs["my-modal"].show();
     },
     showModalinfo(item, index) {
-        this.infoEliminar.profesional = item;
-        this.showModal();
+      this.infoEliminar.profesional = item;
+      this.showModal();
     },
     //Funcion para esconder el modal
     hideModal() {
       this.$refs["my-modal"].hide();
     },
     async deleteProfesional(id_medico) {
-        axios
-            .delete("http://localhost:8081/profesionales/" + id_medico + "/")
-            .then((datos) => {
-                swal("Operación Exitosa", " ", "success");
-                console.log(datos);
-            })
-            .catch((error) => {
-                swal("¡ERROR!", "Se ha detectado un problema ", "error");
-                console.log(error);
-            })
-            .finally(() => this.testFetch());
+      axios
+        .delete("http://localhost:8081/profesionales/" + id_medico + "/")
+        .then((datos) => {
+          swal("Operación Exitosa", " ", "success");
+          console.log(datos);
+        })
+        .catch((error) => {
+          swal("¡ERROR!", "Se ha detectado un problema ", "error");
+          console.log(error);
+        })
+        .finally(() => this.testFetch());
     },
     editarProfesional(item, index) {
-        this.editar = item;
+      this.editar = item;
     },
     async buscarnow() {
       // Declare variables
@@ -330,7 +355,6 @@ export default {
       filter = input.value.toUpperCase();
       table = document.getElementById("tablaregistros");
       tr = table.getElementsByTagName("tr");
-      
 
       // Loop through all list items, and hide those who don't match the search query
       for (i = 1; i < tr.length; i++) {
@@ -347,6 +371,9 @@ export default {
         }
       }
     },
+  },
+  beforeMount() {
+    this.testFetch();
   },
 };
 </script>

@@ -5,9 +5,9 @@
 
     <h2>Listado de Socios</h2>
 
-    <b-button @click="testFetch" class="mb-4" title="Mostrar" variant="light">
-      <v-icon dark style="color: black">mdi-format-list-bulleted-square</v-icon>
-      Mostrar
+    <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
+      <v-icon dark style="color: black">mdi-cached</v-icon>
+      Actualizar
     </b-button>
 
     <b-button @click="testFetch2" class="mb-4" style="margin-left:0.5em;" title="Mostrar" variant="success">
@@ -752,7 +752,7 @@ export default {
    
   },
   beforeMount(){
-    
+    this.testFetch()
   }
 };
 </script>

@@ -393,12 +393,13 @@ export default {
       let familiarAPI = new APIControler();
       familiarAPI.apiUrl.pathname = "familiar/";
       this.data = await familiarAPI.getData(this.list_familiar);
-      // this.list_pacientes=this.list_pacientes.slice(0,1)
+      this.list_pacientes=this.list_pacientes.slice(0,1) //renueva la lista, y deja el primer elemento (Elija una persona)
       let option_titular = {};
       // option_titular.value='http://localhost:8081/socios/'+ this.orden.numero_socio +'/';
       option_titular.value = this.orden.numero_socio;
       option_titular.text = "Titular";
       // option_titular.text= socios.dni +' -- '+ socios.apellido +', '+ socios.nombre ;
+      
       this.list_pacientes.push(option_titular);
 
       this.data.forEach((element) => {

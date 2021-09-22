@@ -229,7 +229,7 @@ export default {
         { key: "localidad", label: "Sucursal", sortable: true },
         { key: "email", label: "Correo", sortable: true },
         { key: "tel_fijo", label: "Telefono Fijo", sortable: true },
-        { key: "tel_cel", label: "Celular", sortable: true },
+        { key: "tel_celular", label: "Celular", sortable: true },
         { key: "representante", label: "Representante", sortable: true },
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
