@@ -1,7 +1,7 @@
 <template>
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
-    <h4>Registrar nueva Mutual:</h4>
+    
 
     <!-- CAMPOS REQUERIDOS -->
     <!-- nombre -->
@@ -15,7 +15,7 @@
       <b-form-group label="*Nombre de la mutual" label-for="nombre">
         <b-form-input
           id="nombre"
-          v-model="mutuales.nombre"
+          v-model="mutual.nombre"
           type="text"
           placeholder="*Ingrese el Nombre"
           invalid-feedback="Complete este campo"
@@ -32,7 +32,7 @@
       <b-form-group label="*Sucursal" label-for="sucursal">
         <b-form-select
           id="sucursal"
-          v-model="mutuales.sucursal"
+          v-model="mutual.sucursal"
           type="text"
           placeholder="Ingrese una sucursal"
           invalid-feedback="Complete este campo"
@@ -46,24 +46,18 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <!-- id_servicio -->
-      <b-form-group label="*Servicio" label-for="servicio">
-        <b-form-select
-          id="servicio"
-          v-model="mutuales.id_servicio"
-          type="text"
-          placeholder="Ingrese un Numero"
-          invalid-feedback="Complete este campo"
-          :state="validacion.id_servicio.estado"
-          required
+      <b-form-group
+        label="*Servicio" label-for="servicio"
+        v-slot="{ ariaDescribedby }"
+      >
+        <b-form-checkbox-group
+          v-model="selected"
           :options="op_servicios"
-        >
-        </b-form-select>
-        <b-form-invalid-feedback id="numero_servicio-live-feedback"
-          >{{ validacion.id_servicio.mensaje }}
-        </b-form-invalid-feedback>
-
-      </b-form-group>
+          :aria-describedby="ariaDescribedby"
+          name="flavour-2a"
+          stacked
+        ></b-form-checkbox-group>
+    </b-form-group>    
     </b-form>
 
     <b-button class="mt-2" variant="success" block @click="putMutual()">Modificar</b-button
@@ -83,10 +77,17 @@ export default {
     return {
       mutuales: {},
       data: {},
+      key_mutual: this.mutual.id_mutual,
+      key_serv_mutual:[],
+      
+      selected:[],
+      selected_anterior:[],
+      new_selected: [],
       list_servicios: {},
       op_servicios: [
         { value: null, text: "Elija un servicio", disabled: true },
       ],
+      
       respuesta: null,
       options: [
         { value: null, text: "Elija un departamento" },
@@ -115,59 +116,122 @@ export default {
       },
     };
   },
-  created: function() {
-    this.getMutual();
-  },
+  
 
   methods: {
-    async getMutual() {
-      let MutualAPI = new APIControler();
-      MutualAPI.apiUrl.pathname='mutuales/'
-      this.data = await mutualAPI.getData(this.mutuales);
-      this.data.forEach(element => {   
-        let option={}
-        option.value='http://localhost:8081/mutuales/'+ element.id_mutual +'/';
-        option.text=element.mutual;
-        console.log(option);
-        this.options.push(option);
-      });
-    },
-
-
     async getServicios() {
       let serviciosAPI = new APIControler();
       serviciosAPI.apiUrl.pathname = "servicios/";
       this.data = await serviciosAPI.getData(this.list_servicios);
       this.data.forEach((element) => {
         let option = {};
-        option.value =
-          "http://localhost:8081/servicios/" + element.id_servicio + "/";
-        option.text = element.id_servicio + "-- " + element.servicio;
+        option.value = "http://localhost:8081/servicios/" + element.id_servicio + "/";
+        option.text = element.servicio;
         console.log(option);
         this.op_servicios.push(option);
       });
     },
 
+    //Obtengo los servicios
+    async getOpcionesSelected() {
+      let opcionesAPI = new APIControler();
+      opcionesAPI.apiUrl.pathname = "servicio_mutual/";
+      this.data = await opcionesAPI.getData(this.list_servicios);
+      this.data.forEach((element) => {
+        
+        if(element.id_mutual == 'http://localhost:8081/mutuales/'+this.mutual.id_mutual+'/')
+          this.key_serv_mutual.push(element.id_serv_mut);
+          this.selected.push(element.id_servicio);
+          
+      });
+      this.selected_anterior = this.selected;
+      
+      //this.new_selected=  this.selected + this.selected_anterior;
+    },
+
     async putMutual() {
       let respuesta ="vacio"
-      await axios.put('http://localhost:8081/mutuales/'+this.mutual.id_mutual+ '/', this.mutual)
-      .then(function (data){ 
+      var id = this.mutual.id_mutual
+      try{ 
+        this.mutual=await axios.put('http://localhost:8081/mutuales/'+id+ '/', this.mutual)
         swal("Operación Exitosa", " ", "success");
-      })
-      .catch(function (error) {
+        console.log(this.mutual);
+        this.putServicios();
+      }
+      catch(error) {
         swal("¡ERROR!", "Se ha detectado un problema ", "error");
-        respuesta=error.response.data;
+        console.log(error);
+        //respuesta=error.response.data;
         
-      })
-      this.cargarFeedback(respuesta)
-     
+      }
+      //this.cargarFeedback(respuesta)
       console.log("respuesta:");
       console.log(respuesta);
     },
 
+    async putServicios(){
+      this.new_selected = this.selected.filter(x => !this.selected_anterior[x]);
+      console.log(this.new_selected)
+      console.log('****ID: ', this.key_mutual)
+      for(var i=0; i<this.selected.length; i++){
+        
+        if(this.estaCargado(i)!=false){
+          this.PostServicio(i);
+        }
+        else{
+          this.DeleteServicio(i);
+        } 
+      }
+    },
+    //Me fijo si el servicio ya esta cargado
+    async estaCargado(i) {
+      let valor=false
+      try{
+        axios
+        .get('http://localhost:8081/servicio_mutual/', {
+          id_mutual : "http://localhost:8081/mutuales/" + this.key_mutual + "/",
+          id_servicio : this.new_selected[i]
+        })
+        .then(datos=>{
+          console.log('¡El Servicio ya se encuentra cargado!')
+          valor = true;
+        })
+      }
+      catch(error){
+        console.log(error)
+        valor=false
+      }
+      return valor;
+    },
+    //Hago un post de un nuevo servicio
+    async PostServicio(i) {
+      try{
+        axios
+        .post('http://localhost:8081/servicio_mutual/', {
+          id_mutual : "http://localhost:8081/mutuales/" + this.key_mutual + "/",
+          id_servicio : this.new_selected[i]
+        })
+       
+        console.log('¡Servicios cargados con exito!')
+      }
+      catch(error){
+        console.log(error)
+      } 
+    },
+    //Hago una eliminacion de un registro
+    async DeleteServicio(i) {
+      try{
+        axios
+        .delete('http://localhost:8081/servicio_mutual/'+this.key_serv_mutual[i]+'/')
+        console.log(data)
+        console.log('¡Servicio eliminado con exito!')
+      }
+      catch(error){
+        console.log(error)
+      } 
+    },
+
     cargarFeedback() {
-      console.log("respuestaAPI")
-      console.log(respuestaAPI)
       let valido;
       for(let key in this.validacion){
         valido=!(respuestaAPI.hasOwnProperty(key))
@@ -181,7 +245,13 @@ export default {
 
   },
   beforeMount() {
+    //this.getID();
     this.getServicios();
+    this.getOpcionesSelected();
+  },
+  
+  created(){
+    this.putServicios();
   },
 };
 </script>

@@ -29,6 +29,7 @@ class ServiciosMutualSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = servicio_mutual
         fields = (
+            'id_serv_mut',
             'id_mutual',
             'id_servicio',
         )

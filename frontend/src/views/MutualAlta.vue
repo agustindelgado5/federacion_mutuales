@@ -45,25 +45,7 @@
           >{{ validacion.sucursal.mensaje }}
         </b-form-invalid-feedback>
       </b-form-group>
-      <!-- id_servicio -->
-      <!--
-      <b-form-group label="*Servicio" label-for="servicio">
-        <b-form-select
-          id="servicio"
-          v-model="mutuales.id_servicio"
-          type="text"
-          placeholder="Ingrese un Numero"
-          invalid-feedback="Complete este campo"
-          :state="validacion.id_servicio.estado"
-          required
-          :options="op_servicios"
-        >
-        </b-form-select>
-        <b-form-invalid-feedback id="numero_servicio-live-feedback"
-          >{{ validacion.id_servicio.mensaje }}
-        </b-form-invalid-feedback>
-      </b-form-group>
-      -->
+      
       <b-form-group
         label="*Servicio" label-for="servicio"
         v-slot="{ ariaDescribedby }"
