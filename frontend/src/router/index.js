@@ -29,6 +29,12 @@ const routes = [
       meta: { title: 'Profesionales - Federación Tucumana de Mutuales' } 
   },
   {
+    path: "/profesionales/list_pagos",
+    name: "Listado_de_Pagos",
+
+    component: () => import("../views/PagoProfesionales.vue"),
+  },
+  {
     path: "/socios",
     name: "Socios",
     //component: Socios,
