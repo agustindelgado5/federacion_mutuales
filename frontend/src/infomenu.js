@@ -97,7 +97,7 @@ const data = {
                 },
                 {
                     title: `Gastos Profesionales`,
-                    link: `/profesionales`,
+                    link: `/profesionales/list_pagos`,
                     children: [],
                 },
                 {
