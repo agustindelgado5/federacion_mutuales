@@ -425,10 +425,12 @@ export default {
         td,
         i,
         txtValue,
-        NumSocio,
-        Apellido,
-        Nombre,
-        DNI;
+        idMedico,
+        Medico,
+        Mes,
+        NumOrden,
+        Date_,
+        Precio,
       input = document.getElementById("buscadorlista");
       filter = input.value.toUpperCase();
       table = document.getElementById("tablaregistros");
@@ -437,11 +439,13 @@ export default {
       // Loop through all list items, and hide those who don't match the search query
       for (i = 1; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td");
-        NumSocio = td[0].textContent || td[0].innerText;
-        Apellido = td[1].textContent || td[1].innerText;
-        Nombre = td[2].textContent || td[2].innerText;
-        DNI = td[3].textContent || td[3].innerText;
-        txtValue = NumSocio + Apellido + Nombre + DNI;
+        idMedico = td[0].textContent || td[0].innerText;
+        Medico = td[1].textContent || td[1].innerText;
+        Mes = td[2].textContent || td[2].innerText;
+        NumOrden = td[3].textContent || td[3].innerText;
+        Date_ = td[4].textContent || td[4].innerText;
+        Precio = td[5].textContent || td[5].innerText;
+        txtValue = idMedico + Medico + Mes + NumOrden + Date_ + Precio;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
         } else {
