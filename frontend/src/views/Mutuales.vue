@@ -126,7 +126,9 @@
                   <div v-for="servicios in data" :key="servicios.id_mutual">    
                     <div v-for="tareas in server_mutual" :key="tareas.id_servicio" >
                       <div v-if="servicios.id_mutual.split('/')[4]==row.item.id_mutual && servicios.id_servicio.split('/')[4]==tareas.id_servicio">
-                        <li><b>{{tareas.id_servicio}}:</b> {{tareas.servicio}} </li>  
+                          <ul>
+                              <li><b>{{tareas.id_servicio}}:</b> {{tareas.servicio}} </li>
+                          </ul>
                       </div>
                         
                     </div>

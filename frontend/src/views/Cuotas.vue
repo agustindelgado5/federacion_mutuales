@@ -56,8 +56,8 @@
 
 
         <!--
-        <div v-for="item in tabla_med" :key="item.id_medicamento">
-        -->
+    <div v-for="item in tabla_med" :key="item.id_medicamento">
+    -->
         <!-- ================ELIMINAR VARIOS MEDICAMENTOS======================== -->
         <div>
             <b-modal ref="my-modal" id="modal-eliminarTodo" hide-footer title="Eliminar" ok-only>
@@ -154,8 +154,8 @@
 
             <template #empty="">
                 <!--
-                <b>No hay registros para mostrar</b>
-                -->
+            <b>No hay registros para mostrar</b>
+            -->
                 <b>{{msj_tabla}}</b>
             </template>
 
@@ -188,22 +188,13 @@
                         <b-button variant="warning"
                                   id="button-2"
                                   title="Editar este registro"
-                                  v-b-modal.modal-editar
-                                  @click="editarCuota(row.item, row.index)"
-                                  :disabled="btn_editar">
+                                  v-b-modal.modal_editar
+                                  @click="editarCuota(row.item, row.index)">
                             <v-icon class="mr-2">
                                 mdi-pencil
                             </v-icon>
                             Editar
                         </b-button>
-
-                        <b-modal id="modal-editar" hide-footer>
-                            <template #modal-title>
-                                <h5 class="modal-title">Editar</h5>
-                            </template>
-                            {{editar}}
-                            <medicamento-update :item_med="editar" />
-                        </b-modal>
 
                         <b-button variant="danger"
                                   id="button-3"
@@ -223,7 +214,7 @@
                     <b-list-group horizontal>
                         <b-list-group>
                             <b-list-group-item><b>Persona que Pago :</b> {{ row.item.personapago.toUpperCase() }}</b-list-group-item>
-                            <b-list-group-item><b>nombre de socio:</b> {{ row.item.numerosocio }}</b-list-group-item>
+                            <b-list-group-item><b>nombre de socio:</b> {{ row.item.socio }}</b-list-group-item>
                             <b-list-group-item><b>Monto:</b> {{ row.item.monto }}</b-list-group-item>
                             <b-list-group-item><b>Fecha:</b> {{ row.item.fecharealizacion.split('T')[0] }}</b-list-group-item>
                         </b-list-group>
@@ -234,7 +225,9 @@
                 </b-card>
             </template>
         </b-table>
-
+        <b-modal id="modal_editar" ref="my-modaledit" hide-footer title="Editar" ok-only>
+            <cuotas-update :item_cuot="editar" />
+        </b-modal>
         <!-- ================ELIMINAR UN MEDICAMENTO======================== -->
         <b-modal id="modal_eliminar" ref="my-modal" hide-footer title="Eliminar" ok-only>
             <div class="d-block text-center">
@@ -251,7 +244,7 @@
                       variant="danger"
                       block
                       title="Eliminar"
-                      @click="deleteCuota(infoEliminar.cuota.id_cuotao)">
+                      @click="deleteCuota(infoEliminar.cuota.id_cuota)">
                 Eliminar
             </b-button>
         </b-modal>

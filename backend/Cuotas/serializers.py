@@ -2,7 +2,7 @@ from rest_framework import serializers
 from Cuotas.models import cuotas
 
 
-class CuotasSerializer(serializers.ModelSerializer):
+class CuotasSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = cuotas
         fields = (

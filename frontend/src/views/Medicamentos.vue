@@ -221,7 +221,6 @@
             
             <b-modal id="modal-editar"  hide-footer > 
               <template #modal-title><h5 class="modal-title">Editar</h5></template>
-                {{editar}}
                 <medicamento-update :item_med="editar"/>
             </b-modal>
             
