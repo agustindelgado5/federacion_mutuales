@@ -41,8 +41,11 @@
       </b-input-group>
     </div>
     <!-- ======================================== -->
-
-    <b-table
+    <!-- 
+    <section class="container">
+    -->
+    <section>
+      <b-table
       :fields="fields"
       striped
       sortable
@@ -61,9 +64,21 @@
         <b>No hay registros para mostrar</b>
       </template>
 
+      <template slot="cell(profesional)" slot-scope="data">
+        {{ data.value.toUpperCase() }}
+      </template>
+
       <template slot="cell(precio)" slot-scope="data">
         <b>$ {{ data.value }}</b>
       </template>
+
+      
+
+      <template slot="cell(fecha)" slot-scope="data">
+        {{ data.value.split('-')[2] }}/{{ data.value.split('-')[1] }}/{{ data.value.split('-')[0] }}
+      </template>
+
+      
 
       <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
@@ -107,9 +122,9 @@
         </div>
       </template>
      
-    </b-table>
+      </b-table>
 
-    <b-modal id="modal-editar" hide-footer ref="my-modal">
+      <b-modal id="modal-editar" hide-footer ref="my-modal">
       <template #modal-title>
         <h5 class="modal-title">Editar: {{editar.numero_orden}}</h5>
       </template>
@@ -125,15 +140,14 @@
             required
           ></b-form-select>
         </b-form-group>
-        {{selected}}
-        {{editar.numero_orden}}
+        
         <b-button class="mt-2" variant="success" block @click="putModoPago(editar.numero_orden)">
           <b>GUARDAR</b>
         </b-button>
       </b-form>
-    </b-modal>
-    <!-- ==================================CREAR PDF================================== -->
-    <vue-html2pdf
+      </b-modal>
+      <!-- ==================================CREAR PDF================================== -->
+      <vue-html2pdf
       :show-layout="false"
       :float-layout="true"
       :enable-download="false"
@@ -177,9 +191,9 @@
           </b-list-group>
         </section>
       </section>
-    </vue-html2pdf>
+      </vue-html2pdf>
 
-    <b-container fluid>
+      <b-container fluid>
       <b-col class="my-1">
         <b-pagination
           v-model="currentPage"
@@ -191,8 +205,24 @@
         >
         </b-pagination>
       </b-col>
-    </b-container>
+      </b-container>
+    </section>
+    <!---
+    <aside>
+      <div>
+        <b-card-group deck>
+          <b-card bg-variant="primary" text-variant="white" header="FILTRAR POR AÑO" class="text-center">
+            <b-card-text>
+             
+            </b-card-text>
+          </b-card>
+        </b-card-group>
+      </div>
+    </aside>
+    -->
+
   </div>
+  
 </template>
 
 <script>
@@ -213,9 +243,10 @@ export default {
   components: { VueHtml2pdf },
   data() {
     return {
-      //tabla_profesionales: [],
+      tabla_profesionales: [],
       data: {},
       tabla_ordenes:[],
+      //profesionales:[],
       fields: [
         {
           key: "id_medico",
@@ -225,6 +256,11 @@ export default {
         {
           key: "profesional",
           label: "Nombre Completo",
+          sortable: true,
+        },
+        {
+          key: "mes",
+          label: "Mes",
           sortable: true,
         },
         {
@@ -251,7 +287,7 @@ export default {
       ],
       buscar: "",
       editar: {},
-      selected:[],
+      selected:null,
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
       perPage: 30, // Datos en la tabla por pagina
@@ -279,13 +315,12 @@ export default {
       let data = await response.json();
       return data;
     },
-
+    
 
     async getOrdenes() {
       try {
         const res = await fetch(api);
         const data = await res.json();
-
         var lista_orden = data.results;
         var modo_pago = null;
 
@@ -295,8 +330,13 @@ export default {
            lista_orden[i].profesional = medico.apellido + ', ' + medico.nombre;
            lista_orden[i].dni = medico.dni;
            lista_orden[i].formaPago = modo_pago;
+           //lista_orden[i].mes= formatMesAnio(lista_orden[i].fecha.split('-')[1],lista_orden[i].fecha.split('-')[0]);
+           lista_orden[i].mes= lista_orden[i].fecha.split('-')[1]+'/'+lista_orden[i].fecha.split('-')[0];
         }
         console.log(lista_orden);
+        
+        
+
 
         this.tabla_ordenes = lista_orden;
 
@@ -305,14 +345,12 @@ export default {
         if(this.tabla_ordenes.length==0){
           this.msj_tabla = " No se encuentran regitros en esta tabla ";
         }
-        this.saveFile();
+        //this.saveFile();
 
       } catch (error) {
         console.log(error);
       }
     },
-
-    
 
 
     //altaProfesional() {},
@@ -324,6 +362,25 @@ export default {
     //Funcion para esconder el modal
     hideModal() {
       this.$refs["my-modal"].hide();
+    },
+
+    formatMesAnio(mes, anio){
+      var meses =[
+        ('ENE','01'),
+        ('FEB','02'),
+        ('MAR','03'),
+        ('ABR','04'),
+        ('MAY','05'),
+        ('JUN','06'),
+        ('JUL','07'),
+        ('AGO','08'),
+        ('SEP','09'),
+        ('OCT','10'),
+        ('NOV','11'),
+        ('DIC','12'),
+      ];
+      let mesMM = meses.filter(meses => meses[0]== mes);
+      return mesMM +'/'+ anio;
     },
 
 
@@ -422,4 +479,14 @@ export default {
   transition: 0.5s;
   width: 100%;
 }
+/*
+.container {
+  float: left;
+  width: 85%
+}
+aside{
+  float: right;
+  width: 15%;
+}
+*/
 </style>
