@@ -113,6 +113,12 @@ const routes = [
     name: 'estudios',
     component: () => import('../views/Estudios.vue')
   },
+
+  {
+    path: '/ordenesProf',
+    name: 'ordenesProf',
+    component: () => import('../views/Ordenes_Profesional.vue')
+  },
 ];
 
 const router = new VueRouter({

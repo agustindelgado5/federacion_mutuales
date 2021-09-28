@@ -115,6 +115,21 @@
               Editar
             </b-button>
 
+
+            
+            <b-button
+            
+              :to="{name:'ordenesProf',params:{prof: row.item}, query:{id: row.item.id_medico}}"
+              variant="primary"
+              id="button-3"
+              title="Ver ordenes asociadas"
+            >
+              <!-- @click="ordenesProfesional(row.item)" -->
+            <v-icon dark style="color:black;">mdi-format-list-bulleted-square</v-icon>                  
+            Ordenes
+            </b-button>
+
+
             <b-button
               variant="danger"
               id="button-3"
@@ -124,6 +139,7 @@
               <v-icon class="mr-2"> mdi-delete </v-icon>
               Eliminar
             </b-button>
+
           </b-button-group>
         </div>
       </template>
@@ -185,6 +201,7 @@
       <!-- {{ editar }} -->
       <profesionales-update :item_prof="editar" />
     </b-modal>
+
     <b-modal
       id="modal_eliminar"
       ref="my-modal"
@@ -338,6 +355,11 @@ export default {
     editarProfesional(item, index) {
       this.editar = item;
     },
+    ordenesProfesional(item) {
+      this.editar = item;
+      
+    },
+
     async buscarnow() {
       // Declare variables
       var input,
