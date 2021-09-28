@@ -108,6 +108,11 @@ const routes = [
     name: 'cuotas',
     component: () => import('../views/Cuotas.vue')
   },
+  {
+    path: '/estudios',
+    name: 'estudios',
+    component: () => import('../views/Estudios.vue')
+  },
 ];
 
 const router = new VueRouter({
