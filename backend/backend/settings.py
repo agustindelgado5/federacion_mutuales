@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "Ordenes",
     "Cobradores",
     "Cuotas",
+    "Estudios",
 ]
 
 MIDDLEWARE = [
