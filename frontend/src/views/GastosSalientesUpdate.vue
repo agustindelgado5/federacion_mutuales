@@ -71,7 +71,7 @@
               {{validacion.fecha.mensaje}}
           </b-form-invalid-feedback>
       </b-form-group>
-    
+    </b-form>
     <b-button class="mt-2" variant="success" block @click="putGastoSaliente()">Modificar</b-button>
   </div>
 </template>

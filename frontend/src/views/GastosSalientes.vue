@@ -23,7 +23,7 @@
     </b-button>
     <b-modal id="modal-alta" hide-footer>
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
-      <gastoSaliente-alta />
+      <gastosSalientes-alta />
     </b-modal>
 
     <!-- ======== Formulario de Busqueda ======== -->
@@ -49,7 +49,6 @@
           placeholder="Busque un registro"
           v-on:keyup="buscarnow()"
           ref="buscadorlista"
-          id="buscadorlista"
         ></b-form-input>
       </b-input-group>
     </div>
@@ -151,7 +150,8 @@
       <div class="d-block text-center">
         <h3>
           ¿Esta seguro de eliminar los datos de
-          {{ infoEliminar.gastoSaliente.gastoSaliente }}?
+          {{ infoEliminar.gastoSaliente.descripcion }} - Nro ticket  
+          {{ infoEliminar.gastoSaliente.nro_ticket }}?
         </h3>
       </div>
       <b-button class="mt-2" block @click="hideModal" title="Volver Atras"
@@ -209,6 +209,7 @@ export default {
         { key: "descripcion", label: "Descripcion", sortable: true },
         { key: "total", label: "Total", sortable: true },
         { key: "fecha", label: "Fecha", sortable: true },
+        { key: "action", label: "Acciones", variant: "secondary" },
       ],
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
@@ -296,8 +297,6 @@ export default {
         p1, //id_gasto
         p2, //nro_ticket
         p3, //descripcion
-        p4; //total
-        p5; //fecha
       input = this.$refs.buscadorlista;
       filter = input.value.toUpperCase();
       table = document.getElementById("tablaregistros");
@@ -309,9 +308,7 @@ export default {
         p1 = td[0].textContent || td[0].innerText;
         p2 = td[1].textContent || td[1].innerText;
         p3 = td[2].textContent || td[2].innerText;
-        p4 = td[3].textContent || td[3].innerText;
-        p5 = td[4].textContent || td[4].innerText;
-        txtValue = p1 + p2 + p3 + p4 + p5;
+        txtValue = p1 + p2 + p3;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
         } else {
