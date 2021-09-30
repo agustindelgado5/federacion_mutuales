@@ -92,6 +92,8 @@
     </div>
 
     <!-- ======== Formulario de Busqueda ======== -->
+
+    <!--
     <div>
       <b-input-group size="sm" class="mb-2">
         <b-input-group-prepend is-text>
@@ -117,6 +119,28 @@
         ></b-form-input>
       </b-input-group>
     </div>
+    -->
+    <b-form-group
+      label-for="filter-input"
+      label-align-sm="right"
+      label-size="sm"
+      class="mb-0"
+      style="width:100%; padding-bottom:1em;"
+    >
+      <b-input-group size="sm">
+        <b-form-input
+          id="filter-input"
+          v-model="filter"
+          type="search"
+          placeholder="Buscar registros"
+      ></b-form-input>
+
+        <b-input-group-append>
+          <b-button :disabled="!filter" @click="filter = ''">Limpiar</b-button>
+        </b-input-group-append>
+      </b-input-group>
+    </b-form-group>
+
     <!-- ======================================== -->
     
     <div v-if="rows > 0">
@@ -167,6 +191,8 @@
       id="tablaregistros"
       selectable
       select-mode="multi"
+      :filter="filter"
+      @filtered="onFiltered"
       @row-selected="seleccionar_una"
     >
 
@@ -221,7 +247,6 @@
             
             <b-modal id="modal-editar"  hide-footer > 
               <template #modal-title><h5 class="modal-title">Editar</h5></template>
-                {{editar}}
                 <medicamento-update :item_med="editar"/>
             </b-modal>
             
@@ -359,7 +384,8 @@ export default {
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
       editar:{},
-      buscar: '',
+      //buscar: '',
+      filter: null,
       selected: [],
       infoEliminar:{
         id:"modal_eliminar",
@@ -373,12 +399,23 @@ export default {
       btn_eliminar: false,
       btn_select: false,
       btn_limpiar: true,
+      totalRows: 1, //Total de filas
+      currentPage: 1, //Pagina actual
+      perPage: 30, // Datos en la tabla por pagina
 
     };
   },
   computed: {
     rows() {
       return this.tabla_med.length;
+    },
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+          .map(f => {
+            return { text: f.label, value: f.key }
+          })
     },
   },
   methods: {
@@ -500,19 +537,6 @@ export default {
     editarMedicamento(item, index){
       this.editar=item;
     },
-    /*
-    editarMedicamento(item, index) {
-      var medicamento = this.lista_med[index];
-      let opciones = {
-        id_medicamento : medicamento.id_medicamento,
-        nombre : medicamento.nombre,
-        laboratorio : medicamento.laboratorio,
-        cod_farmacia : medicamento.fecha_nacimiento
-      };
-      axios.put('http://localhost:8081/medicamentos/'+ item.id_medicamento + '/', opciones).then((result) => {
-        console.log(result);
-      });
-    },*/
 
     //Funcion para eliminar el medicamento
     async deleteMedicamento(id){
@@ -559,35 +583,10 @@ export default {
      
 
     //Funcion de busqueda
-    async buscarnow() {
-        // Declare variables
-        
-        var input, 
-            filter, 
-            table, 
-            tr, td, i, 
-            txtValue, IdMed, 
-            Medicamento, Laboratorio, Farmacia;
-
-        input = this.$refs.buscadorlista;
-        filter = input.value.toUpperCase();
-        table = document.getElementById('tablaregistros');
-        tr = table.getElementsByTagName('tr');
-
-        // Loop through all list items, and hide those who don't match the search query
-        for (i = 1; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td");
-            IdMed = td[0].textContent || td[0].innerText;
-            Medicamento = td[1].textContent || td[1].innerText;
-            Laboratorio = td[3].textContent || td[3].innerText;
-            Farmacia = td[4].textContent || td[4].innerText;
-            txtValue = IdMed + Medicamento + Laboratorio + Farmacia;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
     },
 
     //Edicion del pdf antes de descargar

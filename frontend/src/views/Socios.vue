@@ -225,7 +225,7 @@
               variant="info"
               id="button-1"
               title="Mostrar Info"
-              @click="row.toggleDetails"
+              @click="row.toggleDetails(); getFamiliar();"
               :disabled="btn_mostrar"
             >
               {{ row.detailsShowing ? "Ocultar" : "Mostrar" }} Detalles
@@ -752,7 +752,7 @@ export default {
    
   },
   beforeMount(){
-    this.testFetch()
+     this.testFetch
   }
 };
 </script>
