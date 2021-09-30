@@ -236,6 +236,10 @@ export default {
       fields: [
         { key: "codigo_intervencion", label: "Codigo Intervencion", sortable: true },
         { key: "descripcion", label: "Descripción", sortable: true },
+        { key: "nivel", label: "nivel", sortable: true },
+        { key: "numero_ayudantes", label: "numero_ayudantes", sortable: true },
+        { key: "honorario_cirujano", label: "Honorarios Cirujanos", sortable: true },
+        { key: "honorario_ayudante", label: "Honorarios Ayudantes", sortable: true },
         { key: "observacion", label: "Observacion", sortable: true },
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
@@ -322,9 +326,13 @@ export default {
         td,
         i,
         txtValue,
-        p1, //codigo
+        p1, //codigo_intervencion
         p2, //descripcion
-        p3; //observacion
+        p3; //nivel
+        p4; //numero_ayudantes
+        p5; //honorario cirujano
+        p6; //honorario ayudante
+        p7; //observacion
       input = this.$refs.buscadorlista;
       filter = input.value.toUpperCase();
       table = document.getElementById("tablaregistros");
@@ -336,7 +344,12 @@ export default {
         p1 = td[0].textContent || td[0].innerText;
         p2 = td[1].textContent || td[1].innerText;
         p3 = td[2].textContent || td[2].innerText;
-        txtValue = p1 + p2 + p3 ;
+        p4 = td[3].textContent || td[2].innerText;
+        p5 = td[4].textContent || td[2].innerText;
+        p6 = td[5].textContent || td[2].innerText;
+        p7 = td[6].textContent || td[2].innerText;
+        
+        txtValue = p1 + p2 + p3 + p4 + p5 + p6 + p7 ;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
         } else {
