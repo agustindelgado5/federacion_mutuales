@@ -23,7 +23,7 @@
           type="text"
           placeholder="Ingrese el código"
           invalid-feedback="Complete este campo"
-          :state="validacion.cod_estudio.estado"
+          :state="validacion.codigo_intervencion.estado"
           required
         >
         </b-form-input>

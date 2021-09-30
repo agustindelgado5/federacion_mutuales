@@ -11,6 +11,8 @@
             <router-link to="/recetas">Recetas</router-link>  |
             <router-link to="/ordenes">Ordenes Medicas</router-link>  |
             <router-link to="/cobradores">Cobradores</router-link>  |
+            <router-link to="/cirugias">Cirugias</router-link>  |
+
         </div>
         <div class="Menu">
 

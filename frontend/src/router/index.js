@@ -119,6 +119,12 @@ const routes = [
     name: 'ordenesProf',
     component: () => import('../views/Ordenes_Profesional.vue')
   },
+  {
+    path: '/cirugias',
+    name: 'cirugias',
+    component: () => import('../views/Cirugias.vue')
+  },
+  
 ];
 
 const router = new VueRouter({
