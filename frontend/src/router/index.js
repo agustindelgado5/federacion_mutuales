@@ -119,6 +119,14 @@ const routes = [
     name: 'ordenesProf',
     component: () => import('../views/Ordenes_Profesional.vue')
   },
+
+  {
+    path: "/gastosSalientes",
+    name: "GastosSalientes",
+
+    component: () => import("../views/GastosSalientes.vue"),
+    meta: { title: 'Gastos Salientes - Federación Tucumana de Mutuales' }
+  },
 ];
 
 const router = new VueRouter({

@@ -92,7 +92,7 @@ const data = {
             children: [
                 {
                     title: `Gastos Salientes`,
-                    link: `/salientes`,
+                    link: `/gastosSalientes`,
                     children: [],
                 },
                 {
