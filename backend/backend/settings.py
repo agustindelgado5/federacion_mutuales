@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "Cuotas",
     "Estudios",
     "Cirugias",
+    "Institutos",
 ]
 
 MIDDLEWARE = [
