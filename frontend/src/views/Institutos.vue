@@ -1,22 +1,22 @@
 <template>
-  <div id="cirugias" class="myTable">
+  <div id="institutos" class="myTable">
     <!--HEAD DE LA PAGINA -->
     <vue-headful
-      title="Cirugias - Federación Tucumana de Mutuales"
+      title="Institutos - Federación Tucumana de Mutuales"
     ></vue-headful>
 
-    <h2>Listado de Cirugias</h2>
+    <h2>Listado de Institutos</h2>
     <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
       <v-icon dark style="color: black">mdi-cached</v-icon>
       Actualizar
     </b-button>
 
-    <!-- ================ALTA Cirugias======================== -->
+    <!-- ================ALTA Institutos======================== -->
     <b-button
       class="mb-4 ml-2"
       v-b-modal.modal-alta
-      @click="altaCirugia()"
-      title="Nueva Cirugia"
+      @click="altaInstituto()"
+      title="Nuevo Instituto"
       style="color: white"
     >
       <v-icon dark> mdi-plus </v-icon>
@@ -24,7 +24,7 @@
     </b-button>
     <b-modal id="modal-alta" hide-footer>
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
-      <cirugias-alta />
+      <institutos-alta />
     </b-modal>
 
     <!-- ======== Formulario de Busqueda ======== -->
@@ -62,7 +62,7 @@
       sortable
       responsive
       hover
-      :items="tabla_cirugias"
+      :items="tabla_institutos"
       show-empty
       :per-page="perPage"
       :current-page="currentPage"
@@ -83,7 +83,7 @@
               id="button-2"
               title="Editar este registro"
               v-b-modal.modal-editar
-              @click="editarCirugia(row.item, row.index)"
+              @click="editarInstituto(row.item, row.index)"
             >
               <v-icon class="mr-2"> mdi-pencil </v-icon>
               Editar
@@ -108,7 +108,7 @@
       </template>
     -->
     </b-table>
-    <!-- ================ELIMINAR Cirugia======================== -->
+    <!-- ================ELIMINAR Instituto======================== -->
 
     <b-modal
       id="modal_eliminar"
@@ -120,7 +120,7 @@
       <div class="d-block text-center">
         <h3>
           ¿Esta seguro de eliminar los datos de la cirugia
-          {{ infoEliminar.cirugia.codigo_intervencion }}?
+          {{ infoEliminar.instituto.codigo_institucion }}?
         </h3>
       </div>
       <b-button class="mt-2" block @click="hideModal" title="Volver Atras"
@@ -130,7 +130,7 @@
         class="mt-3"
         variant="danger"
         block
-        @click="deleteCirugia(infoEliminar.cirugia.codigo_intervencion)"
+        @click="deleteInstituto(infoEliminar.instituto.codigo_institucion)"
         title="Eliminar"
       >
         Eliminar
@@ -144,14 +144,14 @@
           pills
           :total-rows="rows"
           :per-page="perPage"
-          aria-controls="tabla_cirugias"
+          aria-controls="tabla_institutos"
         >
         </b-pagination>
       </b-col>
     </b-container>
     <b-modal id="modal-editar" hide-footer>
       <template #modal-title><h5 class="modal-title">Editar</h5></template>
-      <cirugias-update :cirugia="editar" />
+      <institutos-update :instituto="editar" />
     </b-modal>
 
     <!-- ==================================CREAR PDF================================== -->
@@ -218,25 +218,26 @@
 
 <script>
 let api = new URL("http://localhost");
-api.pathname = "cirugias";
+api.pathname = "institutos";
 //api.port = 8000;
 api.port = 8081;
 
-import CirugiasAlta from "./CirugiasAlta.vue";
-import CirugiasUpdate from "./CirugiasUpdate.vue";
+import InstitutosAlta from "./InstitutosAlta.vue";
+import InstitutosUpdate from "./InstitutosUpdate.vue";
 import VueHtml2pdf from "vue-html2pdf";
 
 import axios from "axios";
 
 export default {
-  components: { CirugiasAlta, CirugiasUpdate, VueHtml2pdf },
+  components: { InstitutosAlta, InstitutosUpdate, VueHtml2pdf },
   data() {
     return {
-      tabla_cirugias: [],
+      tabla_institutos: [],
       fields: [
-        { key: "codigo_intervencion", label: "Codigo Intervencion", sortable: true },
-        { key: "descripcion", label: "Descripción", sortable: true },
-        { key: "observacion", label: "Observacion", sortable: true },
+         {key:"id_medico" ,label: "N° de profesional", sortable: true,},
+
+        { key: "codigo_institucion", label: "Codigo Institutos", sortable: true },
+       
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
       totalRows: 1, //Total de filas
@@ -246,21 +247,21 @@ export default {
       editar: {},
       infoEliminar: {
         id: "modal_eliminar",
-        cirugia: -1,
+        instituto: -1,
       },
     };
   },
   computed: {
     rows() {
-      return this.tabla_cirugias.length;
+      return this.tabla_institutos.length;
     },
     id() {
-      return this.tabla_cirugias.codigo_intervencion
+      return this.tabla_institutos.codigo_institucion
       ;
     },
     items() {
-      return tabla_cirugias.filter((item) => {
-        return item.codigo_intervencion
+      return tabla_institutos.filter((item) => {
+        return item.codigo_institucion
           .toLowerCase()
           .includes(this.buscar.toLowerCase());
       });
@@ -272,16 +273,16 @@ export default {
         const res = await fetch(api);
         const data = await res.json();
 
-        var lista_cirugias = data.results;
+        var lista_institutos = data.results;
 
-        console.log(lista_cirugias);
+        console.log(lista_institutos);
 
-        this.tabla_cirugias = lista_cirugias;
+        this.tabla_institutos = lista_institutos;
       } catch (error) {
         console.log(error);
       }
     },
-    editarCirugia(item, index) {
+    editarInstituto(item, index) {
       this.editar = item;
     },
     //Funcion para mostrar el modal
@@ -289,18 +290,18 @@ export default {
       this.$refs["my-modal"].show();
     },
     showModalinfo(item, index) {
-      this.infoEliminar.cirugia = item;
+      this.infoEliminar.instituto = item;
       this.showModal();
     },
     //Funcion para esconder el modal
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-    altaCirugia() {},
+    altaInstituto() {},
 
-    async deleteCirugia(codigo_intervencion) {
+    async deleteInstituto(codigo_institucion) {
       axios
-        .delete("http://localhost:8081/cirugias/" + codigo_intervencion + "/")
+        .delete("http://localhost:8081/cirugias/" + codigo_institucion + "/")
         .then((datos) => {
           swal("Operación Exitosa", " ", "success");
           console.log(datos);
@@ -323,8 +324,8 @@ export default {
         i,
         txtValue,
         p1, //codigo
-        p2, //descripcion
-        p3; //observacion
+        p2//id_medico
+       
       input = this.$refs.buscadorlista;
       filter = input.value.toUpperCase();
       table = document.getElementById("tablaregistros");
@@ -335,8 +336,8 @@ export default {
         td = tr[i].getElementsByTagName("td");
         p1 = td[0].textContent || td[0].innerText;
         p2 = td[1].textContent || td[1].innerText;
-        p3 = td[2].textContent || td[2].innerText;
-        txtValue = p1 + p2 + p3 ;
+        
+        txtValue = p1 +p2 ;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
         } else {

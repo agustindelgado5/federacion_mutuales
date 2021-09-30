@@ -124,6 +124,11 @@ const routes = [
     name: 'cirugias',
     component: () => import('../views/Cirugias.vue')
   },
+  {
+  path: '/institutos',
+  name: 'institutos',
+  component: () => import('../views/Institutos.vue')
+  },
   
 ];
 
