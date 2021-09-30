@@ -28,31 +28,26 @@
     </b-modal>
 
     <!-- ======== Formulario de Busqueda ======== -->
-    <div>
-      <b-input-group size="sm" class="mb-2">
-        <b-input-group-prepend is-text>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-search"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-            />
-          </svg>
-        </b-input-group-prepend>
+    <b-form-group
+      label-for="filter-input"
+      label-align-sm="right"
+      label-size="sm"
+      class="mb-0"
+      style="width:100%; padding-bottom:1em;"
+    >
+      <b-input-group size="sm">
         <b-form-input
-          v-model="buscar"
-          type="text"
-          placeholder="Busque un registro"
-          v-on:keyup="buscarnow()"
-          ref="buscadorlista"
-        ></b-form-input>
+          id="filter-input"
+          v-model="filter"
+          type="search"
+          placeholder="Buscar registros"
+      ></b-form-input>
+
+        <b-input-group-append>
+          <b-button :disabled="!filter" @click="filter = ''">Limpiar</b-button>
+        </b-input-group-append>
       </b-input-group>
-    </div>
+    </b-form-group>
     <!-- ======================================== -->
     <!-- ======== Tabla con los registros ======= -->
     <b-table
@@ -70,6 +65,8 @@
       :current-page="currentPage"
       ref="tablaregistros"
       id="tablaregistros"
+      :filter="filter"
+      @filtered="onFiltered"
     >
       <template #empty="">
         <b>No hay registros para mostrar</b>
@@ -193,8 +190,8 @@ export default {
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
       perPage: 20, // Datos en la tabla por pagina
-
-      buscar: "",
+      filter: null,
+      //buscar: "",
       editar: {},
       infoEliminar: {
         servicio: -1,
@@ -209,12 +206,13 @@ export default {
     id() {
       return this.tabla_servicios.id_servicio;
     },
-    items() {
-      return tabla_servicios.filter((item) => {
-        return item.id_servicio
-          .toLowerCase()
-          .includes(this.buscar.toLowerCase());
-      });
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+          .map(f => {
+            return { text: f.label, value: f.key }
+          })
     },
   },
 
@@ -270,28 +268,11 @@ export default {
         );
     },
 
-    async buscarnow() {
-      // Declare variables
-
-      var input, filter, table, tr, td, i, txtValue, id, servicio;
-
-      input = this.$refs.buscadorlista;
-      filter = input.value.toUpperCase();
-      table = document.getElementById("tablaregistros");
-      tr = table.getElementsByTagName("tr");
-
-      // Loop through all list items, and hide those who don't match the search query
-      for (i = 1; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td");
-        id = td[0].textContent || td[0].innerText;
-        servicio = td[1].textContent || td[1].innerText;
-        txtValue = id + servicio;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
+    //Funcion de busqueda
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
     },
   },
   beforeMount() {

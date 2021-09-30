@@ -13,7 +13,7 @@ SECRET_KEY = "django-insecure-x*)5s_om!jooy5ewy8n*oqjc#6ziymj=2%a5jdjg^urmp*e8k5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -47,7 +47,12 @@ INSTALLED_APPS = [
     "Cobradores",
     "Cuotas",
     "Estudios",
+<<<<<<< HEAD
     "GastosSalientes",
+=======
+    "Cirugias",
+    "Institutos",
+>>>>>>> efdb58f7f8fc6800c0a97941838bb08eb1672bb7
 ]
 
 MIDDLEWARE = [

@@ -127,6 +127,18 @@ const routes = [
     component: () => import("../views/GastosSalientes.vue"),
     meta: { title: 'Gastos Salientes - Federación Tucumana de Mutuales' }
   },
+
+  {
+    path: '/cirugias',
+    name: 'cirugias',
+    component: () => import('../views/Cirugias.vue')
+  },
+  {
+  path: '/institutos',
+  name: 'institutos',
+  component: () => import('../views/Institutos.vue')
+  },
+  
 ];
 
 const router = new VueRouter({

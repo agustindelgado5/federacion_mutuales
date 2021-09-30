@@ -11,7 +11,13 @@
             <router-link to="/recetas">Recetas</router-link>  |
             <router-link to="/ordenes">Ordenes Medicas</router-link>  |
             <router-link to="/cobradores">Cobradores</router-link>  |
+<<<<<<< HEAD
             <router-link to="/gastosSalientes">Gastos Salientes</router-link>  |
+=======
+            <router-link to="/cirugias">Cirugias</router-link>  |
+            <router-link to="/institutos">Institutos</router-link>  |
+
+>>>>>>> efdb58f7f8fc6800c0a97941838bb08eb1672bb7
         </div>
         <div class="Menu">
 
