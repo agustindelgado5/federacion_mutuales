@@ -28,31 +28,26 @@
     </b-modal>
 
     <!-- ======== Formulario de Busqueda ======== -->
-    <div>
-      <b-input-group size="sm" class="mb-2">
-        <b-input-group-prepend is-text>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-search"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-            />
-          </svg>
-        </b-input-group-prepend>
+    <b-form-group
+      label-for="filter-input"
+      label-align-sm="right"
+      label-size="sm"
+      class="mb-0"
+      style="width:100%; padding-bottom:1em;"
+    >
+      <b-input-group size="sm">
         <b-form-input
-          v-model="buscar"
-          type="text"
-          placeholder="Busque un registro"
-          v-on:keyup="buscarnow()"
-          ref="buscadorlista"
-        ></b-form-input>
+          id="filter-input"
+          v-model="filter"
+          type="search"
+          placeholder="Buscar registros"
+      ></b-form-input>
+
+        <b-input-group-append>
+          <b-button :disabled="!filter" @click="filter = ''">Limpiar</b-button>
+        </b-input-group-append>
       </b-input-group>
-    </div>
+    </b-form-group>
     <!-- ======================================== -->
     <!-- ======== Tabla con los registros ======= -->
 
@@ -70,6 +65,8 @@
       :no-border-collapse="false"
       ref="tablaregistros"
       id="tablaregistros"
+      :filter="filter"
+      @filtered="onFiltered"
     >
       <template #empty="">
         <b>No hay registros para mostrar</b>
@@ -186,12 +183,6 @@
           </b-button-group>
         </div>
       </template>
-      <!-- 
-      <template slot="action">
-        <b-button variant="warning" size="sm">Modificar</b-button>
-        <b-button variant="danger" size="sm">Eliminar</b-button>
-      </template>
-    -->
     </b-table>
     <!-- ================ELIMINAR ORDEN======================== -->
 
@@ -227,7 +218,7 @@
           v-model="currentPage"
           align="center"
           pills
-          :total-rows="rows"
+          :total-rows="totalRows"
           :per-page="perPage"
           aria-controls="table_ordenes"
         >
@@ -272,20 +263,6 @@
         </section>
         <section class="pdf-item">
           <h3>Orden Médica</h3>
-          <!-- <b-table
-              :fields="fields"
-              responsive
-              :items="tabla_ordenes"
-              :no-border-collapse= false
-              small
-              fixed
-              bordered
-              head-variant="light"
-            >
-              <!-- <template slot="cell(cod_farmacia)" slot-scope="data">
-                {{data.value.split('/')[4]}}
-              </template> 
-            </b-table> -->
 
           <b-list-group>
             <b-list-group-item
@@ -331,6 +308,7 @@ export default {
         { key: "realizado", label: "Realizado", sortable: true },
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
+      filter: null,
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
       perPage: 10, // Datos en la tabla por pagina
@@ -350,12 +328,13 @@ export default {
     id() {
       return this.tabla_ordenes.numero_orden;
     },
-    items() {
-      return tabla_ordenes.filter((item) => {
-        return item.numero_orden
-          .toLowerCase()
-          .includes(this.buscar.toLowerCase());
-      });
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+          .map(f => {
+            return { text: f.label, value: f.key }
+          })
     },
   },
   methods: {
@@ -405,40 +384,11 @@ export default {
         })
         .finally(() => this.testFetch());
     },
-    async buscarnow() {
-      // Declare variables
-      var input,
-        filter,
-        table,
-        tr,
-        td,
-        i,
-        txtValue,
-        p1, //nro de orden
-        p2, //nro de socio
-        p3, //servicio
-        p4, //id medico
-        p5; //fecha
-      input = this.$refs.buscadorlista;
-      filter = input.value.toUpperCase();
-      table = document.getElementById("tablaregistros");
-      tr = table.getElementsByTagName("tr");
-
-      // Loop through all list items, and hide those who don't match the search query
-      for (i = 1; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td");
-        p1 = td[0].textContent || td[0].innerText;
-        p2 = td[1].textContent || td[1].innerText;
-        p3 = td[3].textContent || td[3].innerText;
-        p4 = td[4].textContent || td[4].innerText;
-        p5 = td[6].textContent || td[6].innerText;
-        txtValue = p1 + p2 + p3 + p4 + p5;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
+    //Funcion de busqueda
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
     },
     //Funcion para crear el PDF
     async generarPDF(item) {
