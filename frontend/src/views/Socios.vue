@@ -118,10 +118,9 @@
 		<div v-if="rows > 0">
 			<div v-if="selected.length > 0">
 				<pre>
-          Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
-						selected.length
-					}}
-        </pre>
+					Cantidad de registros: {{ rows }} | 
+					Filas seleccionadas: {{ selected.length }}
+        		</pre>
 			</div>
 			<div v-else>
 				<pre>Cantidad de registros: {{ rows }}</pre>
@@ -247,6 +246,7 @@
 								title="Editar este registro"
 								v-b-modal.modal-editar
 								@click="editarSocio(row.item, row.index)"
+								:disabled="btn_editar"
 							>
 								<!-- :disabled="btn_editar" -->
 								<v-icon class="mr-2"> mdi-pencil </v-icon>
@@ -257,10 +257,11 @@
 								variant="success"
 								id="button-2"
 								@click="showModalinfo1(row.item, row.index)"
+								:disabled="btn_pagado"
 							>
 								<!-- isabled="btn_editar" -->
 								<v-icon class="mr-2"> mdi-cash </v-icon>
-								Pagado?
+								¿Pagado?
 							</b-button>
 
 							<b-button
@@ -511,9 +512,9 @@
 						<div class="accordion" role="tablist">
 							<b-card no-body>
 								<b-card-header header-tag="header" class="p-1" role="tab">
-									<b-button block v-b-toggle.accordion-1 variant="info"
-										>AL DIA</b-button
-									>
+									<b-button block v-b-toggle.accordion-1 variant="info">
+										AL DIA
+									</b-button>
 								</b-card-header>
 								<b-collapse
 									id="accordion-1"
@@ -527,7 +528,7 @@
 											v-slot="{ ariaDescribedby }"
 										>
 											<b-form-checkbox-group
-												v-model="socioAldia"
+												v-model="filter"
 												id="socio_al_dia"
 												:aria-describedby="ariaDescribedby"
 												style="color: black"
@@ -536,16 +537,16 @@
 												<b-form-checkbox value="✔">SI✔️</b-form-checkbox>
 											</b-form-checkbox-group>
 										</b-form-group>
-										<b-card-text style="color: black">{{
-											socioAldia
-										}}</b-card-text>
+										<b-card-text style="color: black">
+											{{socioAldia}}
+										</b-card-text>
 									</b-card-body>
 								</b-collapse>
 
 								<b-card-header header-tag="header" class="p-2" role="tab">
-									<b-button block v-b-toggle.accordion-2 variant="info"
-										>DEPARTAMENTO</b-button
-									>
+									<b-button block v-b-toggle.accordion-2 variant="info">
+									DEPARTAMENTO
+									</b-button>
 								</b-card-header>
 								<b-collapse
 									id="accordion-2"
@@ -557,7 +558,7 @@
 										<b-form-group id="input-group-4">
 											<b-form-select
 												id="departamento"
-												v-model="departamento_select"
+												v-model="filter"
 												type="text"
 												:options="options_deptos"
 											>
@@ -636,19 +637,6 @@
 						</b-card>
 					</b-card-group>
 				</section>
-				<!--
-        <section class="pdf-item">
-          <h3>Orden Médica</h3>
-
-          <b-list-group>
-            <b-list-group-item
-              v-for="value in fields.slice(0, -1)"
-              :key="value.key"
-              >{{ value.label }}: {{ ordenAPDF[value.key] }}</b-list-group-item
-            >
-          </b-list-group>
-        </section>
-        -->
 			</section>
 		</vue-html2pdf>
 	</div>
@@ -703,7 +691,6 @@
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				filter: null,
-				departamento_select: null,
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
@@ -730,6 +717,7 @@
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
+				btn_pagado: false,
 				btn_eliminar: false,
 				btn_select: false,
 				btn_limpiar: true,
@@ -773,33 +761,12 @@
 				return this.tabla_socios.numero_socio;
 			},
 			sortOptions() {
-				// Create an options list from our fields
+				// Funcion para filtrar
 				return this.fields
 					.filter((f) => f.sortable)
 					.map((f) => {
 						return { text: f.label, value: f.key };
 					});
-			},
-			//Funcion para filtar por socios con cuota al dia o deudores
-			filterSociosAldia() {
-				if (this.socioAldia.length > 0) {
-					if (this.socioAldia.length == 1) {
-						return this.fields
-							.filter((f) => f.aldia == this.socioAldia[0])
-							.map((f) => {
-								return { text: f.label, value: f.key };
-							});
-					} else {
-						return this.fields
-							.filter(
-								(f) =>
-									f.aldia == this.socioAldia[0] || f.aldia == this.socioAldia[1]
-							)
-							.map((f) => {
-								return { text: f.label, value: f.key };
-							});
-					}
-				}
 			},
 		},
 
@@ -959,6 +926,7 @@
 						this.btn_mostrar = true;
 						this.btn_editar = true;
 						this.btn_eliminar = true;
+						this.btn_pagado=true;
 					}
 					if (this.selected.length == this.rows) {
 						this.btn_select = true;
@@ -971,6 +939,7 @@
 					this.btn_editar = false;
 					this.btn_eliminar = false;
 					this.btn_limpiar = true;
+					this.btn_pagado=false;
 				}
 			},
 			//Selecciona todas
@@ -980,6 +949,7 @@
 				this.btn_mostrar = true;
 				this.btn_editar = true;
 				this.btn_eliminar = true;
+				this.btn_pagado=true;
 
 				this.btn_select = true;
 				this.btn_limpiar = false;
@@ -991,6 +961,7 @@
 				this.btn_mostrar = false;
 				this.btn_editar = false;
 				this.btn_eliminar = false;
+				this.btn_pagado=false;
 
 				this.btn_select = false;
 				this.btn_limpiar = true;
@@ -1020,7 +991,7 @@
 				this.$refs.html2Pdf.generatePdf();
 			},
 
-			//Funcion de busqueda
+			
 			onFiltered(filteredItems) {
 				// Trigger pagination to update the number of buttons/pages due to filtering
 				this.totalRows = filteredItems.length;
