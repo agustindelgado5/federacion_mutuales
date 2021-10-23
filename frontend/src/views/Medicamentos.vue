@@ -177,7 +177,8 @@
     
     
 
-    <b-table
+    <section class="container">
+      <b-table
       :fields="fields"
       striped
       sortable
@@ -194,6 +195,8 @@
       :filter="filter"
       @filtered="onFiltered"
       @row-selected="seleccionar_una"
+      :per-page="perPage"
+      :current-page="currentPage"
     >
 
       <template #empty="">
@@ -281,6 +284,107 @@
         </b-card>
       </template>
     </b-table>
+    <b-container fluid>
+				<b-col class="my-1">
+					<b-pagination
+						v-model="currentPage"
+						align="center"
+						pills
+						:total-rows="totalRows"
+						:per-page="perPage"
+						aria-controls="tabla_med"
+					>
+					</b-pagination>
+				</b-col>
+			</b-container>
+    </section>
+    <aside>
+			<div>
+				<b-card-group deck>
+					<b-card
+						bg-variant="primary"
+						text-variant="white"
+						header="REGISTROS POR PAGINA"
+						class="text-center"
+					>
+						<b-form-group label-for="per-page-select" class="mb-0">
+							<b-form-select
+								id="per-page-select"
+								v-model="perPage"
+								:options="pageOptions"
+								size="sm"
+							></b-form-select>
+						</b-form-group>
+					</b-card>
+				</b-card-group>
+			</div>
+      
+			<br />
+      
+      
+			<div>
+				<b-card-group deck>
+					<b-card
+						bg-variant="primary"
+						text-variant="white"
+						header="FILTRAR POR"
+						class="text-center"
+					>
+						<div class="accordion" role="tablist">
+							<b-card no-body>
+								<b-card-header header-tag="header" class="p-1" role="tab">
+									<b-button block v-b-toggle.accordion-1 variant="info">
+										FARMACIA
+									</b-button>
+								</b-card-header>
+								<b-collapse
+									id="accordion-1"
+									visible
+									accordion="my-accordion"
+									role="tabpanel"
+								>
+									<b-card-body>
+										<b-form-group id="input-group-4">
+											<b-form-select
+												id="correo"
+												v-model="filter"
+												type="text"
+												:options="options_farmacia"
+											>
+											</b-form-select>
+										</b-form-group>
+									</b-card-body>
+								</b-collapse>
+								<b-card-header header-tag="header" class="p-2" role="tab">
+									<b-button block v-b-toggle.accordion-2 variant="info">
+										LABORATORIO
+									</b-button>
+								</b-card-header>
+								<b-collapse
+									id="accordion-2"
+									visible
+									accordion="my-accordion"
+									role="tabpanel"
+								>
+									<b-card-body>
+										<b-form-group id="input-group-4">
+											<b-form-select
+												id="representante"
+												v-model="filter"
+												type="text"
+												:options="options_laboratorio"
+											>
+											</b-form-select>
+										</b-form-group>
+									</b-card-body>
+								</b-collapse>
+							</b-card>
+						</div>
+					</b-card>
+				</b-card-group>
+			</div>
+      
+		</aside>
 
     <!-- ================ELIMINAR UN MEDICAMENTO======================== -->
     <b-modal id="modal_eliminar" ref="my-modal" hide-footer title="Eliminar" ok-only>
@@ -401,13 +505,19 @@ export default {
       btn_limpiar: true,
       totalRows: 1, //Total de filas
       currentPage: 1, //Pagina actual
-      perPage: 30, // Datos en la tabla por pagina
+      perPage: 10, // Datos en la tabla por pagina
+      pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
+      options_laboratorio: [{ value: null, text: "Elija un laboratorio" }
+      ],
+      options_farmacia: [
+        { value: null, text: "Elija una farmacia" },
+      ],
 
     };
   },
   computed: {
     rows() {
-      return this.tabla_med.length;
+      return this.totalRows = this.tabla_med.length;
     },
     sortOptions() {
       // Create an options list from our fields
@@ -430,6 +540,21 @@ export default {
         console.log(lista_med);
 
         this.tabla_med = lista_med;
+
+        this.tabla_med.forEach((element) => {
+						let opcionLabo = {};
+						let opcionFarm = {};
+						opcionLabo.value = element.laboratorio;
+						opcionLabo.text = element.laboratorio;
+						opcionFarm.value = element.cod_farmacia;
+						opcionFarm.text = element.cod_farmacia.split('/')[4];
+						if (this.options_laboratorio.includes(opcionLabo) == false) {
+							this.options_laboratorio.push(opcionLabo);
+						}
+						if (this.options_farmacia.includes(opcionFarm) == false) {
+							this.options_farmacia.push(opcionFarm);
+						}
+					});
 
         this.btn_down_pdf=false;  //Habilito los botones
         
@@ -509,17 +634,7 @@ export default {
       this.btn_select=false;
       this.btn_limpiar=true;
     },
-    /*
-    filtrarFilas(){
-      this.fields.forEach(filas=>{
-        let option={}
-        if(filas.key!='action'){
-          option = filas
-        }
-        this.fields.push(option)
-      })
-    },
-    */
+    
     //Funcion para crear el PDF
     generarPDF(){
       if(this.tabla_med.length !=0){
@@ -582,7 +697,7 @@ export default {
     },
      
 
-    //Funcion de busqueda
+    
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length
@@ -620,4 +735,12 @@ export default {
   transition: 0.5s;
   width: 100%;
 }
+.container {
+		float: left;
+		width: 80%;
+	}
+	aside {
+		float: right;
+		width: 20%;
+	}
 </style>
