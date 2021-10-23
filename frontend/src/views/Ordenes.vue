@@ -286,8 +286,8 @@
 												:aria-describedby="ariaDescribedby"
 												style="color: black"
 											>
-												<b-form-checkbox value="NO">NO❌</b-form-checkbox>
-												<b-form-checkbox value="SI">SI✔️</b-form-checkbox>
+												<b-form-checkbox value=false>NO❌</b-form-checkbox>
+												<b-form-checkbox value=true>SI✔️</b-form-checkbox>
 											</b-form-checkbox-group>
 										</b-form-group>
 									</b-card-body>
