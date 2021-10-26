@@ -230,14 +230,13 @@
 						pills
 						:total-rows="totalRows"
 						:per-page="perPage"
-						aria-controls="table_profesionales"
+						aria-controls="tabla_profesionales"
 					>
 					</b-pagination>
 				</b-col>
 			</b-container>
 		</section>
 		<aside>
-			<!--
 			<div>
 				<b-card-group deck>
 					<b-card
@@ -257,9 +256,8 @@
 					</b-card>
 				</b-card-group>
 			</div>
-      
+
 			<br />
-      -->
 			<div>
 				<b-card-group deck>
 					<b-card
@@ -347,7 +345,8 @@
 				filter: null,
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
-				perPage: 3, // Datos en la tabla por pagina
+				perPage: 10, // Datos en la tabla por pagina
+				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
 				infoEliminar: {
 					id: "modal_eliminar",
 					profesional: -1,
@@ -358,7 +357,7 @@
 
 		computed: {
 			rows() {
-				return this.tabla_profesionales.length;
+				return (this.totalRows = this.tabla_profesionales.length);
 			},
 			id() {
 				return this.tabla_profesionales.id_medico;
@@ -389,7 +388,12 @@
 						let opcion = {};
 						opcion.value = element.especialidad;
 						opcion.text = element.especialidad;
-						if (this.options_especialidad.includes(opcion) == false) {
+						if (
+							this.options_especialidad.find((x) => x.value == opcion.value)
+						) {
+							//this.options_especialidad.push(opcion);
+							console.log(opcion, " ya se encuentra en el listado");
+						} else {
 							this.options_especialidad.push(opcion);
 						}
 					});

@@ -374,10 +374,17 @@
 						opcionCorreo.text = element.email;
 						opcionRepre.value = element.representante;
 						opcionRepre.text = element.representante;
-						if (this.options_correo.includes(opcionCorreo) == false) {
+						if (
+							this.options_correo.find((x) => x.value == opcionCorreo.value)
+						) {
+							console.log(opcionCorreo, " ya se encuentra en el listado");
+						} else {
 							this.options_correo.push(opcionCorreo);
 						}
-						if (this.options_representante.includes(opcionRepre) == false) {
+
+						if (this.options_representante.find(x=>x.value==opcionRepre.value)) {
+							console.log(opcionRepre, " ya se encuentra en el listado");
+						} else {
 							this.options_representante.push(opcionRepre);
 						}
 					});

@@ -286,8 +286,8 @@
 												:aria-describedby="ariaDescribedby"
 												style="color: black"
 											>
-												<b-form-checkbox value=false>NO❌</b-form-checkbox>
-												<b-form-checkbox value=true>SI✔️</b-form-checkbox>
+												<b-form-checkbox value="false">NO❌</b-form-checkbox>
+												<b-form-checkbox value="true">SI✔️</b-form-checkbox>
 											</b-form-checkbox-group>
 										</b-form-group>
 									</b-card-body>
@@ -415,7 +415,7 @@
 					id: "modal_eliminar",
 					orden: -1,
 				},
-        options_servicio: [{ value: null, text: "Elija un servicio" },],
+				options_servicio: [{ value: null, text: "Elija un servicio" }],
 				ordenAPDF: {}, //Se carga cuando se hace clic en exportar a pdf, con la orden a exportar
 			};
 		},
@@ -447,15 +447,16 @@
 
 					this.tabla_ordenes = lista_ordenes;
 
-          this.tabla_ordenes.forEach(element => {
-            let opcion={};
-            opcion.value = element.servicio;
-            opcion.text = element.servicio;
-            if(this.options_servicio.includes(opcion)==false){
-              this.options_servicio.push(opcion);
-            }
-            
-          });
+					this.tabla_ordenes.forEach((element) => {
+						let opcion = {};
+						opcion.value = element.servicio;
+						opcion.text = element.servicio;
+						if (this.options_servicio.find((x) => x.value == opcion.value)) {
+							console.log(opcion, " ya se encuentra en el listado");
+						} else {
+							this.options_servicio.push(opcion);
+						}
+					});
 				} catch (error) {
 					console.log(error);
 				}
