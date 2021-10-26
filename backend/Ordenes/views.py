@@ -12,3 +12,10 @@ from Ordenes.serializers import OrdenesSerializer
 class OrdenesViewSet(viewsets.ModelViewSet):
     serializer_class = OrdenesSerializer
     queryset = ordenes.objects.all()
+    @action(methods=['GET'], detail = True)
+    def declararOrden(self, request, pk=None):
+        print("escribiendo en viewset ")
+        o =self.get_object()
+        token=int(request.query_params["token"])
+        mje=o.verificarOrden(token)
+        return Response({"Verificacion": mje})

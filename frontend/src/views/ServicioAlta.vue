@@ -2,7 +2,7 @@
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos </h4>   
-    <b-form >
+    <b-form @submit.prevent="">
       <b-form-group label="*Nombre del servicio" label-for="nombre">
         <b-form-input
           id="servicio"
@@ -12,18 +12,17 @@
           :state="validacion.servicio.estado"
           invalid-feedback="Complete este campo"
           required
+          @keydown.enter.prevent
         >
         </b-form-input>
         <b-form-invalid-feedback
                 id="nombre-live-feedback"
               >{{validacion.servicio.mensaje}}
-            </b-form-invalid-feedback>
+        </b-form-invalid-feedback>
       </b-form-group>
       
     </b-form>
-    {{ servicio }}
-    {{ data }}
-    <b-button class="mt-2" variant="success" block @click="postServicios()">Guardar</b-button>
+    <b-button class="mt-2" variant="success" block @click.prevent="postServicios()">Guardar</b-button>
   </div>
 </template>
 

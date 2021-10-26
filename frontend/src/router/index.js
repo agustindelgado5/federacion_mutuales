@@ -29,6 +29,12 @@ const routes = [
       meta: { title: 'Profesionales - Federación Tucumana de Mutuales' } 
   },
   {
+    path: "/profesionales/list_pagos",
+    name: "Listado_de_Pagos",
+
+    component: () => import("../views/PagoProfesionales.vue"),
+  },
+  {
     path: "/socios",
     name: "Socios",
     //component: Socios,
@@ -102,6 +108,37 @@ const routes = [
     name: 'cuotas',
     component: () => import('../views/Cuotas.vue')
   },
+  {
+    path: '/estudios',
+    name: 'estudios',
+    component: () => import('../views/Estudios.vue')
+  },
+
+  {
+    path: '/ordenesProf',
+    name: 'ordenesProf',
+    component: () => import('../views/Ordenes_Profesional.vue')
+  },
+
+  {
+    path: "/gastosSalientes",
+    name: "GastosSalientes",
+
+    component: () => import("../views/GastosSalientes.vue"),
+    meta: { title: 'Gastos Salientes - Federación Tucumana de Mutuales' }
+  },
+
+  {
+    path: '/cirugias',
+    name: 'cirugias',
+    component: () => import('../views/Cirugias.vue')
+  },
+  {
+  path: '/institutos',
+  name: 'institutos',
+  component: () => import('../views/Institutos.vue')
+  },
+  
 ];
 
 const router = new VueRouter({

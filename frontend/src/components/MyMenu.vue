@@ -9,9 +9,9 @@
             <form @submit.prevent="logout" v-if="logout" style="text-align:center;">
                 <b-button class="accesorapido" type="submit" style="background-color:red;align-content:center;">Logout</b-button>
             </form>
-            <form @submit.prevent="prueba" style="text-align:center;">
+            <!--<form @submit.prevent="prueba" style="text-align:center;">
                 <b-button class="accesorapido" type="submit" style="background-color:red;align-content:center;">probar</b-button>
-            </form>
+            </form>-->
             <p style="text-align:center;font-size:1.7em;">Accesos Rápidos</p>
             <div id="accesosrapidos">
                 <b-button class="accesorapido" style="background-color:darkorange;">Acceso 1</b-button>

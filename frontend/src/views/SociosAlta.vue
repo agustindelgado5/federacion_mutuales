@@ -293,11 +293,11 @@
     <b-button class="mt-2" variant="primary" @click="sumarFliares()" style="color:white;">+</b-button>
     
   </div>
-
+<!-- 
     {{ socio }}
-    {{familiar}}
+    {{familiar}} -->
     <!-- {{ data }} -->
-    <b-button class="mt-2" variant="success" block @click="postSocio()">POST TEST</b-button>
+    <b-button class="mt-2" variant="success" block @click="postSocio()">Guardar</b-button>
     
   </div>
 </template>

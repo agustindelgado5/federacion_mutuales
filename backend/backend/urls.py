@@ -12,4 +12,12 @@ urlpatterns = [
     path("", include("Ordenes.urls")),
     path("", include("Mutuales.urls")),
     path("", include("Cuotas.urls")),
+    path("", include("Cobradores.urls")),
+    path("", include("Estudios.urls")),
+<<<<<<< HEAD
+    path("", include("GastosSalientes.urls")),
+=======
+    path("", include("Cirugias.urls")),
+    path("", include("Institutos.urls")),
+>>>>>>> efdb58f7f8fc6800c0a97941838bb08eb1672bb7
 ]

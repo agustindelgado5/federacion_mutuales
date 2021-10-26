@@ -27,7 +27,7 @@ class cuotas(models.Model):
 
     def __str__(self):
         cadena = (
-            str(self.id_pago)
+            str(self.id_cuota)
             + " - "
             + str(self.personapago)
             + " - "

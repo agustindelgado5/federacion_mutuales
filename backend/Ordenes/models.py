@@ -41,3 +41,8 @@ class ordenes(models.Model):
             + str(self.id_medico)
         )
         return cadena
+    
+    def verificarOrden(self,token):
+        cadena = "token recibido "+str(token)
+        
+        return cadena

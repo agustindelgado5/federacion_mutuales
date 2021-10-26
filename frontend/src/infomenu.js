@@ -92,12 +92,12 @@ const data = {
             children: [
                 {
                     title: `Gastos Salientes`,
-                    link: `/salientes`,
+                    link: `/gastosSalientes`,
                     children: [],
                 },
                 {
                     title: `Gastos Profesionales`,
-                    link: `/profesionales`,
+                    link: `/profesionales/list_pagos`,
                     children: [],
                 },
                 {

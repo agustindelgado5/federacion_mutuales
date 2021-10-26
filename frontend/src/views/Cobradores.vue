@@ -74,6 +74,21 @@
         <b>No hay registros para mostrar</b>
       </template>
 
+       <template #cell(selected)="{ rowSelected }">
+        <template v-if="rowSelected">
+          <span aria-hidden="true">&check;</span>
+          <span class="sr-only">Selected</span>
+        </template>
+        <template v-else>
+          <span aria-hidden="true">&nbsp;</span>
+          <span class="sr-only">Not selected</span>
+        </template>
+      </template>
+
+      <template slot="cell(numero_socio)" slot-scope="data">
+        {{data.value.split('/')[4]}}
+      </template>
+
       <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
           <b-button-group>
@@ -117,7 +132,7 @@
             <b-list-group horizontal>
               <b-list-group class="col-3">  
                 <b-list-group-item><b>id cobrador:</b> {{ row.item.id_cobrador }}</b-list-group-item>
-                <b-list-group-item><b>N socio:</b> {{ row.item.numero_socio }}</b-list-group-item>
+                <b-list-group-item><b>N socio:</b> {{ row.item.numero_socio.split('/')[4] }}</b-list-group-item>
             
               </b-list-group>
               &nbsp;
@@ -145,7 +160,7 @@
               <div class="d-block text-center">
                 <h3>
                   ¿Esta seguro de eliminar los datos de
-                  {{ infoEliminar.cobrador}}?
+                  {{ infoEliminar.cobrador.apellido}},{{infoEliminar.cobrador.nombre}}?
                 </h3>
               </div>
               <b-button
@@ -203,7 +218,7 @@ export default {
       tabla_cobradores: [],
       fields: [
        {key:"numero_socio" ,label: "N° Socio", sortable: true,},
-       {key:"id_cobrador" ,label: "id_cobrador", sortable: true,},
+       {key:"id_cobrador" ,label: "ID Cobrador", sortable: true,},
        {key: "apellido", sortable: true,},
        {key: "nombre",sortable: true,},
        { key: "dni", label:"DNI",sortable: true,},

@@ -67,13 +67,7 @@
       </b-form-group>
     </b-form>
     
-    
-    {{item_med}}
-    <br>
-    <br>
-    {{ data }}
-    
-    <b-button class="mt-2" variant="success" block @click="putMedicamento()">PUT TEST</b-button>
+    <b-button class="mt-2" variant="success" block @click="putMedicamento()">Guardar</b-button>
   </div>
 </template>
 

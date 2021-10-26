@@ -396,7 +396,7 @@ export default {
       let familiarAPI = new APIControler();
       familiarAPI.apiUrl.pathname = "familiar/";
       this.data = await familiarAPI.getData(this.list_familiar);
-      // this.list_pacientes=this.list_pacientes.slice(0,1)
+      this.list_pacientes=this.list_pacientes.slice(0,1)
       let option_titular = {};
       // option_titular.value='http://localhost:8081/socios/'+ this.orden.numero_socio +'/';
       option_titular.value = this.orden.numero_socio;

@@ -1,372 +1,467 @@
 <template>
-  <div id="mutuales" class="myTable">
-    <!--HEAD DE LA PAGINA -->
-    <vue-headful
-      title="Mutuales - Federación Tucumana de Mutuales"
-    ></vue-headful>
+	<div id="mutuales" class="myTable">
+		<!--HEAD DE LA PAGINA -->
+		<vue-headful
+			title="Mutuales - Federación Tucumana de Mutuales"
+		></vue-headful>
 
-    <h2>Listado de Mutuales</h2>
-    <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
-      <v-icon dark style="color: black">mdi-cached</v-icon>
-      Actualizar
-    </b-button>
+		<h2>Listado de Mutuales</h2>
+		<b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
+			<v-icon dark style="color: black">mdi-cached</v-icon>
+			Actualizar
+		</b-button>
 
-    <!-- ================ALTA MUTUAL======================== -->
-    <b-button
-      class="mb-4 ml-2"
-      v-b-modal.modal-alta
-      @click="altaMutual()"
-      title="Nueva Mutual"
-      style="color: white"
-    >
-      <v-icon dark> mdi-plus </v-icon>
-      Nueva Mutual
-    </b-button>
-    <b-modal id="modal-alta" hide-footer>
-      <template #modal-title><h5 class="modal-title">Alta</h5></template>
-      <mutual-alta/>
-    </b-modal>
-    <!-- ======== Formulario de Busqueda ======== -->
-    <div>
-      <b-input-group size="sm" class="mb-2">
-        <b-input-group-prepend is-text>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-search"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-            />
-          </svg>
-        </b-input-group-prepend>
-        <b-form-input
-          v-model="buscar"
-          type="text"
-          placeholder="Busque un registro"
-          v-on:keyup="buscarnow()"
-          ref="buscadorlista"
-        ></b-form-input>
-      </b-input-group>
-    </div>
-    <!-- ======================================== -->
+		<!-- ================ALTA MUTUAL======================== -->
+		<b-button
+			class="mb-4 ml-2"
+			v-b-modal.modal-alta
+			@click="altaMutual()"
+			title="Nueva Mutual"
+			style="color: white"
+		>
+			<v-icon dark> mdi-plus </v-icon>
+			Nueva Mutual
+		</b-button>
+		<b-modal id="modal-alta" hide-footer>
+			<template #modal-title><h5 class="modal-title">Alta</h5></template>
+			<mutual-alta />
+		</b-modal>
+		<!-- ======== Formulario de Busqueda ======== -->
+		<b-form-group
+			label-for="filter-input"
+			label-align-sm="right"
+			label-size="sm"
+			class="mb-0"
+			style="width: 100%; padding-bottom: 1em"
+		>
+			<b-input-group size="sm">
+				<b-form-input
+					id="filter-input"
+					v-model="filter"
+					type="search"
+					placeholder="Buscar registros"
+				></b-form-input>
 
-    <!-- ======== Tabla con los registros ======= -->
-   
-    <b-table
-      :fields="fields"
-      striped
-      sortable
-      responsive
-      :sticky-header="true"
-      :no-border-collapse="false"
-      hover
-      :items="tabla_mutuales"
-      show-empty
-      :per-page="perPage"
-      :current-page="currentPage"
-      ref="tablaregistros"
-      id="tablaregistros"
-    >
-      <template #empty="">
-        <b>No hay registros para mostrar</b>
-      </template>
+				<b-input-group-append>
+					<b-button :disabled="!filter" @click="filter = ''">Limpiar</b-button>
+				</b-input-group-append>
+			</b-input-group>
+		</b-form-group>
+		<!-- ======================================== -->
 
-      <template slot="cell(action)" slot-scope="row">
-        <div class="mt-3">
-          <b-button-group>
-            <b-button
-              variant="info"
-              id="button-1"
-              title="Mostrar Info"
-              @click="row.toggleDetails"
-            >
-              {{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
-            </b-button>
+		<!-- ======== Tabla con los registros ======= -->
 
-            <b-button
-              variant="warning"
-              id="button-2"
-              title="Editar este registro"
-            >
-              <v-icon class="mr-2"> mdi-pencil </v-icon>
-              Editar
-            </b-button>
+		<section class="container">
+			<b-table
+				:fields="fields"
+				striped
+				sortable
+				responsive
+				:sticky-header="true"
+				:no-border-collapse="false"
+				hover
+				:items="tabla_mutuales"
+				show-empty
+				:per-page="perPage"
+				:current-page="currentPage"
+				ref="tablaregistros"
+				id="tablaregistros"
+				:filter="filter"
+				@filtered="onFiltered"
+			>
+				<template #empty="">
+					<b>No hay registros para mostrar</b>
+				</template>
 
-            <b-button
-              variant="danger"
-              id="button-3"
-              @click="showModalinfo(row.item, row.index)"
-              title="Eliminar este registro"
-            >
-              <v-icon class="mr-2"> mdi-delete </v-icon>
-              Eliminar
-            </b-button>
-          </b-button-group>
-        </div>
-      </template>
-      <template #row-details="row">
-        <b-card title="Datos de la Mutual: ">
-          <div>
-            <b-list-group horizontal>
-              <b-list-group class="col-6">
-                <b-list-group-item>
-                  <b>Codigo:</b> {{ row.item.id_mutual }}
-                </b-list-group-item>
-                <b-list-group-item>
-                  <b>Nombre:</b> {{ row.item.nombre }}
-                </b-list-group-item>
-                <b-list-group-item>
-                  <b>Servicios:</b>
-                  <div v-for="servicios in data" :key="servicios.id_mutual">    
-                    <div v-for="tareas in server_mutual" :key="tareas.id_servicio" >
-                      <div v-if="servicios.id_mutual.split('/')[4]==row.item.id_mutual && servicios.id_servicio.split('/')[4]==tareas.id_servicio">
-                        <li><b>{{tareas.id_servicio}}:</b> {{tareas.servicio}} </li>  
-                      </div>
-                        
-                    </div>
-                    
-                  </div>
-                </b-list-group-item>
-              </b-list-group>
-            </b-list-group>
-          </div>
-        </b-card>
-      </template>
-    </b-table>
+				<template slot="cell(action)" slot-scope="row">
+					<div class="mt-3">
+						<b-button-group>
+							<b-button
+								variant="info"
+								id="button-1"
+								title="Mostrar Info"
+								@click="row.toggleDetails"
+							>
+								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+							</b-button>
 
-    <!-- ================ELIMINAR MUTUAL======================== -->
-    <b-modal
-      id="modal_eliminar"
-      ref="modal_eliminar"
-      hide-footer
-      title="Eliminar"
-      ok-only
-    >
-      <div class="d-block text-center">
-        <h3>
-          ¿Esta seguro de eliminar los datos de
-          {{ infoEliminar.mutual.nombre }}?
-        </h3>
-      </div>
-      <b-button class="mt-2" block @click="hideModal" title="Volver Atras"
-        >Volver Atras</b-button
-      >
-      <b-button
-        class="mt-3"
-        variant="danger"
-        block
-        @click="deleteMutual(infoEliminar.mutual.id_mutual)"
-        title="Eliminar"
-      >
-        Eliminar
-      </b-button>
-    </b-modal>
-    <b-container fluid>
-      <b-col class="my-1">
-        <b-pagination
-          v-model="currentPage"
-          align="center"
-          pills
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="table_mutuales"
-        >
-        </b-pagination>
-      </b-col>
-    </b-container>
-    
-  </div>
+							<b-button
+								variant="warning"
+								id="button-2"
+								title="Editar este registro"
+								v-b-modal.modal-editar
+								@click="editarMutual(row.item, row.index)"
+							>
+								<v-icon class="mr-2"> mdi-pencil </v-icon>
+								Editar
+							</b-button>
+
+							<b-button
+								variant="danger"
+								id="button-3"
+								@click="showModalinfo(row.item, row.index)"
+								title="Eliminar este registro"
+							>
+								<v-icon class="mr-2"> mdi-delete </v-icon>
+								Eliminar
+							</b-button>
+						</b-button-group>
+					</div>
+				</template>
+				<template #row-details="row">
+					<b-card title="Datos de la Mutual: ">
+						<div>
+							<b-list-group horizontal>
+								<b-list-group class="col-6">
+									<b-list-group-item>
+										<b>Codigo:</b> {{ row.item.id_mutual }}
+									</b-list-group-item>
+									<b-list-group-item>
+										<b>Nombre:</b> {{ row.item.nombre }}
+									</b-list-group-item>
+									<b-list-group-item>
+										<b>Servicios:</b>
+										<div v-for="servicios in data" :key="servicios.id_mutual">
+											<div
+												v-for="tareas in server_mutual"
+												:key="tareas.id_servicio"
+											>
+												<div
+													v-if="
+														servicios.id_mutual.split('/')[4] ==
+															row.item.id_mutual &&
+														servicios.id_servicio.split('/')[4] ==
+															tareas.id_servicio
+													"
+												>
+													<ul>
+														<li>
+															<b>{{ tareas.id_servicio }}:</b>
+															{{ tareas.servicio }}
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</b-list-group-item>
+								</b-list-group>
+							</b-list-group>
+						</div>
+					</b-card>
+				</template>
+			</b-table>
+
+			<b-container fluid>
+				<b-col class="my-1">
+					<b-pagination
+						v-model="currentPage"
+						align="center"
+						pills
+						:total-rows="totalRows"
+						:per-page="perPage"
+						aria-controls="table_mutuales"
+					>
+					</b-pagination>
+				</b-col>
+			</b-container>
+			<!-- ================MODIFICAR UNA MUTUAL======================== -->
+			<b-modal id="modal-editar" hide-footer>
+				<template #modal-title
+					><h5 class="modal-title">
+						Editar: {{ editar.id_mutual }}- {{ editar.nombre }}
+					</h5></template
+				>
+
+				<mutual-update :mutual="editar" />
+			</b-modal>
+		</section>
+		<aside>
+			<!--
+			<div>
+				<b-card-group deck>
+					<b-card
+						bg-variant="primary"
+						text-variant="white"
+						header="REGISTROS POR PAGINA"
+						class="text-center"
+					>
+						<b-form-group label-for="per-page-select" class="mb-0">
+							<b-form-select
+								id="per-page-select"
+								v-model="perPage"
+								:options="pageOptions"
+								size="sm"
+							></b-form-select>
+						</b-form-group>
+					</b-card>
+				</b-card-group>
+			</div>
+      
+			<br />
+      -->
+			<div>
+				<b-card-group deck>
+					<b-card
+						bg-variant="primary"
+						text-variant="white"
+						header="FILTRAR POR"
+						class="text-center"
+					>
+						<div class="accordion" role="tablist">
+							<b-card no-body>
+								<b-card-header header-tag="header" class="p-1" role="tab">
+									<b-button block v-b-toggle.accordion-1 variant="info">
+										DEPARTAMENTO
+									</b-button>
+								</b-card-header>
+								<b-collapse
+									id="accordion-1"
+									visible
+									accordion="my-accordion"
+									role="tabpanel"
+								>
+									<b-card-body>
+										<b-form-group id="input-group-4">
+											<b-form-select
+												id="departamento"
+												v-model="filter"
+												type="text"
+												:options="options_deptos"
+											>
+											</b-form-select>
+										</b-form-group>
+									</b-card-body>
+								</b-collapse>
+							</b-card>
+						</div>
+					</b-card>
+				</b-card-group>
+			</div>
+		</aside>
+
+		<!-- ================ELIMINAR MUTUAL======================== -->
+		<b-modal
+			id="modal_eliminar"
+			ref="modal_eliminar"
+			hide-footer
+			title="Eliminar"
+			ok-only
+		>
+			<div class="d-block text-center">
+				<h3>
+					¿Esta seguro de eliminar los datos de
+					{{ infoEliminar.mutual.nombre }}?
+				</h3>
+			</div>
+			<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
+				>Volver Atras</b-button
+			>
+			<b-button
+				class="mt-3"
+				variant="danger"
+				block
+				@click="deleteMutual(infoEliminar.mutual.id_mutual)"
+				title="Eliminar"
+			>
+				Eliminar
+			</b-button>
+		</b-modal>
+	</div>
 </template>
 
 <script>
-let api = new URL("http://localhost");
-api.pathname = "mutuales";
-//api.port = 8000;
-api.port = 8081;
+	let api = new URL("http://localhost");
+	api.pathname = "mutuales";
+	//api.port = 8000;
+	api.port = 8081;
 
-import VueAwesomplete from "vue-awesomplete";
-import axios from "axios";
-import MutualAlta from "./MutualAlta.vue";
-import { APIControler } from "../store/APIControler";
+	import VueAwesomplete from "vue-awesomplete";
+	import axios from "axios";
+	import MutualAlta from "./MutualAlta.vue";
+	import { APIControler } from "../store/APIControler";
+	import MutualUpdate from "./MutualUpdate.vue";
 
-export default {
-  components: { MutualAlta },
+	export default {
+		components: { MutualAlta, MutualUpdate },
 
-  data() {
-    return {
-      tabla_mutuales: [],
-      fields: [
-        { key: "nombre", label: "Mutual", sortable: true },
-        { key: "sucursal", label: "Filial", sortable: true },
-        { key: "action", label: "Acciones", variant: "secondary" },
-      ],
-      totalRows: 1, //Total de filas
-      currentPage: 1, //Pagina actual
-      perPage: 10, // Datos en la tabla por pagina
-      buscar: "",
-      infoEliminar: {
-        id: "modal_eliminar",
-        mutual: -1,
-      },
-      servicios:{},
-      data:{},
-      server_mutual: [
-        //{
-          //id_servicio:0,
-          //servicio:'' 
-       // }
-      ]
-    };
-  },
-  computed: {
-    max(){
-      var id = this.rows-1
-      return this.tabla_mutuales[id].id_mutual;
-    },
-    rows() {
-      return this.tabla_mutuales.length;
-    },
-    id() {
-      return this.tabla_mutuales.id_mutual;
-    },
-    items() {
-      return tabla_mutuales.filter((item) => {
-        return item.id_mutual.toLowerCase().includes(this.buscar.toLowerCase());
-      });
-    },
-  },
-  methods: {
-    async testFetch() {
-      try {
-        const res = await fetch(api);
-        const data = await res.json();
+		data() {
+			return {
+				tabla_mutuales: [],
+				fields: [
+					{ key: "nombre", label: "Mutual", sortable: true },
+					{ key: "sucursal", label: "Filial", sortable: true },
+					{ key: "action", label: "Acciones", variant: "secondary" },
+				],
+				filter: null,
+				totalRows: 1, //Total de filas
+				currentPage: 1, //Pagina actual
+				perPage: 10, // Datos en la tabla por pagina
+				buscar: "",
+				infoEliminar: {
+					id: "modal_eliminar",
+					mutual: -1,
+				},
+				servicios: {},
+				data: {},
+				editar: {},
+				options_deptos: [
+					{ value: null, text: "Elija un departamento" },
+					{ value: "Burruyacú", text: "1- Burruyacú" },
+					{ value: "Capital", text: "2- Capital" },
+					{ value: "Chicligasta", text: "3- Chicligasta" },
+					{ value: "Cruz Alta", text: "4- Cruz Alta" },
+					{ value: "Famaillá", text: "5- Famaillá" },
+					{ value: "Graneros", text: "6- Graneros" },
+					{ value: "Juan Bautista Alberdi", text: "7- Juan Bautista Alberdi" },
+					{ value: "La Cocha", text: "8- La Cocha" },
+					{ value: "Leales", text: "9- Leales" },
+					{ value: "Lules", text: "10- Lules" },
+					{ value: "Monteros", text: "11- Monteros" },
+					{ value: "Río Chico", text: "12- Río Chico" },
+					{ value: "Simoca", text: "13- Simoca" },
+					{ value: "Tafí del Valle", text: "14- Tafí del Valle" },
+					{ value: "Tafí Viejo", text: "15- Tafí Viejo" },
+					{ value: "Trancas", text: "16- Trancas" },
+					{ value: "Yerba Buena", text: "17- Yerba Buena" },
+				],
+				server_mutual: [
+					//{
+					//id_servicio:0,
+					//servicio:''
+					// }
+				],
+			};
+		},
+		computed: {
+			max() {
+				var id = this.rows - 1;
+				return this.tabla_mutuales[id].id_mutual;
+			},
+			rows() {
+				return this.tabla_mutuales.length;
+			},
+			id() {
+				return this.tabla_mutuales.id_mutual;
+			},
+			sortOptions() {
+				// Create an options list from our fields
+				return this.fields
+					.filter((f) => f.sortable)
+					.map((f) => {
+						return { text: f.label, value: f.key };
+					});
+			},
+		},
+		methods: {
+			async testFetch() {
+				try {
+					const res = await fetch(api);
+					const data = await res.json();
 
-        var lista_mutuales = data.results;
+					var lista_mutuales = data.results;
 
-        console.log(lista_mutuales);
+					console.log(lista_mutuales);
 
-        this.tabla_mutuales = lista_mutuales;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    //Funcion para mostrar el modal
-    showModal() {
-      this.$refs["modal_eliminar"].show();
-    },
+					this.tabla_mutuales = lista_mutuales;
+				} catch (error) {
+					console.log(error);
+				}
+			},
+			//Funcion para mostrar el modal
+			showModal() {
+				this.$refs["modal_eliminar"].show();
+			},
 
-    showModalinfo(item, index) {
-      console.log("Mostrando info eliminar");
-      console.log(this.infoEliminar);
-      this.infoEliminar.mutual = item;
-      this.showModal();
-    },
+			showModalinfo(item, index) {
+				console.log("Mostrando info eliminar");
+				console.log(this.infoEliminar);
+				this.infoEliminar.mutual = item;
+				this.showModal();
+			},
 
-    //Funcion para esconder el modal
-    hideModal() {
-      this.$refs["modal_eliminar"].hide();
-    },
-    altaMutual() {},
+			//Funcion para esconder el modal
+			hideModal() {
+				this.$refs["modal_eliminar"].hide();
+			},
+			altaMutual() {},
 
-    async deleteMutual(id_mutual) {
-      axios
-        .delete("http://localhost:8081/mutuales/" + id_mutual + "/")
-        .then((datos) => {
-          swal("Operación Exitosa", " ", "success");
-          console.log(datos);
-          this.hideModal();
-        })
-        .catch((error) => {
-          swal("¡ERROR!", "Se ha detectado un problema ", "error");
-          console.log(error);
-        })
-        .finally(() => this.testFetch());
-    },
-    
-    async buscarnow() {
-      // Declare variables
-      var input,
-        filter,
-        table,
-        tr,
-        td,
-        i,
-        txtValue,
-        p1, //mutual
-        p2, //sucursal
-        // p3,
-        // p4;
-        input = this.$refs.buscadorlista;
-      filter = input.value.toUpperCase();
-      table = document.getElementById("tablaregistros");
-      tr = table.getElementsByTagName("tr");
+			//Editar medicamento
+			editarMutual(item, index) {
+				this.editar = item;
+			},
 
-      // Loop through all list items, and hide those who don't match the search query
-      for (i = 1; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td");
-        p1 = td[0].textContent || td[0].innerText;
-        p2 = td[1].textContent || td[1].innerText;
-        // p3 = td[2].textContent || td[2].innerText;
-        // p4 = td[3].textContent || td[3].innerText;
-        // txtValue = p1 + p2 + p3 + p4;
-        txtValue = p1 + p2;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-    },
+			async deleteMutual(id_mutual) {
+				axios
+					.delete("http://localhost:8081/mutuales/" + id_mutual + "/")
+					.then((datos) => {
+						swal("Operación Exitosa", " ", "success");
+						console.log(datos);
+						this.hideModal();
+					})
+					.catch((error) => {
+						swal("¡ERROR!", "Se ha detectado un problema ", "error");
+						console.log(error);
+					})
+					.finally(() => this.testFetch());
+			},
 
-    async getServicios() {
-      var count =0;
-      let serviciosAPI = new APIControler();
-      serviciosAPI.apiUrl.pathname='servicio_mutual/';
-      this.data = await serviciosAPI.getData(this.servicios);
-      this.data.forEach(element => {   
-          console.log(element);
-          this.getPublic(element.id_servicio)
-      });
-    },
+			//Funcion de busqueda
+			onFiltered(filteredItems) {
+				// Trigger pagination to update the number of buttons/pages due to filtering
+				this.totalRows = filteredItems.length;
+				this.currentPage = 1;
+			},
 
-    
-    async getPublic(id) {
-      //let url = 'http://localhost:8081/'+ id + '/'
-      
-      axios.get(id)
-      .then(response=>{
-        console.log(response)
-        this.server_mutual.push(response.data)        
-        //this.server_mutual[count].id_servicio=response.data.id_servicio
-        //this.server_mutual[count].servicio=response.data.servicio
-      })
-      .catch(error=>{
-        console.log(error)
-      })
-    },
+			async getServicios() {
+				var count = 0;
+				let serviciosAPI = new APIControler();
+				serviciosAPI.apiUrl.pathname = "servicio_mutual/";
+				this.data = await serviciosAPI.getData(this.servicios);
+				this.data.forEach((element) => {
+					console.log(element);
+					this.getPublic(element.id_servicio);
+				});
+			},
 
-    
-    
-  },
-  beforeMount() {
-    this.testFetch();
-    this.getServicios();
-  },
-};
+			async getPublic(id) {
+				//let url = 'http://localhost:8081/'+ id + '/'
+
+				axios
+					.get(id)
+					.then((response) => {
+						console.log(response);
+						this.server_mutual.push(response.data);
+						//this.server_mutual[count].id_servicio=response.data.id_servicio
+						//this.server_mutual[count].servicio=response.data.servicio
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			},
+		},
+		beforeMount() {
+			this.testFetch();
+			this.getServicios();
+		},
+	};
 </script>
 
 <style scoped>
-.myTable {
-  position: absolute;
-  left: 0;
-  padding: 1.5em;
-  margin-top: 4rem;
-  overflow: auto;
-  transition: 0.5s;
-  width: 100%;
-}
+	.myTable {
+		position: absolute;
+		left: 0;
+		padding: 1.5em;
+		margin-top: 4rem;
+		overflow: auto;
+		transition: 0.5s;
+		width: 100%;
+	}
+	.container {
+		float: left;
+		width: 80%;
+	}
+	aside {
+		float: right;
+		width: 20%;
+	}
 </style>

@@ -298,7 +298,7 @@
     {{ socio }}
     {{familiar}} -->
     <!-- {{ data }} -->
-    <b-button class="mt-2" variant="success" block @click="putSocio()">PUT TEST</b-button>
+    <b-button class="mt-2" variant="success" block @click="putSocio()">Cambiar</b-button>
     
   </div>
 </template>
