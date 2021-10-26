@@ -39,8 +39,9 @@
 		<!-- ======================================== -->
 		<!-- 
     <section class="container">
-    -->
-		{{ tabla_ordenes }}
+    {{ tabla_ordenes }}
+	-->
+		
 		<section>
 			<b-table
 				:fields="fields"
@@ -315,23 +316,6 @@
 						label: "Nombre Completo",
 						sortable: true,
 					},
-					/*
-					{
-						key: "mes",
-						label: "Mes",
-						sortable: true,
-					},
-					{
-						key: "total",
-						label: "Total",
-						sortable: true,
-					},
-					{
-						key: "formaPago",
-						label: "Forma de Pago",
-						sortable: true,
-					},
-					*/
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				fields_ordenes: [
@@ -403,15 +387,35 @@
 			},
 
 			//Funcion para sumar el total de las ordenes por mes
-			/*
-			async sumaTotal(array) {
+			
+			sumaTotal(array) {
 				let suma = 0;
 				for (let index = 0; index < array.length; index++) {
-					suma += await array[index].precio;
+					suma += array[index].precio;
 				}
 				return suma;
 			},
-			*/
+
+			formatMesAnio(mes, anio) {
+				var meses = [
+					{inicial: "ENE", numero: "01"},
+					{inicial:"FEB", numero:"02"},
+					{inicial:"MAR", numero:"03"},
+					{inicial:"ABR", numero:"04"},
+					{inicial:"MAY", numero:"05"},
+					{inicial:"JUN", numero:"06"},
+					{inicial:"JUL", numero:"07"},
+					{inicial:"AGO", numero:"08"},
+					{inicial:"SEP", numero:"09"},
+					{inicial:"OCT", numero:"10"},
+					{inicial:"NOV", numero:"11"},
+					{inicial:"DIC", numero:"12"},
+				];
+				let mesMM = meses.filter((m) => m.numero == mes);
+				console.log("FECHA", mesMM);
+				return mesMM[0].inicial + "/" + anio;
+			},
+			
 
 			/*
 			Funcion para agrupar las ordenes por profesional y mes
@@ -441,9 +445,9 @@
 								orden_Prof.num_orden = orden.numero_orden;
 								orden_Prof.fecha = orden.fecha;
 								orden_Prof.hora = orden.hora;
-								orden_Prof.precio = orden.precio;
+								orden_Prof.precio = parseFloat(orden.precio);
 								orden_Prof.realizado = orden.realizado;
-								mesOrden.total += parseFloat(orden_Prof);
+								//mesOrden.total += orden_Prof.precio;
 
 								if (orden_Prof.realizado == false) {
 									console.log(
@@ -456,7 +460,7 @@
 								}
 							}
 						});
-						//mesOrden.total = this.sumaTotal(mesOrden.ListOrdenes);
+						mesOrden.total = this.sumaTotal(mesOrden.ListOrdenes);
 						if (
 							result.ordenes.find((t) => t.mes == mesOrden.mes) ||
 							mesOrden.ListOrdenes.length == 0
@@ -490,11 +494,13 @@
 						lista_orden[i].profesional = medico.apellido + ", " + medico.nombre;
 						lista_orden[i].dni = medico.dni;
 						lista_orden[i].formaPago = modo_pago;
+						/*
 						lista_orden[i].mes =
 							lista_orden[i].fecha.split("-")[1] +
 							"/" +
 							lista_orden[i].fecha.split("-")[0];
-						//this.tabla_profesionales.push(medico);
+						*/
+						lista_orden[i].mes = this.formatMesAnio(lista_orden[i].fecha.split("-")[1], lista_orden[i].fecha.split("-")[0])
 					}
 
 					console.log(lista_orden);
@@ -521,26 +527,9 @@
 				this.$refs["my-modal"].hide();
 			},
 
-			/*
-			formatMesAnio(mes, anio) {
-				var meses = [
-					("ENE", "01"),
-					("FEB", "02"),
-					("MAR", "03"),
-					("ABR", "04"),
-					("MAY", "05"),
-					("JUN", "06"),
-					("JUL", "07"),
-					("AGO", "08"),
-					("SEP", "09"),
-					("OCT", "10"),
-					("NOV", "11"),
-					("DIC", "12"),
-				];
-				let mesMM = meses.filter((meses) => meses[0] == mes);
-				return mesMM + "/" + anio;
-			},
-			*/
+			
+			
+			
 
 			//Funcion para mostrar el modal de edicion
 			editarPago(item, index) {
