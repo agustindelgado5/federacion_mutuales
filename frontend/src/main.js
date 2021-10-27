@@ -1,9 +1,8 @@
 import "@babel/polyfill";
 import "mutationobserver-shim";
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faUserSecret, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Vue from "vue";
 import "./plugins/bootstrap-vue";
 import App from "./App.vue";
@@ -17,11 +16,12 @@ import '@mdi/font/css/materialdesignicons.css'
 import VueCookies from 'vue-cookies'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 import './assets/main.css';
+import './assets/all.css';
 
+library.add(faUserSecret, faSpinner)
 Vue.use(VueCookies)
-library.add(fas)
+Vue.component('fa-icon', FontAwesomeIcon)
 Vue.use(VueSidebarMenu)
-
 Vue.config.productionTip = false;
 
 export default {

@@ -16,17 +16,14 @@
             <router-link to="/institutos">Institutos</router-link>  |
 
         </div>
-
-        <sidebar-menu :menu="menu" id="menulo" ref="menulo" 
-        :show-child="false" 
-        :collapsed="true"
-        :theme="selectedTheme">
+        <sidebar-menu :menu="menu" id="menulo" ref="menulo"
+                      :show-child="false"
+                      :collapsed="true"
+                      :theme="selectedTheme">
             <template v-slot:header>
                 <input type="text" id="buscadorepico" v-on:keyup="buscarnow()" class="buscador" ref="buscadormenu" placeholder="Buscar Acciones..." />
             </template>
             <template v-slot:toggle-icon>
-                <span v-if="!isOpen"><</span>
-                <span v-else>></span>
             </template>
             <template v-slot:dropdown-icon="{ isOpen }">
                 <span v-if="!isOpen">+</span>
@@ -36,39 +33,39 @@
 
         <!--<div class="Menu">
 
-            <MenuBurger :handleBurgerClicked="clickBurger" class="botondemenu" />
+        <MenuBurger :handleBurgerClicked="clickBurger" class="botondemenu" />
 
-            <MenuShadow :isActive="isActive" :handleShadowClicked="clickShadow" />
+        <MenuShadow :isActive="isActive" :handleShadowClicked="clickShadow" />
 
-            <div class="Menu__panel-wrapper"
-                 :class="{'isActive': isActive}"
-                 :style="[style_wrapperStyle, isActive ? style_wrapperActiveStyle : {}]">
+        <div class="Menu__panel-wrapper"
+             :class="{'isActive': isActive}"
+             :style="[style_wrapperStyle, isActive ? style_wrapperActiveStyle : {}]">
 
-                <MenuPanel :list="content_prevItem"
-                           :functionalityStyle="style_panelStyle"
-                           :positionStyle="panel_prevPositionStyle"
-                           :isTranslating="isTranslating"
-                           :transitionStyle="style_transitionStyle"
-                           :showHeaderArrow="prevItemHasParent" />
+            <MenuPanel :list="content_prevItem"
+                       :functionalityStyle="style_panelStyle"
+                       :positionStyle="panel_prevPositionStyle"
+                       :isTranslating="isTranslating"
+                       :transitionStyle="style_transitionStyle"
+                       :showHeaderArrow="prevItemHasParent" />
 
-                <MenuPanel :list="content_currentItem"
-                           :functionalityStyle="style_panelStyle"
-                           :positionStyle="panel_stagingPositionStyle"
-                           :isTranslating="isTranslating"
-                           :transitionStyle="style_transitionStyle"
-                           :showHeaderArrow="currentItemHasParent"
-                           :handleHeaderClicked="clickPrevItem"
-                           :handleItemClicked="clickNextItem" />
+            <MenuPanel :list="content_currentItem"
+                       :functionalityStyle="style_panelStyle"
+                       :positionStyle="panel_stagingPositionStyle"
+                       :isTranslating="isTranslating"
+                       :transitionStyle="style_transitionStyle"
+                       :showHeaderArrow="currentItemHasParent"
+                       :handleHeaderClicked="clickPrevItem"
+                       :handleItemClicked="clickNextItem" />
 
-                <MenuPanel :list="content_nextItem"
-                           :functionalityStyle="style_panelStyle"
-                           :positionStyle="panel_nextPositionStyle"
-                           :isTranslating="isTranslating"
-                           :transitionStyle="style_transitionStyle"
-                           :showHeaderArrow="true" />
-            </div>
+            <MenuPanel :list="content_nextItem"
+                       :functionalityStyle="style_panelStyle"
+                       :positionStyle="panel_nextPositionStyle"
+                       :isTranslating="isTranslating"
+                       :transitionStyle="style_transitionStyle"
+                       :showHeaderArrow="true" />
+        </div>
 
-        </div>-->
+    </div>-->
         <router-view />
     </div>
 </template>
@@ -115,6 +112,10 @@ export default {
             type: Number,
             default: 300,
         },
+        width: {
+            type: String,
+            default: '350px'
+        },
     },
     data() {
         return {
@@ -127,37 +128,36 @@ export default {
                     {
                         title: `Inicio`,
                         href: `/`,
-                        icon: 'faHome',
+                        icon: 'fa fa-home',
                         child: [],
                     },
                     {
                         title: `Usuarios`,
-                        href: `/usuarios`,
-                        icon: 'fa fa-home',
+                        href: `/socios`,
+                        icon: 'fa fa-user',
                         child: [],
                     },
                     {
                         title: `Socios`,
                         href: '/socios',
-                        icon: 'fa fa-home',
+                        icon: 'fa fa-id-badge',
                         child: [],
                     },
                     {
                         title: `Profesionales`,
                         href: '/profesionales',
-                        icon: 'fa fa-home',
+                        icon: 'fa fa-briefcase-medical',
                         child: [],
                     },
                     {
                         title: `Cobradores`,
                         href: '/cobradores',
-                        icon: 'fa fa-home',
+                        icon: 'fa fa-money-bill',
                         child: [],
                     },
                     {
                         title: `Salud`,
-                        href: '/salud',
-                        icon: 'fa fa-home',
+                        icon: 'fa fa-hand-holding-medical',
                         child: [
                             {
                                 title: `Ordenes Medicas`,
@@ -195,8 +195,7 @@ export default {
                     },
                     {
                         title: `Farmacias`,
-                        href: '/farmacias',
-                        icon: 'fa fa-home',
+                        icon: 'fa fa-pills',
                         child: [
                             {
                                 title: `Info Farmacias`,
@@ -217,8 +216,7 @@ export default {
                     },
                     {
                         title: `Registro Contable`,
-                        href: '/registrocontable',
-                        icon: 'fa fa-home',
+                        icon: 'fa fa-dollar-sign',
                         child: [
                             {
                                 title: `Gastos Salientes`,
@@ -240,13 +238,13 @@ export default {
                     {
                         title: `Mutuales`,
                         href: '/mutuales',
-                        icon: 'fa fa-home',
+                        icon: 'fa fa-clinic-medical',
                         child: [],
                     },
                     {
                         title: `Servicios`,
                         href: '/servicios',
-                        icon: 'fa fa-home',
+                        icon: 'fa fa-chart-pie',
                         child: [],
                     },
             ],
