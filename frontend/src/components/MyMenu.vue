@@ -3,15 +3,14 @@
 
         <!--HEAD DE LA PAGINA -->
         <vue-headful title="Home - Federación Tucumana de Mutuales"></vue-headful>
-        
         <b-jumbotron header="Federación Tucumana de Mutuales">
             <img src="../assets/logo.jpg" alt="Logo Federación" srcset="" id="Logo_fed" style="margin-top:1em;margin-bottom:1em;">
             <form @submit.prevent="logout" v-if="logout" style="text-align:center;">
                 <b-button class="accesorapido" type="submit" style="background-color:red;align-content:center;">Logout</b-button>
             </form>
             <!--<form @submit.prevent="prueba" style="text-align:center;">
-                <b-button class="accesorapido" type="submit" style="background-color:red;align-content:center;">probar</b-button>
-            </form>-->
+        <b-button class="accesorapido" type="submit" style="background-color:red;align-content:center;">probar</b-button>
+    </form>-->
             <p style="text-align:center;font-size:1.7em;">Accesos Rápidos</p>
             <div id="accesosrapidos">
                 <b-button class="accesorapido" style="background-color:darkorange;">Acceso 1</b-button>

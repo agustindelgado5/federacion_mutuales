@@ -16,9 +16,27 @@
             <router-link to="/institutos">Institutos</router-link>  |
 
         </div>
-        <div class="Menu">
 
-            <MenuBurger :handleBurgerClicked="clickBurger" class="botondemenu"/>
+        <sidebar-menu :menu="menu" id="menulo" ref="menulo" 
+        :show-child="false" 
+        :collapsed="true"
+        :theme="selectedTheme">
+            <template v-slot:header>
+                <input type="text" id="buscadorepico" v-on:keyup="buscarnow()" class="buscador" ref="buscadormenu" placeholder="Buscar Acciones..." />
+            </template>
+            <template v-slot:toggle-icon>
+                <span v-if="!isOpen"><</span>
+                <span v-else>></span>
+            </template>
+            <template v-slot:dropdown-icon="{ isOpen }">
+                <span v-if="!isOpen">+</span>
+                <span v-else>-</span>
+            </template>
+        </sidebar-menu>
+
+        <!--<div class="Menu">
+
+            <MenuBurger :handleBurgerClicked="clickBurger" class="botondemenu" />
 
             <MenuShadow :isActive="isActive" :handleShadowClicked="clickShadow" />
 
@@ -26,7 +44,6 @@
                  :class="{'isActive': isActive}"
                  :style="[style_wrapperStyle, isActive ? style_wrapperActiveStyle : {}]">
 
-                <!-- prev -->
                 <MenuPanel :list="content_prevItem"
                            :functionalityStyle="style_panelStyle"
                            :positionStyle="panel_prevPositionStyle"
@@ -34,7 +51,6 @@
                            :transitionStyle="style_transitionStyle"
                            :showHeaderArrow="prevItemHasParent" />
 
-                <!-- staging -->
                 <MenuPanel :list="content_currentItem"
                            :functionalityStyle="style_panelStyle"
                            :positionStyle="panel_stagingPositionStyle"
@@ -44,8 +60,6 @@
                            :handleHeaderClicked="clickPrevItem"
                            :handleItemClicked="clickNextItem" />
 
-                <!-- next -->
-
                 <MenuPanel :list="content_nextItem"
                            :functionalityStyle="style_panelStyle"
                            :positionStyle="panel_nextPositionStyle"
@@ -53,8 +67,8 @@
                            :transitionStyle="style_transitionStyle"
                            :showHeaderArrow="true" />
             </div>
-            
-        </div>
+
+        </div>-->
         <router-view />
     </div>
 </template>
@@ -104,12 +118,146 @@ export default {
     },
     data() {
         return {
+            name: 'SidebarMenu',
+            menu: [
+                    {
+                        header: `Federacion de Mutuales`,
+                        hiddenOnCollapse: true
+                    },
+                    {
+                        title: `Inicio`,
+                        href: `/`,
+                        icon: 'faHome',
+                        child: [],
+                    },
+                    {
+                        title: `Usuarios`,
+                        href: `/usuarios`,
+                        icon: 'fa fa-home',
+                        child: [],
+                    },
+                    {
+                        title: `Socios`,
+                        href: '/socios',
+                        icon: 'fa fa-home',
+                        child: [],
+                    },
+                    {
+                        title: `Profesionales`,
+                        href: '/profesionales',
+                        icon: 'fa fa-home',
+                        child: [],
+                    },
+                    {
+                        title: `Cobradores`,
+                        href: '/cobradores',
+                        icon: 'fa fa-home',
+                        child: [],
+                    },
+                    {
+                        title: `Salud`,
+                        href: '/salud',
+                        icon: 'fa fa-home',
+                        child: [
+                            {
+                                title: `Ordenes Medicas`,
+                                href: '/ordenes',
+                                child: [],
+                            },
+                            {
+                                title: `Institutos`,
+                                href: '/institutos',
+                                child: [],
+                            },
+                            {
+                                title: `Estudios`,
+                                href: '/estudios',
+                                child: [
+                                    {
+                                        title: `Imagenes`,
+                                        href: `/`,
+                                        child: [],
+                                    },
+                                    {
+                                        title: `Analisis Bioquimicos`,
+                                        href: `/`,
+                                        child: [],
+                                    },
+                                ],
+                            },
+                            {
+                                title: `Cirugias`,
+                                href: '/cirugias',
+                                child: [],
+                            },
+                        ],
+
+                    },
+                    {
+                        title: `Farmacias`,
+                        href: '/farmacias',
+                        icon: 'fa fa-home',
+                        child: [
+                            {
+                                title: `Info Farmacias`,
+                                href: `/farmacias`,
+                                child: [],
+                            },
+                            {
+                                title: `Medicamentos`,
+                                href: `/medicamentos`,
+                                child: [],
+                            },
+                            {
+                                title: `Recetas`,
+                                href: `/recetas`,
+                                child: [],
+                            },
+                        ],
+                    },
+                    {
+                        title: `Registro Contable`,
+                        href: '/registrocontable',
+                        icon: 'fa fa-home',
+                        child: [
+                            {
+                                title: `Gastos Salientes`,
+                                href: `/gastosSalientes`,
+                                child: [],
+                            },
+                            {
+                                title: `Gastos Profesionales`,
+                                href: `/profesionales/list_pagos`,
+                                child: [],
+                            },
+                            {
+                                title: `Cuotas de Socios`,
+                                href: `/cuotas`,
+                                child: [],
+                            },
+                        ],
+                    },
+                    {
+                        title: `Mutuales`,
+                        href: '/mutuales',
+                        icon: 'fa fa-home',
+                        child: [],
+                    },
+                    {
+                        title: `Servicios`,
+                        href: '/servicios',
+                        icon: 'fa fa-home',
+                        child: [],
+                    },
+            ],
+            selectedTheme:'dark-theme',
             isActive: false,
             isTranslating: false,
         };
     },
-    mounted() {
+    mounted: function() {
         this.content_currentItem = this.source;
+        console.log(this.$refs.menuulo);
     },
     computed: {
         currentItemHasParent() {
@@ -147,7 +295,26 @@ export default {
 
             this.slideToPrev();
         },
-
+        async buscarnow() {
+            // Declare variables
+            var input, filter, ul, li, a, i, txtValue, menu;
+            input = this.$refs.buscadormenu;
+            filter = input.value.toUpperCase();
+            menu = this.$refs.menulo;
+            console.log(menu);
+            li = menu.$el.getElementsByTagName('a');
+            console.log(li);
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                //a = li[i].getElementsByTagName("a")[0];
+                txtValue = li[i].textContent || li[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        },
         /*
          * main part of core
          * definite of how to handle panel sliding and item updating
@@ -218,4 +385,20 @@ export default {
 };
 </script>
 <style>
+
+    #buscadorepico {
+        background-image: url('/assets/search.png');
+        background-size: 8%;
+        background-position: 10px 12px;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 20px 12px 40px;
+        margin-bottom: 12px;
+        padding-left: 1em;
+        color:white;
+    }
+    #menulo {
+        position:absolute;
+    }
 </style>
