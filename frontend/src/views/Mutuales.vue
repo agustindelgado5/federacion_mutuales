@@ -36,7 +36,7 @@
 			v-b-modal.modal-eliminarTodo
 		>
 			<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
-			Eliminar todos los registros
+			Eliminar 
 		</b-button>
 		<!-- ================ELIMINAR VARIOS MUTUALES======================== -->
 		<div>
