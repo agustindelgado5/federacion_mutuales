@@ -26,6 +26,51 @@
 			<profesionales-alta />
 		</b-modal>
 
+		<!-- ================ELIMINAR VARIOS PROFESIONALES======================== -->
+		<b-button
+			class="mb-4 ml-2"
+			variant="danger"
+			id="btn_del_full"
+			title="Eliminar todos los registros"
+			style="color: white"
+			:disabled="btn_del_full"
+			v-b-modal.modal-eliminarTodo
+		>
+			<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
+			Eliminar 
+		</b-button>
+    
+    <div>
+			<b-modal
+				ref="my-modal"
+				id="modal-eliminarTodo"
+				hide-footer
+				title="Eliminar"
+				ok-only
+			>
+				<div class="d-block text-center" v-if="selected.length === rows">
+					<h3>¿Esta seguro de eliminar todos los registros ?</h3>
+				</div>
+				<div class="d-block text-center" v-else>
+					<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
+				</div>
+
+				<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
+					Volver Atras
+				</b-button>
+
+				<b-button
+					class="mt-3"
+					variant="danger"
+					block
+					title="Eliminar"
+					@click="delete_all_Profesionales()"
+				>
+					Eliminar
+				</b-button>
+			</b-modal>
+		</div>
+
 		<!-- ======== Formulario de Busqueda ======== -->
 		<b-form-group
 			label-for="filter-input"
@@ -49,6 +94,43 @@
 		</b-form-group>
 		<!-- ======================================== -->
 
+		<!-- ======================================== -->
+		
+		<div v-if="rows > 0">
+			<div v-if="selected.length > 0">
+				<pre>
+					Cantidad de registros: {{ rows }} | Filas seleccionadas: {{selected.length}}
+				</pre>
+			</div>
+			<div v-else>
+				<pre>Cantidad de registros: {{ rows }}</pre>
+			</div>
+			<b-button
+				class="mb-4 ml-2"
+				size="sm"
+				style="color: white"
+				title="Seleccionar Todo"
+				@click="seleccionar_todas"
+				:disabled="btn_select"
+			>
+				Seleccionar Todo
+			</b-button>
+			<b-button
+				class="mb-4 ml-2"
+				size="sm"
+				style="color: white"
+				title="Limpiar Seleccion"
+				@click="limpiar_seleccion"
+				:disabled="btn_limpiar"
+			>
+				Limpiar Seleccion
+			</b-button>
+		</div>
+		<div v-else>
+			<pre>Cantidad de registros: {{ rows }}</pre>
+		</div>
+
+
 		<section class="container">
 			<b-table
 				:fields="fields"
@@ -66,10 +148,25 @@
 				id="tablaregistros"
 				:filter="filter"
 				@filtered="onFiltered"
+				@row-selected="seleccionar_una"
+				selectable
+				select-mode="multi"
 			>
 				<template #empty="">
 					<b>No hay registros para mostrar</b>
 				</template>
+
+				<template #cell(selected)="{ rowSelected }">
+					<template v-if="rowSelected">
+						<span aria-hidden="true">&check;</span>
+						<span class="sr-only">Selected</span>
+					</template>
+					<template v-else>
+						<span aria-hidden="true">&nbsp;</span>
+						<span class="sr-only">Not selected</span>
+					</template>
+				</template>
+
 
 				<template slot="cell(id_medico)" slot-scope="data">
 					<b>{{ data.value }}</b>
@@ -91,6 +188,7 @@
 								id="button-1"
 								title="Mostrar Info"
 								@click="row.toggleDetails"
+								:disabled="btn_mostrar"
 							>
 								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
 							</b-button>
@@ -101,6 +199,7 @@
 								title="Editar este registro"
 								v-b-modal.modal-editar
 								@click="editarProfesional(row.item, row.index)"
+								:disabled="btn_editar"
 							>
 								<!-- :disabled="btn_editar" -->
 								<v-icon class="mr-2"> mdi-pencil </v-icon>
@@ -116,6 +215,7 @@
 								variant="primary"
 								id="button-3"
 								title="Ver ordenes asociadas"
+								:disabled="btn_ordenes"
 							>
 								<!-- @click="ordenesProfesional(row.item)" -->
 								<v-icon dark style="color: black"
@@ -129,6 +229,7 @@
 								id="button-3"
 								@click="showModalinfo(row.item, row.index)"
 								title="Eliminar este registro"
+								:disabled="btn_eliminar"
 							>
 								<v-icon class="mr-2"> mdi-delete </v-icon>
 								Eliminar
@@ -316,6 +417,7 @@
 			return {
 				tabla_profesionales: [],
 				fields: [
+					{ key: "selected", label: "Seleccionar", sortable: true },
 					{
 						key: "id_medico",
 						label: "ID",
@@ -347,6 +449,16 @@
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
 				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
+				selected: [],
+				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
+				btn_del_full: true,
+				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
+				btn_mostrar: false,
+				btn_editar: false,
+				btn_ordenes: false,
+				btn_eliminar: false,
+				btn_select: false,
+				btn_limpiar: true,
 				infoEliminar: {
 					id: "modal_eliminar",
 					profesional: -1,
@@ -414,6 +526,8 @@
 			hideModal() {
 				this.$refs["my-modal"].hide();
 			},
+
+			//Funcion para eliminar un profesional
 			async deleteProfesional(id_medico) {
 				axios
 					.delete("http://localhost:8081/profesionales/" + id_medico + "/")
@@ -427,12 +541,92 @@
 					})
 					.finally(() => this.testFetch());
 			},
+
+			//Funcion para eliminar todos los profesionales
+			async delete_all_Profesionales() {
+				var cantidad = this.selected.length;
+
+				try {
+					for (var i = 0; i < cantidad; i++) {
+						axios.delete(
+							"http://localhost:8081/profesionales/" +
+								this.selected[i].id_medico +
+								"/"
+						);
+						if (this.selected.length == 0) {
+							console.log("Eliminacion Exitosa");
+							break;
+						}
+					}
+					this.hideModal();
+					swal("Eliminacion Exitosa", " ", "success");
+				} catch (error) {
+					this.hideModal();
+					swal("¡ERROR!", "Se ha detectado un problema ", "error");
+					console.log(error);
+				} finally {
+					this.testFetch();
+				}
+			},
+
 			editarProfesional(item, index) {
 				this.editar = item;
 			},
 			ordenesProfesional(item) {
 				this.editar = item;
 			},
+
+			//Selecciona una a una
+			seleccionar_una(items) {
+				this.selected = items;
+				if (this.selected.length > 0) {
+					this.btn_del_full = false;
+					this.btn_limpiar = false;
+					if (this.selected.length > 1) {
+						this.btn_mostrar = true;
+						this.btn_editar = true;
+						this.btn_eliminar = true;
+						this.btn_ordenes=true;
+					}
+					if (this.selected.length == this.rows) {
+						this.btn_select = true;
+					} else {
+						this.btn_select = false;
+					}
+				} else {
+					this.btn_del_full = true;
+					this.btn_mostrar = false;
+					this.btn_editar = false;
+					this.btn_eliminar = false;
+					this.btn_ordenes=false;
+					this.btn_limpiar = true;
+				}
+			},
+			//Selecciona todas
+			seleccionar_todas() {
+				this.$refs.tablaregistros.selectAllRows();
+				this.btn_del_full = false;
+				this.btn_mostrar = true;
+				this.btn_editar = true;
+				this.btn_ordenes=true;
+				this.btn_eliminar = true;
+
+				this.btn_select = true;
+				this.btn_limpiar = false;
+			},
+			//Limpia todas las selecciones
+			limpiar_seleccion() {
+				this.$refs.tablaregistros.clearSelected();
+				this.btn_del_full = true;
+				this.btn_mostrar = false;
+				this.btn_ordenes=false;
+				this.btn_editar = false;
+				this.btn_eliminar = false;
+
+				this.btn_select = false;
+				this.btn_limpiar = true;
+			},
+
 
 			//Funcion de busqueda
 			onFiltered(filteredItems) {
