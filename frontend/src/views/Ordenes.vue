@@ -184,9 +184,17 @@
 				<template slot="cell(id_mutual)" slot-scope="data">
 					{{ data.value.split("/")[4] }}
 				</template>
+				<template slot="cell(fecha)" slot-scope="data">
+					{{ data.value.split("-")[2] }}/{{ data.value.split("-")[1] }}/{{
+						data.value.split("-")[0]
+					}}
+				</template>
+				<template slot="cell(hora)" slot-scope="data">
+					{{ data.value.split(":")[0] }}:{{ data.value.split(":")[1] }}
+				</template>
 
 				<template slot="cell(precio)" slot-scope="data">
-					$ {{ data.value }}
+					<b>$ {{ data.value }}</b>
 				</template>
 
 				<template slot="cell(realizado)" slot-scope="data">
@@ -514,8 +522,9 @@
 					orden: -1,
 				},
 				selected: [],
-				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
+				btn_down_pdf: false, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
+				btn_limpiar:true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
@@ -639,6 +648,7 @@
 						this.btn_mostrar = true;
 						this.btn_editar = true;
 						this.btn_eliminar = true;
+						this.btn_down_pdf =true;
 					}
 					if (this.selected.length == this.rows) {
 						this.btn_select = true;
@@ -651,6 +661,7 @@
 					this.btn_editar = false;
 					this.btn_eliminar = false;
 					this.btn_limpiar = true;
+					this.btn_down_pdf =false;
 				}
 			},
 			//Selecciona todas
@@ -660,6 +671,7 @@
 				this.btn_mostrar = true;
 				this.btn_editar = true;
 				this.btn_eliminar = true;
+				this.btn_down_pdf =true;
 
 				this.btn_select = true;
 				this.btn_limpiar = false;
@@ -671,6 +683,7 @@
 				this.btn_mostrar = false;
 				this.btn_editar = false;
 				this.btn_eliminar = false;
+				this.btn_down_pdf =false;
 
 				this.btn_select = false;
 				this.btn_limpiar = true;

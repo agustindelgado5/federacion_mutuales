@@ -438,6 +438,7 @@
 				selected: [],
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
+				btn_limpiar:true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
@@ -518,7 +519,7 @@
 			//Elimina una farmacia
 			async deleteFarmacia(cod_Farmacia) {
 				axios
-					.delete("http://localhost:8081/farmacias/" + cod_farmacia + "/")
+					.delete("http://localhost:8081/farmacias/" + cod_Farmacia + "/")
 					.then((datos) => {
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
