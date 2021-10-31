@@ -26,6 +26,50 @@
 			<template #modal-title><h5 class="modal-title">Alta</h5></template>
 			<mutual-alta />
 		</b-modal>
+		<b-button
+			class="mb-4 ml-2"
+			variant="danger"
+			id="btn_del_full"
+			title="Eliminar todos los registros"
+			style="color: white"
+			:disabled="btn_del_full"
+			v-b-modal.modal-eliminarTodo
+		>
+			<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
+			Eliminar todos los registros
+		</b-button>
+		<!-- ================ELIMINAR VARIOS MUTUALES======================== -->
+		<div>
+			<b-modal
+				ref="my-modal"
+				id="modal-eliminarTodo"
+				hide-footer
+				title="Eliminar"
+				ok-only
+			>
+				<div class="d-block text-center" v-if="selected.length === rows">
+					<h3>¿Esta seguro de eliminar todos los registros ?</h3>
+				</div>
+				<div class="d-block text-center" v-else>
+					<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
+				</div>
+
+				<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
+					Volver Atras
+				</b-button>
+
+				<b-button
+					class="mt-3"
+					variant="danger"
+					block
+					title="Eliminar"
+					@click="delete_all_Mutuales()"
+				>
+					Eliminar
+				</b-button>
+			</b-modal>
+		</div>
+
 		<!-- ======== Formulario de Busqueda ======== -->
 		<b-form-group
 			label-for="filter-input"
@@ -49,6 +93,42 @@
 		</b-form-group>
 		<!-- ======================================== -->
 
+		<!-- ======================================== -->
+		
+		<div v-if="rows > 0">
+			<div v-if="selected.length > 0">
+				<pre>
+					Cantidad de registros: {{ rows }} | Filas seleccionadas: {{selected.length}}
+				</pre>
+			</div>
+			<div v-else>
+				<pre>Cantidad de registros: {{ rows }}</pre>
+			</div>
+			<b-button
+				class="mb-4 ml-2"
+				size="sm"
+				style="color: white"
+				title="Seleccionar Todo"
+				@click="seleccionar_todas"
+				:disabled="btn_select"
+			>
+				Seleccionar Todo
+			</b-button>
+			<b-button
+				class="mb-4 ml-2"
+				size="sm"
+				style="color: white"
+				title="Limpiar Seleccion"
+				@click="limpiar_seleccion"
+				:disabled="btn_limpiar"
+			>
+				Limpiar Seleccion
+			</b-button>
+		</div>
+		<div v-else>
+			<pre>Cantidad de registros: {{ rows }}</pre>
+		</div>
+
 		<!-- ======== Tabla con los registros ======= -->
 
 		<section class="container">
@@ -68,9 +148,23 @@
 				id="tablaregistros"
 				:filter="filter"
 				@filtered="onFiltered"
+				@row-selected="seleccionar_una"
+				selectable
+				select-mode="multi"
 			>
 				<template #empty="">
 					<b>No hay registros para mostrar</b>
+				</template>
+
+				<template #cell(selected)="{ rowSelected }">
+					<template v-if="rowSelected">
+						<span aria-hidden="true">&check;</span>
+						<span class="sr-only">Selected</span>
+					</template>
+					<template v-else>
+						<span aria-hidden="true">&nbsp;</span>
+						<span class="sr-only">Not selected</span>
+					</template>
 				</template>
 
 				<template slot="cell(action)" slot-scope="row">
@@ -81,6 +175,7 @@
 								id="button-1"
 								title="Mostrar Info"
 								@click="row.toggleDetails"
+								:disabled="btn_mostrar"
 							>
 								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
 							</b-button>
@@ -91,6 +186,7 @@
 								title="Editar este registro"
 								v-b-modal.modal-editar
 								@click="editarMutual(row.item, row.index)"
+								:disabled="btn_editar"
 							>
 								<v-icon class="mr-2"> mdi-pencil </v-icon>
 								Editar
@@ -101,6 +197,7 @@
 								id="button-3"
 								@click="showModalinfo(row.item, row.index)"
 								title="Eliminar este registro"
+								:disabled="btn_eliminar"
 							>
 								<v-icon class="mr-2"> mdi-delete </v-icon>
 								Eliminar
@@ -288,7 +385,9 @@
 			return {
 				tabla_mutuales: [],
 				fields: [
+					{ key: "selected", label: "Seleccionar", sortable: true },
 					{ key: "nombre", label: "Mutual", sortable: true },
+					{ key: "direccion", label: "Direccion", sortable: true },
 					{ key: "sucursal", label: "Filial", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
@@ -324,6 +423,15 @@
 					{ value: "Trancas", text: "16- Trancas" },
 					{ value: "Yerba Buena", text: "17- Yerba Buena" },
 				],
+				selected: [],
+				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
+				btn_del_full: true,
+				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
+				btn_mostrar: false,
+				btn_editar: false,
+				btn_eliminar: false,
+				btn_select: false,
+				btn_limpiar: true,
 				server_mutual: [
 					//{
 					//id_servicio:0,
@@ -389,7 +497,7 @@
 			editarMutual(item, index) {
 				this.editar = item;
 			},
-
+			//Elimina una mutual
 			async deleteMutual(id_mutual) {
 				axios
 					.delete("http://localhost:8081/mutuales/" + id_mutual + "/")
@@ -404,6 +512,33 @@
 					})
 					.finally(() => this.testFetch());
 			},
+			//Elimina todas las mutuales
+			async delete_all_Mutuales() {
+				var cantidad = this.selected.length;
+
+				try {
+					for (var i = 0; i < cantidad; i++) {
+						axios.delete(
+							"http://localhost:8081/mutuales/" +
+								this.selected[i].id_mutual +
+								"/"
+						);
+						if (this.selected.length == 0) {
+							console.log("Eliminacion Exitosa");
+							break;
+						}
+					}
+					this.hideModal();
+					swal("Eliminacion Exitosa", " ", "success");
+				} catch (error) {
+					this.hideModal();
+					swal("¡ERROR!", "Se ha detectado un problema ", "error");
+					console.log(error);
+				} finally {
+					this.testFetch();
+				}
+			},
+
 
 			//Funcion de busqueda
 			onFiltered(filteredItems) {
@@ -411,6 +546,55 @@
 				this.totalRows = filteredItems.length;
 				this.currentPage = 1;
 			},
+
+			//-----Funciones de seleccion
+			//Selecciona una a una
+			seleccionar_una(items) {
+				this.selected = items;
+				if (this.selected.length > 0) {
+					this.btn_del_full = false;
+					this.btn_limpiar = false;
+					if (this.selected.length > 1) {
+						this.btn_mostrar = true;
+						this.btn_editar = true;
+						this.btn_eliminar = true;
+					}
+					if (this.selected.length == this.rows) {
+						this.btn_select = true;
+					} else {
+						this.btn_select = false;
+					}
+				} else {
+					this.btn_del_full = true;
+					this.btn_mostrar = false;
+					this.btn_editar = false;
+					this.btn_eliminar = false;
+					this.btn_limpiar = true;
+				}
+			},
+			//Selecciona todas
+			seleccionar_todas() {
+				this.$refs.tablaregistros.selectAllRows();
+				this.btn_del_full = false;
+				this.btn_mostrar = true;
+				this.btn_editar = true;
+				this.btn_eliminar = true;
+
+				this.btn_select = true;
+				this.btn_limpiar = false;
+			},
+			//Limpia todas las selecciones
+			limpiar_seleccion() {
+				this.$refs.tablaregistros.clearSelected();
+				this.btn_del_full = true;
+				this.btn_mostrar = false;
+				this.btn_editar = false;
+				this.btn_eliminar = false;
+
+				this.btn_select = false;
+				this.btn_limpiar = true;
+			},
+
 
 			async getServicios() {
 				var count = 0;

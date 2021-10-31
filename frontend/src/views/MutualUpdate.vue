@@ -28,6 +28,24 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
+
+      <b-form-group label="*Direccion" label-for="direccion">
+        <b-form-input
+          id="direccion"
+          v-model="mutual.direccion"
+          type="text"
+          placeholder="Ingrese una direccion"
+          invalid-feedback="Complete este campo"
+          :state="validacion.direccion.estado"
+          
+          required
+        >
+        </b-form-input>
+        <b-form-invalid-feedback id="direccion-live-feedback"
+          >{{ validacion.direccion.mensaje }}
+        </b-form-invalid-feedback>
+      </b-form-group>
+
       <!-- sucursal -->
       <b-form-group label="*Sucursal" label-for="sucursal">
         <b-form-select
@@ -111,6 +129,7 @@ export default {
       ],
       validacion: {
         nombre: { estado: null, mensaje: "" },
+        direccion: { estado: null, mensaje: "" },
         sucursal: { estado: null, mensaje: "" },
         id_servicio: { estado: null, mensaje: "" },
       },

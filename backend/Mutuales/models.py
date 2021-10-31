@@ -28,6 +28,7 @@ Construyo la entidad para las omutuales
 class mutuales(models.Model):
     id_mutual=models.AutoField(primary_key=True)
     nombre=models.CharField(max_length=100)
+    direccion = models.CharField(max_length=100)
     sucursal=models.CharField(max_length=30, choices=deptos_tucuman)
     ##id_servicio=models.ForeignKey(servicios, on_delete=models.CASCADE)
     created=models.DateTimeField(auto_now_add=True) 

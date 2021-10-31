@@ -23,6 +23,7 @@ def populate_mutuales(
     for i in range(0, cantidad):
         mutuales = {}
         mutuales["nombre"] = _mutuales[i]
+        mutuales["direccion"] = '---'
         mutuales["sucursal"] = 'Capital'
         
         r = requests.post(url, json=mutuales)
