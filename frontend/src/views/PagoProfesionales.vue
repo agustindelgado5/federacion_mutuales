@@ -109,9 +109,9 @@
 									></b-form-input>
 
 									<b-input-group-append>
-										<b-button :disabled="!filter" @click="filter = ''"
-											>Limpiar</b-button
-										>
+										<b-button :disabled="!filter" @click="filter = ''">
+											Limpiar
+										</b-button>
 									</b-input-group-append>
 								</b-input-group>
 							</b-form-group>
@@ -131,7 +131,11 @@
 									<b>{{ data.value }}</b>
 								</template>
 								<template slot="cell(ListOrdenes)" slot-scope="data">
-									<div v-for="orden in data.value" :key="orden.num_orden">
+									<div
+										v-for="orden in data.value"
+										:key="orden.num_orden"
+										@click="auxOrdenesMes(orden)"
+									>
 										<b-list-group horizontal>
 											<b-list-group>
 												<b-list-group-item>
@@ -253,13 +257,35 @@
 						<section class="pdf-item">
 							<h3>Comprobante de pago</h3>
 
+							<b-list-group horizontal>
+								<b-list-group-item>
+									<b>ID: {{ ordenAPDF.ID }}</b>
+								</b-list-group-item>
+								<b-list-group-item>
+									<b>Profesional:</b> {{ ordenAPDF.profesional }}
+								</b-list-group-item>
+							</b-list-group>
+							<br>
 							<b-list-group>
+								<b-list-group-item>
+									<b>MES: {{ ordenAPDF.mes }}</b>
+								</b-list-group-item>
 								<b-list-group-item
-									v-for="value in fields.slice(0, -1)"
-									:key="value.key"
-									>{{ value.label }}:
-									{{ ordenAPDF[value.key] }}</b-list-group-item
+									v-for="orden in ordenAPDF.ordenes"
+									:key="orden.num_orden"
 								>
+									{{ orden.num_orden }} - {{ orden.fecha }} -
+									{{ orden.hora }} - ${{ orden.precio }}
+								</b-list-group-item>
+							</b-list-group>
+							<br />
+							<b-list-group horizontal>
+								<b-list-group-item>
+									<b>Forma de Pago: {{ ordenAPDF.modo_pago }}</b>
+								</b-list-group-item>
+								<b-list-group-item>
+									<b>TOTAL: ${{ ordenAPDF.total }}</b>
+								</b-list-group-item>
 							</b-list-group>
 						</section>
 					</section>
@@ -279,7 +305,6 @@
 					</b-col>
 				</b-container>
 			</section>
-
 			<!---
     <aside>
       <div>
@@ -297,17 +322,6 @@
 				<div class="text-center">
 					<v-icon>fas fa-circle-notch fa-spin</v-icon>
 					<p id="cancel-label">Espere un momento...</p>
-					<!--
-					<b-button
-						ref="cancel"
-						variant="outline-danger"
-						size="sm"
-						aria-describedby="cancel-label"
-						@click="show = false"
-					>
-						Cancel
-					</b-button>
-					-->
 				</div>
 			</template>
 		</b-overlay>
@@ -389,6 +403,15 @@
 					{ value: "Transferencia", text: "Transferencia" },
 				],
 				show: false,
+				ordenAPDF: {
+					ID: 0,
+					profesional: null,
+					mes: null,
+					ordenes: [],
+					modo_pago: null,
+					total: 0,
+				},
+				orden_del_mes: [],
 			};
 		},
 
@@ -455,7 +478,6 @@
 				return mesMM[0].inicial + "/" + anio;
 			},
 
-			
 			//Funcion para agrupar las ordenes por profesional y mes
 			async GroupOrdenes(lista_orden) {
 				let pagos = sessionStorage.getItem("pagos");
@@ -609,10 +631,30 @@
 					this.set_pagos(this.tabla_ordenes);
 				}
 			},
+			/*
+			auxOrdenesMes(orden){
+				this.orden_del_mes.push(orden);
+			},
+			*/
 
 			//Funcion para generar el comprobante
 			generarPDF(item) {
-				this.ordenAPDF = { ...item };
+				let data_ordenes = {};
+				//data_ordenes.ID = item.id_medico;
+				//data_ordenes.profesional = item.profesional;
+				data_ordenes.mes = item.mes;
+				data_ordenes.ordenes = item.ListOrdenes;
+				data_ordenes.modo_pago = item.formaPago;
+				data_ordenes.total = this.sumaTotal(data_ordenes.ordenes);
+				console.log("LISTADO: ", data_ordenes.ordenes);
+				this.tabla_ordenes.forEach((data) => {
+					if (data.ordenes.find((x) => x.mes == data_ordenes.mes)) {
+						data_ordenes.ID = data.id_medico;
+						data_ordenes.profesional = data.profesional;
+					}
+				});
+				//this.ordenAPDF = { ...item };
+				this.ordenAPDF = data_ordenes;
 				this.$refs.html2Pdf.generatePdf();
 			},
 
