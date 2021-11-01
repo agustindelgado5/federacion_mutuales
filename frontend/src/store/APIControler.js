@@ -49,12 +49,12 @@ export class APIControler {
       }
       //location.href = '/socios'
       
-      
     } catch (error) {
       swal("¡ERROR!", "Se ha detectado un problema ", "error")
       console.log(error);
       //swal("¡ERROR!", "{error}", "error")
     }
+    
     
   }
 
