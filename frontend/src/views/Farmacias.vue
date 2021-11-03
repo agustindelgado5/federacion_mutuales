@@ -1,305 +1,314 @@
 <template>
-	<div id="farmacias" class="myTable">
-		<!--HEAD DE LA PAGINA -->
-		<vue-headful
-			title="Farmacias - Federación Tucumana de Mutuales"
-		></vue-headful>
+	<v-app id="app">
+		<div id="farmacias" class="myTable">
+			<!--HEAD DE LA PAGINA -->
+			<vue-headful
+				title="Farmacias - Federación Tucumana de Mutuales"
+			></vue-headful>
 
-		<h2>Listado de Farmacias</h2>
-		<b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
-			<v-icon dark style="color: black">mdi-cached</v-icon>
-			Actualizar
-		</b-button>
-
-		<!-- ================ALTA FARMACIA======================== -->
-		<b-button
-			class="mb-4 ml-2"
-			v-b-modal.modal-alta
-			@click="altaFarmacia()"
-			title="Nueva Farmacia"
-			style="color: white"
-		>
-			<v-icon dark> mdi-plus </v-icon>
-			Nueva Farmacia
-		</b-button>
-		<b-modal id="modal-alta" hide-footer>
-			<template #modal-title><h5 class="modal-title">Alta</h5></template>
-			<farmacias-alta />
-		</b-modal>
-
-		<!-- ================ELIMINAR VARIAS FARMACIAS======================== -->
-		<b-button
-			class="mb-4 ml-2"
-			variant="danger"
-			id="btn_del_full"
-			title="Eliminar todos los registros"
-			style="color: white"
-			:disabled="btn_del_full"
-			v-b-modal.modal-eliminarTodo
-		>
-			<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
-			Eliminar
-		</b-button>
-
-		<div>
-			<b-modal
-				ref="my-modal"
-				id="modal-eliminarTodo"
-				hide-footer
-				title="Eliminar"
-				ok-only
+			<h2>Listado de Farmacias</h2>
+			<b-button
+				@click="testFetch"
+				class="mb-4"
+				title="Recargar"
+				variant="light"
 			>
-				<div class="d-block text-center" v-if="selected.length === rows">
-					<h3>¿Esta seguro de eliminar todos los registros ?</h3>
-				</div>
-				<div class="d-block text-center" v-else>
-					<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
-				</div>
+				<v-icon dark style="color: black">mdi-cached</v-icon>
+				Actualizar
+			</b-button>
 
-				<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
-					Volver Atras
-				</b-button>
-
-				<b-button
-					class="mt-3"
-					variant="danger"
-					block
-					title="Eliminar"
-					@click="delete_all_Farmacias()"
-				>
-					Eliminar
-				</b-button>
+			<!-- ================ALTA FARMACIA======================== -->
+			<b-button
+				class="mb-4 ml-2"
+				v-b-modal.modal-alta
+				@click="altaFarmacia()"
+				title="Nueva Farmacia"
+				style="color: white"
+			>
+				<v-icon dark> mdi-plus </v-icon>
+				Nueva Farmacia
+			</b-button>
+			<b-modal id="modal-alta" hide-footer>
+				<template #modal-title><h5 class="modal-title">Alta</h5></template>
+				<farmacias-alta />
 			</b-modal>
-		</div>
-		<!-- ======== Formulario de Busqueda ======== -->
 
-		<b-form-group
-			label-for="filter-input"
-			label-align-sm="right"
-			label-size="sm"
-			class="mb-0"
-			style="width: 100%; padding-bottom: 1em"
-		>
-			<b-input-group size="sm">
-				<b-form-input
-					id="filter-input"
-					v-model="filter"
-					type="search"
-					placeholder="Buscar registros"
-				></b-form-input>
+			<!-- ================ELIMINAR VARIAS FARMACIAS======================== -->
+			<b-button
+				class="mb-4 ml-2"
+				variant="danger"
+				id="btn_del_full"
+				title="Eliminar todos los registros"
+				style="color: white"
+				:disabled="btn_del_full"
+				v-b-modal.modal-eliminarTodo
+			>
+				<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
+				Eliminar
+			</b-button>
 
-				<b-input-group-append>
-					<b-button :disabled="!filter" @click="filter = ''">Limpiar</b-button>
-				</b-input-group-append>
-			</b-input-group>
-		</b-form-group>
+			<div>
+				<b-modal
+					ref="my-modal"
+					id="modal-eliminarTodo"
+					hide-footer
+					title="Eliminar"
+					ok-only
+				>
+					<div class="d-block text-center" v-if="selected.length === rows">
+						<h3>¿Esta seguro de eliminar todos los registros ?</h3>
+					</div>
+					<div class="d-block text-center" v-else>
+						<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
+					</div>
 
-		<!-- ======================================== -->
+					<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
+						Volver Atras
+					</b-button>
 
-		<div v-if="rows > 0">
-			<div v-if="selected.length > 0">
-				<pre>
-					Cantidad de registros: {{ rows }} | Filas seleccionadas: {{selected.length}}
-				</pre>
+					<b-button
+						class="mt-3"
+						variant="danger"
+						block
+						title="Eliminar"
+						@click="delete_all_Farmacias()"
+					>
+						Eliminar
+					</b-button>
+				</b-modal>
+			</div>
+			<!-- ======== Formulario de Busqueda ======== -->
+
+			<b-form-group
+				label-for="filter-input"
+				label-align-sm="right"
+				label-size="sm"
+				class="mb-0"
+				style="width: 100%; padding-bottom: 1em"
+			>
+				<b-input-group size="sm">
+					<b-form-input
+						id="filter-input"
+						v-model="filter"
+						type="search"
+						placeholder="Buscar registros"
+					></b-form-input>
+
+					<b-input-group-append>
+						<b-button :disabled="!filter" @click="filter = ''"
+							>Limpiar</b-button
+						>
+					</b-input-group-append>
+				</b-input-group>
+			</b-form-group>
+
+			<!-- ======================================== -->
+
+			<div v-if="rows > 0">
+				<div v-if="selected.length > 0">
+					<pre>
+					Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}
+				</pre
+					>
+				</div>
+				<div v-else>
+					<pre>Cantidad de registros: {{ rows }}</pre>
+				</div>
+				<b-button
+					class="mb-4 ml-2"
+					size="sm"
+					style="color: white"
+					title="Seleccionar Todo"
+					@click="seleccionar_todas"
+					:disabled="btn_select"
+				>
+					Seleccionar Todo
+				</b-button>
+				<b-button
+					class="mb-4 ml-2"
+					size="sm"
+					style="color: white"
+					title="Limpiar Seleccion"
+					@click="limpiar_seleccion"
+					:disabled="btn_limpiar"
+				>
+					Limpiar Seleccion
+				</b-button>
 			</div>
 			<div v-else>
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
-			<b-button
-				class="mb-4 ml-2"
-				size="sm"
-				style="color: white"
-				title="Seleccionar Todo"
-				@click="seleccionar_todas"
-				:disabled="btn_select"
-			>
-				Seleccionar Todo
-			</b-button>
-			<b-button
-				class="mb-4 ml-2"
-				size="sm"
-				style="color: white"
-				title="Limpiar Seleccion"
-				@click="limpiar_seleccion"
-				:disabled="btn_limpiar"
-			>
-				Limpiar Seleccion
-			</b-button>
-		</div>
-		<div v-else>
-			<pre>Cantidad de registros: {{ rows }}</pre>
-		</div>
 
-		<section class="container">
-			<!-- ======== Tabla con los registros ======= -->
-			<b-table
-				:fields="fields"
-				striped
-				sortable
-				responsive
-				:sticky-header="true"
-				:no-border-collapse="false"
-				hover
-				:items="tabla_farmacias"
-				show-empty
-				:per-page="perPage"
-				:current-page="currentPage"
-				:filter="filter"
-				@filtered="onFiltered"
-				ref="tablaregistros"
-				id="tablaregistros"
-				@row-selected="seleccionar_una"
-				selectable
-				select-mode="multi"
-			>
-				<template #empty="">
-					<b>No hay registros para mostrar</b>
-				</template>
-
-				<template #cell(selected)="{ rowSelected }">
-					<template v-if="rowSelected">
-						<span aria-hidden="true">&check;</span>
-						<span class="sr-only">Selected</span>
+			<section class="container">
+				<!-- ======== Tabla con los registros ======= -->
+				<b-table
+					:fields="fields"
+					striped
+					sortable
+					responsive
+					:sticky-header="true"
+					:no-border-collapse="false"
+					hover
+					:items="tabla_farmacias"
+					show-empty
+					:per-page="perPage"
+					:current-page="currentPage"
+					:filter="filter"
+					@filtered="onFiltered"
+					ref="tablaregistros"
+					id="tablaregistros"
+					@row-selected="seleccionar_una"
+					selectable
+					select-mode="multi"
+				>
+					<template #empty="">
+						<b>No hay registros para mostrar</b>
 					</template>
-					<template v-else>
-						<span aria-hidden="true">&nbsp;</span>
-						<span class="sr-only">Not selected</span>
+
+					<template #cell(selected)="{ rowSelected }">
+						<template v-if="rowSelected">
+							<span aria-hidden="true">&check;</span>
+							<span class="sr-only">Selected</span>
+						</template>
+						<template v-else>
+							<span aria-hidden="true">&nbsp;</span>
+							<span class="sr-only">Not selected</span>
+						</template>
 					</template>
-				</template>
 
+					<template slot="cell(action)" slot-scope="row">
+						<div class="mt-3">
+							<b-button-group>
+								<b-button
+									variant="info"
+									id="button-1"
+									title="Mostrar Info"
+									@click="row.toggleDetails"
+									:disabled="btn_mostrar"
+								>
+									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+								</b-button>
 
-				<template slot="cell(action)" slot-scope="row">
-					<div class="mt-3">
-						<b-button-group>
-							<b-button
-								variant="info"
-								id="button-1"
-								title="Mostrar Info"
-								@click="row.toggleDetails"
-								:disabled="btn_mostrar"
-							>
-								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
-							</b-button>
+								<b-button
+									variant="warning"
+									id="button-2"
+									title="Editar este registro"
+									v-b-modal.modal-editar
+									@click="editarFarmacia(row.item, row.index)"
+									:disabled="btn_editar"
+								>
+									<v-icon class="mr-2"> mdi-pencil </v-icon>
+									Editar
+								</b-button>
 
-							<b-button
-								variant="warning"
-								id="button-2"
-								title="Editar este registro"
-								v-b-modal.modal-editar
-								@click="editarFarmacia(row.item, row.index)"
-								:disabled="btn_editar"
-							>
-								<v-icon class="mr-2"> mdi-pencil </v-icon>
-								Editar
-							</b-button>
-
-							<b-button
-								variant="danger"
-								id="button-3"
-								@click="showModalinfo(row.item, row.index)"
-								title="Eliminar este registro"
-								:disabled="btn_eliminar"
-							>
-								<v-icon class="mr-2"> mdi-delete </v-icon>
-								Eliminar
-							</b-button>
-						</b-button-group>
-					</div>
-				</template>
-
-				<template #row-details="row">
-					<b-card title="Datos de la farmacia: ">
-						<div>
-							<b-list-group horizontal>
-								<b-list-group class="col-3">
-									<b-list-group-item
-										><b>Codigo:</b>
-										{{ row.item.cod_farmacia }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Matricula:</b>
-										{{ row.item.matricula_farm }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item
-									>
-								</b-list-group>
-								&nbsp;
-								<b-list-group class="col-5">
-									<b-list-group-item
-										><b>Farmacia:</b> {{ row.item.farmacia }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Sucursal:</b>
-										{{ row.item.localidad }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Correo:</b> {{ row.item.email }}
-									</b-list-group-item>
-								</b-list-group>
-								&nbsp;
-								<b-list-group class="col-4">
-									<b-list-group-item
-										><b>Telefono Fijo:</b>
-										{{ row.item.tel_fijo }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Celular:</b>
-										{{ row.item.tel_celular }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Representante:</b> {{ row.item.representante }}
-									</b-list-group-item>
-								</b-list-group>
-							</b-list-group>
+								<b-button
+									variant="danger"
+									id="button-3"
+									@click="showModalinfo(row.item, row.index)"
+									title="Eliminar este registro"
+									:disabled="btn_eliminar"
+								>
+									<v-icon class="mr-2"> mdi-delete </v-icon>
+									Eliminar
+								</b-button>
+							</b-button-group>
 						</div>
-					</b-card>
-				</template>
-			</b-table>
-			<!-- ================ELIMINAR FARMACIA======================== -->
+					</template>
 
-			<b-modal
-				id="modal_eliminar"
-				ref="my-modal"
-				hide-footer
-				title="Eliminar"
-				ok-only
-			>
-				<div class="d-block text-center">
-					<h3>
-						¿Esta seguro de eliminar los datos de
-						{{ infoEliminar.farmacia.farmacia }}?
-					</h3>
-				</div>
-				<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
-					>Volver Atras</b-button
-				>
-				<b-button
-					class="mt-3"
-					variant="danger"
-					block
-					@click="deleteFarmacia(infoEliminar.farmacia.cod_farmacia)"
+					<template #row-details="row">
+						<b-card title="Datos de la farmacia: ">
+							<div>
+								<b-list-group horizontal>
+									<b-list-group class="col-3">
+										<b-list-group-item
+											><b>Codigo:</b>
+											{{ row.item.cod_farmacia }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Matricula:</b>
+											{{ row.item.matricula_farm }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item
+										>
+									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-5">
+										<b-list-group-item
+											><b>Farmacia:</b>
+											{{ row.item.farmacia }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Sucursal:</b>
+											{{ row.item.localidad }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Correo:</b> {{ row.item.email }}
+										</b-list-group-item>
+									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-4">
+										<b-list-group-item
+											><b>Telefono Fijo:</b>
+											{{ row.item.tel_fijo }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Celular:</b>
+											{{ row.item.tel_celular }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Representante:</b> {{ row.item.representante }}
+										</b-list-group-item>
+									</b-list-group>
+								</b-list-group>
+							</div>
+						</b-card>
+					</template>
+				</b-table>
+				<!-- ================ELIMINAR FARMACIA======================== -->
+
+				<b-modal
+					id="modal_eliminar"
+					ref="my-modal"
+					hide-footer
 					title="Eliminar"
+					ok-only
 				>
-					Eliminar
-				</b-button>
-			</b-modal>
-			<b-container fluid>
-				<b-col class="my-1">
-					<b-pagination
-						v-model="currentPage"
-						align="center"
-						pills
-						:total-rows="totalRows"
-						:per-page="perPage"
-						aria-controls="tabla_farmacias"
+					<div class="d-block text-center">
+						<h3>
+							¿Esta seguro de eliminar los datos de
+							{{ infoEliminar.farmacia.farmacia }}?
+						</h3>
+					</div>
+					<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
+						>Volver Atras</b-button
 					>
-					</b-pagination>
-				</b-col>
-			</b-container>
-		</section>
-		<aside>
-			<!--
+					<b-button
+						class="mt-3"
+						variant="danger"
+						block
+						@click="deleteFarmacia(infoEliminar.farmacia.cod_farmacia)"
+						title="Eliminar"
+					>
+						Eliminar
+					</b-button>
+				</b-modal>
+				<b-container fluid>
+					<b-col class="my-1">
+						<b-pagination
+							v-model="currentPage"
+							align="center"
+							pills
+							:total-rows="totalRows"
+							:per-page="perPage"
+							aria-controls="tabla_farmacias"
+						>
+						</b-pagination>
+					</b-col>
+				</b-container>
+			</section>
+			<aside>
+				<!--
 			<div>
 				<b-card-group deck>
 					<b-card
@@ -322,73 +331,112 @@
       
 			<br />
       -->
-			<div>
-				<b-card-group deck>
-					<b-card
-						bg-variant="primary"
-						text-variant="white"
-						header="FILTRAR POR"
-						class="text-center"
-					>
-						<div class="accordion" role="tablist">
-							<b-card no-body>
-								<b-card-header header-tag="header" class="p-1" role="tab">
-									<b-button block v-b-toggle.accordion-1 variant="info">
-										CORREO
-									</b-button>
-								</b-card-header>
-								<b-collapse
-									id="accordion-1"
-									visible
-									accordion="my-accordion"
-									role="tabpanel"
-								>
-									<b-card-body>
-										<b-form-group id="input-group-4">
-											<b-form-select
-												id="correo"
-												v-model="filter"
-												type="text"
-												:options="options_correo"
-											>
-											</b-form-select>
-										</b-form-group>
-									</b-card-body>
-								</b-collapse>
-								<b-card-header header-tag="header" class="p-2" role="tab">
-									<b-button block v-b-toggle.accordion-2 variant="info">
-										REPRESENTANTE
-									</b-button>
-								</b-card-header>
-								<b-collapse
-									id="accordion-2"
-									visible
-									accordion="my-accordion"
-									role="tabpanel"
-								>
-									<b-card-body>
-										<b-form-group id="input-group-4">
-											<b-form-select
-												id="representante"
-												v-model="filter"
-												type="text"
-												:options="options_representante"
-											>
-											</b-form-select>
-										</b-form-group>
-									</b-card-body>
-								</b-collapse>
-							</b-card>
-						</div>
-					</b-card>
-				</b-card-group>
-			</div>
-		</aside>
-		<b-modal id="modal-editar" hide-footer>
-			<template #modal-title><h5 class="modal-title">Editar</h5></template>
-			<farmacias-update :farmacia="editar" />
-		</b-modal>
-	</div>
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="FILTRAR POR"
+							class="text-center"
+						>
+							<div class="accordion" role="tablist">
+								<b-card no-body>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button block v-b-toggle.accordion-1 variant="info" style="font-size: .82em;">
+											CORREO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-1"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<!--
+												<b-form-select
+													id="correo"
+													v-model="filter"
+													type="text"
+													:options="options_correo"
+												>
+												</b-form-select>
+												-->
+												<v-autocomplete
+													id="correo"
+													v-model="filter"
+													:items="options_correo"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter != null">
+													<b-button
+														:disabled="!filter"
+														@click="filter = ''"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+									<b-card-header header-tag="header" class="p-2" role="tab">
+										<b-button block v-b-toggle.accordion-2 variant="info" style="font-size: .82em;">
+											REPRESENTANTE
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-2"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<!--
+												<b-form-select
+													id="representante"
+													v-model="filter"
+													type="text"
+													:options="options_representante"
+												>
+												</b-form-select>
+												-->
+												<v-autocomplete
+													id="representante"
+													v-model="filter"
+													:items="options_representante"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter != null">
+													<b-button
+														:disabled="!filter"
+														@click="filter = ''"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+								</b-card>
+							</div>
+						</b-card>
+					</b-card-group>
+				</div>
+			</aside>
+			<b-modal id="modal-editar" hide-footer>
+				<template #modal-title><h5 class="modal-title">Editar</h5></template>
+				<farmacias-update :farmacia="editar" />
+			</b-modal>
+		</div>
+	</v-app>
 </template>
 
 <script>
@@ -431,14 +479,14 @@
 					id: "modal_eliminar",
 					farmacia: -1,
 				},
-				options_correo: [{ value: null, text: "Elija un correo" }],
+				options_correo: [{ value: null, text: "Elija un correo",  selected:true }],
 				options_representante: [
-					{ value: null, text: "Elija un representante" },
+					{ value: null, text: "Elija un representante", selected:true },
 				],
 				selected: [],
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
-				btn_limpiar:true,
+				btn_limpiar: true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
@@ -449,7 +497,7 @@
 		},
 		computed: {
 			rows() {
-				return this.totalRows = this.tabla_farmacias.length;
+				return (this.totalRows = this.tabla_farmacias.length);
 			},
 			id() {
 				return this.tabla_farmacias.cod_farmacia;
@@ -490,7 +538,11 @@
 							this.options_correo.push(opcionCorreo);
 						}
 
-						if (this.options_representante.find(x=>x.value==opcionRepre.value)) {
+						if (
+							this.options_representante.find(
+								(x) => x.value == opcionRepre.value
+							)
+						) {
 							console.log(opcionRepre, " ya se encuentra en el listado");
 						} else {
 							this.options_representante.push(opcionRepre);
@@ -607,7 +659,6 @@
 				this.btn_select = false;
 				this.btn_limpiar = true;
 			},
-
 
 			onFiltered(filteredItems) {
 				// Trigger pagination to update the number of buttons/pages due to filtering

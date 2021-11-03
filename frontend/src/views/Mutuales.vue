@@ -1,279 +1,288 @@
 <template>
-	<div id="mutuales" class="myTable">
-		<!--HEAD DE LA PAGINA -->
-		<vue-headful
-			title="Mutuales - Federación Tucumana de Mutuales"
-		></vue-headful>
+	<v-app id="app">
+		<div id="mutuales" class="myTable">
+			<!--HEAD DE LA PAGINA -->
+			<vue-headful
+				title="Mutuales - Federación Tucumana de Mutuales"
+			></vue-headful>
 
-		<h2>Listado de Mutuales</h2>
-		<b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
-			<v-icon dark style="color: black">mdi-cached</v-icon>
-			Actualizar
-		</b-button>
-
-		<!-- ================ALTA MUTUAL======================== -->
-		<b-button
-			class="mb-4 ml-2"
-			v-b-modal.modal-alta
-			@click="altaMutual()"
-			title="Nueva Mutual"
-			style="color: white"
-		>
-			<v-icon dark> mdi-plus </v-icon>
-			Nueva Mutual
-		</b-button>
-		<b-modal id="modal-alta" hide-footer>
-			<template #modal-title><h5 class="modal-title">Alta</h5></template>
-			<mutual-alta />
-		</b-modal>
-		<b-button
-			class="mb-4 ml-2"
-			variant="danger"
-			id="btn_del_full"
-			title="Eliminar todos los registros"
-			style="color: white"
-			:disabled="btn_del_full"
-			v-b-modal.modal-eliminarTodo
-		>
-			<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
-			Eliminar 
-		</b-button>
-		<!-- ================ELIMINAR VARIOS MUTUALES======================== -->
-		<div>
-			<b-modal
-				ref="my-modal"
-				id="modal-eliminarTodo"
-				hide-footer
-				title="Eliminar"
-				ok-only
+			<h2>Listado de Mutuales</h2>
+			<b-button
+				@click="testFetch"
+				class="mb-4"
+				title="Recargar"
+				variant="light"
 			>
-				<div class="d-block text-center" v-if="selected.length === rows">
-					<h3>¿Esta seguro de eliminar todos los registros ?</h3>
-				</div>
-				<div class="d-block text-center" v-else>
-					<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
-				</div>
+				<v-icon dark style="color: black">mdi-cached</v-icon>
+				Actualizar
+			</b-button>
 
-				<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
-					Volver Atras
-				</b-button>
-
-				<b-button
-					class="mt-3"
-					variant="danger"
-					block
-					title="Eliminar"
-					@click="delete_all_Mutuales()"
-				>
-					Eliminar
-				</b-button>
+			<!-- ================ALTA MUTUAL======================== -->
+			<b-button
+				class="mb-4 ml-2"
+				v-b-modal.modal-alta
+				@click="altaMutual()"
+				title="Nueva Mutual"
+				style="color: white"
+			>
+				<v-icon dark> mdi-plus </v-icon>
+				Nueva Mutual
+			</b-button>
+			<b-modal id="modal-alta" hide-footer>
+				<template #modal-title><h5 class="modal-title">Alta</h5></template>
+				<mutual-alta />
 			</b-modal>
-		</div>
+			<b-button
+				class="mb-4 ml-2"
+				variant="danger"
+				id="btn_del_full"
+				title="Eliminar todos los registros"
+				style="color: white"
+				:disabled="btn_del_full"
+				v-b-modal.modal-eliminarTodo
+			>
+				<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
+				Eliminar
+			</b-button>
+			<!-- ================ELIMINAR VARIOS MUTUALES======================== -->
+			<div>
+				<b-modal
+					ref="my-modal"
+					id="modal-eliminarTodo"
+					hide-footer
+					title="Eliminar"
+					ok-only
+				>
+					<div class="d-block text-center" v-if="selected.length === rows">
+						<h3>¿Esta seguro de eliminar todos los registros ?</h3>
+					</div>
+					<div class="d-block text-center" v-else>
+						<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
+					</div>
 
-		<!-- ======== Formulario de Busqueda ======== -->
-		<b-form-group
-			label-for="filter-input"
-			label-align-sm="right"
-			label-size="sm"
-			class="mb-0"
-			style="width: 100%; padding-bottom: 1em"
-		>
-			<b-input-group size="sm">
-				<b-form-input
-					id="filter-input"
-					v-model="filter"
-					type="search"
-					placeholder="Buscar registros"
-				></b-form-input>
+					<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
+						Volver Atras
+					</b-button>
 
-				<b-input-group-append>
-					<b-button :disabled="!filter" @click="filter = ''">Limpiar</b-button>
-				</b-input-group-append>
-			</b-input-group>
-		</b-form-group>
-		<!-- ======================================== -->
+					<b-button
+						class="mt-3"
+						variant="danger"
+						block
+						title="Eliminar"
+						@click="delete_all_Mutuales()"
+					>
+						Eliminar
+					</b-button>
+				</b-modal>
+			</div>
 
-		<!-- ======================================== -->
-		
-		<div v-if="rows > 0">
-			<div v-if="selected.length > 0">
-				<pre>
-					Cantidad de registros: {{ rows }} | Filas seleccionadas: {{selected.length}}
-				</pre>
+			<!-- ======== Formulario de Busqueda ======== -->
+			<b-form-group
+				label-for="filter-input"
+				label-align-sm="right"
+				label-size="sm"
+				class="mb-0"
+				style="width: 100%; padding-bottom: 1em"
+			>
+				<b-input-group size="sm">
+					<b-form-input
+						id="filter-input"
+						v-model="filter"
+						type="search"
+						placeholder="Buscar registros"
+					></b-form-input>
+
+					<b-input-group-append>
+						<b-button :disabled="!filter" @click="filter = ''"
+							>Limpiar</b-button
+						>
+					</b-input-group-append>
+				</b-input-group>
+			</b-form-group>
+			<!-- ======================================== -->
+
+			<!-- ======================================== -->
+
+			<div v-if="rows > 0">
+				<div v-if="selected.length > 0">
+					<pre>
+					Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}
+				</pre
+					>
+				</div>
+				<div v-else>
+					<pre>Cantidad de registros: {{ rows }}</pre>
+				</div>
+				<b-button
+					class="mb-4 ml-2"
+					size="sm"
+					style="color: white"
+					title="Seleccionar Todo"
+					@click="seleccionar_todas"
+					:disabled="btn_select"
+				>
+					Seleccionar Todo
+				</b-button>
+				<b-button
+					class="mb-4 ml-2"
+					size="sm"
+					style="color: white"
+					title="Limpiar Seleccion"
+					@click="limpiar_seleccion"
+					:disabled="btn_limpiar"
+				>
+					Limpiar Seleccion
+				</b-button>
 			</div>
 			<div v-else>
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
-			<b-button
-				class="mb-4 ml-2"
-				size="sm"
-				style="color: white"
-				title="Seleccionar Todo"
-				@click="seleccionar_todas"
-				:disabled="btn_select"
-			>
-				Seleccionar Todo
-			</b-button>
-			<b-button
-				class="mb-4 ml-2"
-				size="sm"
-				style="color: white"
-				title="Limpiar Seleccion"
-				@click="limpiar_seleccion"
-				:disabled="btn_limpiar"
-			>
-				Limpiar Seleccion
-			</b-button>
-		</div>
-		<div v-else>
-			<pre>Cantidad de registros: {{ rows }}</pre>
-		</div>
 
-		<!-- ======== Tabla con los registros ======= -->
+			<!-- ======== Tabla con los registros ======= -->
 
-		<section class="container">
-			<b-table
-				:fields="fields"
-				striped
-				sortable
-				responsive
-				:sticky-header="true"
-				:no-border-collapse="false"
-				hover
-				:items="tabla_mutuales"
-				show-empty
-				:per-page="perPage"
-				:current-page="currentPage"
-				ref="tablaregistros"
-				id="tablaregistros"
-				:filter="filter"
-				@filtered="onFiltered"
-				@row-selected="seleccionar_una"
-				selectable
-				select-mode="multi"
-			>
-				<template #empty="">
-					<b>No hay registros para mostrar</b>
-				</template>
-
-				<template #cell(selected)="{ rowSelected }">
-					<template v-if="rowSelected">
-						<span aria-hidden="true">&check;</span>
-						<span class="sr-only">Selected</span>
+			<section class="container">
+				<b-table
+					:fields="fields"
+					striped
+					sortable
+					responsive
+					:sticky-header="true"
+					:no-border-collapse="false"
+					hover
+					:items="tabla_mutuales"
+					show-empty
+					:per-page="perPage"
+					:current-page="currentPage"
+					ref="tablaregistros"
+					id="tablaregistros"
+					:filter="filter"
+					@filtered="onFiltered"
+					@row-selected="seleccionar_una"
+					selectable
+					select-mode="multi"
+				>
+					<template #empty="">
+						<b>No hay registros para mostrar</b>
 					</template>
-					<template v-else>
-						<span aria-hidden="true">&nbsp;</span>
-						<span class="sr-only">Not selected</span>
+
+					<template #cell(selected)="{ rowSelected }">
+						<template v-if="rowSelected">
+							<span aria-hidden="true">&check;</span>
+							<span class="sr-only">Selected</span>
+						</template>
+						<template v-else>
+							<span aria-hidden="true">&nbsp;</span>
+							<span class="sr-only">Not selected</span>
+						</template>
 					</template>
-				</template>
 
-				<template slot="cell(action)" slot-scope="row">
-					<div class="mt-3">
-						<b-button-group>
-							<b-button
-								variant="info"
-								id="button-1"
-								title="Mostrar Info"
-								@click="row.toggleDetails"
-								:disabled="btn_mostrar"
-							>
-								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
-							</b-button>
+					<template slot="cell(action)" slot-scope="row">
+						<div class="mt-3">
+							<b-button-group>
+								<b-button
+									variant="info"
+									id="button-1"
+									title="Mostrar Info"
+									@click="row.toggleDetails"
+									:disabled="btn_mostrar"
+								>
+									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+								</b-button>
 
-							<b-button
-								variant="warning"
-								id="button-2"
-								title="Editar este registro"
-								v-b-modal.modal-editar
-								@click="editarMutual(row.item, row.index)"
-								:disabled="btn_editar"
-							>
-								<v-icon class="mr-2"> mdi-pencil </v-icon>
-								Editar
-							</b-button>
+								<b-button
+									variant="warning"
+									id="button-2"
+									title="Editar este registro"
+									v-b-modal.modal-editar
+									@click="editarMutual(row.item, row.index)"
+									:disabled="btn_editar"
+								>
+									<v-icon class="mr-2"> mdi-pencil </v-icon>
+									Editar
+								</b-button>
 
-							<b-button
-								variant="danger"
-								id="button-3"
-								@click="showModalinfo(row.item, row.index)"
-								title="Eliminar este registro"
-								:disabled="btn_eliminar"
-							>
-								<v-icon class="mr-2"> mdi-delete </v-icon>
-								Eliminar
-							</b-button>
-						</b-button-group>
-					</div>
-				</template>
-				<template #row-details="row">
-					<b-card title="Datos de la Mutual: ">
-						<div>
-							<b-list-group horizontal>
-								<b-list-group class="col-6">
-									<b-list-group-item>
-										<b>Codigo:</b> {{ row.item.id_mutual }}
-									</b-list-group-item>
-									<b-list-group-item>
-										<b>Nombre:</b> {{ row.item.nombre }}
-									</b-list-group-item>
-									<b-list-group-item>
-										<b>Servicios:</b>
-										<div v-for="servicios in data" :key="servicios.id_mutual">
-											<div
-												v-for="tareas in server_mutual"
-												:key="tareas.id_servicio"
-											>
+								<b-button
+									variant="danger"
+									id="button-3"
+									@click="showModalinfo(row.item, row.index)"
+									title="Eliminar este registro"
+									:disabled="btn_eliminar"
+								>
+									<v-icon class="mr-2"> mdi-delete </v-icon>
+									Eliminar
+								</b-button>
+							</b-button-group>
+						</div>
+					</template>
+					<template #row-details="row">
+						<b-card title="Datos de la Mutual: ">
+							<div>
+								<b-list-group horizontal>
+									<b-list-group class="col-6">
+										<b-list-group-item>
+											<b>Codigo:</b> {{ row.item.id_mutual }}
+										</b-list-group-item>
+										<b-list-group-item>
+											<b>Nombre:</b> {{ row.item.nombre }}
+										</b-list-group-item>
+										<b-list-group-item>
+											<b>Servicios:</b>
+											<div v-for="servicios in data" :key="servicios.id_mutual">
 												<div
-													v-if="
-														servicios.id_mutual.split('/')[4] ==
-															row.item.id_mutual &&
-														servicios.id_servicio.split('/')[4] ==
-															tareas.id_servicio
-													"
+													v-for="tareas in server_mutual"
+													:key="tareas.id_servicio"
 												>
-													<ul>
-														<li>
-															<b>{{ tareas.id_servicio }}:</b>
-															{{ tareas.servicio }}
-														</li>
-													</ul>
+													<div
+														v-if="
+															servicios.id_mutual.split('/')[4] ==
+																row.item.id_mutual &&
+															servicios.id_servicio.split('/')[4] ==
+																tareas.id_servicio
+														"
+													>
+														<ul>
+															<li>
+																<b>{{ tareas.id_servicio }}:</b>
+																{{ tareas.servicio }}
+															</li>
+														</ul>
+													</div>
 												</div>
 											</div>
-										</div>
-									</b-list-group-item>
+										</b-list-group-item>
+									</b-list-group>
 								</b-list-group>
-							</b-list-group>
-						</div>
-					</b-card>
-				</template>
-			</b-table>
+							</div>
+						</b-card>
+					</template>
+				</b-table>
 
-			<b-container fluid>
-				<b-col class="my-1">
-					<b-pagination
-						v-model="currentPage"
-						align="center"
-						pills
-						:total-rows="totalRows"
-						:per-page="perPage"
-						aria-controls="table_mutuales"
+				<b-container fluid>
+					<b-col class="my-1">
+						<b-pagination
+							v-model="currentPage"
+							align="center"
+							pills
+							:total-rows="totalRows"
+							:per-page="perPage"
+							aria-controls="table_mutuales"
+						>
+						</b-pagination>
+					</b-col>
+				</b-container>
+				<!-- ================MODIFICAR UNA MUTUAL======================== -->
+				<b-modal id="modal-editar" hide-footer>
+					<template #modal-title
+						><h5 class="modal-title">
+							Editar: {{ editar.id_mutual }}- {{ editar.nombre }}
+						</h5></template
 					>
-					</b-pagination>
-				</b-col>
-			</b-container>
-			<!-- ================MODIFICAR UNA MUTUAL======================== -->
-			<b-modal id="modal-editar" hide-footer>
-				<template #modal-title
-					><h5 class="modal-title">
-						Editar: {{ editar.id_mutual }}- {{ editar.nombre }}
-					</h5></template
-				>
 
-				<mutual-update :mutual="editar" />
-			</b-modal>
-		</section>
-		<aside>
-			<!--
+					<mutual-update :mutual="editar" />
+				</b-modal>
+			</section>
+			<aside>
+				<!--
 			<div>
 				<b-card-group deck>
 					<b-card
@@ -296,74 +305,95 @@
       
 			<br />
       -->
-			<div>
-				<b-card-group deck>
-					<b-card
-						bg-variant="primary"
-						text-variant="white"
-						header="FILTRAR POR"
-						class="text-center"
-					>
-						<div class="accordion" role="tablist">
-							<b-card no-body>
-								<b-card-header header-tag="header" class="p-1" role="tab">
-									<b-button block v-b-toggle.accordion-1 variant="info">
-										DEPARTAMENTO
-									</b-button>
-								</b-card-header>
-								<b-collapse
-									id="accordion-1"
-									visible
-									accordion="my-accordion"
-									role="tabpanel"
-								>
-									<b-card-body>
-										<b-form-group id="input-group-4">
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="FILTRAR POR"
+							class="text-center"
+						>
+							<div class="accordion" role="tablist">
+								<b-card no-body>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button block v-b-toggle.accordion-1 variant="info" style="font-size: 0.82em">
+											DEPARTAMENTO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-1"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<!--
 											<b-form-select
 												id="departamento"
 												v-model="filter"
 												type="text"
+												taggable
 												:options="options_deptos"
 											>
 											</b-form-select>
-										</b-form-group>
-									</b-card-body>
-								</b-collapse>
-							</b-card>
-						</div>
-					</b-card>
-				</b-card-group>
-			</div>
-		</aside>
+											-->
+												<v-autocomplete
+													id="departamento"
+													v-model="filter"
+													:items="options_deptos"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter !=null">
+  													<b-button 
+													  :disabled="!filter" 
+													  @click="filter = ''"
+													  title="Limpiar"
+													>
+														Limpiar
+													</b-button>	
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+								</b-card>
+							</div>
+						</b-card>
+					</b-card-group>
+				</div>
+			</aside>
 
-		<!-- ================ELIMINAR MUTUAL======================== -->
-		<b-modal
-			id="modal_eliminar"
-			ref="modal_eliminar"
-			hide-footer
-			title="Eliminar"
-			ok-only
-		>
-			<div class="d-block text-center">
-				<h3>
-					¿Esta seguro de eliminar los datos de
-					{{ infoEliminar.mutual.nombre }}?
-				</h3>
-			</div>
-			<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
-				>Volver Atras</b-button
-			>
-			<b-button
-				class="mt-3"
-				variant="danger"
-				block
-				@click="deleteMutual(infoEliminar.mutual.id_mutual)"
+			<!-- ================ELIMINAR MUTUAL======================== -->
+			<b-modal
+				id="modal_eliminar"
+				ref="modal_eliminar"
+				hide-footer
 				title="Eliminar"
+				ok-only
 			>
-				Eliminar
-			</b-button>
-		</b-modal>
-	</div>
+				<div class="d-block text-center">
+					<h3>
+						¿Esta seguro de eliminar los datos de
+						{{ infoEliminar.mutual.nombre }}?
+					</h3>
+				</div>
+				<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
+					>Volver Atras</b-button
+				>
+				<b-button
+					class="mt-3"
+					variant="danger"
+					block
+					@click="deleteMutual(infoEliminar.mutual.id_mutual)"
+					title="Eliminar"
+				>
+					Eliminar
+				</b-button>
+			</b-modal>
+		</div>
+	</v-app>
 </template>
 
 <script>
@@ -404,7 +434,7 @@
 				data: {},
 				editar: {},
 				options_deptos: [
-					{ value: null, text: "Elija un departamento" },
+					{ value: null, text: "Elija un departamento",  selected:true},
 					{ value: "Burruyacú", text: "1- Burruyacú" },
 					{ value: "Capital", text: "2- Capital" },
 					{ value: "Chicligasta", text: "3- Chicligasta" },
@@ -539,7 +569,6 @@
 				}
 			},
 
-
 			//Funcion de busqueda
 			onFiltered(filteredItems) {
 				// Trigger pagination to update the number of buttons/pages due to filtering
@@ -594,7 +623,6 @@
 				this.btn_select = false;
 				this.btn_limpiar = true;
 			},
-
 
 			async getServicios() {
 				var count = 0;
