@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import PagosProf from "../store/PagosProf"
+import "../store/filters";
 
 Vue.use(Vuex);
 
