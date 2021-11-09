@@ -47,12 +47,9 @@ INSTALLED_APPS = [
     "Cobradores",
     "Cuotas",
     "Estudios",
-<<<<<<< HEAD
     "GastosSalientes",
-=======
     "Cirugias",
     "Institutos",
->>>>>>> efdb58f7f8fc6800c0a97941838bb08eb1672bb7
 ]
 
 MIDDLEWARE = [
