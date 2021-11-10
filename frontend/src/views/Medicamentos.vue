@@ -74,7 +74,7 @@
 				v-b-modal.modal-eliminarTodo
 			>
 				<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
-				Eliminar todos los registros
+				Eliminar 
 			</b-button>
 
 			<!--
@@ -140,14 +140,21 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<pre>
-Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
-							selected.length
-						}}</pre
-					>
+					<div v-if="rows!=rowsFilter">
+						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
+
+					</div>
+					<div v-else>
+						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
+					</div>		
 				</div>
 				<div v-else>
-					<pre>Cantidad de registros: {{ rows }}</pre>
+					<div v-if="rows!=rowsFilter">
+						<pre>Registros Fitrados: {{rowsFilter}} </pre>
+					</div>
+					<div v-else>
+						<pre>Cantidad de registros: {{ rows }}</pre>
+					</div>
 				</div>
 				<b-button
 					class="mb-4 ml-2"
@@ -368,7 +375,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 												<div v-show="filter != null">
 													<b-button
 														:disabled="!filter"
-														@click="filter = ''"
+														@click="filter = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -401,7 +408,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 												<div v-show="filter != null">
 													<b-button
 														:disabled="!filter"
-														@click="filter = ''"
+														@click="filter = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -563,6 +570,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		computed: {
 			rows() {
 				return (this.totalRows = this.tabla_med.length);
+			},
+			rowsFilter(){
+				return this.totalRows;
 			},
 			sortOptions() {
 				// Create an options list from our fields

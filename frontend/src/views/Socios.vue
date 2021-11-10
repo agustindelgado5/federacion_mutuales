@@ -127,13 +127,21 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<pre>
-					Cantidad de registros: {{ rows }} | 
-					Filas seleccionadas: {{ selected.length }}
-        		</pre>
+					<div v-if="rows!=rowsFilter">
+						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
+
+					</div>
+					<div v-else>
+						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
+					</div>		
 				</div>
 				<div v-else>
-					<pre>Cantidad de registros: {{ rows }}</pre>
+					<div v-if="rows!=rowsFilter">
+						<pre>Registros Fitrados: {{rowsFilter}} </pre>
+					</div>
+					<div v-else>
+						<pre>Cantidad de registros: {{ rows }}</pre>
+					</div>
 				</div>
 				<b-button
 					class="mb-4 ml-2"
@@ -159,6 +167,7 @@
 			<div v-else>
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
+
 			<b-overlay
 				:show="show"
 				@shown="onShown"
@@ -475,6 +484,7 @@
 											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
 										/>
 									</svg>
+									Generar Carnet
 								</b-button>
 								<b-button
 									@click="generarSolicitudBaja(row.item)"
@@ -484,7 +494,7 @@
 									variant="info"
 									style="color: white"
 								>
-									<span>Solicitud de baja</span>
+									
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										width="16"
@@ -501,6 +511,7 @@
 											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
 										/>
 									</svg>
+									Solicitud de baja
 								</b-button>
 							</b-card>
 						</template>
@@ -590,7 +601,7 @@
 													<div v-show="filter != null">
 														<b-button
 															:disabled="!filter"
-															@click="filter = ''"
+															@click="filter = null"
 															title="Limpiar"
 														>
 															Limpiar
@@ -634,7 +645,7 @@
 													<div v-show="filter != null">
 														<b-button
 															:disabled="!filter"
-															@click="filter = ''"
+															@click="filter = null"
 															title="Limpiar"
 														>
 															Limpiar
@@ -957,6 +968,9 @@
 		computed: {
 			rows() {
 				return (this.totalRows = this.tabla_socios.length);
+			},
+			rowsFilter(){
+				return this.totalRows;
 			},
 			id() {
 				return this.tabla_socios.numero_socio;
