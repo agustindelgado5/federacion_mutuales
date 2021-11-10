@@ -138,6 +138,11 @@ const routes = [
   name: 'institutos',
   component: () => import('../views/Institutos.vue')
   },
+  {
+    path: '/baja_mora',
+    name: 'baja_mora',
+    component: () => import('../views/SociosBajaMora.vue')
+    },
   
 ];
 
