@@ -762,7 +762,7 @@
         ref="html2PdfBaja"
     >
       <section class="ml-5 mt-5 py-3" slot="pdf-content">
-			<p class="text-right">San Miguel de Tucumán {{fecha}}</p>
+			<p class="text-right">San Miguel de Tucumán {{nota.fecha}}</p>
 			<div class="mt-5">
 				<p>Sr. Ricardo Mora</p>
 				<p>S______/_______D</p>
@@ -773,6 +773,7 @@
 					vengo a solicitar en forma unilateral la cancelación del servicio de salud y sepelio.
 				</p>
 				<p>Lo cual solicito que el descuento que se hace a través de mi cobro quede cancelado.</p>
+				<p>Autorizo a {{nota.nombre}}, con DNI {{nota.dni}} a PRESENTAR esta nota.</p>
 			</div>
 			<p class="text-right">Sin otro particular saluda atte.</p>
       </section>
@@ -781,7 +782,7 @@
 	<b-form-group label-cols="auto" label="Fecha" label-for="fecha">
             <b-form-input
               id="fecha"
-              v-model="fecha"
+              v-model="nota.fecha"
               type="text"
               placeholder="Ingrese una fecha"
               invalid-feedback="Complete este campo"
@@ -829,6 +830,30 @@
               id="dni"
               v-model="SocioBajaMora.dni"
               type="number"
+              placeholder="Ingrese un DNI"
+              invalid-feedback="Complete este campo"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+
+		  <b-form-group label-cols="auto" label="Nombre que Autoriza" label-for="nombre_nota">
+            <b-form-input
+              id="nombre_nota"
+              v-model="nota.nombre"
+              type="text"
+              placeholder="Ingrese un nombre"
+              invalid-feedback="Complete este campo"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+
+		  <b-form-group label-cols="auto" label="DNI que Autoriza" label-for="dni_nota">
+            <b-form-input
+              id="dni_nota"
+              v-model="nota.dni"
+              type="text"
               placeholder="Ingrese un DNI"
               invalid-feedback="Complete este campo"
               required
@@ -937,7 +962,11 @@
 				show: false,
 				SocioBajaMora: {
 					},
-				fecha:null,
+				nota:{
+					fecha:null,
+					nombre: "........",
+					dni: "........",
+				},
 				options_deptos: [
 					{
 						value: null,
