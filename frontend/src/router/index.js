@@ -138,6 +138,18 @@ const routes = [
   name: 'institutos',
   component: () => import('../views/Institutos.vue')
   },
+  {
+    path: '/lentes',
+    name: 'lentes',
+    component: () => import('../views/Lentes.vue')
+  },
+  {
+    path: '/ventasOpticas',
+    name: 'VentasOpticas',
+    component: () => import('../views/VentasOpticas.vue'),
+    meta: { title: '"Ventas Opticas - Federación Tucumana de Mutuales"' }
+  },
+  
   
 ];
 

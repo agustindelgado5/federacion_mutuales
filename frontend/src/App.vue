@@ -14,6 +14,8 @@
             <router-link to="/gastosSalientes">Gastos Salientes</router-link>  |
             <router-link to="/cirugias">Cirugias</router-link>  |
             <router-link to="/institutos">Institutos</router-link>  |
+            <router-link to="/lentes">Lentes</router-link>  |
+            <router-link to="/ventasOpticas">VentasOpticas</router-link>  |
 
         </div>
         <sidebar-menu :menu="menu" id="menulo" ref="menulo"
