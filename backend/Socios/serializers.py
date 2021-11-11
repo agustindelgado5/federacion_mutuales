@@ -12,6 +12,7 @@ class SociosSerializer(serializers.HyperlinkedModelSerializer):
             "nombre",
             "dni",
             "fecha_nacimiento",
+            "fecha_asociacion",
             #'edad',
             "calle",
             "localidad",
