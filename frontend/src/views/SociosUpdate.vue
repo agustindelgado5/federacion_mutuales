@@ -67,6 +67,18 @@
             >
             </b-form-input>
           </b-form-group>
+
+          <b-form-group label="*Fecha de asociacion" label-for="fecha_asociacion">
+            <b-form-input
+              id="fecha_asociacion"
+              v-model="socio.fecha_asociacion"
+              type="date"
+              placeholder="Ingrese una fecha"
+              invalid-feedback="Complete este campo"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
             
         </b-card-body>
       </b-collapse>
@@ -444,6 +456,7 @@ export default {
         this.socio.nombre = "";
         this.socio.dni = null;
         this.socio.fecha_nacimiento=null;
+        this.socio.fecha_asociacion=null;
         this.socio.calle = "";
         this.socio.localidad = "";
         this.socio.departamento = "";
