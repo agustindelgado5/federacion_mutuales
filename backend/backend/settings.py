@@ -13,7 +13,7 @@ SECRET_KEY = "django-insecure-x*)5s_om!jooy5ewy8n*oqjc#6ziymj=2%a5jdjg^urmp*e8k5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -27,13 +27,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # THRIRTY APPS
-    # PARA VUE (cuando deployemos)
-    # 'webpack_loader',
     # PARA POSGRESS
     "django.contrib.postgres",
     # Django REST framework
     "rest_framework",
-    "rest_framework.authtoken",
+    # "rest_framework.authtoken",
+    # jwt auth
+    "djoser",
     # CORS
     "corsheaders",
     # LOCAL APPS
@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     "Institutos",
     "Lentes",
     "VentasOpticas",
-    
 ]
 
 MIDDLEWARE = [
@@ -88,15 +87,18 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 
 REST_FRAMEWORK = {
-    # "DEFAULT_AUTHENTICATION_CLASSES": [
-    #     "rest_framework.authentication.BasicAuthentication",
-    #     "rest_framework.authentication.SessionAuthentication",
-    #     "rest_framework.authentication.TokenAuthentication",
-    # ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
     # "DEFAULT_PERMISSIONS_CLASSES": ("rest_framework.permissions.IsAuthenticated"),
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
+}
+
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("JWT", "Bearer", "Token"),
 }
 
 

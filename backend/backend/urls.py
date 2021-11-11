@@ -1,9 +1,12 @@
+from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path, re_path, include
+from django.urls import path, include
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    url(r'^auth/', include('djoser.urls')),
+    url(r'^auth/', include('djoser.urls.jwt')),
     # re_path("", include("users.urls")),
     path("", include("Socios.urls")),
     path("", include("Farmacias.urls")),
