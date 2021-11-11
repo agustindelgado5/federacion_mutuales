@@ -127,13 +127,21 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<pre>
-					Cantidad de registros: {{ rows }} | 
-					Filas seleccionadas: {{ selected.length }}
-        		</pre>
+					<div v-if="rows!=rowsFilter">
+						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
+
+					</div>
+					<div v-else>
+						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
+					</div>		
 				</div>
 				<div v-else>
-					<pre>Cantidad de registros: {{ rows }}</pre>
+					<div v-if="rows!=rowsFilter">
+						<pre>Registros Fitrados: {{rowsFilter}} </pre>
+					</div>
+					<div v-else>
+						<pre>Cantidad de registros: {{ rows }}</pre>
+					</div>
 				</div>
 				<b-button
 					class="mb-4 ml-2"
@@ -159,6 +167,7 @@
 			<div v-else>
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
+
 			<b-overlay
 				:show="show"
 				@shown="onShown"
@@ -475,6 +484,34 @@
 											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
 										/>
 									</svg>
+									Generar Carnet
+								</b-button>
+								<b-button
+									@click="generarSolicitudBaja(row.item)"
+									id="btn_down_pdf"
+									class="mb-0 ml-2"
+									title="Generar Solicitud de Baja"
+									variant="info"
+									style="color: white"
+								>
+									
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										fill="currentColor"
+										class="bi bi-file-pdf-fill"
+										viewBox="0 0 16 16"
+									>
+										<path
+											d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
+										/>
+										<path
+											fill-rule="evenodd"
+											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
+										/>
+									</svg>
+									Solicitud de baja
 								</b-button>
 							</b-card>
 						</template>
@@ -564,7 +601,7 @@
 													<div v-show="filter != null">
 														<b-button
 															:disabled="!filter"
-															@click="filter = ''"
+															@click="filter = null"
 															title="Limpiar"
 														>
 															Limpiar
@@ -608,7 +645,7 @@
 													<div v-show="filter != null">
 														<b-button
 															:disabled="!filter"
-															@click="filter = ''"
+															@click="filter = null"
 															title="Limpiar"
 														>
 															Limpiar
@@ -697,6 +734,116 @@
 					</section>
 				</section>
 			</vue-html2pdf>
+
+			<b-modal size="xl" ref="modal-bajamora" id="modal-bajamora" hide-footer>
+				<template #modal-title><h5 class="modal-title">Vista previa</h5></template>
+				
+			
+
+
+			 <vue-html2pdf
+        :show-layout="true"
+        :float-layout="false"
+        :enable-download="false"
+        :preview-modal="true"
+        :paginate-elements-by-height="1400"
+        filename="Solicitud_Baja"
+        :pdf-quality="2"
+        :manual-pagination="false"
+        pdf-format="a4"
+        pdf-orientation="portrait"  
+        pdf-content-width="95%"
+ 
+        @progress="onProgress($event)"
+        @startPagination="startPagination()"
+        @hasPaginated="hasPaginated()"
+        @beforeDownload="beforeDownload($event)"
+        @hasDownloaded="hasDownloaded($event)" 
+        ref="html2PdfBaja"
+    >
+      <section class="ml-5 mt-5 py-3" slot="pdf-content">
+			<p class="text-right">San Miguel de Tucumán {{fecha}}</p>
+			<div class="mt-5">
+				<p>Sr. Ricardo Mora</p>
+				<p>S______/_______D</p>
+			</div>
+			<div class="mt-5">
+				<p class="text-justify" style="text-indent:40%">Quien suscribe {{SocioBajaMora.nombre}} {{SocioBajaMora.apellido}},
+					DNI {{SocioBajaMora.dni}} Nº de afiliado {{SocioBajaMora.numero_socio}} al servicio brindado por Ricardo Mora, quien por medio de la presente
+					vengo a solicitar en forma unilateral la cancelación del servicio de salud y sepelio.
+				</p>
+				<p>Lo cual solicito que el descuento que se hace a través de mi cobro quede cancelado.</p>
+			</div>
+			<p class="text-right">Sin otro particular saluda atte.</p>
+      </section>
+    </vue-html2pdf>
+
+	<b-form-group label-cols="auto" label="Fecha" label-for="fecha">
+            <b-form-input
+              id="fecha"
+              v-model="fecha"
+              type="text"
+              placeholder="Ingrese una fecha"
+              invalid-feedback="Complete este campo"
+              required
+              >
+			</b-form-input>
+	</b-form-group>
+
+	<b-form-group label-cols="auto" label="N° Socio" label-for="numero_socio">
+            <b-form-input
+              id="numero_socio"
+              v-model="SocioBajaMora.numero_socio"
+              type="number"
+              placeholder="Ingrese un Numero"
+              invalid-feedback="Complete este campo"
+              required
+              >
+			</b-form-input>
+	</b-form-group>
+
+	<b-form-group label-cols="auto" label="Nombre/s" label-for="nombre">
+              <b-form-input
+                id="nombre"
+                v-model="SocioBajaMora.nombre"
+                type="text"
+                placeholder="*Ingrese los Nombre/s"
+                invalid-feedback="Complete este campo"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+		<b-form-group label-cols="auto" label="Apellido/s" label-for="apellido">
+			<b-form-input
+			id="apellido"
+			v-model="SocioBajaMora.apellido"
+			type="text"
+			placeholder="*Ingrese los Apellido/s"
+			invalid-feedback="Complete este campo"
+			required
+			>
+			</b-form-input>
+		</b-form-group>
+          <b-form-group label-cols="auto" label="DNI" label-for="dni">
+            <b-form-input
+              id="dni"
+              v-model="SocioBajaMora.dni"
+              type="number"
+              placeholder="Ingrese un DNI"
+              invalid-feedback="Complete este campo"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+		  <b-button
+				@click="generarPDFSolicitudBaja()"
+				class="mb-4 ml-2"
+				title="PDF de la baja"
+				>Generar PDF</b-button
+			>
+	
+</b-modal>
+
 		</div>
 	</v-app>
 </template>
@@ -710,6 +857,7 @@
 	import VueAwesomplete from "vue-awesomplete";
 	import SociosAlta from "./SociosAlta.vue";
 	import SociosUpdate from "./SociosUpdate.vue";
+	import SociosBajaMora from "./SociosBajaMora.vue";
 	import VueHtml2pdf from "vue-html2pdf";
 
 	import axios from "axios";
@@ -719,6 +867,7 @@
 		components: {
 			SociosAlta,
 			SociosUpdate,
+			SociosBajaMora,
 			VueAwesomplete,
 			VueHtml2pdf,
 		},
@@ -786,7 +935,9 @@
 					adhrentes: [],
 				},
 				show: false,
-
+				SocioBajaMora: {
+					},
+				fecha:null,
 				options_deptos: [
 					{
 						value: null,
@@ -817,6 +968,9 @@
 		computed: {
 			rows() {
 				return (this.totalRows = this.tabla_socios.length);
+			},
+			rowsFilter(){
+				return this.totalRows;
 			},
 			id() {
 				return this.tabla_socios.numero_socio;
@@ -1069,6 +1223,17 @@
 				// Focus the show button when the overlay is removed
 				this.$refs.show.focus();
 			},
+
+			async generarSolicitudBaja(item) {
+				this.SocioBajaMora={...item};
+				this.fecha=new Date().toLocaleDateString('es-ar',{month:'long',day:'numeric',year:'numeric'});
+				this.$refs["modal-bajamora"].show();
+			},
+
+			async generarPDFSolicitudBaja(){
+				this.$refs.html2PdfBaja.generatePdf();
+			}
+
 		},
 		beforeMount() {
 			//this.show = true;

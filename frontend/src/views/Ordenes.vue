@@ -107,13 +107,21 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<pre>
-					Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}
-				</pre
-					>
+					<div v-if="rows!=rowsFilter">
+						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
+
+					</div>
+					<div v-else>
+						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
+					</div>		
 				</div>
 				<div v-else>
-					<pre>Cantidad de registros: {{ rows }}</pre>
+					<div v-if="rows!=rowsFilter">
+						<pre>Registros Fitrados: {{rowsFilter}} </pre>
+					</div>
+					<div v-else>
+						<pre>Cantidad de registros: {{ rows }}</pre>
+					</div>
 				</div>
 				<b-button
 					class="mb-4 ml-2"
@@ -410,7 +418,7 @@
 												<div v-show="filter != null">
 													<b-button
 														:disabled="!filter"
-														@click="filter = ''"
+														@click="filter = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -457,7 +465,7 @@
 												<div v-show="filter != null">
 													<b-button
 														:disabled="!filter"
-														@click="filter = ''"
+														@click="filter = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -587,6 +595,9 @@
 		computed: {
 			rows() {
 				return (this.totalRows = this.tabla_ordenes.length);
+			},
+			rowsFilter(){
+				return this.totalRows;
 			},
 			id() {
 				return this.tabla_ordenes.numero_orden;

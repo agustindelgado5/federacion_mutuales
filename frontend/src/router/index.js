@@ -149,7 +149,11 @@ const routes = [
     component: () => import('../views/VentasOpticas.vue'),
     meta: { title: '"Ventas Opticas - Federación Tucumana de Mutuales"' }
   },
-  
+  {
+    path: '/baja_mora',
+    name: 'baja_mora',
+    component: () => import('../views/SociosBajaMora.vue')
+    },
   
 ];
 
