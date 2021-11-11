@@ -230,6 +230,12 @@
 							}}
 						</template>
 
+						<template slot="cell(fecha_asociacion)" slot-scope="data">
+							{{ data.value.split("-")[2] }}/{{ data.value.split("-")[1] }}/{{
+								data.value.split("-")[0]
+							}}
+						</template>
+
 						<template slot="cell(carencia)" slot-scope="data">
 							{{ data.value.split("-")[2] }}/{{ data.value.split("-")[1] }}/{{
 								data.value.split("-")[0]
@@ -377,6 +383,10 @@
 											<b-list-group-item
 												><b>Fecha de Nacimiento:</b>
 												{{ row.item.fecha_nacimiento }}</b-list-group-item
+											>
+											<b-list-group-item
+												><b>Fecha de Asociacion:</b>
+												{{ row.item.fecha_asociacion }}</b-list-group-item
 											>
 											<b-list-group-item
 												><b>Edad:</b> {{ row.item.edad }}</b-list-group-item
@@ -883,6 +893,11 @@
 					{
 						key: "fecha_nacimiento",
 						label: "Fecha de Nacimiento",
+						sortable: true,
+					},
+					{
+						key: "fecha_asociacion",
+						label: "Fecha de Asociacion",
 						sortable: true,
 					},
 					//{key: 'calle' ,label: 'Direccion', sortable: true,},

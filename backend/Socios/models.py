@@ -28,6 +28,7 @@ class socios(models.Model):
     departamento = models.CharField(max_length=30, choices=deptos_tucuman)
     cod_postal = models.IntegerField()
     fecha_nacimiento = models.DateField()
+    fecha_asociacion = models.DateField()
     edad = models.IntegerField(blank=True, null=True, editable=False)
     email = models.EmailField()
     tel_fijo = models.IntegerField(null=True, blank=True)
