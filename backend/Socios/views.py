@@ -14,7 +14,7 @@ from Cuotas.serializers import CuotasSerializer
 from rest_framework.test import APIRequestFactory
 
 class SociosViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     serializer_class = SociosSerializer
     queryset = socios.objects.all()
     @action(methods=['GET'], detail = True)
