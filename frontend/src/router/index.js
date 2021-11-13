@@ -14,7 +14,7 @@ const routes = [
     name: "Home",
     component: Home,
     meta: { title: 'Home - Federación Tucumana de Mutuales' },
-    webpackChunkName: "Home",  
+    webpackChunkName: "Home",
   },
   {
     path: "/profesionales",
@@ -26,7 +26,7 @@ const routes = [
       import(
         /* webpackChunkName: "profesionales" */ "../views/Profesionales.vue"
       ),
-      meta: { title: 'Profesionales - Federación Tucumana de Mutuales' } 
+      meta: { title: 'Profesionales - Federación Tucumana de Mutuales' }
   },
   {
     path: "/profesionales/list_pagos",
@@ -52,35 +52,35 @@ const routes = [
     name: "Farmacias",
 
     component: () => import("../views/Farmacias.vue"),
-    meta: { title: 'Farmacias - Federación Tucumana de Mutuales' } 
+    meta: { title: 'Farmacias - Federación Tucumana de Mutuales' }
   },
   {
     path: "/ordenes",
     name: "Ordenes",
 
     component: () => import("../views/Ordenes.vue"),
-    meta: { title: 'Ordenes - Federación Tucumana de Mutuales' } 
+    meta: { title: 'Ordenes - Federación Tucumana de Mutuales' }
   },
   {
     path: "/medicamentos",
     name: "Medicamentos",
 
     component: () => import("../views/Medicamentos.vue"),
-    meta: { title: 'Medicamentos - Federación Tucumana de Mutuales' } 
+    meta: { title: 'Medicamentos - Federación Tucumana de Mutuales' }
   },
   {
     path: "/Recetas",
     name: "Recetas",
 
     component: () => import("../views/Recetas.vue"),
-    meta: { title: 'Recetas - Federación Tucumana de Mutuales' } 
+    meta: { title: 'Recetas - Federación Tucumana de Mutuales' }
   },
   {
     path: "/Servicios",
     name: "Servicios",
 
     component: () => import("../views/Servicios.vue"),
-    meta: { title: 'Servicios - Federación Tucumana de Mutuales' } 
+    meta: { title: 'Servicios - Federación Tucumana de Mutuales' }
   },
   {
     path: "/cobradores",
@@ -154,7 +154,7 @@ const routes = [
     name: 'baja_mora',
     component: () => import('../views/SociosBajaMora.vue')
     },
-  
+
 ];
 
 const router = new VueRouter({
