@@ -1,7 +1,7 @@
 <template>
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
-    <h4>Datos </h4>   
+    <h4>Datos </h4>
     <b-form @submit.prevent="">
       <b-form-group label="*Nombre del servicio" label-for="nombre">
         <b-form-input
@@ -20,14 +20,14 @@
               >{{validacion.servicio.mensaje}}
         </b-form-invalid-feedback>
       </b-form-group>
-      
+
     </b-form>
     <b-button class="mt-2" variant="success" block @click.prevent="postServicios()">Guardar</b-button>
   </div>
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "../../store/APIControler";
 
 export default {
   data() {
@@ -48,7 +48,7 @@ export default {
       let servicioAPI = new APIControler();
       console.log(servicioAPI.apiUrl)
       servicioAPI.apiUrl.pathname='servicios/';
-      let respuesta = await servicioAPI.postData(this.servicio); 
+      let respuesta = await servicioAPI.postData(this.servicio);
       this.cargarFeedback(respuesta)
     },
 
@@ -59,7 +59,7 @@ export default {
       for(let key in respuestaAPI){
         this.validacion[key].estado=false
         this.validacion[key].mensaje=respuestaAPI[key][0]
-        
+
       }
     }
   },

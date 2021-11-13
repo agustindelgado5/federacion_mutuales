@@ -1,7 +1,7 @@
 <template>
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
-    <h4>Datos </h4>   
+    <h4>Datos </h4>
     <b-form >
 
       <b-form-group label="*Nombre del servicio" label-for="nombre">
@@ -21,14 +21,14 @@
               >{{validacion.servicio.mensaje}}
             </b-form-invalid-feedback>
       </b-form-group>
-      
+
     </b-form>
     <b-button class="mt-2" variant="success" block @click="putServicios()">Modificar</b-button>
   </div>
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "@/store/APIControler";
 import axios from "axios";
 
 export default {
@@ -56,7 +56,7 @@ export default {
       let servicioAPI = new APIControler();
       servicioAPI.apiUrl.pathname='servicios/'
       this.data = await servicioAPI.getData(this.servicios);
-      this.data.forEach(element => {   
+      this.data.forEach(element => {
         let option={}
         option.value='http://localhost:8081/servicios/'+ element.id_servicio +'/';
         option.text=element.servicio;

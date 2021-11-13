@@ -38,9 +38,9 @@
 			v-b-modal.modal-eliminarTodo
 		>
 			<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
-			Eliminar 
+			Eliminar
 		</b-button>
-    
+
     <div>
 			<b-modal
 				ref="my-modal"
@@ -96,7 +96,7 @@
     <!-- ======================================== -->
 
     <!-- ======================================== -->
-		
+
 		<div v-if="rows > 0">
 			<div v-if="selected.length > 0">
 				<pre>

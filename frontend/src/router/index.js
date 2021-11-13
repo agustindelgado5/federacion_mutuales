@@ -79,7 +79,7 @@ const routes = [
     path: "/Servicios",
     name: "Servicios",
 
-    component: () => import("../views/Servicios.vue"),
+    component: () => import("../views/servicios/Servicios.vue"),
     meta: { title: 'Servicios - Federación Tucumana de Mutuales' }
   },
   {
