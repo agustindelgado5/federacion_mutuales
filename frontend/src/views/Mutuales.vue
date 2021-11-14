@@ -426,9 +426,17 @@
 				tabla_mutuales: [],
 				fields: [
 					{ key: "selected", label: "Seleccionar", sortable: true },
+					{ key: "matricula", label: "Matricula", sortable: true },
 					{ key: "nombre", label: "Mutual", sortable: true },
 					{ key: "direccion", label: "Direccion", sortable: true },
-					{ key: "sucursal", label: "Filial", sortable: true },
+					{ key: "localidad", label: "Localidad", sortable: true },
+					{ key: "sucursal", label: "Filial", sortable: true },					
+					{ key: "cuit", label: "CUIT", sortable: true },
+					{ key: "email", label: "Email", sortable: true },
+					{ key: "telefono", label: "Telefono", sortable: true },
+					{ key: "representante", label: "Autoridad", sortable: true },
+					{ key: "fecha_inicio", label: "Fecha Inicio", sortable: true },
+					
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				filter: null,
