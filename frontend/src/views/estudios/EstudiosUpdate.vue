@@ -1,7 +1,7 @@
 <template>
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
-    <h4>Nuevo Estudio:</h4>
+    <h4>Modificar Estudio:</h4>
 
     <!-- CAMPOS REQUERIDOS -->
     <!-- id_estudio -->
@@ -12,7 +12,7 @@
     <!-- activo -->
     <!-- descripcion -->
     <!-- denominación -->
-    
+
     <!------------------------------------------------------------------------------------------->
     <b-form>
       <b-form-group label="*Codigo del Estudio" label-for="cod_estudio">
@@ -23,7 +23,7 @@
           type="text"
           placeholder="Ingrese el código"
           invalid-feedback="Complete este campo"
-          :state="validacion.codigo_intervencion.estado"
+          :state="validacion.cod_estudio.estado"
           required
         >
         </b-form-input>
@@ -64,8 +64,8 @@
           >{{ validacion.abreviatura.mensaje }}
         </b-form-invalid-feedback>
       </b-form-group>
-      
-      
+
+
       <b-form-group label="*Descripción" label-for="descripcion">
         <b-form-input
           id="descripcion"
@@ -110,7 +110,7 @@
           type="decimal"
           placeholder="Ingrese la U.B. correspondiente al estudio "
           invalid-feedback="Complete este campo"
-          
+
         >
         </b-form-input>
         <b-form-invalid-feedback id="ub-live-feedback"
@@ -118,22 +118,26 @@
         </b-form-invalid-feedback>
       </b-form-group>
     </b-form>
-    <b-button class="mt-2" variant="success" block @click="postEstudio()"
-      >Guardar</b-button
+    <b-button class="mt-2" variant="success" block @click="putEstudio()"
+      >Modificar</b-button
     >
   </div>
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "@/store/APIControler";
+import axios from "axios";
 
 export default {
+
+  props: {
+    estudio: {},
+  },
   data() {
     return {
-      
-      estudio: {},
+
       data: {},
-      
+
       op_tipo: [{ value: null, text: "Elija un tipo", disabled: true },
         { value:"Oftalmologia", text: "1- Oftalmología"},
         { value:"Optica", text: "2- Óptica"},
@@ -142,7 +146,7 @@ export default {
         { value:"Diag. Imagenes", text: "5- Diag. Imágenes"},],
 
 
-      
+
       validacion: {
         tipo: { estado: null, mensaje: "" },
         cod_estudio: { estado: null, mensaje: "" },
@@ -151,22 +155,28 @@ export default {
         descripcion: { estado: null, mensaje: "" },
         denominación: { estado: null, mensaje: "" },
       },
-      
+
       respuesta: null,
     };
   },
 
   methods: {
-    
+
     async getEstudios() {
       let estudioAPI = new APIControler();
       this.data = await estudioAPI.getData();
     },
-    async postEstudio() {
-      let estudioAPI = new APIControler();
-      estudioAPI.apiUrl.pathname = "estudios/";
-      this.respuesta = await estudioAPI.postData(this.estudio);
-      this.cargarFeedback();
+    async putEstudio() {
+      let respuesta ="vacio"
+      await axios.put("http://localhost:8081/estudios/"+this.estudio.id_estudio+ '/', this.estudio)
+      .then(function (data){
+        swal("Operación Exitosa", " ", "success");
+      })
+      .catch(function (error) {
+        swal("¡ERROR!", "Se ha detectado un problema ", "error");
+        respuesta=error.response.data;
+      })
+      this.cargarFeedback(respuesta)
     },
 
     cargarFeedback() {

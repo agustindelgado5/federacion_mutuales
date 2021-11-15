@@ -107,7 +107,7 @@
                title="Editar este registro"
               v-b-modal.modal-editar
               @click="editarCobrador(row.item, row.index)"
-              
+
              >
                <v-icon class="mr-2"> mdi-pencil </v-icon>
                Editar
@@ -122,7 +122,7 @@
               <v-icon class="mr-2"> mdi-delete </v-icon>
               Eliminar
             </b-button>
-            
+
           </b-button-group>
         </div>
       </template>
@@ -130,10 +130,10 @@
         <b-card title="Datos del cobrador: " >
           <div>
             <b-list-group horizontal>
-              <b-list-group class="col-3">  
+              <b-list-group class="col-3">
                 <b-list-group-item><b>id cobrador:</b> {{ row.item.id_cobrador }}</b-list-group-item>
                 <b-list-group-item><b>N socio:</b> {{ row.item.numero_socio.split('/')[4] }}</b-list-group-item>
-            
+
               </b-list-group>
               &nbsp;
               <b-list-group class="col-5">
@@ -141,10 +141,10 @@
                 <b-list-group-item><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item>
                 <b-list-group-item><b>DNI:</b> {{ row.item.dni }} </b-list-group-item>
               </b-list-group>
-      
-                
+
+
             </b-list-group>
-          </div>            
+          </div>
         </b-card>
       </template>
     </b-table>
@@ -207,8 +207,8 @@ api.pathname = "cobradores";
 api.port = 8081;
 import VueAwesomplete from "vue-awesomplete";
 
-import CobradoresAlta from './CobradoresAlta.vue';
-import CobradoresUpdate from './CobradoresUpdate.vue';
+import CobradoresAlta from '../cobradores/CobradoresAlta.vue';
+import CobradoresUpdate from '../cobradores/CobradoresUpdate.vue';
 import axios from "axios";
 
 export default {
@@ -329,7 +329,7 @@ export default {
         }
       }
     },
-    
+
   },
 
   beforeMount(){

@@ -111,7 +111,7 @@
 					</div>
 					<div v-else>
 						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
-					</div>		
+					</div>
 				</div>
 				<div v-else>
 					<div v-if="rows!=rowsFilter">
@@ -146,7 +146,7 @@
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
 
-			
+
 
 			<!-- ======== Tabla con los registros ======= -->
 
@@ -312,7 +312,7 @@
 					</b-card>
 				</b-card-group>
 			</div>
-      
+
 			<br />
       -->
 				<div>
@@ -357,13 +357,13 @@
 													filled
 												></v-autocomplete>
 												<div v-show="filter !=null">
-  													<b-button 
-													  :disabled="!filter" 
+  													<b-button
+													  :disabled="!filter"
 													  @click="filter = null"
 													  title="Limpiar"
 													>
 														Limpiar
-													</b-button>	
+													</b-button>
 												</div>
 											</b-form-group>
 										</b-card-body>
@@ -415,7 +415,7 @@
 	import VueAwesomplete from "vue-awesomplete";
 	import axios from "axios";
 	import MutualAlta from "./MutualAlta.vue";
-	import { APIControler } from "../store/APIControler";
+	import { APIControler } from "@/store/APIControler";
 	import MutualUpdate from "./MutualUpdate.vue";
 
 	export default {
@@ -430,13 +430,13 @@
 					{ key: "nombre", label: "Mutual", sortable: true },
 					{ key: "direccion", label: "Direccion", sortable: true },
 					{ key: "localidad", label: "Localidad", sortable: true },
-					{ key: "sucursal", label: "Filial", sortable: true },					
+					{ key: "sucursal", label: "Filial", sortable: true },
 					{ key: "cuit", label: "CUIT", sortable: true },
 					{ key: "email", label: "Email", sortable: true },
 					{ key: "telefono", label: "Telefono", sortable: true },
 					{ key: "representante", label: "Autoridad", sortable: true },
 					{ key: "fecha_inicio", label: "Fecha Inicio", sortable: true },
-					
+
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				filter: null,

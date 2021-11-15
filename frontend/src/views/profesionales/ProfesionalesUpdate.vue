@@ -213,7 +213,7 @@
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "@/store/APIControler";
 import axios from "axios";
 
 export default {

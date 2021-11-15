@@ -5,7 +5,7 @@
 
 		<!------------------------------------------------------------------------------------------->
 
-		
+
 		<b-form>
 			<b-form-group label="*Matricula" label-for="matricula">
 				<b-form-input
@@ -152,7 +152,7 @@
 					>{{ validacion.sucursal.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
-	
+
 
 			<b-form-group label="*Fecha Inicio" label-for="fecha_inicio">
 				<b-form-input
@@ -193,7 +193,7 @@
 
 <script>
 	import axios from "axios";
-	import { APIControler } from "../store/APIControler";
+	import { APIControler } from "@/store/APIControler";
 
 	export default {
 		data() {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
-    
+
     <b-form>
        <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
@@ -140,8 +140,8 @@
       </b-card-header>
       <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
         <b-card-body>
-      
-      
+
+
           <b-form-group label="*Email" label-for="email">
             <b-form-input
               id="email"
@@ -182,14 +182,14 @@
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "@/store/APIControler";
 
 export default {
   data() {
     return {
       profesional: {},
       data: {},
-      options: [    
+      options: [
         {value: 'Buenos Aires', text: '1- Buenos Aires'},
         {value: 'Catamarca', text: '2- Catamarca'},
         {value: 'Chaco', text: '3- Chaco'},

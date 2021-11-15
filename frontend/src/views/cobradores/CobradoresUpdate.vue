@@ -2,7 +2,7 @@
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos </h4>
-    
+
       <b-form-group label="*Socio" label-for="numero_socio"  @submit.stop.prevent="handleSubmit">
         <b-form-select
         id="numero_socio"
@@ -20,7 +20,7 @@
                 id="numero_socio-live-feedback"
               >{{validacion.numero_socio.mensaje}}
             </b-form-invalid-feedback>
-        
+
       </b-form-group>
     <b-form>
       <b-form-group label="*ID Cobrador" label-for="id_cobrador" @submit.stop.prevent="handleSubmit">
@@ -59,7 +59,7 @@
             </b-form-invalid-feedback>
         </b-form-group>
 
-      
+
       <b-form-group label="*Apellido/s" label-for="apellido" @submit.stop.prevent="handleSubmit">
         <b-form-input
           id="apellido"
@@ -77,7 +77,7 @@
          </b-form-invalid-feedback>
       </b-form-group>
 
-     
+
         <b-form-group label="*DNI" label-for="dni" @submit.stop.prevent="handleSubmit">
           <b-form-input
             id="dni"
@@ -95,7 +95,7 @@
           </b-form-invalid-feedback>
         </b-form-group>
 
-      
+
       <b-form-group label="*Fecha de cobro" label-for="fecha_cobro" @submit.stop.prevent="handleSubmit">
         <b-form-input
           id="fecha_cobro"
@@ -113,19 +113,19 @@
           </b-form-invalid-feedback>
       </b-form-group>
     </b-form>
-    
-    
+
+
     <!-- {{cobrador}}
 +    <br>
 +    <br>
 +    {{ data }} -->
-    
+
     <b-button class="mt-2" variant="success" block @click="putCobrador()">Modificar</b-button>
   </div>
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "../../store/APIControler";
 import axios from "axios";
 
 export default {
@@ -151,7 +151,7 @@ export default {
         apellido: {estado:null,mensaje:""},
         dni: {estado:null,mensaje:""},
         fecha_cobro: {estado:null,mensaje:""},
-        
+
       }
     };
   },
@@ -166,20 +166,20 @@ export default {
       let socioAPI = new APIControler();
       socioAPI.apiUrl.pathname='socios/';
       this.data = await socioAPI.getData(this.list_socios);
-      this.data.forEach(element => {   
+      this.data.forEach(element => {
         let option={}
         option.value='http://localhost:8081/socios/'+ element.numero_socio +'/';
         option.text= element.numero_socio +'-- '+ element.apellido +', '+ element.nombre ;
         console.log(option);
         this.op_socios.push(option);
-        
+
       });
     },
     async getCobrador() {
       let cobradorAPI = new APIControler();
       cobradorAPI.apiUrl.pathname='cobradores/'
       this.data = await cobradorAPI.getData(this.cobradores);
-      this.data.forEach(element => {   
+      this.data.forEach(element => {
         let option={}
         option.value='http://localhost:8081/cobradores/'+ element.id_cobrador +'/';
         option.text=element.cobrador;
@@ -187,25 +187,25 @@ export default {
         this.options.push(option);
       });
     },
-    
+
     async putCobrador() {
       let respuesta ="vacio"
       // try{
       await axios.put('http://localhost:8081/cobradores/'+this.cobrador.id_cobrador+ '/', this.cobrador)
       .then(function (data){
-        
+
         swal("Operación Exitosa", " ", "success");
       })
       .catch(function (error) {
         swal("¡ERROR!", "Se ha detectado un problema ", "error");
         respuesta=error.response.data;
-        
+
       })
       this.cargarFeedback(respuesta)
-     
+
       console.log("respuesta:");
       console.log(respuesta);
-     
+
     },
     cargarFeedback(respuestaAPI){
       console.log("respuestaAPI")

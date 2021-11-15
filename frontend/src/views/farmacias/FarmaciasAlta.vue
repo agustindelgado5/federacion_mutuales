@@ -161,7 +161,7 @@
                 id="email-live-feedback"
               >{{validacion.email.mensaje}}
           </b-form-invalid-feedback>
-      </b-form-group> 
+      </b-form-group>
 
     <!-- tel_fijo -->
     <b-form-group label="Telefono fijo" label-for="tel_fijo">
@@ -219,7 +219,7 @@
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "@/store/APIControler";
 
 export default {
   data() {
@@ -249,7 +249,7 @@ export default {
     async postFarmacias() {
       let farmaciaAPI = new APIControler();
       farmaciaAPI.apiUrl.pathname='farmacias/';
-      let respuesta = await farmaciaAPI.postData(this.farmacia); 
+      let respuesta = await farmaciaAPI.postData(this.farmacia);
       this.cargarFeedback(respuesta)
     },
 
@@ -260,7 +260,7 @@ export default {
       for(let key in respuestaAPI){
         this.validacion[key].estado=false
         this.validacion[key].mensaje=respuestaAPI[key][0]
-        
+
       }
     }
   },

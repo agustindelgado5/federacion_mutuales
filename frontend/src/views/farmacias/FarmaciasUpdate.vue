@@ -2,7 +2,7 @@
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
     <h4>Datos </h4>
- 
+
     <b-form>
       <b-form-group label="*ID Farmacia" label-for="cod_farmacia" @submit.stop.prevent="handleSubmit">
             <b-form-input
@@ -146,7 +146,7 @@
                 id="email-live-feedback"
               >{{validacion.email.mensaje}}
           </b-form-invalid-feedback>
-      </b-form-group> 
+      </b-form-group>
 
     <!-- tel_fijo -->
     <b-form-group label="Telefono fijo" label-for="tel_fijo">
@@ -198,19 +198,19 @@
           </b-form-invalid-feedback>
     </b-form-group>
     </b-form>
-    
-    
+
+
     <!-- {{farmacia}}
     <br>
     <br>
     {{ data }} -->
-    
+
     <b-button class="mt-2" variant="success" block @click="putFarmacia()">Modificar</b-button>
   </div>
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "@/store/APIControler";
 import axios from "axios";
 
 export default {
@@ -250,7 +250,7 @@ export default {
       let farmaciaAPI = new APIControler();
       farmaciaAPI.apiUrl.pathname='farmacias/'
       this.data = await farmaciaAPI.getData(this.farmacias);
-      this.data.forEach(element => {   
+      this.data.forEach(element => {
         let option={}
         option.value='http://localhost:8081/farmacias/'+ element.cod_farmacia +'/';
         option.text=element.farmacia;
@@ -258,29 +258,29 @@ export default {
         this.options.push(option);
       });
     },
-    
+
     async putFarmacia() {
       let respuesta ="vacio"
       // try{
       await axios.put('http://localhost:8081/farmacias/'+this.farmacia.cod_farmacia+ '/', this.farmacia)
       .then(function (data){
-        
+
         swal("Operación Exitosa", " ", "success");
       })
       .catch(function (error) {
         swal("¡ERROR!", "Se ha detectado un problema ", "error");
         respuesta=error.response.data;
-        
+
         //console.log(error.response.data);
       })
       this.cargarFeedback(respuesta)
       //this.farmacia= await axios.put('http://localhost:8081/farmacias/'+this.farmacia.cod_farmacia+ '/', this.farmacia)
       console.log("respuesta:");
       console.log(respuesta);
-        
+
       // }
       // catch(error) {
-          
+
       //     console.log("error:");
       //     console.log(error.response);
       // }

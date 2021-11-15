@@ -1,30 +1,30 @@
 <template>
-  <div id="estudios" class="myTable">
+  <div id="institutos" class="myTable">
     <!--HEAD DE LA PAGINA -->
     <vue-headful
-      title="Estudios - Federación Tucumana de Mutuales"
+      title="Institutos - Federación Tucumana de Mutuales"
     ></vue-headful>
 
-    <h2>Listado de Estudios</h2>
+    <h2>Listado de Institutos</h2>
     <b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
       <v-icon dark style="color: black">mdi-cached</v-icon>
       Actualizar
     </b-button>
 
-    <!-- ================ALTA ESTUDIOS======================== -->
+    <!-- ================ALTA Institutos======================== -->
     <b-button
       class="mb-4 ml-2"
       v-b-modal.modal-alta
-      @click="altaEstudio()"
-      title="Nuevo Estudio"
+      @click="altaInstituto()"
+      title="Nuevo Instituto"
       style="color: white"
     >
       <v-icon dark> mdi-plus </v-icon>
-      Nuevo Estudio
+      Nueva Cirugia
     </b-button>
     <b-modal id="modal-alta" hide-footer>
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
-      <estudios-alta />
+      <institutos-alta />
     </b-modal>
 
     <!-- ======== Formulario de Busqueda ======== -->
@@ -62,7 +62,7 @@
       sortable
       responsive
       hover
-      :items="tabla_estudios"
+      :items="tabla_institutos"
       show-empty
       :per-page="perPage"
       :current-page="currentPage"
@@ -73,101 +73,17 @@
       <template #empty="">
         <b>No hay registros para mostrar</b>
       </template>
-      <!-- <template slot="cell(numero_orden)" slot-scope="data">
-        <b>{{ data.value }}</b>
-      </template>
-      <template slot="cell(numero_socio)" slot-scope="data">
-        {{ data.value.split("/")[4] }}
-      </template>
-      <template slot="cell(paciente)" slot-scope="data">
-        {{ data.value.split("/")[4] }}
-      </template>
-      <template slot="cell(id_medico)" slot-scope="data">
-        {{ data.value.split("/")[4] }}
-      </template>
-      <template slot="cell(id_mutual)" slot-scope="data">
-        {{ data.value.split("/")[4] }}
-      </template>
 
-      <template slot="cell(precio)" slot-scope="data">
-        $ {{ data.value }}
-      </template>
-
-      <template slot="cell(realizado)" slot-scope="data">
-        <div v-if="data.value === true">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-check-circle-fill"
-            viewBox="0 0 16 16"
-            style="color: green"
-          >
-            <path
-              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
-            />
-          </svg>
-          SI
-        </div>
-        <div v-else>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-x-circle-fill"
-            viewBox="0 0 16 16"
-            style="color: red"
-          >
-            <path
-              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
-            />
-          </svg>
-          NO
-        </div>
-      </template> -->
       <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
           <b-button-group>
-            <!-- <b-button variant="info" id="button-1" title="Mostrar Info"
-              >Mostrar Info</b-button
-            > -->
-            <!-- ==================================CREAR PDF================================== -->
-            <!-- Generar PDF -->
-            <!-- <b-button
-              @click="generarPDF(row.item)"
-              id="btn_down_pdf"
-              class="mb-0 ml-2"
-              title="Generar PDF"
-              variant="info"
-              style="color: white"
-            >
-              <!-- :disabled="btn_down_pdf" -->
-              <!-- <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-file-pdf-fill"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
-                />
-                <path
-                  fill-rule="evenodd"
-                  d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
-                />
-              </svg> -->
-              <!-- ============================================================================== -->
-            <!-- </b-button> -->
+
             <b-button
               variant="warning"
               id="button-2"
               title="Editar este registro"
               v-b-modal.modal-editar
-              @click="editarEstudio(row.item, row.index)"
+              @click="editarInstituto(row.item, row.index)"
             >
               <v-icon class="mr-2"> mdi-pencil </v-icon>
               Editar
@@ -185,14 +101,14 @@
           </b-button-group>
         </div>
       </template>
-      <!-- 
+      <!--
       <template slot="action">
         <b-button variant="warning" size="sm">Modificar</b-button>
         <b-button variant="danger" size="sm">Eliminar</b-button>
       </template>
     -->
     </b-table>
-    <!-- ================ELIMINAR ESTUDIO======================== -->
+    <!-- ================ELIMINAR Instituto======================== -->
 
     <b-modal
       id="modal_eliminar"
@@ -203,8 +119,8 @@
     >
       <div class="d-block text-center">
         <h3>
-          ¿Esta seguro de eliminar los datos del estudio
-          {{ infoEliminar.estudio.cod_estudio }}?
+          ¿Esta seguro de eliminar los datos de la cirugia
+          {{ infoEliminar.instituto.codigo_institucion }}?
         </h3>
       </div>
       <b-button class="mt-2" block @click="hideModal" title="Volver Atras"
@@ -214,7 +130,7 @@
         class="mt-3"
         variant="danger"
         block
-        @click="deleteEstudio(infoEliminar.estudio.id_estudio)"
+        @click="deleteInstituto(infoEliminar.instituto.codigo_institucion)"
         title="Eliminar"
       >
         Eliminar
@@ -228,14 +144,14 @@
           pills
           :total-rows="rows"
           :per-page="perPage"
-          aria-controls="table_estudios"
+          aria-controls="tabla_institutos"
         >
         </b-pagination>
       </b-col>
     </b-container>
     <b-modal id="modal-editar" hide-footer>
       <template #modal-title><h5 class="modal-title">Editar</h5></template>
-      <estudios-update :estudio="editar" />
+      <institutos-update :instituto="editar" />
     </b-modal>
 
     <!-- ==================================CREAR PDF================================== -->
@@ -259,8 +175,8 @@
       ref="html2Pdf"
     >
       <section slot="pdf-content">
-        <!-- PDF Content Here -->
-        <!-- <section class="pdf-item">
+
+
           <h3>Federación Tucumana de Mutuales</h3>
           <img
             src="../assets/logo.jpg"
@@ -274,18 +190,18 @@
           <!-- <b-table
               :fields="fields"
               responsive
-              :items="tabla_estudios"
+              :items="tabla_cirugias"
               :no-border-collapse= false
               small
               fixed
               bordered
               head-variant="light"
             >
-              <!-- <template slot="cell(cod_farmacia)" slot-scope="data">
+
                 {{data.value.split('/')[4]}}
-              </template> 
+              </template>
             </b-table> -->
-<!-- 
+<!--
           <b-list-group>
             <b-list-group-item
               v-for="value in fields.slice(0, -1)"
@@ -302,28 +218,26 @@
 
 <script>
 let api = new URL("http://localhost");
-api.pathname = "estudios";
+api.pathname = "institutos";
 //api.port = 8000;
 api.port = 8081;
 
-import EstudiosAlta from "./EstudiosAlta.vue";
-import EstudiosUpdate from "./EstudiosUpdate.vue";
+import InstitutosAlta from "./InstitutosAlta.vue";
+import InstitutosUpdate from "./InstitutosUpdate.vue";
 import VueHtml2pdf from "vue-html2pdf";
 
 import axios from "axios";
 
 export default {
-  components: { EstudiosAlta, EstudiosUpdate, VueHtml2pdf },
+  components: { InstitutosAlta, InstitutosUpdate, VueHtml2pdf },
   data() {
     return {
-      tabla_estudios: [],
+      tabla_institutos: [],
       fields: [
-        { key: "cod_estudio", label: "Cod. Estudio", sortable: true },
-        { key: "tipo", label: "Tipo", sortable: true },
-        { key: "abreviatura", label: "Abreviatura", sortable: true },
-        { key: "UB", label: "U.B.", sortable: true },
-        { key: "descripcion", label: "Descripción", sortable: true },
-        { key: "denominación", label: "Denominación", sortable: true },
+         {key:"id_medico" ,label: "N° de profesional", sortable: true,},
+
+        { key: "codigo_institucion", label: "Codigo Institutos", sortable: true },
+
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
       totalRows: 1, //Total de filas
@@ -333,20 +247,21 @@ export default {
       editar: {},
       infoEliminar: {
         id: "modal_eliminar",
-        estudio: -1,
+        instituto: -1,
       },
     };
   },
   computed: {
     rows() {
-      return this.tabla_estudios.length;
+      return this.tabla_institutos.length;
     },
     id() {
-      return this.tabla_estudios.cod_estudio;
+      return this.tabla_institutos.codigo_institucion
+      ;
     },
     items() {
-      return tabla_estudios.filter((item) => {
-        return item.cod_estudio
+      return tabla_institutos.filter((item) => {
+        return item.codigo_institucion
           .toLowerCase()
           .includes(this.buscar.toLowerCase());
       });
@@ -358,16 +273,16 @@ export default {
         const res = await fetch(api);
         const data = await res.json();
 
-        var lista_estudios = data.results;
+        var lista_institutos = data.results;
 
-        console.log(lista_estudios);
+        console.log(lista_institutos);
 
-        this.tabla_estudios = lista_estudios;
+        this.tabla_institutos = lista_institutos;
       } catch (error) {
         console.log(error);
       }
     },
-    editarEstudio(item, index) {
+    editarInstituto(item, index) {
       this.editar = item;
     },
     //Funcion para mostrar el modal
@@ -375,18 +290,18 @@ export default {
       this.$refs["my-modal"].show();
     },
     showModalinfo(item, index) {
-      this.infoEliminar.estudio = item;
+      this.infoEliminar.instituto = item;
       this.showModal();
     },
     //Funcion para esconder el modal
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-    altaEstudio() {},
+    altaInstituto() {},
 
-    async deleteEstudio(id_estudio) {
+    async deleteInstituto(codigo_institucion) {
       axios
-        .delete("http://localhost:8081/estudios/" + id_estudio + "/")
+        .delete("http://localhost:8081/cirugias/" + codigo_institucion + "/")
         .then((datos) => {
           swal("Operación Exitosa", " ", "success");
           console.log(datos);
@@ -408,11 +323,9 @@ export default {
         td,
         i,
         txtValue,
-        p1, //tipo
-        p2, //codigo
-        p3, //abreviatura
-        p4, //descripcion
-        p5; //denominacion
+        p1, //codigo
+        p2//id_medico
+
       input = this.$refs.buscadorlista;
       filter = input.value.toUpperCase();
       table = document.getElementById("tablaregistros");
@@ -423,10 +336,8 @@ export default {
         td = tr[i].getElementsByTagName("td");
         p1 = td[0].textContent || td[0].innerText;
         p2 = td[1].textContent || td[1].innerText;
-        p3 = td[2].textContent || td[2].innerText;
-        p4 = td[4].textContent || td[4].innerText;
-        p5 = td[5].textContent || td[5].innerText;
-        txtValue = p1 + p2 + p3 + p4 + p5;
+
+        txtValue = p1 +p2 ;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
         } else {
@@ -434,7 +345,7 @@ export default {
         }
       }
     },
- 
+
   },
   beforeMount() {
     this.testFetch();

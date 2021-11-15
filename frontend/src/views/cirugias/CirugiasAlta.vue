@@ -11,7 +11,7 @@
     <!--honorarios cirujano-->
     <!--honorarios ayudante-->
     <!-- observacion -->
-    
+
     <!------------------------------------------------------------------------------------------->
     <b-form>
       <b-form-group label="*Codigo de intervencion" label-for="codigo_intervencion">
@@ -31,7 +31,7 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      
+
 
       <b-form-group label="*Descripcion" label-for="descripcion">
         <b-form-input
@@ -48,9 +48,9 @@
           >{{ validacion.descripcion.mensaje }}
         </b-form-invalid-feedback>
       </b-form-group>
-      
-      
-      
+
+
+
         <b-form-group label="*Nivel" label-for="nivel">
         <b-form-input
           id="nivel"
@@ -142,17 +142,17 @@
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "@/store/APIControler";
 
 export default {
   data() {
     return {
-      
+
       cirugia: {},
       data: {},
 
       validacion: {
-       
+
         codigo_intervencion: { estado: null, mensaje: "" },
         descripcion: { estado: null, mensaje: "" },
         nivel: { estado: null, mensaje: "" },
@@ -161,13 +161,13 @@ export default {
         honorario_ayudante: { estado: null, mensaje: "" },
         observacion: { estado: null, mensaje: "" },
       },
-      
+
       respuesta: null,
     };
   },
 
   methods: {
-    
+
     async getCirugias() {
       let  cirugiaAPI = new APIControler();
       this.data = await  cirugiaAPI.getData();

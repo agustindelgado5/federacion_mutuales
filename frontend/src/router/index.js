@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-//import Socios from "../components/Socios/Socios.vue";
 import vueHeadful from 'vue-headful';
 
 Vue.component('vue-headful', vueHeadful);
@@ -19,124 +18,99 @@ const routes = [
   {
     path: "/profesionales",
     name: "Profesionales",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(
-        /* webpackChunkName: "profesionales" */ "../views/Profesionales.vue"
+        /* webpackChunkName: "profesionales" */ "../views/profesionales/Profesionales.vue"
       ),
-      meta: { title: 'Profesionales - Federación Tucumana de Mutuales' }
+    meta: { title: 'Profesionales - Federación Tucumana de Mutuales' }
   },
   {
     path: "/profesionales/list_pagos",
     name: "Listado_de_Pagos",
-
     component: () => import("../views/PagoProfesionales.vue"),
   },
   {
     path: "/socios",
     name: "Socios",
-    //component: Socios,
-
     component: () => import("../views/Socios.vue"),
   },
   {
     path: "/mutuales",
     name: "Mutuales",
-
-    component: () => import("../views/Mutuales.vue"),
+    component: () => import("../views/mutuales/Mutuales.vue"),
   },
   {
     path: "/farmacias",
     name: "Farmacias",
-
-    component: () => import("../views/Farmacias.vue"),
+    component: () => import("../views/farmacias/Farmacias.vue"),
     meta: { title: 'Farmacias - Federación Tucumana de Mutuales' }
   },
   {
     path: "/ordenes",
     name: "Ordenes",
-
     component: () => import("../views/Ordenes.vue"),
     meta: { title: 'Ordenes - Federación Tucumana de Mutuales' }
   },
   {
     path: "/medicamentos",
     name: "Medicamentos",
-
     component: () => import("../views/Medicamentos.vue"),
     meta: { title: 'Medicamentos - Federación Tucumana de Mutuales' }
   },
   {
     path: "/Recetas",
     name: "Recetas",
-
     component: () => import("../views/Recetas.vue"),
     meta: { title: 'Recetas - Federación Tucumana de Mutuales' }
   },
   {
     path: "/Servicios",
     name: "Servicios",
-
     component: () => import("../views/servicios/Servicios.vue"),
     meta: { title: 'Servicios - Federación Tucumana de Mutuales' }
   },
   {
     path: "/cobradores",
     name: "Cobradores",
-    //component: Cobradores,
-
-    component: () => import("../views/Cobradores.vue"),
+    component: () => import("../views/cobradores/Cobradores.vue"),
     meta: { title: 'Cobradores - Federación Tucumana de Mutuales' }
   },
   {
     path: "/login",
     name: "Login",
-    //component: Cobradores,
-
     component: () => import("../views/login/Login.vue"),
     meta: { title: 'Iniciar Sessión - Federación Tucumana de Mutuales' }
   },
   {
-    path: '/forgot-password',
-    name: 'forgot-password',
-    component: () => import('../views/ForgotPassword.vue')
-  },
-  {
     path: '/cuotas',
     name: 'cuotas',
-    component: () => import('../views/Cuotas.vue')
+    component: () => import('../views/cuotas/Cuotas.vue')
   },
   {
     path: '/estudios',
     name: 'estudios',
-    component: () => import('../views/Estudios.vue')
+    component: () => import('../views/estudios/Estudios.vue')
   },
-
   {
     path: '/ordenesProf',
     name: 'ordenesProf',
     component: () => import('../views/Ordenes_Profesional.vue')
   },
-
   {
     path: "/gastosSalientes",
     name: "GastosSalientes",
-
     component: () => import("../views/GastosSalientes.vue"),
     meta: { title: 'Gastos Salientes - Federación Tucumana de Mutuales' }
   },
-
   {
     path: '/cirugias',
     name: 'cirugias',
-    component: () => import('../views/Cirugias.vue')
+    component: () => import('../views/cirugias/Cirugias.vue')
   },
   {
-  path: '/institutos',
-  name: 'institutos',
-  component: () => import('../views/Institutos.vue')
+    path: '/institutos',
+    name: 'institutos',
+    component: () => import('../views/institutos/Institutos.vue')
   },
   {
     path: '/lentes',
@@ -153,7 +127,7 @@ const routes = [
     path: '/baja_mora',
     name: 'baja_mora',
     component: () => import('../views/SociosBajaMora.vue')
-    },
+  },
 
 ];
 

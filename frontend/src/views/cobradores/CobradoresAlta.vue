@@ -1,9 +1,9 @@
 <template>
   <div>
     <h6>Los campos en (*) son obligatorios</h6>
-    <h4>Datos </h4>   
-    
-      
+    <h4>Datos </h4>
+
+
      <b-form-group label="*Socio" label-for="numero_socio"  @submit.stop.prevent="handleSubmit">
         <b-form-select
           id="numero_socio"
@@ -21,7 +21,7 @@
               >{{validacion.numero_socio.mensaje}}
             </b-form-invalid-feedback>
       </b-form-group>
-   
+
     <b-form >
        <b-form-group label="*ID Cobrador" label-for="id_cobrador" @submit.stop.prevent="handleSubmit">
         <b-form-input
@@ -89,7 +89,7 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      
+
        <b-form-group label="*Fecha de cobro" label-for="fecha_cobro" @submit.stop.prevent="handleSubmit">
         <b-form-input
           id="fecha_cobro"
@@ -106,14 +106,14 @@
               >{{validacion.fecha_cobro.mensaje}}
           </b-form-invalid-feedback>
       </b-form-group>
-    
+
     </b-form>
     <b-button class="mt-2" variant="success" block @click="postCobrador()">Enviar</b-button>
   </div>
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "../../store/APIControler";
 
 export default {
   data() {
@@ -131,7 +131,7 @@ export default {
       apellido: {estado:null,mensaje:""},
       dni: {estado:null,mensaje:""},
       fecha_cobro: {estado:null,mensaje:""},
-        
+
       }
     };
   },
@@ -141,13 +141,13 @@ export default {
       let socioAPI = new APIControler();
       socioAPI.apiUrl.pathname='socios/';
       this.data = await socioAPI.getData(this.list_socios);
-      this.data.forEach(element => {   
+      this.data.forEach(element => {
         let option={}
         option.value='http://localhost:8081/socios/'+ element.numero_socio +'/';
         option.text= element.numero_socio +'-- '+ element.apellido +', '+ element.nombre ;
         console.log(option);
         this.op_socios.push(option);
-        
+
       });
     },
 

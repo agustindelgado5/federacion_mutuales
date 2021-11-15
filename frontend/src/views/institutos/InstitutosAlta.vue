@@ -5,8 +5,8 @@
 
     <!-- CAMPOS REQUERIDOS -->
     <!-- codigo_instituto -->
-    
-    
+
+
     <!------------------------------------------------------------------------------------------->
 
     <b-form>
@@ -44,9 +44,9 @@
             </b-form-invalid-feedback>
       </b-form-group>
 
-      
 
-     
+
+
 
     </b-form>
     <b-button class="mt-2" variant="success" block @click="postInstituto()"
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "@/store/APIControler";
 
 export default {
   data() {
@@ -70,29 +70,29 @@ export default {
       validacion: {
         id_medico:{estado:null,mensaje:""},
         codigo_institucion: { estado: null, mensaje: "" },
-        
+
       },
-      
+
       respuesta: null,
     };
   },
 
   methods: {
-    
+
     async getProfesionales() {
       let profesionalAPI = new APIControler();
       profesionalAPI.apiUrl.pathname='profesionales/';
       this.data = await profesionalAPI.getData(this.list_profesionales);
-      this.data.forEach(element => {   
+      this.data.forEach(element => {
         let option={}
         option.value='http://localhost:8081/profesionales/'+ element.id_medico +'/';
         option.text= element.id_medico +'-- '+ element.apellido +', '+ element.nombre ;
         console.log(option);
         this.op_socios.push(option);
-        
+
       });
     },
-    
+
     async getInstitutos() {
       let  institutoAPI = new APIControler();
       this.data = await  institutoAPI.getData();

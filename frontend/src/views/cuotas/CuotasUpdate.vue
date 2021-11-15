@@ -3,9 +3,10 @@
         <h6>Los campos en (*) son obligatorios</h6>
         <h4>Datos </h4>
         <b-form @submit.stop.prevent>
-            <b-form-group label="*ID" label-for="id_cuota" @submit.stop.prevent="handleSubmit">
+            <b-form-group label="*ID">
                 <b-form-input id="id_cuota"
-                              v-model="cuotas.id_cuota"
+                              :disabled="true"
+                              v-model="item_cuot.id_cuota"
                               type="number"
                               :state="validacion.id_cuota.estado"
                               placeholder="Ingrese un Numero"
@@ -17,9 +18,9 @@
                 </b-form-invalid-feedback>
             </b-form-group>
 
-            <b-form-group label="*Socio" label-for="numero_socio">
+            <b-form-group label="*Socio">
                 <b-form-select id="numero_socio"
-                               v-model="cuotas.numero_socio"
+                               v-model="item_cuot.numero_socio"
                                type="text"
                                placeholder="Ingrese un Numero"
                                invalid-feedback="Complete este campo"
@@ -33,9 +34,9 @@
             </b-form-group>
 
             {{ list_familiar }}
-            <b-form-group label="*Personapago" label-for="personapago" @submit.stop.prevent="handleSubmit">
+            <b-form-group label="*Personapago">
                 <b-form-input id="personapago"
-                              v-model="cuotas.personapago"
+                              v-model="item_cuot.personapago"
                               type="text"
                               placeholder="Ingrese el nombre de la persona que pago"
                               invalid-feedback="Complete este campo"
@@ -48,53 +49,55 @@
             </b-form-group>
             <b-form-group label="*Monto" label-for="monto" @submit.stop.prevent="handleSubmit">
                 <b-form-input id="monto"
-                                v-model="cuotas.monto"
-                                type="number"
-                                :state="validacion.monto.estado"
-                                placeholder="Ingrese un Numero"
-                                invalid-feedback="Complete este campo"
-                                required>
+                              v-model="item_cuot.monto"
+                              type="number"
+                              :state="validacion.monto.estado"
+                              placeholder="Ingrese un Numero"
+                              invalid-feedback="Complete este campo"
+                              required>
                 </b-form-input>
                 <b-form-invalid-feedback id="monto-live-feedback">
                     {{validacion.monto.mensaje}}
                 </b-form-invalid-feedback>
             </b-form-group>
-            <b-form-group label="*Fecha Realizacion" label-for="fecharealizacion" @submit.stop.prevent="handleSubmit">
+            <b-form-group label="*Fecha Realizacion">
                 <b-form-input id="fecharealizacion"
-                                v-model="cuotas.fecharealizacion"
-                                type="date"
-                                :state="validacion.fecharealizacion.estado"
-                                placeholder="Ingrese una Fecha"
-                                invalid-feedback="Complete este campo"
-                                required>
+                              v-model="item_cuot.fecharealizacion"
+                              type="date"
+                              :state="validacion.fecharealizacion.estado"
+                              placeholder="Ingrese una Fecha"
+                              invalid-feedback="Complete este campo"
+                              required>
                 </b-form-input>
                 <b-form-invalid-feedback id="fecharealizacion-live-feedback">
                     {{validacion.fecharealizacion.mensaje}}
                 </b-form-invalid-feedback>
             </b-form-group>
-            </b-form>
         </b-form>
-        <b-button class="mt-2" variant="success" block @click="postCuota()">Guardar</b-button>
+
+
+        <b-button class="mt-2" variant="success" block @click="putCuota()">Modificar</b-button>
     </div>
 </template>
 
 <script>
-import { APIControler } from "../store/APIControler";
+import { APIControler } from "@/store/APIControler";
+import axios from "axios";
 
 
 export default {
+  props: {
+    item_cuot: {},
+  },
   data() {
     return {
       list_socios: {},
-      cuotas: {},
       data: {},
       list_familiar: {},
       op_socios: [{ value: null, text: "Elija un socio", disabled: true }],
       options: [
         {value: null, text: 'Elija un socio', disabled: true},
       ],
-
-      text: '',
       validacion:{
         id_cuota: {estado:null,mensaje:""},
         personapago: {estado:null,mensaje:""},
@@ -137,25 +140,18 @@ methods: {
             this.op_socios.push(option);
         });
     },
-    async postCuota() {
-      let cuotasAPI = new APIControler();
-      cuotasAPI.apiUrl.pathname='cuotas/'
-      let respuesta = await cuotasAPI.postData(this.cuotas);
-      this.cargarFeedback(respuesta);
-      this.resetForm();
+    async putCuota() {
+        try {
+            this.item_cuot = await axios.put('http://localhost:8081/cuotas/' + this.item_cuot.id_cuota + '/', this.item_cuot)
+            swal("Operaci�n Exitosa", " ", "success");
+            console.log(this.item_cuot);
+        }
+        catch (error) {
+            swal("�ERROR!", "Se ha detectado un problema ", "error");
+            console.log(error);
+        }
+        finally { location.href = '/cuotas' };
     },
-
-
-    async resetForm() {
-
-        this.cuotas.id_cuota = null;
-        this.cuotas.personapago = "";
-        this.cuotas.monto = null;
-        this.cuotas.numero_socio = null;
-
-    },
-
-
     cargarFeedback(respuestaAPI){
       for(let key in this.validacion){
         this.validacion[key].estado=true
