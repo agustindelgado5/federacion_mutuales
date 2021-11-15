@@ -18,6 +18,23 @@
             </template>
             <servicio-form v-on:close="closeDialog()" v-on:new="saveNewItem" />
           </v-dialog>
+          <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-card>
+              <v-card-title class="text-h5"
+                >¿Seguro que quieres elminar?</v-card-title
+              >
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeDelete"
+                  >Cancelar</v-btn
+                >
+                <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+                  >Eliminar</v-btn
+                >
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-toolbar>
       </template>
       <template v-slot:item.actions="{ item }">
@@ -41,6 +58,7 @@ export default {
         { text: "Acciones", value: "actions", sortable: false },
       ],
       tabla_servicios: [],
+      itemSelected: {},
       dialog: false,
       dialogDelete: false,
       fetcher: new Fetcher("servicios/"),
@@ -60,10 +78,22 @@ export default {
     },
     editItem(item) {},
     deleteItem(item) {
+      this.itemSelected = item;
       this.dialogDelete = true;
     },
     closeDialog() {
       this.dialog = false;
+    },
+    closeDelete() {
+      this.dialogDelete = false;
+    },
+    async deleteItemConfirm() {
+      let res = await this.fetcher.delete(this.itemSelected.id_servicio);
+      res.status === 204
+        ? this.llenar_tabla()
+        : console.error("No se pudo eliminar");
+
+      this.closeDelete();
     },
   },
   created() {

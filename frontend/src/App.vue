@@ -1,22 +1,12 @@
 <template>
   <v-app>
-    <div id="nav" style="text-align: center; align-content: center">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/servicios">Servicios</router-link> |
-      <router-link to="/mutuales">Mutuales</router-link> |
-      <router-link to="/socios">Socios</router-link> |
-      <router-link to="/profesionales">Profesionales</router-link> |
-      <router-link to="/farmacias">Farmacias</router-link> |
-      <router-link to="/medicamentos">Medicamentos</router-link> |
-      <router-link to="/recetas">Recetas</router-link> |
-      <router-link to="/ordenes">Ordenes Medicas</router-link> |
-      <router-link to="/cobradores">Cobradores</router-link> |
-      <router-link to="/gastosSalientes">Gastos Salientes</router-link> |
-      <router-link to="/cirugias">Cirugias</router-link> |
-      <router-link to="/institutos">Institutos</router-link> |
-      <router-link to="/lentes">Lentes</router-link> |
-      <router-link to="/ventasOpticas">VentasOpticas</router-link> |
-    </div>
+    <v-breadcrumbs :items="items" divider="|">
+      <template v-slot:item="{ item }">
+        <v-breadcrumbs-item :to="item.to" :disabled="item.disabled">
+          {{ item.text }}
+        </v-breadcrumbs-item>
+      </template>
+    </v-breadcrumbs>
     <!-- <sidebar-menu
       :menu="menu"
       id="menulo"
@@ -129,10 +119,87 @@ export default {
     },
   },
   created() {
-    console.log(process.env.VUE_APP_API_HOST, process.env.VUE_APP_API_PORT)
+    console.log(process.env.VUE_APP_API_HOST, process.env.VUE_APP_API_PORT);
   },
   data() {
     return {
+      items: [
+        // {
+        //   text: "Iniciar Sessión",
+        //   disable: false,
+        //   to: "/login",
+        // },
+        {
+          text: "Servicios",
+          disable: false,
+          to: "/servicios",
+        },
+        {
+          text: "Mutuales",
+          disable: false,
+          to: "/mutuales",
+        },
+        {
+          text: "Socios",
+          disable: false,
+          to: "/socios",
+        },
+        {
+          text: "Profesionales",
+          disable: false,
+          to: "/profesionales",
+        },
+        {
+          text: "Farmacias",
+          disable: false,
+          to: "/farmacias",
+        },
+        {
+          text: "Medicamentos",
+          disable: false,
+          to: "/medicamentos",
+        },
+        {
+          text: "Recetas",
+          disable: false,
+          to: "/recetas",
+        },
+        {
+          text: "Ordenes",
+          disable: false,
+          to: "/ordenes",
+        },
+        {
+          text: "Cobradores",
+          disable: false,
+          to: "/cobradores",
+        },
+        {
+          text: "Gastos",
+          disable: false,
+          to: "/gastosSalientes",
+        },
+        {
+          text: "Cirugias",
+          disable: false,
+          to: "/cirugias",
+        },
+        {
+          text: "Institutos",
+          disable: false,
+          to: "/institutos",
+        },
+        {
+          text: "Lentes",
+          disable: false,
+          to: "/lentes",
+        },
+        {
+          text: "Opticas",
+          disable: false,
+          to: "/ventasOpticas",
+        },
+      ],
       name: "SidebarMenu",
       menu: [
         {
@@ -391,7 +458,7 @@ export default {
 };
 </script>
 <style>
-#buscadorepico {
+/* #buscadorepico {
   background-image: url("/assets/search.png");
   background-size: 8%;
   background-position: 10px 12px;
@@ -405,5 +472,5 @@ export default {
 }
 #menulo {
   position: absolute;
-}
+} */
 </style>

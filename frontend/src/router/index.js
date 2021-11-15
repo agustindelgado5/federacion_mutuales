@@ -95,8 +95,8 @@ const routes = [
     name: "Login",
     //component: Cobradores,
 
-    component: () => import("../views/Login.vue"),
-    meta: { title: 'Login - Federación Tucumana de Mutuales' }
+    component: () => import("../views/login/Login.vue"),
+    meta: { title: 'Iniciar Sessión - Federación Tucumana de Mutuales' }
   },
   {
     path: '/forgot-password',

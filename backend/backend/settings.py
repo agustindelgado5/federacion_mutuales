@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # THRIRTY APPS
     # PARA POSGRESS
-    "django.contrib.postgres",
+    # "django.contrib.postgres",
     # Django REST framework
     "rest_framework",
     # "rest_framework.authtoken",

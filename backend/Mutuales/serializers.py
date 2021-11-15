@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from Mutuales.models import mutuales, servicios, servicio_mutual
 
-class ServiciosSerializer(serializers.HyperlinkedModelSerializer):
-    
+class ServiciosSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = servicios
         fields = (
@@ -12,7 +12,7 @@ class ServiciosSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ['id_servicio','created ','updated']
 
 
-class MutualesSerializer(serializers.HyperlinkedModelSerializer):
+class MutualesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = mutuales
@@ -32,8 +32,8 @@ class MutualesSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ['id_mutual','created ','updated']
 
 
-class ServiciosMutualSerializer(serializers.HyperlinkedModelSerializer):
-    
+class ServiciosMutualSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = servicio_mutual
         fields = (
@@ -42,7 +42,7 @@ class ServiciosMutualSerializer(serializers.HyperlinkedModelSerializer):
             'id_servicio',
         )
         #read_only_fields = ['id_mutual','id_servicio']
-        
+
 
 
 

@@ -44,4 +44,26 @@ export class Fetcher {
             return response;
         } catch (error) { console.error(error); }
     }
+
+    async put(id, payload) {
+        try {
+            let response = await fetch(this.wrapperURL + id + "/", {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload)
+            });
+            return response;
+        } catch (error) { console.error(error); }
+    }
+
+    async delete(id) {
+        try {
+            let response = await fetch(this.wrapperURL + id + "/", {
+                method: 'DELETE',
+            });
+            return response;
+        } catch (error) { console.error(error); }
+    }
 }
