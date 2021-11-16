@@ -167,6 +167,22 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
+			<b-form-group label="*Fecha Ingreso" label-for="fecha_ingreso">
+				<b-form-input
+					id="fecha_ingreso"
+					v-model="mutual.fecha_ingreso"
+					type="date"
+					placeholder="Ingrese una sucursal"
+					invalid-feedback="Complete este campo"
+					:state="validacion.fecha_ingreso.estado"
+					required
+				>
+				</b-form-input>
+				<b-form-invalid-feedback id="fecha_ingreso-live-feedback"
+					>{{ validacion.fecha_ingreso.mensaje }}
+				</b-form-invalid-feedback>
+			</b-form-group>
+
 			<b-form-group
 				label="*Servicio"
 				label-for="servicio"
@@ -189,7 +205,7 @@
 </template>
 
 <script>
-	import { APIControler } from "@/store/APIControler";
+	import { APIControler } from "../store/APIControler";
 	import axios from "axios";
 
 	export default {
@@ -241,6 +257,7 @@
 					telefono: { estado: null, mensaje: "" },
 					representante: { estado: null, mensaje: "" },
 					fecha_inicio: { estado: null, mensaje: "" },
+					fecha_ingreso: { estado: null, mensaje: "" },
 					direccion: { estado: null, mensaje: "" },
 					sucursal: { estado: null, mensaje: "" },
 					id_servicio: { estado: null, mensaje: "" },

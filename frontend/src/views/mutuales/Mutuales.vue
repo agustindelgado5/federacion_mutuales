@@ -111,7 +111,7 @@
 					</div>
 					<div v-else>
 						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
-					</div>
+					</div>		
 				</div>
 				<div v-else>
 					<div v-if="rows!=rowsFilter">
@@ -146,7 +146,7 @@
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
 
-
+			
 
 			<!-- ======== Tabla con los registros ======= -->
 
@@ -230,11 +230,35 @@
 								<b-list-group horizontal>
 									<b-list-group class="col-6">
 										<b-list-group-item>
-											<b>Codigo:</b> {{ row.item.id_mutual }}
+											<b>Codigo:</b> {{ row.item.id_mutual }} |	
+											<b>Matricula:</b> {{ row.item.matricula }} |
+											<b>Codigo:</b> {{ row.item.cuit }}
 										</b-list-group-item>
 										<b-list-group-item>
 											<b>Nombre:</b> {{ row.item.nombre }}
 										</b-list-group-item>
+										<b-list-group-item>
+											<b>Direccion:</b> {{ row.item.direccion }}
+											<b>Localidad:</b> {{row.item.localidad}}
+											<b>Filial:</b> {{row.item.sucursal}}
+										</b-list-group-item>
+									</b-list-group>
+								</b-list-group>
+								<b-list-group horizontal>
+									<b-list-group class="col-6">
+										<b-list-group-item>
+											<b>Correo:</b> {{ row.item.email}} |
+											<b>Telefono:</b> {{ row.item.telefono}}
+										</b-list-group-item>
+										<b-list-group-item>
+											<b>Autoridad:</b> {{ row.item.representante}} |
+											<b>Fecha Inicio:</b> {{ row.item.fecha_inicio}} |
+											<b>Fecha Ingreso:</b> {{ row.item.fecha_ingreso}}
+										</b-list-group-item>
+									</b-list-group>
+								</b-list-group>
+								<b-list-group horizontal>
+									<b-list-group class="col-6">
 										<b-list-group-item>
 											<b>Servicios:</b>
 											<div v-for="servicios in data" :key="servicios.id_mutual">
@@ -291,7 +315,7 @@
 					<mutual-update :mutual="editar" />
 				</b-modal>
 			</section>
-			<aside>
+			<aside v-show="rows>0">
 				<!--
 			<div>
 				<b-card-group deck>
@@ -312,7 +336,7 @@
 					</b-card>
 				</b-card-group>
 			</div>
-
+      
 			<br />
       -->
 				<div>
@@ -327,7 +351,7 @@
 								<b-card no-body>
 									<b-card-header header-tag="header" class="p-1" role="tab">
 										<b-button block v-b-toggle.accordion-1 variant="info" style="font-size: 0.82em">
-											DEPARTAMENTO
+											LOCALIDAD
 										</b-button>
 									</b-card-header>
 									<b-collapse
@@ -338,16 +362,39 @@
 									>
 										<b-card-body>
 											<b-form-group id="input-group-4">
-												<!--
-											<b-form-select
-												id="departamento"
-												v-model="filter"
-												type="text"
-												taggable
-												:options="options_deptos"
-											>
-											</b-form-select>
-											-->
+												<v-autocomplete
+													id="localidad"
+													v-model="filter"
+													:items="op_localidad"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter !=null">
+  													<b-button 
+													  :disabled="!filter" 
+													  @click="filter = null"
+													  title="Limpiar"
+													>
+														Limpiar
+													</b-button>	
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button block v-b-toggle.accordion-2 variant="info" style="font-size: 0.82em">
+											DEPARTAMENTO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-2"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
 												<v-autocomplete
 													id="departamento"
 													v-model="filter"
@@ -357,10 +404,76 @@
 													filled
 												></v-autocomplete>
 												<div v-show="filter !=null">
-  													<b-button
-													  :disabled="!filter"
+  													<b-button 
+													  :disabled="!filter" 
 													  @click="filter = null"
 													  title="Limpiar"
+													>
+														Limpiar
+													</b-button>	
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>					
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button block v-b-toggle.accordion-3 variant="info" style="font-size: .82em;">
+											REPRESENTANTE
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-3"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="representante"
+													v-model="filter"
+													:items="options_representante"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter != null">
+													<b-button
+														:disabled="!filter"
+														@click="filter = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button block v-b-toggle.accordion-4 variant="info" style="font-size: .82em;">
+											CORREO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-4"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="correo"
+													v-model="filter"
+													:items="options_correo"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter != null">
+													<b-button
+														:disabled="!filter"
+														@click="filter = null"
+														title="Limpiar"
 													>
 														Limpiar
 													</b-button>
@@ -415,7 +528,7 @@
 	import VueAwesomplete from "vue-awesomplete";
 	import axios from "axios";
 	import MutualAlta from "./MutualAlta.vue";
-	import { APIControler } from "@/store/APIControler";
+	import { APIControler } from "../store/APIControler";
 	import MutualUpdate from "./MutualUpdate.vue";
 
 	export default {
@@ -430,13 +543,14 @@
 					{ key: "nombre", label: "Mutual", sortable: true },
 					{ key: "direccion", label: "Direccion", sortable: true },
 					{ key: "localidad", label: "Localidad", sortable: true },
-					{ key: "sucursal", label: "Filial", sortable: true },
+					{ key: "sucursal", label: "Filial", sortable: true },					
 					{ key: "cuit", label: "CUIT", sortable: true },
 					{ key: "email", label: "Email", sortable: true },
 					{ key: "telefono", label: "Telefono", sortable: true },
 					{ key: "representante", label: "Autoridad", sortable: true },
 					{ key: "fecha_inicio", label: "Fecha Inicio", sortable: true },
-
+					{ key: "fecha_ingreso", label: "Fecha Ingreso", sortable: true },
+					
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				filter: null,
@@ -451,6 +565,204 @@
 				servicios: {},
 				data: {},
 				editar: {},
+				op_localidad: [
+					{ value: null, text: "Elija una localidad" },
+					{ value: "Acheral", text: " 1 - Acheral " },
+					{
+						value: "Agua Dulce y La Soledad",
+						text: "2 - Agua Dulce y La Soledad",
+					},
+					{ value: "Aguilares", text: " 3 - Aguilares " },
+					{ value: "Alderetes", text: " 4 - Alderetes " },
+					{
+						value: "Alpachiri y El Molino",
+						text: " 5 - Alpachiri y El Molino ",
+					},
+					{
+						value: "Alto Verde y Los Gucheas",
+						text: " 6 - Alto Verde y Los Gucheas ",
+					},
+					{ value: "Amaichá del Valle", text: " 7 - Amaichá del Valle " },
+					{ value: "Amberes", text: " 8 - Amberes " },
+					{ value: "Anca Juli", text: " 9 - Anca Juli " },
+					{ value: "Arcadia", text: " 10 - Arcadia " },
+					{ value: "Atahona", text: " 11 - Atahona " },
+					{ value: "Banda del Río Salí", text: " 12 - Banda del Río Salí " },
+					{ value: "Bella Vista", text: " 13 - Bella Vista " },
+					{ value: "Buena Vista", text: " 14 - Buena Vista " },
+					{ value: "Burruyacú", text: " 15 - Burruyacú " },
+					{ value: "Capitán Cáceres", text: " 16 - Capitán Cáceres " },
+					{ value: "Cevil Redondo", text: " 17 - Cevil Redondo " },
+					{ value: "Choromoro", text: " 18 - Choromoro " },
+					{ value: "Ciudacita", text: " 19 - Ciudacita " },
+					{ value: "Colalao del Valle", text: " 20 - Colalao del Valle " },
+					{ value: "Colombres", text: " 21 - Colombres " },
+					{ value: "Concepción", text: " 22 - Concepción " },
+					{
+						value: "Delfín Gallo (Ex Ingenio Esperanza)",
+						text: " 23 - Delfín Gallo (Ex Ingenio Esperanza) ",
+					},
+					{
+						value: "El Bracho y El Cevilar",
+						text: " 24 - El Bracho y El Cevilar ",
+					},
+					{ value: "El Cadillal", text: " 25 - El Cadillal " },
+					{ value: "El Cercado", text: " 26 - El Cercado " },
+					{ value: "El Chañar", text: " 27 - El Chañar " },
+					{ value: "El Manantial", text: " 28 - El Manantial " },
+					{ value: "El Mojón", text: " 29 - El Mojón " },
+					{ value: "El Mollar", text: " 30 - El Mollar " },
+					{ value: "El Naranjito", text: " 31 - El Naranjito " },
+					{
+						value: "El Naranjo y El Sunchal",
+						text: " 32 - El Naranjo y El Sunchal ",
+					},
+					{ value: "El Polear", text: " 33 - El Polear " },
+					{ value: "El Puestito", text: " 34 - El Puestito " },
+					{ value: "El Sacrificio", text: " 35 - El Sacrificio " },
+					{ value: "El Timbó", text: " 36 - El Timbó " },
+					{ value: "Escaba", text: " 37 - Escaba " },
+					{ value: "Esquina y Mancopa", text: " 38 - Esquina y Mancopa " },
+					{
+						value: "Estación Araox y Tacanas",
+						text: " 39 - Estación Araox y Tacanas ",
+					},
+					{ value: "Famaillá", text: " 40 - Famaillá " },
+					{ value: "Gastona y Belicha", text: " 41 - Gastona y Belicha " },
+					{
+						value: "Gobernador Garmendia",
+						text: " 42 - Gobernador Garmendia ",
+					},
+					{
+						value: "Gobernador Piedrabuena",
+						text: " 43 - Gobernador Piedrabuena ",
+					},
+					{ value: "Graneros", text: " 44 - Graneros " },
+					{ value: "Huasa Pampa", text: " 45 - Huasa Pampa " },
+					{
+						value: "Juan Bautista Alberdi",
+						text: " 46 - Juan Bautista Alberdi ",
+					},
+					{ value: "La Cocha", text: " 47 - La Cocha " },
+					{ value: "La Esperanza", text: " 48 - La Esperanza " },
+					{
+						value: "La Florida y Luisiana",
+						text: " 49 - La Florida y Luisiana ",
+					},
+					{
+						value: "La Ramada y La Cruz",
+						text: " 50 - La Ramada y La Cruz ",
+					},
+					{ value: "La Trinidad", text: " 51 - La Trinidad " },
+					{ value: "Lamadrid", text: " 52 - Lamadrid " },
+					{ value: "Las Cejas", text: " 53 - Las Cejas " },
+					{ value: "Las Talas", text: " 54 - Las Talas " },
+					{ value: "Las Talitas", text: " 55 - Las Talitas " },
+					{
+						value: "Los Bulacio y Los Villagra",
+						text: " 56 - Los Bulacio y Los Villagra ",
+					},
+					{ value: "Los Gómez", text: " 57 - Los Gómez " },
+					{ value: "Los Nogales", text: " 58 - Los Nogales " },
+					{ value: "Los Pereyra", text: " 59 - Los Pereyra " },
+					{ value: "Los Puestos", text: " 60 - Los Puestos " },
+					{ value: "Los Pérez", text: " 61 - Los Pérez " },
+					{ value: "Los Ralos", text: " 62 - Los Ralos " },
+					{
+						value: "Los Sarmientos y La Tipa",
+						text: " 63 - Los Sarmientos y La Tipa ",
+					},
+					{ value: "Los Sosas", text: " 64 - Los Sosas " },
+					{ value: "Lules", text: " 65 - Lules " },
+					{
+						value: "Manuel García Fernández",
+						text: " 66 - Manuel García Fernández ",
+					},
+					{ value: "Manuela Pedraza", text: " 67 - Manuela Pedraza " },
+					{ value: "Medinas", text: " 68 - Medinas " },
+					{ value: "Monte Bello", text: " 69 - Monte Bello " },
+					{ value: "Monteagudo", text: " 70 - Monteagudo " },
+					{ value: "Monteros", text: " 71 - Monteros " },
+					{ value: "Padre Monti", text: " 72 - Padre Monti " },
+					{ value: "Pampa Mayo", text: " 73 - Pampa Mayo " },
+					{
+						value: "Quilmes y Los Sueldos",
+						text: " 74 - Quilmes y Los Sueldos ",
+					},
+					{ value: "Raco", text: " 75 - Raco " },
+					{
+						value: "Ranchillos y San Miguel",
+						text: " 76 - Ranchillos y San Miguel ",
+					},
+					{ value: "Rumi Punco", text: " 77 - Rumi Punco " },
+					{
+						value: "Río Chico y Nueva Trinidad",
+						text: " 78 - Río Chico y Nueva Trinidad ",
+					},
+					{ value: "Río Colorado", text: " 79 - Río Colorado " },
+					{ value: "Río Seco", text: " 80 - Río Seco " },
+					{ value: "San Andrés", text: " 81 - San Andrés " },
+					{
+						value: "San Felipe y Santa Bárbara",
+						text: " 82 - San Felipe y Santa Bárbara ",
+					},
+					{ value: "San Ignacio", text: " 83 - San Ignacio " },
+					{ value: "San Javier", text: " 84 - San Javier " },
+					{
+						value: "San José de la Cocha",
+						text: " 85 - San José de la Cocha ",
+					},
+					{
+						value: "San Miguel de Tucumán",
+						text: " 86 - San Miguel de Tucumán ",
+					},
+					{
+						value: "San Pablo y Villa Nougués",
+						text: " 87 - San Pablo y Villa Nougués ",
+					},
+					{
+						value: "San Pedro de Colalao",
+						text: " 88 - San Pedro de Colalao ",
+					},
+					{
+						value: "San Pedro y San Antonio",
+						text: " 89 - San Pedro y San Antonio ",
+					},
+					{ value: "Santa Ana", text: " 90 - Santa Ana " },
+					{
+						value: "Santa Cruz y La Tuna",
+						text: " 91 - Santa Cruz y La Tuna ",
+					},
+					{ value: "Santa Lucía", text: " 92 - Santa Lucía " },
+					{
+						value: "Santa Rosa de Leales",
+						text: " 93 - Santa Rosa de Leales ",
+					},
+					{
+						value: "Santa Rosa y Los Rojo",
+						text: " 94 - Santa Rosa y Los Rojo ",
+					},
+					{ value: "Sargento Moya", text: " 95 - Sargento Moya " },
+					{ value: "Siete de Abril", text: " 96 - Siete de Abril " },
+					{ value: "Simoca", text: " 97 - Simoca " },
+					{ value: "Soldado Maldonado", text: " 98 - Soldado Maldonado " },
+					{ value: "Taco Ralo", text: " 99 - Taco Ralo " },
+					{ value: "Tafí Viejo", text: " 100 - Tafí Viejo " },
+					{ value: "Tafí del Valle", text: " 101 - Tafí del Valle " },
+					{ value: "Tapia", text: " 102 - Tapia " },
+					{ value: "Teniente Berdina", text: " 103 - Teniente Berdina " },
+					{ value: "Trancas", text: " 104 - Trancas " },
+					{ value: "Villa Belgrano", text: " 105 - Villa Belgrano " },
+					{
+						value: "Villa Benjamín Araoz",
+						text: " 106 - Villa Benjamín Araoz ",
+					},
+					{ value: "Villa Chigligasta", text: " 107 - Villa Chigligasta " },
+					{ value: "Villa Quinteros", text: " 108 - Villa Quinteros " },
+					{ value: "Villa de Leales", text: " 109 - Villa de Leales " },
+					{ value: "Yerba Buena", text: " 110 - Yerba Buena " },
+					{ value: "Yánima", text: " 111 - Yánima " },
+				],
 				options_deptos: [
 					{ value: null, text: "Elija un departamento",  selected:true},
 					{ value: "Burruyacú", text: "1- Burruyacú" },
@@ -471,6 +783,10 @@
 					{ value: "Trancas", text: "16- Trancas" },
 					{ value: "Yerba Buena", text: "17- Yerba Buena" },
 				],
+				options_representante: [
+					{ value: null, text: "Elija un representante", selected:true },
+				],
+				options_correo: [{ value: null, text: "Elija un correo",  selected:true }],
 				selected: [],
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
@@ -522,6 +838,32 @@
 					console.log(lista_mutuales);
 
 					this.tabla_mutuales = lista_mutuales;
+
+					this.tabla_mutuales.forEach((element) => {
+						let opcionCorreo = {};
+						let opcionRepre = {};
+						opcionCorreo.value = element.email;
+						opcionCorreo.text = element.email;
+						opcionRepre.value = element.representante;
+						opcionRepre.text = element.representante;
+						if (
+							this.options_correo.find((x) => x.value == opcionCorreo.value)
+						) {
+							console.log(opcionCorreo, " ya se encuentra en el listado");
+						} else {
+							this.options_correo.push(opcionCorreo);
+						}
+
+						if (
+							this.options_representante.find(
+								(x) => x.value == opcionRepre.value
+							)
+						) {
+							console.log(opcionRepre, " ya se encuentra en el listado");
+						} else {
+							this.options_representante.push(opcionRepre);
+						}
+					});
 				} catch (error) {
 					console.log(error);
 				}
