@@ -525,10 +525,9 @@
 	//api.port = 8000;
 	api.port = 8081;
 
-	import VueAwesomplete from "vue-awesomplete";
 	import axios from "axios";
 	import MutualAlta from "./MutualAlta.vue";
-	import { APIControler } from "../store/APIControler";
+	import { APIControler } from "@/store/APIControler";	
 	import MutualUpdate from "./MutualUpdate.vue";
 
 	export default {

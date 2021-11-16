@@ -209,7 +209,7 @@
 
 <script>
 	import axios from "axios";
-	import { APIControler } from "../store/APIControler";
+	import { APIControler } from "@/store/APIControler";
 
 	export default {
 		data() {
