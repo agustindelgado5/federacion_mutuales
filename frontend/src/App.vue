@@ -7,7 +7,7 @@
         </v-breadcrumbs-item>
       </template>
     </v-breadcrumbs>
-    <!-- <sidebar-menu
+    <sidebar-menu
       :menu="menu"
       id="menulo"
       ref="menulo"
@@ -30,7 +30,7 @@
         <span v-if="!isOpen">+</span>
         <span v-else>-</span>
       </template>
-    </sidebar-menu> -->
+    </sidebar-menu>
 
     <!--<div class="Menu">
 

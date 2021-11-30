@@ -449,7 +449,7 @@
 
 <script>
 	let api = new URL("http://localhost");
-	api.pathname = "farmacias";
+	api.pathname = "farmacias/";
 	//api.port = 8000;
 	api.port = 8081;
 	import VueAwesomplete from "vue-awesomplete";

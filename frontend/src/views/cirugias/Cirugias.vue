@@ -218,8 +218,7 @@
 
 <script>
 let api = new URL("http://localhost");
-api.pathname = "cirugias";
-//api.port = 8000;
+api.pathname = "cirugias/";
 api.port = 8081;
 
 import CirugiasAlta from "./CirugiasAlta.vue";
@@ -240,6 +239,7 @@ export default {
         { key: "numero_ayudantes", label: "numero_ayudantes", sortable: true },
         { key: "honorario_cirujano", label: "Honorarios Cirujanos", sortable: true },
         { key: "honorario_ayudante", label: "Honorarios Ayudantes", sortable: true },
+        { key: "honorario_total", label: "Honorario Total", sortable: true },
         { key: "observacion", label: "Observacion", sortable: true },
         { key: "action", label: "Acciones", variant: "secondary" },
       ],

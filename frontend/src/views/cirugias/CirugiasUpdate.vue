@@ -168,16 +168,45 @@ export default {
 
   methods: {
 
-    async getCirugias() {
-      let  cirugiaAPI = new APIControler();
-      this.data = await  cirugiaAPI.getData();
-    },
-    async postCirugia() {
-      let cirugiaAPI = new APIControler();
-      cirugiaAPI.apiUrl.pathname = "cirugias/";
-      this.respuesta = await cirugiaAPI.postData(this.cirugia);
-      this.cargarFeedback();
-    },
+      async getFarmacias() {
+          let farmaciaAPI = new APIControler();
+          farmaciaAPI.apiUrl.pathname = 'cirugias/'
+          this.data = await farmaciaAPI.getData(this.cirugias);
+          this.data.forEach(element => {
+              let option = {}
+              option.value = 'http://localhost:8081/cirugias/' + element.codigo_intervencion + '/';
+              option.text = element.cirugia;
+              console.log(option);
+              this.options.push(option);
+          });
+      },
+
+      async putFarmacia() {
+          let respuesta = "vacio"
+          // try{
+          await axios.put('http://localhost:8081/cirugias/' + this.cirugia.codigo_intervencion + '/', this.cirugia)
+              .then(function (data) {
+
+                  swal("Operación Exitosa", " ", "success");
+              })
+              .catch(function (error) {
+                  swal("¡ERROR!", "Se ha detectado un problema ", "error");
+                  respuesta = error.response.data;
+
+                  //console.log(error.response.data);
+              })
+          this.cargarFeedback(respuesta)
+          console.log("respuesta:");
+          console.log(respuesta);
+
+          // }
+          // catch(error) {
+
+          //     console.log("error:");
+          //     console.log(error.response);
+          // }
+          //finally{location.href = '/farmacias'} ;
+      },
 
     cargarFeedback() {
       let valido;

@@ -521,7 +521,7 @@
 
 <script>
 	let api = new URL("http://localhost");
-	api.pathname = "mutuales";
+	api.pathname = "mutuales/";
 	//api.port = 8000;
 	api.port = 8081;
 

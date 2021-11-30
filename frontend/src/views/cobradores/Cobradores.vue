@@ -202,7 +202,7 @@
 
 <script>
 let api = new URL("http://localhost");
-api.pathname = "cobradores";
+api.pathname = "cobradores/";
 //api.port = 8000;
 api.port = 8081;
 import VueAwesomplete from "vue-awesomplete";
