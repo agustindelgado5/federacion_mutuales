@@ -226,7 +226,7 @@
 
     <!---------------- FAMILIARES ---------------------------->
     <b-button class="mt-2" variant="primary"  @click="sumarFliares()" style="color:white;">¿Agregar adherentes?</b-button>
-    <div v-show="btn_familiar" v-for="(item,index) in familiar" :key="item.dni_familiar">
+    <div v-show="btn_familiar" v-for="(item,index) in familiar" :key="index">
       <b-form>
         <h4>Datos del Adherente: {{index+1}}</h4>
         <!--
@@ -276,7 +276,6 @@
           </b-form-input>
         </b-form-group>
 
-      
         <b-form-group label="*Fecha de nacimiento" label-for="fecha_nacimiento">
           <b-form-input
             id="fecha_nacimiento"
