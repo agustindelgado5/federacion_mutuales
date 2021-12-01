@@ -105,17 +105,24 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
-
+					<div v-if="rows != rowsFilter">
+						<pre>
+Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
 					</div>
 					<div v-else>
-						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
-					</div>		
+						<pre>
+Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
+					</div>
 				</div>
 				<div v-else>
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} </pre>
+					<div v-if="rows != rowsFilter">
+						<pre>Registros Fitrados: {{ rowsFilter }} </pre>
 					</div>
 					<div v-else>
 						<pre>Cantidad de registros: {{ rows }}</pre>
@@ -146,8 +153,6 @@
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
 
-			
-
 			<!-- ======== Tabla con los registros ======= -->
 
 			<section class="container">
@@ -159,7 +164,17 @@
 					:sticky-header="true"
 					:no-border-collapse="false"
 					hover
-					:items="tabla_mutuales"
+					:items="
+						tabla_mutuales
+							| fecha_inicio_range(
+								filter_fechaInicio.desde,
+								filter_fechaInicio.hasta
+							)
+							| fecha_ingreso_range(
+								filter_fechaIngreso.desde,
+								filter_fechaIngreso.hasta
+							)
+					"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
@@ -173,6 +188,14 @@
 				>
 					<template #empty="">
 						<b>No hay registros para mostrar</b>
+					</template>
+
+					<template slot="cell(fecha_inicio)" slot-scope="data">
+						{{ data.value | FormatStringToDate }}
+					</template>
+
+					<template slot="cell(fecha_ingreso)" slot-scope="data">
+						{{ data.value | FormatStringToDate }}
 					</template>
 
 					<template #cell(selected)="{ rowSelected }">
@@ -230,7 +253,7 @@
 								<b-list-group horizontal>
 									<b-list-group class="col-6">
 										<b-list-group-item>
-											<b>Codigo:</b> {{ row.item.id_mutual }} |	
+											<b>Codigo:</b> {{ row.item.id_mutual }} |
 											<b>Matricula:</b> {{ row.item.matricula }} |
 											<b>Codigo:</b> {{ row.item.cuit }}
 										</b-list-group-item>
@@ -239,21 +262,21 @@
 										</b-list-group-item>
 										<b-list-group-item>
 											<b>Direccion:</b> {{ row.item.direccion }}
-											<b>Localidad:</b> {{row.item.localidad}}
-											<b>Filial:</b> {{row.item.sucursal}}
+											<b>Localidad:</b> {{ row.item.localidad }} <b>Filial:</b>
+											{{ row.item.sucursal }}
 										</b-list-group-item>
 									</b-list-group>
 								</b-list-group>
 								<b-list-group horizontal>
 									<b-list-group class="col-6">
 										<b-list-group-item>
-											<b>Correo:</b> {{ row.item.email}} |
-											<b>Telefono:</b> {{ row.item.telefono}}
+											<b>Correo:</b> {{ row.item.email }} | <b>Telefono:</b>
+											{{ row.item.telefono }}
 										</b-list-group-item>
 										<b-list-group-item>
-											<b>Autoridad:</b> {{ row.item.representante}} |
-											<b>Fecha Inicio:</b> {{ row.item.fecha_inicio}} |
-											<b>Fecha Ingreso:</b> {{ row.item.fecha_ingreso}}
+											<b>Autoridad:</b> {{ row.item.representante }} |
+											<b>Fecha Inicio:</b> {{ row.item.fecha_inicio }} |
+											<b>Fecha Ingreso:</b> {{ row.item.fecha_ingreso }}
 										</b-list-group-item>
 									</b-list-group>
 								</b-list-group>
@@ -315,30 +338,29 @@
 					<mutual-update :mutual="editar" />
 				</b-modal>
 			</section>
-			<aside v-show="rows>0">
-				<!--
-			<div>
-				<b-card-group deck>
-					<b-card
-						bg-variant="primary"
-						text-variant="white"
-						header="REGISTROS POR PAGINA"
-						class="text-center"
-					>
-						<b-form-group label-for="per-page-select" class="mb-0">
-							<b-form-select
-								id="per-page-select"
-								v-model="perPage"
-								:options="pageOptions"
-								size="sm"
-							></b-form-select>
-						</b-form-group>
-					</b-card>
-				</b-card-group>
-			</div>
-      
-			<br />
-      -->
+			<aside v-show="rows > 0">
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="REGISTROS POR PAGINA"
+							class="text-center"
+						>
+							<b-form-group label-for="per-page-select" class="mb-0">
+								<b-form-select
+									id="per-page-select"
+									v-model="perPage"
+									:options="pageOptions"
+									size="sm"
+								></b-form-select>
+							</b-form-group>
+						</b-card>
+					</b-card-group>
+				</div>
+
+				<br />
+
 				<div>
 					<b-card-group deck>
 						<b-card
@@ -350,7 +372,12 @@
 							<div class="accordion" role="tablist">
 								<b-card no-body>
 									<b-card-header header-tag="header" class="p-1" role="tab">
-										<b-button block v-b-toggle.accordion-1 variant="info" style="font-size: 0.82em">
+										<b-button
+											block
+											v-b-toggle.accordion-1
+											variant="info"
+											style="font-size: 0.82em"
+										>
 											LOCALIDAD
 										</b-button>
 									</b-card-header>
@@ -370,20 +397,25 @@
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter !=null">
-  													<b-button 
-													  :disabled="!filter" 
-													  @click="filter = null"
-													  title="Limpiar"
+												<div v-show="filter != null">
+													<b-button
+														:disabled="!filter"
+														@click="filter = null"
+														title="Limpiar"
 													>
 														Limpiar
-													</b-button>	
+													</b-button>
 												</div>
 											</b-form-group>
 										</b-card-body>
 									</b-collapse>
 									<b-card-header header-tag="header" class="p-1" role="tab">
-										<b-button block v-b-toggle.accordion-2 variant="info" style="font-size: 0.82em">
+										<b-button
+											block
+											v-b-toggle.accordion-2
+											variant="info"
+											style="font-size: 0.82em"
+										>
 											DEPARTAMENTO
 										</b-button>
 									</b-card-header>
@@ -403,20 +435,25 @@
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter !=null">
-  													<b-button 
-													  :disabled="!filter" 
-													  @click="filter = null"
-													  title="Limpiar"
+												<div v-show="filter != null">
+													<b-button
+														:disabled="!filter"
+														@click="filter = null"
+														title="Limpiar"
 													>
 														Limpiar
-													</b-button>	
+													</b-button>
 												</div>
 											</b-form-group>
 										</b-card-body>
-									</b-collapse>					
+									</b-collapse>
 									<b-card-header header-tag="header" class="p-1" role="tab">
-										<b-button block v-b-toggle.accordion-3 variant="info" style="font-size: .82em;">
+										<b-button
+											block
+											v-b-toggle.accordion-3
+											variant="info"
+											style="font-size: 0.82em"
+										>
 											REPRESENTANTE
 										</b-button>
 									</b-card-header>
@@ -449,7 +486,12 @@
 										</b-card-body>
 									</b-collapse>
 									<b-card-header header-tag="header" class="p-1" role="tab">
-										<b-button block v-b-toggle.accordion-4 variant="info" style="font-size: .82em;">
+										<b-button
+											block
+											v-b-toggle.accordion-4
+											variant="info"
+											style="font-size: 0.82em"
+										>
 											CORREO
 										</b-button>
 									</b-card-header>
@@ -483,11 +525,122 @@
 									</b-collapse>
 								</b-card>
 							</div>
+
+							<div class="accordion" role="tablist">
+								<b-card no-body>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-5
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											INICIO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-5"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+										style="color: black"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<b-form-group label="Desde" label-for="fecha_inicio_desde">
+													<b-form-input
+														id="fecha_inicio_desde"
+														v-model="filter_fechaInicio.desde"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+												<b-form-group label="Hasta" label-for="fecha_inicio_hasta">
+													<b-form-input
+														id="fecha_inicio_hasta"
+														v-model="filter_fechaInicio.hasta"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+
+												<div style="color: black">
+													{{ filter_fechaInicio.desde }} <br />
+													{{ filter_fechaInicio.hasta }} <br />
+												</div>
+												<div
+													v-show="
+														filter_fechaInicio.desde != null &&
+														filter_fechaInicio.hasta != null
+													"
+												>
+													<b-button
+														@click="limpiar_filtro_fechaInicio()"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-6
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											INGRESO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-6"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+										style="color: black"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<b-form-group label="Desde" label-for="fecha_ingreso_desde">
+													<b-form-input
+														id="fecha_ingreso_desde"
+														v-model="filter_fechaIngreso.desde"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+												<b-form-group label="Hasta" label-for="fecha_ingreso_hasta">
+													<b-form-input
+														id="fecha_ingreso_hasta"
+														v-model="filter_fechaIngreso.hasta"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+												<div style="color: black">
+													{{ filter_fechaIngreso.desde }} <br />
+													{{ filter_fechaIngreso.hasta }} <br />
+												</div>
+												<div
+													v-show="
+														filter_fechaIngreso.desde != null &&
+														filter_fechaIngreso.hasta != null
+													"
+												>
+													<b-button
+														@click="limpiar_filtro_fechaIngreso()"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+								</b-card>
+							</div>
 						</b-card>
 					</b-card-group>
 				</div>
 			</aside>
-
 			<!-- ================ELIMINAR MUTUAL======================== -->
 			<b-modal
 				id="modal_eliminar"
@@ -527,7 +680,7 @@
 
 	import axios from "axios";
 	import MutualAlta from "./MutualAlta.vue";
-	import { APIControler } from "@/store/APIControler";	
+	import { APIControler } from "@/store/APIControler";
 	import MutualUpdate from "./MutualUpdate.vue";
 
 	export default {
@@ -542,17 +695,18 @@
 					{ key: "nombre", label: "Mutual", sortable: true },
 					{ key: "direccion", label: "Direccion", sortable: true },
 					{ key: "localidad", label: "Localidad", sortable: true },
-					{ key: "sucursal", label: "Filial", sortable: true },					
+					{ key: "sucursal", label: "Filial", sortable: true },
 					{ key: "cuit", label: "CUIT", sortable: true },
 					{ key: "email", label: "Email", sortable: true },
 					{ key: "telefono", label: "Telefono", sortable: true },
 					{ key: "representante", label: "Autoridad", sortable: true },
 					{ key: "fecha_inicio", label: "Fecha Inicio", sortable: true },
 					{ key: "fecha_ingreso", label: "Fecha Ingreso", sortable: true },
-					
+
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				filter: null,
+				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
@@ -763,7 +917,7 @@
 					{ value: "Yánima", text: " 111 - Yánima " },
 				],
 				options_deptos: [
-					{ value: null, text: "Elija un departamento",  selected:true},
+					{ value: null, text: "Elija un departamento", selected: true },
 					{ value: "Burruyacú", text: "1- Burruyacú" },
 					{ value: "Capital", text: "2- Capital" },
 					{ value: "Chicligasta", text: "3- Chicligasta" },
@@ -783,9 +937,11 @@
 					{ value: "Yerba Buena", text: "17- Yerba Buena" },
 				],
 				options_representante: [
-					{ value: null, text: "Elija un representante", selected:true },
+					{ value: null, text: "Elija un representante", selected: true },
 				],
-				options_correo: [{ value: null, text: "Elija un correo",  selected:true }],
+				options_correo: [
+					{ value: null, text: "Elija un correo", selected: true },
+				],
 				selected: [],
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
@@ -801,6 +957,15 @@
 					//servicio:''
 					// }
 				],
+				filter_fechaInicio: {
+					desde: null,
+					hasta: null,
+				},
+
+				filter_fechaIngreso: {
+					desde: null,
+					hasta: null,
+				},
 			};
 		},
 		computed: {
@@ -809,9 +974,9 @@
 				return this.tabla_mutuales[id].id_mutual;
 			},
 			rows() {
-				return this.totalRows =this.tabla_mutuales.length;
+				return (this.totalRows = this.tabla_mutuales.length);
 			},
-			rowsFilter(){
+			rowsFilter() {
 				return this.totalRows;
 			},
 			id() {
@@ -984,6 +1149,16 @@
 
 				this.btn_select = false;
 				this.btn_limpiar = true;
+			},
+
+			limpiar_filtro_fechaInicio() {
+				this.filter_fechaInicio.desde = null;
+				this.filter_fechaInicio.hasta = null;
+			},
+
+			limpiar_filtro_fechaIngreso() {
+				this.filter_fechaIngreso.desde = null;
+				this.filter_fechaIngreso.hasta = null;
 			},
 
 			async getServicios() {
