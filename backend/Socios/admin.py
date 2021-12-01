@@ -11,7 +11,7 @@ class sociosAdmin(admin.ModelAdmin):
     search_fields = ("numero_socio", "apellido", "nombre", "dni")
     ordering = ["numero_socio"]
     # autocomplete_fields=['departamento']
-    readonly_fields = ("edad", "created", "updated")
+    readonly_fields = ("created", "updated")
 
 
 class familiaresAdmin(admin.ModelAdmin):
@@ -19,7 +19,7 @@ class familiaresAdmin(admin.ModelAdmin):
     search_fields = ("dni_familiar", "apellido", "nombre", "numero_socio")
     ordering = ["dni_familiar"]
     autocomplete_fields = ["numero_socio"]
-    readonly_fields = ("edad", "created", "updated")
+    readonly_fields = ("created", "updated")
 
 
 admin.site.register(socios, sociosAdmin)

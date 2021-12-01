@@ -13,7 +13,7 @@ class SociosSerializer(serializers.HyperlinkedModelSerializer):
             "dni",
             "fecha_nacimiento",
             "fecha_asociacion",
-            #'edad',
+            "edad",
             "calle",
             "localidad",
             "departamento",
@@ -39,4 +39,4 @@ class FamiliarSerializer(serializers.HyperlinkedModelSerializer):
             "carencia",
             "numero_socio",
         )
-        read_only_fields = ["edad", "created ", "updated"]
+        read_only_fields = ["edad","created ", "updated"]
