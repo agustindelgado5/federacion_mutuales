@@ -762,7 +762,7 @@
 
 <script>
 	let api = new URL("http://localhost");
-	api.pathname = "socios";
+	api.pathname = "socios/";
 	//api.port = 8000; //Cambien uds los puertos
 	api.port = 8081;
 

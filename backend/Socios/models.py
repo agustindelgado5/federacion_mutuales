@@ -29,7 +29,7 @@ class socios(models.Model):
     cod_postal = models.IntegerField()
     fecha_nacimiento = models.DateField()
     fecha_asociacion = models.DateField()
-    edad = models.IntegerField(blank=True, null=True, editable=False)
+    #edad = models.IntegerField(blank=True, null=True, editable=False)
     email = models.EmailField()
     tel_fijo = models.IntegerField(null=True, blank=True)
     tel_celular = models.IntegerField(null=True, blank=True)
@@ -40,23 +40,22 @@ class socios(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def edad(self):
+        #return 0
+        return calcular_edad(self.fecha_nacimiento)
     class Meta:
         db_table = "socios"
         verbose_name = "socio"
         verbose_name_plural = "socios"
         ordering = ["numero_socio"]
 
-    """
-    @property
-    def edad_socio(self):
-        #return 0
-        return calcular_edad(self.fecha_nacimiento)
     
+    """
     def save(self):
         self.edad=self.edad_socio
         super (socios,self).save() 
     """
-
     def __str__(self):
         cadena = (
             str(self.numero_socio)
@@ -80,13 +79,17 @@ class familiar(models.Model):
     apellido = models.CharField(max_length=80)
     nombre = models.CharField(max_length=80)
     fecha_nacimiento = models.DateField()
-    edad = models.IntegerField(null=True, blank=True)
+    #edad = models.IntegerField(null=True, blank=True)
     carencia = models.DateField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     # relacion 1:N, BORRADO: NOT ACTION
     numero_socio = models.ForeignKey(socios, on_delete=models.DO_NOTHING)
 
+    @property
+    def edad(self):
+        return calcular_edad(self.fecha_nacimiento)
+    
     class Meta:
         db_table = "familiares"
         verbose_name = "familiar"
@@ -94,11 +97,6 @@ class familiar(models.Model):
         ordering = ["numero_socio"]
 
     """
-    @property
-    def edad_socio(self):
-        #return 0
-        return calcular_edad(self.fecha_nacimiento)
-    
     def save(self):
         self.edad=self.edad_socio
         super (familiar,self).save()
