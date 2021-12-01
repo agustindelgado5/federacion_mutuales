@@ -12,12 +12,6 @@
         pdf-format="a4"
         pdf-orientation="portrait"  
         pdf-content-width="95%"
- 
-        @progress="onProgress($event)"
-        @startPagination="startPagination()"
-        @hasPaginated="hasPaginated()"
-        @beforeDownload="beforeDownload($event)"
-        @hasDownloaded="hasDownloaded($event)" 
         ref="html2PdfBaja"
     >
       <section class="ml-5 mt-5 py-3" slot="pdf-content">
@@ -120,7 +114,7 @@
             </b-form-input>
           </b-form-group>
 		  <b-button
-				@click="generarPDFSolicitudBaja()"
+				@click="generarSolicitud()"
 				class="mb-4 ml-2"
 				title="PDF de la baja"
 				>Generar PDF</b-button
@@ -129,12 +123,14 @@
 </template>
 
 <script>
+    import VueHtml2pdf from "vue-html2pdf";
 export default {
-  
     props:{
         SocioBajaMora:{},
     },
-
+    components: { 
+        VueHtml2pdf,
+		},
     data(){
         
         return {

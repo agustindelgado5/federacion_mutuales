@@ -230,19 +230,7 @@
     <div v-show="btn_familiar" v-for="(item,index) in familiar" :key="item.dni_familiar">
       <b-form>
         <h4>Datos del Adherente: {{index+1}}</h4>
-        <!--
-        <b-form-group label="*N° Socio">
-          <b-form-input
-            id="numero_socio"
-            v-model="socio.numero_socio"
-            type="number"
-            placeholder="Ingrese un Numero"
-            invalid-feedback="Complete este campo"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
-        -->
+
         <b-form-group label="*Nombre/s" label-for="nombre">
           <b-form-input
             id="nombre"
@@ -282,6 +270,18 @@
           <b-form-input
             id="fecha_nacimiento"
             v-model="item.fecha_nacimiento"
+            type="date"
+            placeholder="Ingrese una fecha"
+            invalid-feedback="Complete este campo"
+            required
+          >
+          </b-form-input>
+        </b-form-group>
+        
+        <b-form-group label="*Fecha de asociación" label-for="fecha_asociacion">
+          <b-form-input
+            id="fecha_asociacion"
+            v-model="item.fecha_asociacion"
             type="date"
             placeholder="Ingrese una fecha"
             invalid-feedback="Complete este campo"
@@ -393,6 +393,7 @@ export default {
           nombre : "",
           dni_familiar : null,
           fecha_nacimiento:null,
+          fecha_asociacion:null,
           carencia: null,
         })
     },

@@ -224,11 +224,15 @@
 							{{ data.value.toUpperCase() }}
 						</template>
 
-						<template slot="cell(fecha_nacimiento)" slot-scope="data">
+						<template slot="cell(edad)" slot-scope="data">
+							{{ data.value }}
+						</template>
+						<!-- <template slot="cell(fecha_nacimiento)" slot-scope="data">
 							{{ data.value.split("-")[2] }}/{{ data.value.split("-")[1] }}/{{
 								data.value.split("-")[0]
 							}}
 						</template>
+						 -->
 
 						<template slot="cell(fecha_asociacion)" slot-scope="data">
 							{{ data.value.split("-")[2] }}/{{ data.value.split("-")[1] }}/{{
@@ -462,6 +466,9 @@
 													>
 													<b-list-group-item
 														><b>Carencia:</b> {{ adherente.carencia }}
+													</b-list-group-item>
+													<b-list-group-item
+														><b>Fecha de Asociación:</b> {{ adherente.fecha_asociacion }}
 													</b-list-group-item>
 												</b-list-group>
 												&nbsp;
@@ -792,11 +799,12 @@
 					{ key: "apellido", label: "Apellido/s", sortable: true },
 					{ key: "nombre", label: "Nombre/s", sortable: true },
 					{ key: "dni", label: "DNI", sortable: true },
-					{
+					{ key: "edad", label: "Edad", sortable: true },
+					/*{
 						key: "fecha_nacimiento",
 						label: "Fecha de Nacimiento",
 						sortable: true,
-					},
+					},*/
 					{
 						key: "fecha_asociacion",
 						label: "Fecha de Asociacion",

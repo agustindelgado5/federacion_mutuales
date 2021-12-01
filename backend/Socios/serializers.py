@@ -35,6 +35,7 @@ class FamiliarSerializer(serializers.HyperlinkedModelSerializer):
             "apellido",
             "nombre",
             "fecha_nacimiento",
+            "fecha_asociacion",
             "edad",
             "carencia",
             "numero_socio",
