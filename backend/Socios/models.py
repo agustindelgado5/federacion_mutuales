@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import AutoField
-from backend.deptos import deptos_tucuman
+from backend.deptos import deptos_tucuman, comumas_municipios
 
 # from django import forms
 from django.contrib.postgres.fields import ArrayField
@@ -24,7 +24,7 @@ class socios(models.Model):
     nombre = models.CharField(max_length=80)
     dni = models.IntegerField(unique=True)
     calle = models.CharField(max_length=50)
-    localidad = models.CharField(max_length=30)
+    localidad = models.CharField(max_length=50, choices=comumas_municipios)
     departamento = models.CharField(max_length=30, choices=deptos_tucuman)
     cod_postal = models.IntegerField()
     fecha_nacimiento = models.DateField()

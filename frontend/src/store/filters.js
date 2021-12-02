@@ -55,3 +55,24 @@ Vue.filter("fecha_ingreso_range", (value,desde,hasta) => {
       return value;
   }   
 })
+
+Vue.filter("fecha_asociacion_range", (value,desde,hasta) => {
+
+    if(desde && hasta){
+      if (desde <= hasta) {
+          console.log('ENTRO AL IF');
+          return value
+              .filter(
+                  (f) => f.fecha_asociacion >= desde && f.fecha_asociacion <= hasta
+              );
+          }
+      else{
+          swal("¡ERROR!", "Ingrese correctamente las fechas", "error");
+          return value;
+      }
+    }
+    else{
+        console.log('NO SE PUEDE REALIZAR');
+        return value;
+    }   
+  })
