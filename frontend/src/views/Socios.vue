@@ -562,7 +562,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					</b-container>
 				</section>
 
-				<aside>
+				<aside v-show="rows >0">
 					<div>
 						<b-card-group deck>
 							<b-card
