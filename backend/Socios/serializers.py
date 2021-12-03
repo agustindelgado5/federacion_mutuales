@@ -22,6 +22,10 @@ class SociosSerializer(serializers.HyperlinkedModelSerializer):
             "tel_fijo",
             "tel_celular",
             "carencia",
+            "mutual",
+            "tieneObraSocial",
+            # "plan",
+            # "vendedor",
         )
         read_only_fields = ["edad", "created ", "updated"]
 
@@ -38,5 +42,8 @@ class FamiliarSerializer(serializers.HyperlinkedModelSerializer):
             "edad",
             "carencia",
             "numero_socio",
+            "tieneObraSocial",
+            # "plan",
+
         )
         read_only_fields = ["edad","created ", "updated"]

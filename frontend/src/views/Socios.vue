@@ -182,7 +182,6 @@
 						striped
 						sortable
 						responsive
-						:sticky-header="true"
 						:no-border-collapse="false"
 						hover
 						:items="tabla_socios"
@@ -411,6 +410,13 @@
 											<b-list-group-item
 												><b>Correo:</b> {{ row.item.email }}
 											</b-list-group-item>
+											<b-list-group-item
+											
+												><b>Mutual:</b> {{ row.item.mutual.split("/")[4] }}
+											</b-list-group-item>
+											<b-list-group-item
+												><b>Vendedor:</b> {{ row.item.vendedor!=null?row.item.vendedor:"No disponible" }}
+											</b-list-group-item>
 										</b-list-group>
 										&nbsp;
 										<b-list-group>
@@ -424,6 +430,12 @@
 											>
 											<b-list-group-item
 												><b>Carencia:</b> {{ row.item.carencia }}
+											</b-list-group-item>
+											<b-list-group-item
+												><b>Tiene Obra social:</b> {{ row.item.tieneObraSocial?"Si":"No" }}
+											</b-list-group-item>
+											<b-list-group-item
+												><b>Plan:</b> {{ row.item.plan!=null?row.item.plan:"No disponible" }}
 											</b-list-group-item>
 										</b-list-group>
 									</b-list-group>
@@ -462,6 +474,15 @@
 													>
 													<b-list-group-item
 														><b>Carencia:</b> {{ adherente.carencia }}
+													</b-list-group-item>
+													<b-list-group-item
+														><b>Fecha de Asociación:</b> {{ adherente.fecha_asociacion }}
+													</b-list-group-item>
+													<b-list-group-item
+														><b>Tiene Obra Social:</b> {{ adherente.tieneObraSocial?"Si":"No"  }}
+													</b-list-group-item>
+													<b-list-group-item
+														><b>Plan:</b> {{ adherente.plan!=null?adherente.plan:"No disponible" }}
 													</b-list-group-item>
 												</b-list-group>
 												&nbsp;
@@ -576,7 +597,7 @@
 										<b-card-header header-tag="header" class="p-1" role="tab">
 											<b-button
 												block
-												v-b-toggle.accordion-1
+												v-b-toggle.accordion-filter-1
 												variant="info"
 												style="font-size: 0.82em"
 											>
@@ -584,7 +605,7 @@
 											</b-button>
 										</b-card-header>
 										<b-collapse
-											id="accordion-1"
+											id="accordion-filter-1"
 											visible
 											accordion="my-accordion"
 											role="tabpanel"
@@ -623,7 +644,7 @@
 										<b-card-header header-tag="header" class="p-2" role="tab">
 											<b-button
 												block
-												v-b-toggle.accordion-2
+												v-b-toggle.accordion-filter-2
 												variant="info"
 												style="font-size: 0.82em"
 											>
@@ -631,7 +652,7 @@
 											</b-button>
 										</b-card-header>
 										<b-collapse
-											id="accordion-2"
+											id="accordion-filter-2"
 											visible
 											accordion="my-accordion"
 											role="tabpanel"

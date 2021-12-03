@@ -6,7 +6,7 @@ from backend.deptos import deptos_tucuman
 # from django import forms
 from django.contrib.postgres.fields import ArrayField
 from .utils import calcular_edad
-from Mutuales.models import servicios
+from Mutuales.models import mutuales, servicios
 
 # Create your models here.
 
@@ -30,6 +30,11 @@ class socios(models.Model):
     fecha_nacimiento = models.DateField()
     fecha_asociacion = models.DateField()
     #edad = models.IntegerField(blank=True, null=True, editable=False)
+    mutual = models.ForeignKey(mutuales, default=1, on_delete=models.DO_NOTHING)
+    tieneObraSocial = models.BooleanField()
+    #plan = models.ForeignKey(planes, on_delete=models.DO_NOTHING)
+    #vendedor = models.ForeignKey(vendedores, on_delete=models.DO_NOTHING)
+
     email = models.EmailField()
     tel_fijo = models.IntegerField(null=True, blank=True)
     tel_celular = models.IntegerField(null=True, blank=True)
@@ -85,6 +90,8 @@ class familiar(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
     # relacion 1:N, BORRADO: NOT ACTION
     numero_socio = models.ForeignKey(socios, on_delete=models.DO_NOTHING)
+    tieneObraSocial = models.BooleanField()
+    #plan = models.ForeignKey(planes, on_delete=models.DO_NOTHING)
 
     @property
     def edad(self):
