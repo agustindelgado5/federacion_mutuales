@@ -127,20 +127,13 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<div v-if="rows != rowsFilter">
-						<pre>
-Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
-								selected.length
-							}}</pre
-						>
+					<div v-if="rows!=rowsFilter">
+						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
+
 					</div>
 					<div v-else>
-						<pre>
-Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
-								selected.length
-							}}</pre
-						>
-					</div>
+						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
+					</div>		
 				</div>
 				<div v-else>
 					<div v-if="rows != rowsFilter">
@@ -189,7 +182,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						striped
 						sortable
 						responsive
-						:sticky-header="true"
 						:no-border-collapse="false"
 						hover
 						:items="tabla_socios|fecha_asociacion_range(filter_fechaAsociacion.desde,filter_fechaAsociacion.hasta)"
@@ -422,6 +414,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											<b-list-group-item
 												><b>Correo:</b> {{ row.item.email }}
 											</b-list-group-item>
+											<b-list-group-item
+											
+												><b>Mutual:</b> {{ row.item.mutual.split("/")[4] }}
+											</b-list-group-item>
+											<b-list-group-item
+												><b>Vendedor:</b> {{ row.item.vendedor!=null?row.item.vendedor:"No disponible" }}
+											</b-list-group-item>
 										</b-list-group>
 										&nbsp;
 										<b-list-group>
@@ -436,6 +435,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											<b-list-group-item
 												><b>Carencia:</b>
 												{{ row.item.carencia | FormatStringToDate }}
+											</b-list-group-item>
+											<b-list-group-item
+												><b>Tiene Obra social:</b> {{ row.item.tieneObraSocial?"Si":"No" }}
+											</b-list-group-item>
+											<b-list-group-item
+												><b>Plan:</b> {{ row.item.plan!=null?row.item.plan:"No disponible" }}
 											</b-list-group-item>
 										</b-list-group>
 									</b-list-group>
@@ -483,6 +488,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 														{{
 															adherente.fecha_asociacion | FormatStringToDate
 														}}
+
+													</b-list-group-item>
+													<b-list-group-item
+														><b>Tiene Obra Social:</b> {{ adherente.tieneObraSocial?"Si":"No"  }}
+													</b-list-group-item>
+													<b-list-group-item
+														><b>Plan:</b> {{ adherente.plan!=null?adherente.plan:"No disponible" }}
 													</b-list-group-item>
 												</b-list-group>
 												&nbsp;
@@ -596,7 +608,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										<b-card-header header-tag="header" class="p-1" role="tab">
 											<b-button
 												block
-												v-b-toggle.accordion-1
+												v-b-toggle.accordion-filter-1
 												variant="info"
 												style="font-size: 0.82em"
 											>
@@ -604,7 +616,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											</b-button>
 										</b-card-header>
 										<b-collapse
-											id="accordion-1"
+											id="accordion-filter-1"
 											visible
 											accordion="my-accordion"
 											role="tabpanel"
@@ -644,7 +656,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										<b-card-header header-tag="header" class="p-1" role="tab">
 											<b-button
 												block
-												v-b-toggle.accordion-2
+												v-b-toggle.accordion-filter-2
 												variant="info"
 												style="font-size: 0.82em"
 											>
@@ -652,7 +664,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											</b-button>
 										</b-card-header>
 										<b-collapse
-											id="accordion-2"
+											id="accordion-filter-2"
 											visible
 											accordion="my-accordion"
 											role="tabpanel"

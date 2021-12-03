@@ -79,6 +79,35 @@
             </b-form-input>
           </b-form-group>
             
+          <b-form-group label="*Mutual de asociación" label-for="id_mutual">
+            <b-form-select
+              id="id_mutual"
+              v-model="socio.mutual"
+              type="text"
+              placeholder="Ingrese el ID de la mutual"
+              invalid-feedback="Complete este campo"
+              required
+              :options="op_mutuales"
+            >
+            </b-form-select>
+            <!-- <b-form-invalid-feedback id="id_mutual-live-feedback"
+              >{{ validacion.id_mutual.mensaje }}
+            </b-form-invalid-feedback> -->
+          </b-form-group>
+
+
+          <b-form-group label="*Tiene Obra social" label-for="obra_social">
+            <b-form-checkbox
+              id="obra_social"
+              v-model="socio.tieneObraSocial"
+              value="true"
+              type="boolean"
+              invalid-feedback="Complete este campo"
+              required
+              unchecked-value="false"
+            >
+            </b-form-checkbox>
+          </b-form-group>
         </b-card-body>
       </b-collapse>
     </b-card>
@@ -300,6 +329,21 @@
           >
           </b-form-input>
       </b-form-group>
+
+
+
+      <b-form-group label="*Tiene Obra social">
+            <b-form-checkbox
+              v-model="item.tieneObraSocial"
+              value="true"
+              type="boolean"
+              invalid-feedback="Complete este campo"
+              required
+              unchecked-value="false"
+            >
+            </b-form-checkbox>
+          </b-form-group>
+
     </b-form>
     <b-button class="mt-2" variant="primary" @click="sumarFliares()" style="color:white;">+</b-button>
     
@@ -326,6 +370,9 @@ export default {
       ],
       data: {},
       plan: [],
+      list_mutuales: {},
+      op_mutuales: [{ value: null, text: "Elija una mutual", disabled: true }],
+
       btn_familiar: false,
       cantidad: 0,
       select: null,
@@ -574,6 +621,7 @@ export default {
           fecha_nacimiento:null,
           fecha_asociacion:null,
           carencia: null,
+          tieneObraSocial:false,
         })
     },
     async postFamiliar() {
@@ -590,6 +638,20 @@ export default {
       }
       
       // this.resetFormAdh();
+    },
+    async getMutuales() {
+      let mutualesAPI = new APIControler();
+      mutualesAPI.apiUrl.pathname = "mutuales/";
+      this.data = await mutualesAPI.getData(this.list_mutuales);
+      this.data.forEach((element) => {
+        let option = {};
+        option.value =
+          "http://localhost:8081/mutuales/" + element.id_mutual + "/";
+        option.text =
+          element.id_mutual + "-- " + element.nombre + ", " + element.sucursal;
+        console.log(option);
+        this.op_mutuales.push(option);
+      });
     },
     async resetForm() {
         this.socio.numero_socio = null;
@@ -615,6 +677,9 @@ export default {
         this.familiar.carencia= null;
         */
     },
+  },
+  beforeMount() {
+    this.getMutuales();
   },
 };
 </script>
