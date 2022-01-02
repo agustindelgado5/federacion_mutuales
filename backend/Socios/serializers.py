@@ -22,7 +22,7 @@ class SociosSerializer(serializers.HyperlinkedModelSerializer):
             "tel_fijo",
             "tel_celular",
             "carencia",
-            "mutual",
+            "id_mutual",
             "tieneObraSocial",
             # "plan",
             # "vendedor",

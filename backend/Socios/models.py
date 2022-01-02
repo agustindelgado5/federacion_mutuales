@@ -30,7 +30,7 @@ class socios(models.Model):
     fecha_nacimiento = models.DateField()
     fecha_asociacion = models.DateField(auto_now_add=True)
     #edad = models.IntegerField(blank=True, null=True, editable=False)
-    mutual = models.ForeignKey(mutuales, default=1, on_delete=models.DO_NOTHING)
+    id_mutual = models.ForeignKey(mutuales,null=True, blank=True, on_delete=models.DO_NOTHING)
     tieneObraSocial = models.BooleanField()
     #plan = models.ForeignKey(planes, on_delete=models.DO_NOTHING)
     #vendedor = models.ForeignKey(vendedores, on_delete=models.DO_NOTHING)
