@@ -85,6 +85,7 @@
 				label-size="sm"
 				class="mb-0"
 				style="width: 100%; padding-bottom: 1em"
+				v-show="rows > 0"
 			>
 				<b-input-group size="sm">
 					<b-form-input
@@ -106,17 +107,24 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
-
+					<div v-if="rows != rowsFilter">
+						<pre>
+Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
 					</div>
 					<div v-else>
-						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
-					</div>		
+						<pre>
+Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
+					</div>
 				</div>
 				<div v-else>
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} </pre>
+					<div v-if="rows != rowsFilter">
+						<pre>Registros Fitrados: {{ rowsFilter }} </pre>
 					</div>
 					<div v-else>
 						<pre>Cantidad de registros: {{ rows }}</pre>
@@ -157,7 +165,11 @@
 					:sticky-header="true"
 					:no-border-collapse="false"
 					hover
-					:items="tabla_farmacias"
+					:items="
+						tabla_farmacias
+							| Representante(filter_representante)
+							| Correo(filter_correo)
+					"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
@@ -315,7 +327,7 @@
 					</b-col>
 				</b-container>
 			</section>
-			<aside>
+			<aside v-show="rows > 0">
 				<!--
 			<div>
 				<b-card-group deck>
@@ -350,7 +362,12 @@
 							<div class="accordion" role="tablist">
 								<b-card no-body>
 									<b-card-header header-tag="header" class="p-1" role="tab">
-										<b-button block v-b-toggle.accordion-1 variant="info" style="font-size: .82em;">
+										<b-button
+											block
+											v-b-toggle.accordion-1
+											variant="info"
+											style="font-size: 0.82em"
+										>
 											CORREO
 										</b-button>
 									</b-card-header>
@@ -362,27 +379,17 @@
 									>
 										<b-card-body>
 											<b-form-group id="input-group-4">
-												<!--
-												<b-form-select
-													id="correo"
-													v-model="filter"
-													type="text"
-													:options="options_correo"
-												>
-												</b-form-select>
-												-->
 												<v-autocomplete
 													id="correo"
-													v-model="filter"
+													v-model="filter_correo"
 													:items="options_correo"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter != null">
+												<div v-show="filter_correo != null">
 													<b-button
-														:disabled="!filter"
-														@click="filter = null"
+														@click="filter_correo = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -392,7 +399,12 @@
 										</b-card-body>
 									</b-collapse>
 									<b-card-header header-tag="header" class="p-2" role="tab">
-										<b-button block v-b-toggle.accordion-2 variant="info" style="font-size: .82em;">
+										<b-button
+											block
+											v-b-toggle.accordion-2
+											variant="info"
+											style="font-size: 0.82em"
+										>
 											REPRESENTANTE
 										</b-button>
 									</b-card-header>
@@ -404,27 +416,17 @@
 									>
 										<b-card-body>
 											<b-form-group id="input-group-4">
-												<!--
-												<b-form-select
-													id="representante"
-													v-model="filter"
-													type="text"
-													:options="options_representante"
-												>
-												</b-form-select>
-												-->
 												<v-autocomplete
 													id="representante"
-													v-model="filter"
+													v-model="filter_representante"
 													:items="options_representante"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter != null">
+												<div v-show="filter_representante != null">
 													<b-button
-														:disabled="!filter"
-														@click="filter = null"
+														@click="filter_representante = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -452,8 +454,6 @@
 	api.pathname = "farmacias/";
 	//api.port = 8000;
 	api.port = 8081;
-	import VueAwesomplete from "vue-awesomplete";
-
 	import FarmaciasAlta from "./FarmaciasAlta.vue";
 	import FarmaciasUpdate from "./FarmaciasUpdate.vue";
 
@@ -487,11 +487,17 @@
 					id: "modal_eliminar",
 					farmacia: -1,
 				},
-				options_correo: [{ value: null, text: "Elija un correo",  selected:true }],
+
+				//Opciones de filtro
+				options_correo: [
+					{ value: null, text: "Elija un correo", selected: true },
+				],
 				options_representante: [
-					{ value: null, text: "Elija un representante", selected:true },
+					{ value: null, text: "Elija un representante", selected: true },
 				],
 				selected: [],
+
+				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
 				btn_limpiar: true,
@@ -501,6 +507,10 @@
 				btn_ordenes: false,
 				btn_eliminar: false,
 				btn_select: false,
+
+				//Campos a filtrar
+				filter_correo : null,
+				filter_representante: null,
 			};
 		},
 		computed: {
@@ -510,7 +520,7 @@
 			id() {
 				return this.tabla_farmacias.cod_farmacia;
 			},
-			rowsFilter(){
+			rowsFilter() {
 				return this.totalRows;
 			},
 			sortOptions() {

@@ -84,6 +84,7 @@
 				label-size="sm"
 				class="mb-0"
 				style="width: 100%; padding-bottom: 1em"
+				v-show="rows > 0"
 			>
 				<b-input-group size="sm">
 					<b-form-input
@@ -106,17 +107,24 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
-
+					<div v-if="rows != rowsFilter">
+						<pre>
+Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
 					</div>
 					<div v-else>
-						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
-					</div>		
+						<pre>
+Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
+					</div>
 				</div>
 				<div v-else>
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} </pre>
+					<div v-if="rows != rowsFilter">
+						<pre>Registros Fitrados: {{ rowsFilter }} </pre>
 					</div>
 					<div v-else>
 						<pre>Cantidad de registros: {{ rows }}</pre>
@@ -154,7 +162,7 @@
 					sortable
 					responsive
 					hover
-					:items="tabla_profesionales"
+					:items="tabla_profesionales | Especialidad(filter_especialidad)"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
@@ -351,7 +359,7 @@
 					</b-col>
 				</b-container>
 			</section>
-			<aside>
+			<aside v-show="rows > 0">
 				<div>
 					<b-card-group deck>
 						<b-card
@@ -412,7 +420,7 @@
 												-->
 												<v-autocomplete
 													id="especialidad"
-													v-model="filter"
+													v-model="filter_especialidad"
 													:items="options_especialidad"
 													type="text"
 													solo
@@ -489,6 +497,8 @@
 				perPage: 10, // Datos en la tabla por pagina
 				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
 				selected: [],
+
+				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
@@ -498,10 +508,13 @@
 				btn_eliminar: false,
 				btn_select: false,
 				btn_limpiar: true,
+
 				infoEliminar: {
 					id: "modal_eliminar",
 					profesional: -1,
 				},
+
+				//Opciones de filtro
 				options_especialidad: [
 					{
 						value: null,
@@ -509,6 +522,9 @@
 						selected: true,
 					},
 				],
+
+				//Campos a filtrar
+				filter_especialidad: null,
 			};
 		},
 
@@ -516,7 +532,7 @@
 			rows() {
 				return (this.totalRows = this.tabla_profesionales.length);
 			},
-			rowsFilter(){
+			rowsFilter() {
 				return this.totalRows;
 			},
 			id() {

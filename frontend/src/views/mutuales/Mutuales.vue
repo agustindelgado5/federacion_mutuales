@@ -83,6 +83,7 @@
 				label-size="sm"
 				class="mb-0"
 				style="width: 100%; padding-bottom: 1em"
+				v-show="rows > 0"
 			>
 				<b-input-group size="sm">
 					<b-form-input
@@ -173,6 +174,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							| fecha_ingreso_range(
 								filter_fechaIngreso.desde,
 								filter_fechaIngreso.hasta
+							)
+							| Localidad(
+								filter_localidad
+							)
+							| Sucursal(
+								filter_departamento
+							)
+							| Representante(
+								filter_representante
+							)
+							| Correo(
+								filter_correo
 							)
 					"
 					show-empty
@@ -391,16 +404,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											<b-form-group id="input-group-4">
 												<v-autocomplete
 													id="localidad"
-													v-model="filter"
+													v-model="filter_localidad"
 													:items="op_localidad"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter != null">
+												<div v-show="filter_localidad != null">
 													<b-button
-														:disabled="!filter"
-														@click="filter = null"
+														@click="filter_localidad = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -429,16 +441,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											<b-form-group id="input-group-4">
 												<v-autocomplete
 													id="departamento"
-													v-model="filter"
+													v-model="filter_departamento"
 													:items="options_deptos"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter != null">
+												<div v-show="filter_departamento != null">
 													<b-button
-														:disabled="!filter"
-														@click="filter = null"
+														@click="filter_departamento = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -467,16 +478,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											<b-form-group id="input-group-4">
 												<v-autocomplete
 													id="representante"
-													v-model="filter"
+													v-model="filter_representante"
 													:items="options_representante"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter != null">
+												<div v-show="filter_representante!= null">
 													<b-button
-														:disabled="!filter"
-														@click="filter = null"
+														@click="filter_representante = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -505,16 +515,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											<b-form-group id="input-group-4">
 												<v-autocomplete
 													id="correo"
-													v-model="filter"
+													v-model="filter_correo"
 													:items="options_correo"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter != null">
+												<div v-show="filter_correo != null">
 													<b-button
-														:disabled="!filter"
-														@click="filter = null"
+														@click="filter_correo = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -718,6 +727,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				servicios: {},
 				data: {},
 				editar: {},
+
+				//Opciones de filtro
 				op_localidad: [
 					{ value: null, text: "Elija una localidad" },
 					{ value: "Acheral", text: " 1 - Acheral " },
@@ -943,6 +954,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ value: null, text: "Elija un correo", selected: true },
 				],
 				selected: [],
+				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
@@ -951,12 +963,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				btn_eliminar: false,
 				btn_select: false,
 				btn_limpiar: true,
-				server_mutual: [
-					//{
-					//id_servicio:0,
-					//servicio:''
-					// }
-				],
+				
+				//Campos a filtrar
+				filter_correo : null,
+				filter_localidad : null,
+				filter_departamento: null,
+				filter_representante: null,
 				filter_fechaInicio: {
 					desde: null,
 					hasta: null,
@@ -966,6 +978,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					desde: null,
 					hasta: null,
 				},
+
+				server_mutual: [
+					//{
+					//id_servicio:0,
+					//servicio:''
+					// }
+				],
 			};
 		},
 		computed: {

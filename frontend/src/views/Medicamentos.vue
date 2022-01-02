@@ -74,12 +74,9 @@
 				v-b-modal.modal-eliminarTodo
 			>
 				<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
-				Eliminar 
+				Eliminar
 			</b-button>
 
-			<!--
-    <div v-for="item in tabla_med" :key="item.id_medicamento">
-    -->
 			<!-- ================ELIMINAR VARIOS MEDICAMENTOS======================== -->
 			<div>
 				<b-modal
@@ -119,6 +116,7 @@
 				label-size="sm"
 				class="mb-0"
 				style="width: 100%; padding-bottom: 1em"
+				v-show="rows > 0"
 			>
 				<b-input-group size="sm">
 					<b-form-input
@@ -140,17 +138,24 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
-
+					<div v-if="rows != rowsFilter">
+						<pre>
+Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
 					</div>
 					<div v-else>
-						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
-					</div>		
+						<pre>
+Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
+					</div>
 				</div>
 				<div v-else>
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} </pre>
+					<div v-if="rows != rowsFilter">
+						<pre>Registros Fitrados: {{ rowsFilter }} </pre>
 					</div>
 					<div v-else>
 						<pre>Cantidad de registros: {{ rows }}</pre>
@@ -188,7 +193,11 @@
 					sortable
 					responsive
 					hover
-					:items="tabla_med"
+					:items="
+						tabla_med
+							| Farmacia(filter_farmacia)
+							| Laboratorio(filter_laboratorio)
+					"
 					show-empty
 					:sticky-header="true"
 					:no-border-collapse="false"
@@ -309,7 +318,7 @@
 					</b-col>
 				</b-container>
 			</section>
-			<aside>
+			<aside v-show="rows > 0">
 				<div>
 					<b-card-group deck>
 						<b-card
@@ -343,7 +352,12 @@
 							<div class="accordion" role="tablist">
 								<b-card no-body>
 									<b-card-header header-tag="header" class="p-1" role="tab">
-										<b-button block v-b-toggle.accordion-1 variant="info" style="font-size: .82em;">
+										<b-button
+											block
+											v-b-toggle.accordion-1
+											variant="info"
+											style="font-size: 0.82em"
+										>
 											FARMACIA
 										</b-button>
 									</b-card-header>
@@ -355,27 +369,17 @@
 									>
 										<b-card-body>
 											<b-form-group id="input-group-4">
-												<!--
-												<b-form-select
-													id="correo"
-													v-model="filter"
-													type="text"
-													:options="options_farmacia"
-												>
-												</b-form-select>
-												-->
 												<v-autocomplete
 													id="farmacia"
-													v-model="filter"
+													v-model="filter_farmacia"
 													:items="options_farmacia"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter != null">
+												<div v-show="filter_farmacia != null">
 													<b-button
-														:disabled="!filter"
-														@click="filter = null"
+														@click="filter_farmacia = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -385,7 +389,12 @@
 										</b-card-body>
 									</b-collapse>
 									<b-card-header header-tag="header" class="p-2" role="tab">
-										<b-button block v-b-toggle.accordion-2 variant="info" style="font-size: .82em;">
+										<b-button
+											block
+											v-b-toggle.accordion-2
+											variant="info"
+											style="font-size: 0.82em"
+										>
 											LABORATORIO
 										</b-button>
 									</b-card-header>
@@ -399,30 +408,20 @@
 											<b-form-group id="input-group-4">
 												<v-autocomplete
 													id="laboratorio"
-													v-model="filter"
+													v-model="filter_laboratorio"
 													:items="options_laboratorio"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter != null">
+												<div v-show="filter_laboratorio != null">
 													<b-button
-														:disabled="!filter"
-														@click="filter = null"
+														@click="filter_laboratorio = null"
 														title="Limpiar"
 													>
 														Limpiar
 													</b-button>
 												</div>
-												<!--
-												<b-form-select
-													id="representante"
-													v-model="filter"
-													type="text"
-													:options="options_laboratorio"
-												>
-												</b-form-select>
-												-->
 											</b-form-group>
 										</b-card-body>
 									</b-collapse>
@@ -551,6 +550,8 @@
 					id: "modal_eliminar",
 					medicamento: -1,
 				},
+
+				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
@@ -559,19 +560,30 @@
 				btn_eliminar: false,
 				btn_select: false,
 				btn_limpiar: true,
+
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
 				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
-				options_laboratorio: [{ value: null, text: "Elija un laboratorio" , selected:true}],
-				options_farmacia: [{ value: null, text: "Elija una farmacia", selected:true }],
+
+				//Opciones de filtro
+				options_laboratorio: [
+					{ value: null, text: "Elija un laboratorio", selected: true },
+				],
+				options_farmacia: [
+					{ value: null, text: "Elija una farmacia", selected: true },
+				],
+
+				//Campos a filtrar:
+				filter_laboratorio: null,
+				filter_farmacia: null,
 			};
 		},
 		computed: {
 			rows() {
 				return (this.totalRows = this.tabla_med.length);
 			},
-			rowsFilter(){
+			rowsFilter() {
 				return this.totalRows;
 			},
 			sortOptions() {
