@@ -13,7 +13,7 @@ SECRET_KEY = "django-insecure-x*)5s_om!jooy5ewy8n*oqjc#6ziymj=2%a5jdjg^urmp*e8k5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -27,13 +27,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # THRIRTY APPS
+    # PARA VUE (cuando deployemos)
+    # 'webpack_loader',
     # PARA POSGRESS
-    # "django.contrib.postgres",
+    "django.contrib.postgres",
     # Django REST framework
     "rest_framework",
-    # "rest_framework.authtoken",
-    # jwt auth
-    "djoser",
+    "rest_framework.authtoken",
     # CORS
     "corsheaders",
     # LOCAL APPS
@@ -87,18 +87,15 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
+    # "DEFAULT_AUTHENTICATION_CLASSES": [
+    #     "rest_framework.authentication.BasicAuthentication",
+    #     "rest_framework.authentication.SessionAuthentication",
+    #     "rest_framework.authentication.TokenAuthentication",
+    # ],
     # "DEFAULT_PERMISSIONS_CLASSES": ("rest_framework.permissions.IsAuthenticated"),
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
-}
-
-
-SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("JWT", "Bearer", "Token"),
 }
 
 
@@ -110,16 +107,14 @@ CORS_ALLOW_ORIGIN = [
 ]
 CORS_ORIGIN_WHITELIST = ["http://localhost:8080"]
 
-APPEND_SLASH=False
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'federacion_mutuales',
@@ -128,14 +123,14 @@ DATABASES = {
     #     'HOST': '127.0.0.1',
     #     'DATABASE_PORT': '5432',
     # }
-    # "default": {
-    #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": "federacion",
-    #     "USER": "admin",
-    #     "PASSWORD": "contraseniasegura",
-    #     "HOST": "database",
-    #     "DATABASE_PORT": "5432",
-    # },
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "federacion",
+        "USER": "admin",
+        "PASSWORD": "contraseniasegura",
+        "HOST": "database",
+        "DATABASE_PORT": "5430",
+    },
     # "postgres_leonel": {
     #     "ENGINE": "django.db.backends.postgresql",
     #     "NAME": "federacion",

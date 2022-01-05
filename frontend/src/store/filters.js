@@ -8,6 +8,10 @@ Vue.filter("FormatStringToDate", value=>{
         value.split("-")[0]
 })
 
+Vue.filter("FormatStringToTime", value=>{
+    return value.split(":")[0] +":"+value.split(":")[1]; 
+})
+
 Vue.filter("Date", value=>{
     return dayjs(value).format('DD/MM/YYYY');
 })
@@ -152,3 +156,87 @@ Vue.filter("Farmacia", (value, option)=>{
         return value;
     }
 })
+
+//Filtros en ordenes
+Vue.filter("FechaRange", (value,desde,hasta) => {
+
+    if(desde && hasta){
+      if (desde <= hasta) {
+          console.log('ENTRO AL IF');
+          return value
+              .filter(
+                  (f) => f.fecha >= desde && f.fecha <= hasta
+              );
+          }
+      else{
+          swal("¡ERROR!", "Ingrese correctamente las fechas", "error");
+          return value;
+      }
+    }
+    else{
+        console.log('NO SE PUEDE REALIZAR');
+        return value;
+    }   
+})
+
+Vue.filter("Servicio", (value, option)=>{
+    if(option != null){
+        return value
+        .filter((f) => f.servicio==option);
+    }
+    else{
+        return value;
+    }
+})
+
+Vue.filter("Realizado", (value, option)=>{
+    if(option != null){
+        return value
+        .filter((f) => f.realizado==option);
+    }
+    else{
+        return value;
+    }
+})
+
+//Filtros en Socios
+Vue.filter("Departamento", (value, option)=>{
+    if(option != null){
+        return value
+        .filter((f) => f.departamento==option);
+    }
+    else{
+        return value;
+    }
+})
+
+Vue.filter("AlDia", (value, option)=>{
+    if(option != null){
+        return value
+        .filter((f) => f.aldia==option);
+    }
+    else{
+        return value;
+    }
+})
+
+Vue.filter("FechaPagoRange", (value,desde,hasta) => {
+
+    if(desde && hasta){
+      if (desde <= hasta) {
+          console.log('ENTRO AL IF');
+          return value
+              .filter(
+                  (f) => f.fecharealizacion >= desde && f.fecharealizacion <= hasta
+              );
+          }
+      else{
+          swal("¡ERROR!", "Ingrese correctamente las fechas", "error");
+          return value;
+      }
+    }
+    else{
+        console.log('NO SE PUEDE REALIZAR');
+        return value;
+    }   
+  })

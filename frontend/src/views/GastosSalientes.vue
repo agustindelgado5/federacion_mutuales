@@ -32,7 +32,7 @@
 				<gastosSalientes-alta />
 			</b-modal>
 
-      <!-- ================ELIMINAR VARIOS GASTOS======================== -->
+			<!-- ================ELIMINAR VARIOS GASTOS======================== -->
 			<b-button
 				class="mb-4 ml-2"
 				variant="danger"
@@ -45,7 +45,7 @@
 				<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
 				Eliminar
 			</b-button>
-      <div>
+			<div>
 				<b-modal
 					ref="my-modal"
 					id="modal-eliminarTodo"
@@ -75,7 +75,7 @@
 					</b-button>
 				</b-modal>
 			</div>
-      <!-- ======================================== -->
+			<!-- ======================================== -->
 			<!-- ======== Formulario de Busqueda ======== -->
 			<b-form-group
 				label-for="filter-input"
@@ -100,21 +100,27 @@
 				</b-input-group>
 			</b-form-group>
 			<!-- ======================================== -->
-      
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
-
+					<div v-if="rows != rowsFilter">
+						<pre>
+Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
 					</div>
 					<div v-else>
-						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
-					</div>		
+						<pre>
+Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
+					</div>
 				</div>
 				<div v-else>
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} </pre>
+					<div v-if="rows != rowsFilter">
+						<pre>Registros Fitrados: {{ rowsFilter }} </pre>
 					</div>
 					<div v-else>
 						<pre>Cantidad de registros: {{ rows }}</pre>
@@ -160,30 +166,34 @@
 				:no-border-collapse="false"
 				ref="tablaregistros"
 				id="tablaregistros"
-        :filter="filter"
-        @filtered="onFiltered"
-        @row-selected="seleccionar_una"
-        selectable
-        select-mode="multi"
+				:filter="filter"
+				@filtered="onFiltered"
+				@row-selected="seleccionar_una"
+				selectable
+				select-mode="multi"
 			>
 				<template #empty="">
 					<b>No hay registros para mostrar</b>
 				</template>
 
-        <template slot="cell(total)" slot-scope="data">
-						<b>${{ data.value }}</b>
-        </template>
+				<template slot="cell(total)" slot-scope="data">
+					<b>${{ data.value }}</b>
+				</template>
 
-        <template #cell(selected)="{ rowSelected }">
-						<template v-if="rowSelected">
-							<span aria-hidden="true">&check;</span>
-							<span class="sr-only">Selected</span>
-						</template>
-						<template v-else>
-							<span aria-hidden="true">&nbsp;</span>
-							<span class="sr-only">Not selected</span>
-						</template>
+				<template slot="cell(fecha)" slot-scope="data">
+					{{ data.value | Date}}
+				</template>
+
+				<template #cell(selected)="{ rowSelected }">
+					<template v-if="rowSelected">
+						<span aria-hidden="true">&check;</span>
+						<span class="sr-only">Selected</span>
 					</template>
+					<template v-else>
+						<span aria-hidden="true">&nbsp;</span>
+						<span class="sr-only">Not selected</span>
+					</template>
+				</template>
 
 				<template slot="cell(action)" slot-scope="row">
 					<div class="mt-3">
@@ -193,7 +203,7 @@
 								id="button-1"
 								title="Mostrar Info"
 								@click="row.toggleDetails"
-                :disabled="btn_mostrar"
+								:disabled="btn_mostrar"
 							>
 								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
 							</b-button>
@@ -204,7 +214,7 @@
 								title="Editar este registro"
 								v-b-modal.modal-editar
 								@click="editarGastoSaliente(row.item, row.index)"
-                :disabled="btn_editar"
+								:disabled="btn_editar"
 							>
 								<v-icon class="mr-2"> mdi-pencil </v-icon>
 								Editar
@@ -215,7 +225,7 @@
 								id="button-3"
 								@click="showModalinfo(row.item, row.index)"
 								title="Eliminar este registro"
-                :disabled="btn_eliminar"
+								:disabled="btn_eliminar"
 							>
 								<v-icon class="mr-2"> mdi-delete </v-icon>
 								Eliminar
@@ -320,7 +330,7 @@
 			return {
 				tabla_gastosSalientes: [],
 				fields: [
-          { key: "selected", label: "Seleccionar", sortable: true },
+					{ key: "selected", label: "Seleccionar", sortable: true },
 					{ key: "id_gasto", label: "Id Gasto", sortable: true },
 					{ key: "nro_ticket", label: "Numero de Ticket", sortable: true },
 					{ key: "descripcion", label: "Descripcion", sortable: true },
@@ -328,8 +338,8 @@
 					{ key: "fecha", label: "Fecha", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
-        selected: [],
-        filter: null,
+				selected: [],
+				filter: null,
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
@@ -339,7 +349,7 @@
 					id: "modal_eliminar",
 					gastoSaliente: -1,
 				},
-        btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
+				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
@@ -351,9 +361,9 @@
 		},
 		computed: {
 			rows() {
-				return this.totalRows =this.tabla_gastosSalientes.length;
+				return (this.totalRows = this.tabla_gastosSalientes.length);
 			},
-			rowsFilter(){
+			rowsFilter() {
 				return this.totalRows;
 			},
 			id() {
@@ -400,7 +410,7 @@
 			},
 			altaGastoSaliente() {},
 
-      //Elimino un gasto
+			//Elimino un gasto
 			async deleteGastoSaliente(id_gasto) {
 				axios
 					.delete("http://localhost:8081/gastosSalientes/" + id_gasto + "/")
@@ -498,7 +508,6 @@
 				this.btn_select = false;
 				this.btn_limpiar = true;
 			},
-
 		},
 
 		beforeMount() {

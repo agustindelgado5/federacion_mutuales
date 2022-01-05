@@ -78,6 +78,7 @@
 			label-size="sm"
 			class="mb-0"
 			style="width: 100%; padding-bottom: 1em"
+			v-show="rows > 0"
 		>
 			<b-input-group size="sm">
 				<b-form-input
@@ -265,7 +266,7 @@
 			<recetas-update :receta="editar" />
 		</b-modal>
 		</section>
-		<aside>
+		<aside v-show="rows > 0">
 			<div>
 				<b-card-group deck>
 					<b-card
@@ -331,9 +332,11 @@
 					receta: -1,
 				},
 				selected: [],
+
+				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
-        btn_limpiar:true,
+        		btn_limpiar:true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
@@ -504,7 +507,7 @@
 		transition: 0.5s;
 		width: 100%;
 	}
-  /*
+  
 	.container {
 		float: left;
 		width: 80%;
@@ -513,5 +516,5 @@
 		float: right;
 		width: 20%;
 	}
-  */
+  
 </style>

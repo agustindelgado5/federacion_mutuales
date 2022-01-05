@@ -85,6 +85,7 @@
 				label-size="sm"
 				class="mb-0"
 				style="width: 100%; padding-bottom: 1em"
+				v-show="rows > 0"
 			>
 				<b-input-group size="sm">
 					<b-form-input
@@ -107,17 +108,24 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
-
+					<div v-if="rows != rowsFilter">
+						<pre>
+Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
 					</div>
 					<div v-else>
-						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
-					</div>		
+						<pre>
+Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
+					</div>
 				</div>
 				<div v-else>
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} </pre>
+					<div v-if="rows != rowsFilter">
+						<pre>Registros Fitrados: {{ rowsFilter }} </pre>
 					</div>
 					<div v-else>
 						<pre>Cantidad de registros: {{ rows }}</pre>
@@ -157,7 +165,12 @@
 					sortable
 					responsive
 					hover
-					:items="tabla_ordenes"
+					:items="
+						tabla_ordenes
+							| FechaRange(filter_fecha.desde, filter_fecha.hasta)
+							| Servicio(filter_servicio)
+							| Realizado(filter_realizado)
+					"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
@@ -202,16 +215,14 @@
 						{{ data.value.split("/")[4] }}
 					</template>
 					<template slot="cell(fecha)" slot-scope="data">
-						{{ data.value.split("-")[2] }}/{{ data.value.split("-")[1] }}/{{
-							data.value.split("-")[0]
-						}}
+						{{ data.value | Date }}
 					</template>
 					<template slot="cell(hora)" slot-scope="data">
-						{{ data.value.split(":")[0] }}:{{ data.value.split(":")[1] }}
+						{{ data.value | FormatStringToTime }}
 					</template>
 
 					<template slot="cell(precio)" slot-scope="data">
-						<b>$ {{ data.value }}</b>
+						<b>${{ data.value }}</b>
 					</template>
 
 					<template slot="cell(realizado)" slot-scope="data">
@@ -351,7 +362,7 @@
 				</b-container>
 			</section>
 
-			<aside>
+			<aside v-show="rows > 0">
 				<div>
 					<b-card-group deck>
 						<b-card
@@ -406,7 +417,7 @@
 												v-slot="{ ariaDescribedby }"
 											>
 												<b-form-checkbox-group
-													v-model="filter"
+													v-model="filter_realizado"
 													id="orden_pagada"
 													:aria-describedby="ariaDescribedby"
 													style="color: black"
@@ -414,11 +425,10 @@
 													<b-form-checkbox value="false">NO❌</b-form-checkbox>
 													<b-form-checkbox value="true">SI✔️</b-form-checkbox>
 												</b-form-checkbox-group>
-												<br>
-												<div v-show="filter != null">
+												<br />
+												<div v-show="filter_realizado != null">
 													<b-button
-														:disabled="!filter"
-														@click="filter = null"
+														@click="filter_realizado = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -427,7 +437,7 @@
 											</b-form-group>
 										</b-card-body>
 									</b-collapse>
-									<b-card-header header-tag="header" class="p-2" role="tab">
+									<b-card-header header-tag="header" class="p-1" role="tab">
 										<b-button
 											block
 											v-b-toggle.accordion-2
@@ -445,27 +455,71 @@
 									>
 										<b-card-body>
 											<b-form-group id="input-group-4">
-												<!--
-											<b-form-select
-												id="servicio"
-												v-model="filter"
-												type="text"
-												:options="options_servicio"
-											>
-											</b-form-select>
-											-->
 												<v-autocomplete
 													id="servicio"
-													v-model="filter"
+													v-model="filter_servicio"
 													:items="options_servicio"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter != null">
+												<div v-show="filter_servicio != null">
 													<b-button
-														:disabled="!filter"
-														@click="filter = null"
+														@click="filter_servicio = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-3
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											FECHA
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-3"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+										style="color: black"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<b-form-group label="Desde" label-for="fecha_desde">
+													<b-form-input
+														id="fecha_desde"
+														v-model="filter_fecha.desde"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+												<b-form-group label="Hasta" label-for="fecha_hasta">
+													<b-form-input
+														id="fecha_inicio_hasta"
+														v-model="filter_fecha.hasta"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+
+												<div style="color: black">
+													{{ filter_fecha.desde }} <br />
+													{{ filter_fecha.hasta }} <br />
+												</div>
+												<div
+													v-show="
+														filter_fecha.desde != null &&
+														filter_fecha.hasta != null
+													"
+												>
+													<b-button
+														@click="limpiar_filtro_fecha()"
 														title="Limpiar"
 													>
 														Limpiar
@@ -579,6 +633,8 @@
 					orden: -1,
 				},
 				selected: [],
+
+				//Botones
 				btn_down_pdf: false, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
 				btn_limpiar: true,
@@ -588,6 +644,16 @@
 				btn_ordenes: false,
 				btn_eliminar: false,
 				btn_select: false,
+
+				//Campos a filtrar
+				filter_fecha: {
+					desde: null,
+					hasta: null,
+				},
+				filter_servicio: null,
+				filter_realizado: null,
+
+				//Opciones de filtrado
 				options_servicio: [{ value: null, text: "Elija un servicio" }],
 				ordenAPDF: {}, //Se carga cuando se hace clic en exportar a pdf, con la orden a exportar
 			};
@@ -596,7 +662,7 @@
 			rows() {
 				return (this.totalRows = this.tabla_ordenes.length);
 			},
-			rowsFilter(){
+			rowsFilter() {
 				return this.totalRows;
 			},
 			id() {
@@ -771,6 +837,11 @@
 					resultPaciente.apellido + ", " + resultPaciente.nombre;
 
 				this.$refs.html2Pdf.generatePdf();
+			},
+
+			limpiar_filtro_fecha() {
+				this.filter_fecha.desde = null;
+				this.filter_fecha.hasta = null;
 			},
 		},
 		beforeMount() {

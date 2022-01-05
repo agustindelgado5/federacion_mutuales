@@ -29,6 +29,7 @@
 				label-size="sm"
 				class="mb-0"
 				style="width: 100%; padding-bottom: 1em"
+				v-show="rows > 0"
 			>
 				<b-input-group size="sm">
 					<b-form-input
@@ -69,6 +70,9 @@
 					:filter="filter"
 					@filtered="onFiltered"
 				>
+					<template #empty="">
+						<b>No hay registros para mostrar</b>
+					</template>
 					<template slot="cell(id_medico)" slot-scope="data">
 						<b>{{ data.value }}</b>
 					</template>
@@ -306,7 +310,7 @@
 				</b-container>
 			</section>
 			<!---
-    <aside>
+    <aside v-show="rows > 0">
       <div>
         <b-card-group deck>
           <b-card bg-variant="primary" text-variant="white" header="FILTRAR POR AÑO" class="text-center">

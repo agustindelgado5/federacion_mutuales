@@ -28,7 +28,7 @@ class socios(models.Model):
     departamento = models.CharField(max_length=30, choices=deptos_tucuman)
     cod_postal = models.IntegerField()
     fecha_nacimiento = models.DateField()
-    fecha_asociacion = models.DateField(auto_now_add=True)
+    fecha_asociacion = models.DateField()
     #edad = models.IntegerField(blank=True, null=True, editable=False)
     id_mutual = models.ForeignKey(mutuales,null=True, blank=True, on_delete=models.DO_NOTHING)
     tieneObraSocial = models.BooleanField()
@@ -86,7 +86,7 @@ class familiar(models.Model):
     fecha_nacimiento = models.DateField()
     #edad = models.IntegerField(null=True, blank=True)
     carencia = models.DateField(null=True, blank=True)
-    fecha_asociacion = models.DateField(auto_now_add=True)
+    fecha_asociacion = models.DateField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     # relacion 1:N, BORRADO: NOT ACTION

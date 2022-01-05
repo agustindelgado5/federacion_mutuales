@@ -128,13 +128,20 @@
 
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<div v-if="rows!=rowsFilter">
-						<pre>Registros Fitrados: {{rowsFilter}} | Filas seleccionadas: {{ selected.length }}</pre>
-
+					<div v-if="rows != rowsFilter">
+						<pre>
+Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
 					</div>
 					<div v-else>
-						<pre>Cantidad de registros: {{ rows }} | Filas seleccionadas: {{ selected.length }}</pre>
-					</div>		
+						<pre>
+Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
+					</div>
 				</div>
 				<div v-else>
 					<div v-if="rows != rowsFilter">
@@ -185,7 +192,16 @@
 						responsive
 						:no-border-collapse="false"
 						hover
-						:items="tabla_socios|fecha_asociacion_range(filter_fechaAsociacion.desde,filter_fechaAsociacion.hasta)"
+						:items="
+							tabla_socios
+								| fecha_asociacion_range(
+									filter_fechaAsociacion.desde,
+									filter_fechaAsociacion.hasta
+								)
+								| Localidad(filter_localidad)
+								| Departamento(filter_departamento)
+								| AlDia(filter_realizado)
+						"
 						show-empty
 						:per-page="perPage"
 						:current-page="currentPage"
@@ -415,12 +431,19 @@
 											<b-list-group-item
 												><b>Correo:</b> {{ row.item.email }}
 											</b-list-group-item>
+											<!--
 											<b-list-group-item
 											
-												><b>Mutual:</b> {{ row.item.mutual.split("/")[4] }}
+												><b>Mutual:</b> {{ row.item.id_mutual.split("/")[4] }}
 											</b-list-group-item>
+											-->
 											<b-list-group-item
-												><b>Vendedor:</b> {{ row.item.vendedor!=null?row.item.vendedor:"No disponible" }}
+												><b>Vendedor:</b>
+												{{
+													row.item.vendedor != null
+														? row.item.vendedor
+														: "No disponible"
+												}}
 											</b-list-group-item>
 										</b-list-group>
 										&nbsp;
@@ -438,10 +461,16 @@
 												{{ row.item.carencia | FormatStringToDate }}
 											</b-list-group-item>
 											<b-list-group-item
-												><b>Tiene Obra social:</b> {{ row.item.tieneObraSocial?"Si":"No" }}
+												><b>Tiene Obra social:</b>
+												{{ row.item.tieneObraSocial ? "Si" : "No" }}
 											</b-list-group-item>
 											<b-list-group-item
-												><b>Plan:</b> {{ row.item.plan!=null?row.item.plan:"No disponible" }}
+												><b>Plan:</b>
+												{{
+													row.item.plan != null
+														? row.item.plan
+														: "No disponible"
+												}}
 											</b-list-group-item>
 										</b-list-group>
 									</b-list-group>
@@ -489,13 +518,19 @@
 														{{
 															adherente.fecha_asociacion | FormatStringToDate
 														}}
+													</b-list-group-item>
+													<b-list-group-item
+														><b>Tiene Obra Social:</b>
+														{{ adherente.tieneObraSocial ? "Si" : "No" }}
+													</b-list-group-item>
 
-													</b-list-group-item>
 													<b-list-group-item
-														><b>Tiene Obra Social:</b> {{ adherente.tieneObraSocial?"Si":"No"  }}
-													</b-list-group-item>
-													<b-list-group-item
-														><b>Plan:</b> {{ adherente.plan!=null?adherente.plan:"No disponible" }}
+														><b>Plan:</b>
+														{{
+															adherente.plan != null
+																? adherente.plan
+																: "No disponible"
+														}}
 													</b-list-group-item>
 												</b-list-group>
 												&nbsp;
@@ -575,7 +610,7 @@
 					</b-container>
 				</section>
 
-				<aside v-show="rows >0">
+				<aside v-show="rows > 0">
 					<div>
 						<b-card-group deck>
 							<b-card
@@ -624,29 +659,16 @@
 										>
 											<b-card-body>
 												<b-form-group id="input-group-4">
-													<!--
-													<b-form-select
-														id="departamento"
-														v-model="filter"
-														type="text"
-														:options="options_deptos"
-													>
-													</b-form-select>
-													-->
 													<v-autocomplete
 														id="departamento"
-														v-model="filter"
+														v-model="filter_departamento"
 														:items="options_deptos"
 														type="text"
 														solo
 														filled
 													></v-autocomplete>
-													<div v-show="filter != null">
-														<b-button
-															:disabled="!filter"
-															@click="filter = null"
-															title="Limpiar"
-														>
+													<div v-show="filter_departamento != null">
+														<b-button @click="filter_departamento  = null" title="Limpiar">
 															Limpiar
 														</b-button>
 													</div>
@@ -674,16 +696,15 @@
 												<b-form-group id="input-group-4">
 													<v-autocomplete
 														id="localidad"
-														v-model="filter"
+														v-model="filter_localidad"
 														:items="op_localidad"
 														type="text"
 														solo
 														filled
 													></v-autocomplete>
-													<div v-show="filter != null">
+													<div v-show="filter_localidad != null">
 														<b-button
-															:disabled="!filter"
-															@click="filter = null"
+															@click="filter_localidad = null"
 															title="Limpiar"
 														>
 															Limpiar
@@ -714,7 +735,7 @@
 													v-slot="{ ariaDescribedby }"
 												>
 													<b-form-checkbox-group
-														v-model="filter"
+														v-model="filter_realizado"
 														id="socio_al_dia"
 														:aria-describedby="ariaDescribedby"
 														style="color: black"
@@ -724,10 +745,9 @@
 													</b-form-checkbox-group>
 													<br />
 
-													<div v-show="filter != null">
+													<div v-show="filter_realizado != null">
 														<b-button
-															:disabled="!filter"
-															@click="filter = null"
+															@click="filter_realizado = null"
 															title="Limpiar"
 														>
 															Limpiar
@@ -968,9 +988,10 @@
 					mensaje: "no esta al dia ❌",
 				},
 				socioAldia: [],
+				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
+				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
-				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
 				btn_pagado: false,
@@ -1213,10 +1234,15 @@
 					{ value: "Yerba Buena", text: " 110 - Yerba Buena " },
 					{ value: "Yánima", text: " 111 - Yánima " },
 				],
+
+				//Campos a filtrar
 				filter_fechaAsociacion: {
 					desde: null,
 					hasta: null,
 				},
+				filter_localidad: null,
+				filter_departamento: null,
+				filter_realizado: null,
 			};
 		},
 
@@ -1484,7 +1510,7 @@
 				this.$refs["modal-bajamora"].show();
 			},
 
-			limpiar_filtro_fechaAsociacion(){
+			limpiar_filtro_fechaAsociacion() {
 				this.filter_fechaAsociacion.desde = null;
 				this.filter_fechaAsociacion.hasta = null;
 			},

@@ -398,7 +398,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											</b-form-group>
 										</b-card-body>
 									</b-collapse>
-									<b-card-header header-tag="header" class="p-2" role="tab">
+									<b-card-header header-tag="header" class="p-1" role="tab">
 										<b-button
 											block
 											v-b-toggle.accordion-2
