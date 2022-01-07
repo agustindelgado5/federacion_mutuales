@@ -496,7 +496,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					<section class="pdf-item">
 						<h3>Listado de Medicamentos</h3>
 						<b-table
-							:fields="fields"
+							:fields="fieldsPDF"
 							responsive
 							:items="tabla_med"
 							:no-border-collapse="false"
@@ -541,6 +541,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "laboratorio", label: "Laboratorio", sortable: true },
 					{ key: "cod_farmacia", label: "Farmacia", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
+				],
+				fieldsPDF: [
+					{ key: "id_medicamento", label: "ID"},
+					{ key: "nombre", label: "Nombre"},
+					{ key: "presentacion", label: "Presentacion"},
+					{ key: "laboratorio", label: "Laboratorio"},
+					{ key: "cod_farmacia", label: "Farmacia"},
 				],
 				editar: {},
 				//buscar: '',
