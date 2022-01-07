@@ -83,6 +83,7 @@
 				label-size="sm"
 				class="mb-0"
 				style="width: 100%; padding-bottom: 1em"
+				v-show="rows > 0"
 			>
 				<b-input-group size="sm">
 					<b-form-input

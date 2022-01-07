@@ -496,7 +496,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					<section class="pdf-item">
 						<h3>Listado de Medicamentos</h3>
 						<b-table
-							:fields="fields != 'action'"
+							:fields="fields"
 							responsive
 							:items="tabla_med"
 							:no-border-collapse="false"

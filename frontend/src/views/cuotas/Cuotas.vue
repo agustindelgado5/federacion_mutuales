@@ -205,15 +205,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</template>
 					</template>
 
-          <template slot="cell(id_cuota)" slot-scope="data">
-						<b>{{ data.value}}</b> 
+					<template slot="cell(id_cuota)" slot-scope="data">
+						<b>{{ data.value }}</b>
 					</template>
 					<template slot="cell(fecharealizacion)" slot-scope="data">
 						{{ data.value | Date }}
 					</template>
 
-          <template slot="cell(monto)" slot-scope="data">
-						${{ data.value}}
+					<template slot="cell(monto)" slot-scope="data">
+						${{ data.value }}
 					</template>
 
 					<template slot="cell(action)" slot-scope="row">

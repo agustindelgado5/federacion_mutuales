@@ -668,7 +668,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 														filled
 													></v-autocomplete>
 													<div v-show="filter_departamento != null">
-														<b-button @click="filter_departamento  = null" title="Limpiar">
+														<b-button
+															@click="filter_departamento = null"
+															title="Limpiar"
+														>
 															Limpiar
 														</b-button>
 													</div>
@@ -839,68 +842,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			</b-modal>
 
 			<!-- ==================================CREAR CARNET================================== -->
-			<vue-html2pdf
-				:show-layout="false"
-				:float-layout="true"
-				:enable-download="false"
-				:preview-modal="true"
-				:paginate-elements-by-height="1400"
-				filename="DetalleOrden"
-				:pdf-quality="2"
-				:manual-pagination="false"
-				pdf-format="a4"
-				pdf-orientation="portrait"
-				pdf-content-width="80%"
-				@progress="onProgress($event)"
-				@startPagination="startPagination()"
-				@hasPaginated="hasPaginated()"
-				@beforeDownload="beforeDownload($event)"
-				@hasDownloaded="hasDownloaded($event)"
-				ref="html2Pdf"
-			>
-				<section slot="pdf-content">
-					<!-- PDF Content Here -->
-					<section class="pdf-item">
-						<b-card-group deck>
-							<b-card
-								img-src="../assets/logo.jpg"
-								img-alt="Logo Federación"
-								img-left
-								class="mb-3"
-								img-width="90"
-								img-height="90"
-							>
-								<b-card-text>
-									<h6>Federación Tucumana de Mutuales</h6>
-									<div>
-										<b-list-group horizontal="md" style="font-size: 70%">
-											<b-list-group-item>
-												<b>N°: {{ carnetAPDF.numero_socio }}</b> |
-												<b>Afiliado:</b> {{ carnetAPDF.afiliado }} | <b>DNI:</b>
-												{{ carnetAPDF.dni }}
-												{{ carnetAPDF.adherentes }}
-											</b-list-group-item>
-										</b-list-group>
-										<b-list-group>
-											&nbsp;
-											<h6>Adherentes</h6>
+			<b-modal size="lg" ref="modal-carnetSocio" id="modal-carnetSocio" hide-footer>
+				<template #modal-title><h5 class="modal-title">Vista Previa</h5></template>
+				<socios-carnet :carnet="carnetAPDF" />
+			</b-modal>
+			<!-- ================================================================================ -->
 
-											<b-list-group-item
-												v-for="adh in carnetAPDF.adhrentes"
-												:key="adh.dni"
-												style="font-size: 70%"
-											>
-												<b>{{ adh.dni }}</b> - {{ adh.adherente }}
-											</b-list-group-item>
-										</b-list-group>
-									</div>
-								</b-card-text>
-							</b-card>
-						</b-card-group>
-					</section>
-				</section>
-			</vue-html2pdf>
-
+			<!-- ==================================BAJA EN MORA================================== -->
 			<b-modal size="xl" ref="modal-bajamora" id="modal-bajamora" hide-footer>
 				<template #modal-title
 					><h5 class="modal-title">Vista previa</h5></template
@@ -908,6 +856,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 				<socios-baja-mora :SocioBajaMora="SocioBajaMora" />
 			</b-modal>
+			<!-- ================================================================================ -->
 		</div>
 	</v-app>
 </template>
@@ -922,6 +871,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 	import SociosAlta from "./SociosAlta.vue";
 	import SociosUpdate from "./SociosUpdate.vue";
 	import SociosBajaMora from "./SociosBajaMora.vue";
+	import SociosCarnet from "./SociosCarnet.vue";
 	import VueHtml2pdf from "vue-html2pdf";
 
 	import axios from "axios";
@@ -931,6 +881,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		components: {
 			SociosAlta,
 			SociosUpdate,
+			SociosCarnet,
 			SociosBajaMora,
 			VueAwesomplete,
 			VueHtml2pdf,
@@ -1488,7 +1439,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					}
 				}
 				this.carnetAPDF = data_socio;
-				this.$refs.html2Pdf.generatePdf();
+				//this.$refs.html2Pdf.generatePdf();
+				this.$refs["modal-carnetSocio"].show();
 			},
 
 			onFiltered(filteredItems) {
@@ -1515,9 +1467,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.filter_fechaAsociacion.hasta = null;
 			},
 
-			// async generarPDFSolicitudBaja(){
-			// 	this.$refs.html2PdfBaja.generatePdf();
-			// }
+
 		},
 		beforeMount() {
 			//this.show = true;
