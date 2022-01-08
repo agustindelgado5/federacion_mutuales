@@ -1,12 +1,13 @@
 <template>
 	<v-app id="app">
-		<div id="farmacias" class="myTable">
+		<div id="medicamentos" class="myTable">
 			<!--HEAD DE LA PAGINA -->
 			<vue-headful
-				title="Farmacias - Federación Tucumana de Mutuales"
+				title="Medicamentos - Federación Tucumana de Mutuales"
 			></vue-headful>
 
-			<h2>Listado de Farmacias</h2>
+			<h2>Listado de Medicamentos</h2>
+
 			<b-button
 				@click="testFetch"
 				class="mb-4"
@@ -16,22 +17,22 @@
 				<v-icon dark style="color: black">mdi-cached</v-icon>
 				Actualizar
 			</b-button>
-
-			<!-- ================ALTA FARMACIA======================== -->
+			<!-- ================ALTA MEDICAMENTOS======================== -->
 			<b-button
 				class="mb-4 ml-2"
 				v-b-modal.modal-alta
-				@click="altaFarmacia()"
-				title="Nueva Farmacia"
+				@click="altaMedicamento()"
+				title="Nuevo Medicamento"
 				style="color: white"
 			>
 				<v-icon dark> mdi-plus </v-icon>
-				Nueva Farmacia
+				Nuevo Medicamento
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<farmacias-alta />
+				<medicamento-alta />
 			</b-modal>
+			<!-- =========================================================== -->
 
 			<!-- ==================================CREAR PDF================================== -->
 			<b-button
@@ -41,7 +42,7 @@
 				title="Generar PDF"
 				variant="danger"
 				style="color: white"
-				
+				:disabled="btn_down_pdf"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +64,6 @@
 			</b-button>
 			<!-- ============================================================================== -->
 
-			<!-- ================ELIMINAR VARIAS FARMACIAS======================== -->
 			<b-button
 				class="mb-4 ml-2"
 				variant="danger"
@@ -77,6 +77,7 @@
 				Eliminar
 			</b-button>
 
+			<!-- ================ELIMINAR VARIOS MEDICAMENTOS======================== -->
 			<div>
 				<b-modal
 					ref="my-modal"
@@ -101,14 +102,14 @@
 						variant="danger"
 						block
 						title="Eliminar"
-						@click="delete_all_Farmacias()"
+						@click="delete_all_Medicamentos()"
 					>
 						Eliminar
 					</b-button>
 				</b-modal>
 			</div>
-			<!-- ======== Formulario de Busqueda ======== -->
 
+			<!-- ======== Formulario de Busqueda ======== -->
 			<b-form-group
 				label-for="filter-input"
 				label-align-sm="right"
@@ -186,33 +187,35 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			</div>
 
 			<section class="container">
-				<!-- ======== Tabla con los registros ======= -->
 				<b-table
 					:fields="fields"
 					striped
 					sortable
 					responsive
-					:sticky-header="true"
-					:no-border-collapse="false"
 					hover
 					:items="
-						tabla_farmacias
-							| Representante(filter_representante)
-							| Correo(filter_correo)
+						tabla_med
+							| Farmacia(filter_farmacia)
+							| Laboratorio(filter_laboratorio)
 					"
 					show-empty
-					:per-page="perPage"
-					:current-page="currentPage"
-					:filter="filter"
-					@filtered="onFiltered"
+					:sticky-header="true"
+					:no-border-collapse="false"
 					ref="tablaregistros"
 					id="tablaregistros"
-					@row-selected="seleccionar_una"
 					selectable
 					select-mode="multi"
+					:filter="filter"
+					@filtered="onFiltered"
+					@row-selected="seleccionar_una"
+					:per-page="perPage"
+					:current-page="currentPage"
 				>
 					<template #empty="">
-						<b>No hay registros para mostrar</b>
+						<!--
+        <b>No hay registros para mostrar</b>
+        -->
+						<b>{{ msj_tabla }}</b>
 					</template>
 
 					<template #cell(selected)="{ rowSelected }">
@@ -226,6 +229,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</template>
 					</template>
 
+					<template slot="cell(cod_farmacia)" slot-scope="data">
+						{{ data.value.split("/")[4] }}
+					</template>
+
 					<template slot="cell(action)" slot-scope="row">
 						<div class="mt-3">
 							<b-button-group>
@@ -233,10 +240,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									variant="info"
 									id="button-1"
 									title="Mostrar Info"
-									@click="row.toggleDetails"
 									:disabled="btn_mostrar"
+									@click="row.toggleDetails"
 								>
-									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} Detalles
 								</b-button>
 
 								<b-button
@@ -244,7 +251,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									id="button-2"
 									title="Editar este registro"
 									v-b-modal.modal-editar
-									@click="editarFarmacia(row.item, row.index)"
+									@click="editarMedicamento(row.item, row.index)"
 									:disabled="btn_editar"
 								>
 									<v-icon class="mr-2"> mdi-pencil </v-icon>
@@ -264,85 +271,32 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							</b-button-group>
 						</div>
 					</template>
-
 					<template #row-details="row">
-						<b-card title="Datos de la farmacia: ">
-							<div>
-								<b-list-group horizontal>
-									<b-list-group class="col-3">
-										<b-list-group-item
-											><b>Codigo:</b>
-											{{ row.item.cod_farmacia }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Matricula:</b>
-											{{ row.item.matricula_farm }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item
-										>
-									</b-list-group>
-									&nbsp;
-									<b-list-group class="col-5">
-										<b-list-group-item
-											><b>Farmacia:</b>
-											{{ row.item.farmacia }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Sucursal:</b>
-											{{ row.item.localidad }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Correo:</b> {{ row.item.email }}
-										</b-list-group-item>
-									</b-list-group>
-									&nbsp;
-									<b-list-group class="col-4">
-										<b-list-group-item
-											><b>Telefono Fijo:</b>
-											{{ row.item.tel_fijo }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Celular:</b>
-											{{ row.item.tel_celular }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Representante:</b> {{ row.item.representante }}
-										</b-list-group-item>
-									</b-list-group>
+						<b-card>
+							<b-list-group horizontal>
+								<b-list-group>
+									<b-list-group-item
+										><b>Nombre :</b>
+										{{ row.item.nombre.toUpperCase() }}</b-list-group-item
+									>
+									<b-list-group-item
+										><b>Presentacion:</b>
+										{{ row.item.presentacion }}</b-list-group-item
+									>
+									<b-list-group-item
+										><b>Laboratorio:</b>
+										{{ row.item.laboratorio }}</b-list-group-item
+									>
+									<b-list-group-item
+										><b>Farmacia:</b>
+										{{ row.item.cod_farmacia.split("/")[4] }}</b-list-group-item
+									>
 								</b-list-group>
-							</div>
+								&nbsp;
+							</b-list-group>
 						</b-card>
 					</template>
 				</b-table>
-				<!-- ================ELIMINAR FARMACIA======================== -->
-
-				<b-modal
-					id="modal_eliminar"
-					ref="my-modal"
-					hide-footer
-					title="Eliminar"
-					ok-only
-				>
-					<div class="d-block text-center">
-						<h3>
-							¿Esta seguro de eliminar los datos de
-							{{ infoEliminar.farmacia.farmacia }}?
-						</h3>
-					</div>
-					<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
-						>Volver Atras</b-button
-					>
-					<b-button
-						class="mt-3"
-						variant="danger"
-						block
-						@click="deleteFarmacia(infoEliminar.farmacia.cod_farmacia)"
-						title="Eliminar"
-					>
-						Eliminar
-					</b-button>
-				</b-modal>
 				<b-container fluid>
 					<b-col class="my-1">
 						<b-pagination
@@ -351,36 +305,35 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							pills
 							:total-rows="totalRows"
 							:per-page="perPage"
-							aria-controls="tabla_farmacias"
+							aria-controls="tabla_med"
 						>
 						</b-pagination>
 					</b-col>
 				</b-container>
 			</section>
 			<aside v-show="rows > 0">
-				<!--
-			<div>
-				<b-card-group deck>
-					<b-card
-						bg-variant="primary"
-						text-variant="white"
-						header="REGISTROS POR PAGINA"
-						class="text-center"
-					>
-						<b-form-group label-for="per-page-select" class="mb-0">
-							<b-form-select
-								id="per-page-select"
-								v-model="perPage"
-								:options="pageOptions"
-								size="sm"
-							></b-form-select>
-						</b-form-group>
-					</b-card>
-				</b-card-group>
-			</div>
-      
-			<br />
-      -->
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="REGISTROS POR PAGINA"
+							class="text-center"
+						>
+							<b-form-group label-for="per-page-select" class="mb-0">
+								<b-form-select
+									id="per-page-select"
+									v-model="perPage"
+									:options="pageOptions"
+									size="sm"
+								></b-form-select>
+							</b-form-group>
+						</b-card>
+					</b-card-group>
+				</div>
+
+				<br />
+
 				<div>
 					<b-card-group deck>
 						<b-card
@@ -398,7 +351,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											variant="info"
 											style="font-size: 0.82em"
 										>
-											CORREO
+											FARMACIA
 										</b-button>
 									</b-card-header>
 									<b-collapse
@@ -410,16 +363,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										<b-card-body>
 											<b-form-group id="input-group-4">
 												<v-autocomplete
-													id="correo"
-													v-model="filter_correo"
-													:items="options_correo"
+													id="farmacia"
+													v-model="filter_farmacia"
+													:items="options_farmacia"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter_correo != null">
+												<div v-show="filter_farmacia != null">
 													<b-button
-														@click="filter_correo = null"
+														@click="filter_farmacia = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -435,7 +388,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											variant="info"
 											style="font-size: 0.82em"
 										>
-											REPRESENTANTE
+											LABORATORIO
 										</b-button>
 									</b-card-header>
 									<b-collapse
@@ -447,16 +400,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										<b-card-body>
 											<b-form-group id="input-group-4">
 												<v-autocomplete
-													id="representante"
-													v-model="filter_representante"
-													:items="options_representante"
+													id="laboratorio"
+													v-model="filter_laboratorio"
+													:items="options_laboratorio"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter_representante != null">
+												<div v-show="filter_laboratorio != null">
 													<b-button
-														@click="filter_representante = null"
+														@click="filter_laboratorio = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -471,101 +424,169 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					</b-card-group>
 				</div>
 			</aside>
+			<!-- ================EDITAR UN MEDICAMENTO======================== -->
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<farmacias-update :farmacia="editar" />
+				<medicamento-update :item_med="editar" />
+			</b-modal>
+
+			<!-- ================ELIMINAR UN MEDICAMENTO======================== -->
+			<b-modal
+				id="modal_eliminar"
+				ref="my-modal"
+				hide-footer
+				title="Eliminar"
+				ok-only
+			>
+				<div class="d-block text-center">
+					<h3>
+						¿Esta seguro de eliminar los datos de '{{
+							infoEliminar.medicamento.nombre
+						}}'?
+					</h3>
+				</div>
+				<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
+					Volver Atras
+				</b-button>
+
+				<b-button
+					class="mt-3"
+					variant="danger"
+					block
+					title="Eliminar"
+					@click="deleteMedicamento(infoEliminar.medicamento.id_medicamento)"
+				>
+					Eliminar
+				</b-button>
 			</b-modal>
 
 			<!-- ==================================CREAR PDF================================== -->
-			<b-modal
-				size="xl"
-				ref="modal-pdfFarmacia"
-				id="modal-pdfFarmacia"
-				hide-footer
+			<vue-html2pdf
+				:show-layout="false"
+				:float-layout="true"
+				:enable-download="false"
+				:preview-modal="true"
+				:paginate-elements-by-height="1400"
+				filename="Listado de Medicamentos"
+				:pdf-quality="2"
+				:manual-pagination="false"
+				pdf-format="a4"
+				pdf-orientation="portrait"
+				pdf-content-width="80%"
+				@progress="onProgress($event)"
+				@startPagination="startPagination()"
+				@hasPaginated="hasPaginated()"
+				@beforeDownload="beforeDownload($event)"
+				@hasDownloaded="hasDownloaded($event)"
+				ref="html2Pdf"
 			>
-				<template #modal-title
-					><h5 class="modal-title">Vista Previa</h5></template
-				>
-				<farmacias-listadopdf :PDFfarmacia=farmaciasAPdf></farmacias-listadopdf>
-			</b-modal>
-			<!-- ==============================================================================-->
+				<section slot="pdf-content">
+					<!-- PDF Content Here -->
+					<section class="pdf-item">
+						<h3>Federación Tucumana de Mutuales</h3>
+						<img
+							src="@/assets/logo.jpg"
+							alt="Logo Federación"
+							srcset=""
+							id="Logo_fed"
+						/>
+					</section>
+					<section class="pdf-item">
+						<h3>Listado de Medicamentos</h3>
+						<b-table
+							:fields="fieldsPDF"
+							responsive
+							:items="tabla_med"
+							:no-border-collapse="false"
+							small
+							fixed
+							bordered
+							head-variant="light"
+						>
+							<template slot="cell(cod_farmacia)" slot-scope="data">
+								{{ data.value.split("/")[4] }}
+							</template>
+						</b-table>
+					</section>
+				</section>
+			</vue-html2pdf>
+			<!-- ============================================================================== -->
 		</div>
 	</v-app>
 </template>
 
 <script>
 	let api = new URL("http://localhost");
-	api.pathname = "farmacias/";
+	api.pathname = "medicamentos";
 	//api.port = 8000;
 	api.port = 8081;
-	import FarmaciasAlta from "./FarmaciasAlta.vue";
-	import FarmaciasUpdate from "./FarmaciasUpdate.vue";
-	import FarmaciasListadopdf from "./FarmaciasListadopdf.vue"
 
+	import MedicamentoAlta from "./MedicamentosAlta.vue";
+	import MedicamentoUpdate from "./MedicamentosUpdate.vue";
 	import axios from "axios";
+	import VueHtml2pdf from "vue-html2pdf";
 
 	export default {
-		components: { FarmaciasAlta, FarmaciasUpdate, FarmaciasListadopdf  },
+		components: { MedicamentoAlta, MedicamentoUpdate, VueHtml2pdf },
 		data() {
 			return {
-				tabla_farmacias: [],
+				tabla_med: [],
 				fields: [
 					{ key: "selected", label: "Seleccionar", sortable: true },
-					{ key: "cod_farmacia", label: "Codigo", sortable: true },
-					{ key: "matricula_farm", label: "Matricula", sortable: true },
-					{ key: "cuit", label: "CUIT", sortable: true },
-					{ key: "farmacia", label: "Farmacia", sortable: true },
-					{ key: "localidad", label: "Sucursal", sortable: true },
-					{ key: "email", label: "Correo", sortable: true },
-					{ key: "tel_fijo", label: "Telefono Fijo", sortable: true },
-					{ key: "tel_celular", label: "Celular", sortable: true },
-					{ key: "representante", label: "Representante", sortable: true },
+					{ key: "id_medicamento", label: "ID", sortable: true },
+					{ key: "nombre", label: "Nombre", sortable: true },
+					{ key: "presentacion", label: "Presentacion", sortable: true },
+					{ key: "laboratorio", label: "Laboratorio", sortable: true },
+					{ key: "cod_farmacia", label: "Farmacia", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
-				totalRows: 1, //Total de filas
-				currentPage: 1, //Pagina actual
-				perPage: 10, // Datos en la tabla por pagina
+				fieldsPDF: [
+					{ key: "id_medicamento", label: "ID" },
+					{ key: "nombre", label: "Nombre" },
+					{ key: "presentacion", label: "Presentacion" },
+					{ key: "laboratorio", label: "Laboratorio" },
+					{ key: "cod_farmacia", label: "Farmacia" },
+				],
+				editar: {},
 				//buscar: '',
 				filter: null,
-				editar: {},
+				selected: [],
 				infoEliminar: {
 					id: "modal_eliminar",
-					farmacia: -1,
+					medicamento: -1,
 				},
-
-				farmaciasAPdf :{},
-
-				//Opciones de filtro
-				options_correo: [
-					{ value: null, text: "Elija un correo", selected: true },
-				],
-				options_representante: [
-					{ value: null, text: "Elija un representante", selected: true },
-				],
-				selected: [],
 
 				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
-				btn_limpiar: true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
-				btn_ordenes: false,
 				btn_eliminar: false,
 				btn_select: false,
+				btn_limpiar: true,
 
-				//Campos a filtrar
-				filter_correo : null,
-				filter_representante: null,
+				totalRows: 1, //Total de filas
+				currentPage: 1, //Pagina actual
+				perPage: 10, // Datos en la tabla por pagina
+				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
+
+				//Opciones de filtro
+				options_laboratorio: [
+					{ value: null, text: "Elija un laboratorio", selected: true },
+				],
+				options_farmacia: [
+					{ value: null, text: "Elija una farmacia", selected: true },
+				],
+
+				//Campos a filtrar:
+				filter_laboratorio: null,
+				filter_farmacia: null,
 			};
 		},
 		computed: {
 			rows() {
-				return (this.totalRows = this.tabla_farmacias.length);
-			},
-			id() {
-				return this.tabla_farmacias.cod_farmacia;
+				return (this.totalRows = this.tabla_med.length);
 			},
 			rowsFilter() {
 				return this.totalRows;
@@ -580,107 +601,69 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 		},
 		methods: {
+			//Funcion para mostrar todos los medicamentos
 			async testFetch() {
 				try {
 					const res = await fetch(api);
 					const data = await res.json();
 
-					var lista_farmacias = data.results;
+					var lista_med = data.results;
 
-					console.log(lista_farmacias);
+					console.log(lista_med);
 
-					this.tabla_farmacias = lista_farmacias;
+					this.tabla_med = lista_med;
 
-					this.tabla_farmacias.forEach((element) => {
-						let opcionCorreo = {};
-						let opcionRepre = {};
-						opcionCorreo.value = element.email;
-						opcionCorreo.text = element.email;
-						opcionRepre.value = element.representante;
-						opcionRepre.text = element.representante;
+					this.tabla_med.forEach((element) => {
+						let opcionLabo = {};
+						let opcionFarm = {};
+						opcionLabo.value = element.laboratorio;
+						opcionLabo.text = element.laboratorio;
+						opcionFarm.value = element.cod_farmacia;
+						opcionFarm.text = element.cod_farmacia.split("/")[4];
 						if (
-							this.options_correo.find((x) => x.value == opcionCorreo.value)
+							this.options_laboratorio.find((x) => x.value == opcionLabo.value)
 						) {
-							console.log(opcionCorreo, " ya se encuentra en el listado");
+							console.log(opcionLabo, " ya se encuentra en el listado");
 						} else {
-							this.options_correo.push(opcionCorreo);
+							this.options_laboratorio.push(opcionLabo);
 						}
-
 						if (
-							this.options_representante.find(
-								(x) => x.value == opcionRepre.value
-							)
+							this.options_farmacia.find((x) => x.value == opcionFarm.value)
 						) {
-							console.log(opcionRepre, " ya se encuentra en el listado");
+							console.log(opcionFarm, " ya se encuentra en el listado");
 						} else {
-							this.options_representante.push(opcionRepre);
+							this.options_farmacia.push(opcionFarm);
 						}
 					});
+
+					this.btn_down_pdf = false; //Habilito los botones
+
+					if (this.tabla_med.length == 0) {
+						this.msj_tabla = " No se encuentran regitros en esta tabla ";
+					}
 				} catch (error) {
 					console.log(error);
 				}
-			},
-			editarFarmacia(item, index) {
-				this.editar = item;
 			},
 			//Funcion para mostrar el modal
 			showModal() {
 				this.$refs["my-modal"].show();
 			},
-			showModalinfo(item, index) {
-				this.infoEliminar.farmacia = item;
-				this.showModal();
-			},
 			//Funcion para esconder el modal
 			hideModal() {
 				this.$refs["my-modal"].hide();
 			},
-			altaFarmacia() {},
-			//Elimina una farmacia
-			async deleteFarmacia(cod_Farmacia) {
-				axios
-					.delete("http://localhost:8081/farmacias/" + cod_Farmacia + "/")
-					.then((datos) => {
-						swal("Operación Exitosa", " ", "success");
-						console.log(datos);
-						this.hideModal();
-					})
-					.catch((error) => {
-						swal("¡ERROR!", "Se ha detectado un problema ", "error");
-						console.log(error);
-						this.hideModal();
-					})
-					.finally(() => this.testFetch());
+
+			info(id) {
+				alert("id: " + id);
 			},
 
-			//Elimino todas las farmacias
-			//Funcion para eliminar todos los profesionales
-			async delete_all_Farmacias() {
-				var cantidad = this.selected.length;
-
-				try {
-					for (var i = 0; i < cantidad; i++) {
-						axios.delete(
-							"http://localhost:8081/farmacias/" +
-								this.selected[i].cod_farmacia +
-								"/"
-						);
-						if (this.selected.length == 0) {
-							console.log("Eliminacion Exitosa");
-							break;
-						}
-					}
-					this.hideModal();
-					swal("Eliminacion Exitosa", " ", "success");
-				} catch (error) {
-					this.hideModal();
-					swal("¡ERROR!", "Se ha detectado un problema ", "error");
-					console.log(error);
-				} finally {
-					this.testFetch();
-				}
+			showModalinfo(item, index) {
+				this.infoEliminar.medicamento = item;
+				this.showModal();
 			},
 
+			//-----Funciones de seleccion
 			//Selecciona una a una
 			seleccionar_una(items) {
 				this.selected = items;
@@ -728,27 +711,95 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.btn_limpiar = true;
 			},
 
+			//Funcion para crear el PDF
+			generarPDF() {
+				if (this.tabla_med.length != 0) {
+					this.$refs.html2Pdf.generatePdf();
+				} else {
+					swal("Debe tener al menos 1 registro");
+				}
+			},
+
+			//Alta de medicamento
+			altaMedicamento() {},
+
+			//Editar medicamento
+			editarMedicamento(item, index) {
+				this.editar = item;
+			},
+
+			//Funcion para eliminar el medicamento
+			async deleteMedicamento(id) {
+				axios
+					.delete("http://localhost:8081/medicamentos/" + id + "/")
+					.then((datos) => {
+						swal("Eliminacion Exitosa", " ", "success");
+						console.log(datos);
+						this.hideModal();
+					})
+					.catch((error) => {
+						swal("¡ERROR!", "Se ha detectado un problema ", "error");
+						console.log(error);
+						this.hideModal();
+					})
+					.finally(() => this.testFetch());
+			},
+
+			//Funcion para eliminar todos los medicamentos seleccionados
+			async delete_all_Medicamentos() {
+				var cantidad = this.selected.length;
+
+				try {
+					for (var i = 0; i < cantidad; i++) {
+						axios.delete(
+							"http://localhost:8081/medicamentos/" +
+								this.selected[i].id_medicamento +
+								"/"
+						);
+						if (this.selected.length == 0) {
+							console.log("Eliminacion Exitosa");
+							break;
+						}
+					}
+					this.hideModal();
+					swal("Eliminacion Exitosa", " ", "success");
+				} catch (error) {
+					this.hideModal();
+					swal("¡ERROR!", "Se ha detectado un problema ", "error");
+					console.log(error);
+				} finally {
+					this.testFetch();
+				}
+			},
+
 			onFiltered(filteredItems) {
 				// Trigger pagination to update the number of buttons/pages due to filtering
 				this.totalRows = filteredItems.length;
 				this.currentPage = 1;
 			},
 
-			//Funcion para crear el PDF
-			async generarPDF(){
-				if (this.tabla_farmacias.length != 0) {
-					//this.btn_down_pdf=false;
-					this.farmaciasAPdf = this.tabla_farmacias;
-					this.$refs["modal-pdfFarmacia"].show();
-				} else {
-					//this.btn_down_pdf=true;
-					swal("Debe tener al menos 1 registro");
-				}
-				
-				//console.log("Profesional: ", this.profesionalAPdf);
-				//this.$refs["modal-pdfFarmacia"].show();
+			//Edicion del pdf antes de descargar
+			async beforeDownload({ html2pdf, options, pdfContent }) {
+				await html2pdf()
+					.set(options)
+					.from(pdfContent)
+					.toPdf()
+					.get("pdf")
+					.then((pdf) => {
+						const totalPages = pdf.internal.getNumberOfPages();
+						for (let i = 1; i <= totalPages; i++) {
+							pdf.setPage(i);
+							pdf.setFontSize(10);
+							pdf.setTextColor(150);
+							pdf.text(
+								"Página " + i + " of " + totalPages,
+								pdf.internal.pageSize.getWidth() * 0.88,
+								pdf.internal.pageSize.getHeight() - 0.3
+							);
+						}
+					})
+					.save();
 			},
-
 		},
 
 		beforeMount() {

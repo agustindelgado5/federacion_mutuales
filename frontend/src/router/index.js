@@ -32,7 +32,7 @@ const routes = [
   {
     path: "/socios",
     name: "Socios",
-    component: () => import("../views/Socios.vue"),
+    component: () => import("../views/socios/Socios.vue"),
   },
   {
     path: "/mutuales",
@@ -48,19 +48,19 @@ const routes = [
   {
     path: "/ordenes",
     name: "Ordenes",
-    component: () => import("../views/Ordenes.vue"),
+    component: () => import("../views/ordenes/Ordenes.vue"),
     meta: { title: 'Ordenes - Federación Tucumana de Mutuales' }
   },
   {
     path: "/medicamentos",
     name: "Medicamentos",
-    component: () => import("../views/Medicamentos.vue"),
+    component: () => import("../views/medicamentos/Medicamentos.vue"),
     meta: { title: 'Medicamentos - Federación Tucumana de Mutuales' }
   },
   {
     path: "/Recetas",
     name: "Recetas",
-    component: () => import("../views/Recetas.vue"),
+    component: () => import("../views/recetas/Recetas.vue"),
     meta: { title: 'Recetas - Federación Tucumana de Mutuales' }
   },
   {
@@ -94,12 +94,12 @@ const routes = [
   {
     path: '/ordenesProf',
     name: 'ordenesProf',
-    component: () => import('../views/Ordenes_Profesional.vue')
+    component: () => import('../views/ordenes/Ordenes_Profesional.vue')
   },
   {
     path: "/gastosSalientes",
     name: "GastosSalientes",
-    component: () => import("../views/GastosSalientes.vue"),
+    component: () => import("../views/gastos_salientes/GastosSalientes.vue"),
     meta: { title: 'Gastos Salientes - Federación Tucumana de Mutuales' }
   },
   {
@@ -115,18 +115,18 @@ const routes = [
   {
     path: '/lentes',
     name: 'lentes',
-    component: () => import('../views/Lentes.vue')
+    component: () => import('../views/lentes/Lentes.vue')
   },
   {
     path: '/ventasOpticas',
     name: 'VentasOpticas',
-    component: () => import('../views/VentasOpticas.vue'),
+    component: () => import('../views/ventas_opticas/VentasOpticas.vue'),
     meta: { title: '"Ventas Opticas - Federación Tucumana de Mutuales"' }
   },
   {
     path: '/baja_mora',
     name: 'baja_mora',
-    component: () => import('../views/SociosBajaMora.vue')
+    component: () => import('../views/socios/SociosBajaMora.vue')
   },
 
 ];
