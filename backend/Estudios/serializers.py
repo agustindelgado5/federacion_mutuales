@@ -10,7 +10,7 @@ class EstudiosSerializer(serializers.HyperlinkedModelSerializer):
             "tipo",
             "cod_estudio",
             "abreviatura",
-            "UB",
+            "ub",
             "activo",
             "descripcion",
             "denominación",
