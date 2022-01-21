@@ -238,7 +238,7 @@
 					sucursal: { estado: null, mensaje: "" },
 					id_servicio: { estado: null, mensaje: "" },
 				},
-				respuesta: null,
+				respuesta: {},
 				options: [
 					{ value: null, text: "Elija un departamento" },
 					{ value: "Burruyacú", text: "1- Burruyacú" },
@@ -486,7 +486,6 @@
 					this.respuesta = await mutualAPI.postData(this.mutuales);
 					this.postServicios();
 					this.cargarFeedback();
-					this.testFetch();
 				} else {
 					swal("¡ERROR!", "Debe seleccionar al menos un servicio", "error");
 				}
@@ -534,6 +533,7 @@
 			//Validacion de los campos
 			cargarFeedback() {
 				let valido;
+				if(!this.respuesta) this.respuesta={};
 				for (let key in this.validacion) {
 					valido = !this.respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;

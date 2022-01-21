@@ -508,12 +508,12 @@
 						this.mutual
 					,this.validarError);
 					const content = this.respuesta.request
+					this.putServicios();
 
 					if(content.statusText=="OK")
 					{
 						this.respuesta=""
 						swal("Carga Exitosa", " ", "success")
-						console.log(content)
 					}
 					else
 					{
@@ -523,15 +523,12 @@
 						swal("¡ERROR!", "Los datos no son válidos" , "error")
 						
 					}
-					// this.putServicios();
 				} catch (error) {
 					swal("¡ERROR!", "Se ha detectado un problema ", "error");
 					console.log(error);
-					//respuesta=error.response.data;
 				}
 				this.cargarFeedback()
-				console.log("respuesta:");
-				console.log(this.respuesta.toJSON());
+				
 			},
 
 			async putServicios() {
