@@ -436,7 +436,7 @@
 			},
 			async putOrden() {
 				let respuesta = "vacio";
-				// try{
+				// try{let resp ="vacio"
 				await axios
 					.put(
 						"http://localhost:8081/ordenes/" + this.orden.numero_orden + "/",
@@ -446,9 +446,9 @@
 						swal("Operación Exitosa", " ", "success");
 					})
 					.catch(function (error) {
-						swal("¡ERROR!", "Se ha detectado un problema ", "error");
+						const mje=error.response.status<500?"Los datos no son válidos":"Se ha detectado un problema ";
+						swal("¡ERROR!",mje, "error");
 						respuesta = error.response.data;
-
 						//console.log(error.response.data);
 					});
 				this.cargarFeedback(respuesta);
@@ -457,8 +457,6 @@
 			},
 
 			cargarFeedback(respuestaAPI) {
-				console.log("respuestaAPI");
-				console.log(respuestaAPI);
 				let valido;
 				for (let key in this.validacion) {
 					valido = !respuestaAPI.hasOwnProperty(key);
