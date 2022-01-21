@@ -76,7 +76,7 @@
         <b-form-invalid-feedback
           id="laboratorio-live-feedback"
         >
-          {{validacion.laboratoriomensaje}}
+          {{validacion.laboratorio.mensaje}}
         </b-form-invalid-feedback>
       </b-form-group>
       
@@ -173,14 +173,14 @@ export default {
     },
     
 
-    cargarFeedback(respuestaAPI){
-      for(let key in this.validacion){
-        this.validacion[key].estado=true
-      }
-      for(let key in respuestaAPI){
-        this.validacion[key].estado=false
-        this.validacion[key].mensaje=respuestaAPI[key][0] 
-      }
+    cargarFeedback() {
+				let valido;
+				for (let key in this.validacion) {
+					valido = !this.respuesta.hasOwnProperty(key);
+					this.validacion[key].estado = valido;
+					//console.log(key);
+					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
+				}
     },
   },
   beforeMount(){
