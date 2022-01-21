@@ -105,7 +105,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="*Email" label-for="email">
+			<b-form-group label="Email" label-for="email">
 				<b-form-input
 					id="email"
 					v-model="mutuales.email"
@@ -121,7 +121,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="*Telefono" label-for="Telefono">
+			<b-form-group label="Telefono" label-for="Telefono">
 				<b-form-input
 					id="telefono"
 					v-model="mutuales.telefono"

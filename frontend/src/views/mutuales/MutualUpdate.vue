@@ -103,7 +103,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="*Email" label-for="email">
+			<b-form-group label="Email" label-for="email">
 				<b-form-input
 					id="email"
 					v-model="mutual.email"
@@ -119,7 +119,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="*Telefono" label-for="Telefono">
+			<b-form-group label="Telefono" label-for="Telefono">
 				<b-form-input
 					id="telefono"
 					v-model="mutual.telefono"
@@ -226,7 +226,11 @@
 				op_servicios: [
 					{ value: null, text: "Elija un servicio", disabled: true },
 				],
-
+				validarError:{
+					validateStatus: function (status) {
+						return status < 500; // Resolve only if the status code is less than 500
+					}
+				},
 				respuesta: null,
 				options: [
 					{ value: null, text: "Elija un departamento" },
@@ -495,26 +499,39 @@
 
 				//this.new_selected=  this.selected + this.selected_anterior;
 			},
-
+					
 			async putMutual() {
-				let respuesta = "vacio";
 				var id = this.mutual.id_mutual;
 				try {
-					this.mutual = await axios.put(
+					this.respuesta = await axios.put(
 						"http://localhost:8081/mutuales/" + id + "/",
 						this.mutual
-					);
-					swal("Operación Exitosa", " ", "success");
-					console.log(this.mutual);
-					this.putServicios();
+					,this.validarError);
+					const content = this.respuesta.request
+
+					if(content.statusText=="OK")
+					{
+						this.respuesta=""
+						swal("Carga Exitosa", " ", "success")
+						console.log(content)
+					}
+					else
+					{
+
+						console.log(content.response);
+						this.respuesta=JSON.parse(content.response)
+						swal("¡ERROR!", "Los datos no son válidos" , "error")
+						
+					}
+					// this.putServicios();
 				} catch (error) {
 					swal("¡ERROR!", "Se ha detectado un problema ", "error");
 					console.log(error);
 					//respuesta=error.response.data;
 				}
-				//this.cargarFeedback(respuesta)
+				this.cargarFeedback()
 				console.log("respuesta:");
-				console.log(respuesta);
+				console.log(this.respuesta.toJSON());
 			},
 
 			async putServicios() {
@@ -583,11 +600,11 @@
 			cargarFeedback() {
 				let valido;
 				for (let key in this.validacion) {
-					valido = !respuestaAPI.hasOwnProperty(key);
+					valido = !this.respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;
 					console.log(key);
 
-					if (!valido) this.validacion[key].mensaje = respuestaAPI[key][0];
+					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
 				}
 			},
 		},
