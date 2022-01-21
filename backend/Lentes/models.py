@@ -11,7 +11,7 @@ Construyo la entidad para Lente
 
 class lentes(models.Model):
     codigo_optica = models.AutoField(primary_key=True) #id interno
-    codigo_seguimiento = models.ForeignKey(ventasOpticas, on_delete=models.DO_NOTHING)
+    #codigo_seguimiento = models.ForeignKey(ventasOpticas, on_delete=models.DO_NOTHING)
     medida_lente = models.CharField(max_length=30) #codigo mostrado al usuario
     patillas = models.CharField(max_length=30)
     marca = models.CharField(max_length=30)
@@ -21,7 +21,7 @@ class lentes(models.Model):
     precio_mutual=models.DecimalField(null=True,max_digits=8, decimal_places=2)
     precio_venta=models.DecimalField(null=True,max_digits=8, decimal_places=2)
     precio_tarjeta=models.DecimalField(null=True,max_digits=8, decimal_places=2)
-    stock=models.DecimalField(null=True,max_digits=8, decimal_places=2)
+    stock=models.IntegerField(null=True, blank=True)
     
     
     created = models.DateTimeField(auto_now_add=True)

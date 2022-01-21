@@ -7,7 +7,7 @@ class LentesSerializer(serializers.HyperlinkedModelSerializer):
         model = lentes
         fields = (
             "codigo_optica",
-            "codigo_seguimiento",
+            #"codigo_seguimiento",
             "medida_lente",
             "patillas",
             "marca",
