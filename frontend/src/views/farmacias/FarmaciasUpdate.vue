@@ -268,10 +268,11 @@ export default {
         swal("Operación Exitosa", " ", "success");
       })
       .catch(function (error) {
-        swal("¡ERROR!", "Se ha detectado un problema ", "error");
+        const mje=error.response.status<500?"Los datos no son válidos":"Se ha detectado un problema ";
+        swal("¡ERROR!",mje, "error");
         respuesta=error.response.data;
 
-        //console.log(error.response.data);
+        console.log();
       })
       this.cargarFeedback(respuesta)
       //this.farmacia= await axios.put('http://localhost:8081/farmacias/'+this.farmacia.cod_farmacia+ '/', this.farmacia)
