@@ -31,8 +31,8 @@
                     {{validacion.numero_socio.mensaje}}
                 </b-form-invalid-feedback>
             </b-form-group>
-
-            {{ list_familiar }}
+<!-- 
+            {{ list_familiar }} -->
             <b-form-group label="*Personapago" label-for="personapago" @submit.stop.prevent="handleSubmit">
                 <b-form-input id="personapago"
                               v-model="cuotas.personapago"
@@ -156,15 +156,14 @@ methods: {
     },
 
 
-    cargarFeedback(respuestaAPI){
-      for(let key in this.validacion){
-        this.validacion[key].estado=true
-      }
-      for(let key in respuestaAPI){
-        this.validacion[key].estado=false
-        this.validacion[key].mensaje=respuestaAPI[key][0]
-      }
-    },
+    cargarFeedback(respuesta) {
+				let valido;
+				for (let key in this.validacion) {
+					valido = !respuesta.hasOwnProperty(key);
+					this.validacion[key].estado = valido;
+					if (!valido) this.validacion[key].mensaje = respuesta[key][0];
+				}
+			},
   },
   beforeMount() {
     this.getSocios();

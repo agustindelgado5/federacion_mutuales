@@ -33,7 +33,7 @@
                 </b-form-invalid-feedback>
             </b-form-group>
 
-            {{ list_familiar }}
+            <!-- {{ list_familiar }} -->
             <b-form-group label="*Personapago">
                 <b-form-input id="personapago"
                               v-model="item_cuot.personapago"
@@ -141,16 +141,19 @@ methods: {
         });
     },
     async putCuota() {
-        try {
-            this.item_cuot = await axios.put('http://localhost:8081/cuotas/' + this.item_cuot.id_cuota + '/', this.item_cuot)
-            swal("Operaci�n Exitosa", " ", "success");
-            console.log(this.item_cuot);
-        }
-        catch (error) {
-            swal("�ERROR!", "Se ha detectado un problema ", "error");
-            console.log(error);
-        }
-        finally { location.href = '/cuotas' };
+				let respuesta = "vacio";
+        
+        await axios.put('http://localhost:8081/cuotas/' + this.item_cuot.id_cuota + '/', this.item_cuot)
+        .then(function (data) {
+            swal("Operación Exitosa", " ", "success");
+        })
+        .catch (function (error) {
+            const mje=error.response.status<500?"Los datos no son válidos":"Se ha detectado un problema ";
+            swal("¡ERROR!",mje, "error");
+						respuesta = error.response.data;
+        });
+        this.cargarFeedback(respuesta);
+
     },
     cargarFeedback(respuestaAPI){
       for(let key in this.validacion){
