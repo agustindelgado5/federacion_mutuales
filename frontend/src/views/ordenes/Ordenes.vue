@@ -30,7 +30,7 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<ordenes-alta />
+				<ordenes-alta :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ================ELIMINAR VARIAS ORDENES======================== -->
@@ -537,7 +537,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<ordenes-update :orden="editar" />
+				<ordenes-update :orden="editar" :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ==================================CREAR PDF================================== -->

@@ -211,6 +211,7 @@
 	export default {
 		props: {
 			mutual: {},
+			updateTable: Function,
 		},
 		data() {
 			return {
@@ -226,10 +227,10 @@
 				op_servicios: [
 					{ value: null, text: "Elija un servicio", disabled: true },
 				],
-				validarError:{
+				validarError: {
 					validateStatus: function (status) {
 						return status < 500; // Resolve only if the status code is less than 500
-					}
+					},
 				},
 				respuesta: null,
 				options: [
@@ -499,36 +500,32 @@
 
 				//this.new_selected=  this.selected + this.selected_anterior;
 			},
-					
+
 			async putMutual() {
 				var id = this.mutual.id_mutual;
 				try {
 					this.respuesta = await axios.put(
 						"http://localhost:8081/mutuales/" + id + "/",
-						this.mutual
-					,this.validarError);
-					const content = this.respuesta.request
+						this.mutual,
+						this.validarError
+					);
+					const content = this.respuesta.request;
 					this.putServicios();
 
-					if(content.statusText=="OK")
-					{
-						this.respuesta=""
-						swal("Carga Exitosa", " ", "success")
-					}
-					else
-					{
-
+					if (content.statusText == "OK") {
+						this.respuesta = "";
+						swal("Carga Exitosa", " ", "success");
+					} else {
 						console.log(content.response);
-						this.respuesta=JSON.parse(content.response)
-						swal("¡ERROR!", "Los datos no son válidos" , "error")
-						
+						this.respuesta = JSON.parse(content.response);
+						swal("¡ERROR!", "Los datos no son válidos", "error");
 					}
 				} catch (error) {
 					swal("¡ERROR!", "Se ha detectado un problema ", "error");
 					console.log(error);
 				}
-				this.cargarFeedback()
-				
+				this.cargarFeedback();
+				this.updateTable();
 			},
 
 			async putServicios() {

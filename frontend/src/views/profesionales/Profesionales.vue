@@ -29,7 +29,7 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<profesionales-alta />
+				<profesionales-alta :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ================ELIMINAR VARIOS PROFESIONALES======================== -->
@@ -341,7 +341,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<h5 class="modal-title">Editar</h5>
 					</template>
 					<!-- {{ editar }} -->
-					<profesionales-update :item_prof="editar" />
+					<profesionales-update :item_prof="editar" :updateTable="testFetch" />
 				</b-modal>
 
 				<b-modal

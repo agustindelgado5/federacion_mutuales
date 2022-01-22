@@ -1,240 +1,253 @@
 <template>
-  <div class="accordion" role="tablist">
-    
-    <h6>Los campos en (*) son obligatorios</h6>
-    
-    <b-form>
-      <b-card no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button block v-b-toggle.accordion-1 style="background-color:darkorange;">Datos Personales:</b-button>
-        </b-card-header>
-        <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
-          <b-card-body>
-            <b-form-group label="*N° Socio" label-for="numero_socio">
-              <b-form-input
-              id="numero_socio"
-              v-model="socio.numero_socio"
-              type="number"
-              placeholder="Ingrese un Numero"
-              invalid-feedback="Complete este campo"
-              required
-              >
-              </b-form-input>
-            </b-form-group>
-            <b-form-group label="*Nombre/s" label-for="nombre">
-              <b-form-input
-                id="nombre"
-                v-model="socio.nombre"
-                type="text"
-                placeholder="*Ingrese los Nombre/s"
-                invalid-feedback="Complete este campo"
-                required
-              >
-              </b-form-input>
-            </b-form-group>
-            <b-form-group label="*Apellido/s" label-for="apellido">
-              <b-form-input
-                id="apellido"
-                v-model="socio.apellido"
-                type="text"
-                placeholder="*Ingrese los Apellido/s"
-                invalid-feedback="Complete este campo"
-                required
-              >
-              </b-form-input>
-          </b-form-group>
-          <b-form-group label="*DNI" label-for="dni">
-            <b-form-input
-              id="dni"
-              v-model="socio.dni"
-              type="number"
-              placeholder="Ingrese un DNI"
-              invalid-feedback="Complete este campo"
-              required
-            >
-            </b-form-input>
-          </b-form-group>
+	<div class="accordion" role="tablist">
+		<h6>Los campos en (*) son obligatorios</h6>
 
-          <b-form-group label="*Fecha de nacimiento" label-for="fecha_nacimiento">
-            <b-form-input
-              id="fecha_nacimiento"
-              v-model="socio.fecha_nacimiento"
-              type="date"
-              placeholder="Ingrese una fecha"
-              invalid-feedback="Complete este campo"
-              required
-            >
-            </b-form-input>
-          </b-form-group>
+		<b-form>
+			<b-card no-body class="mb-1">
+				<b-card-header header-tag="header" class="p-1" role="tab">
+					<b-button
+						block
+						v-b-toggle.accordion-1
+						style="background-color: darkorange"
+						>Datos Personales:</b-button
+					>
+				</b-card-header>
+				<b-collapse
+					id="accordion-1"
+					visible
+					accordion="my-accordion"
+					role="tabpanel"
+				>
+					<b-card-body>
+						<b-form-group label="*N° Socio" label-for="numero_socio">
+							<b-form-input
+								id="numero_socio"
+								v-model="socio.numero_socio"
+								type="number"
+								placeholder="Ingrese un Numero"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+						</b-form-group>
+						<b-form-group label="*Nombre/s" label-for="nombre">
+							<b-form-input
+								id="nombre"
+								v-model="socio.nombre"
+								type="text"
+								placeholder="*Ingrese los Nombre/s"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+						</b-form-group>
+						<b-form-group label="*Apellido/s" label-for="apellido">
+							<b-form-input
+								id="apellido"
+								v-model="socio.apellido"
+								type="text"
+								placeholder="*Ingrese los Apellido/s"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+						</b-form-group>
+						<b-form-group label="*DNI" label-for="dni">
+							<b-form-input
+								id="dni"
+								v-model="socio.dni"
+								type="number"
+								placeholder="Ingrese un DNI"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+						</b-form-group>
 
-          <b-form-group label="*Fecha de asociacion" label-for="fecha_asociacion">
-            <b-form-input
-              id="fecha_asociacion"
-              v-model="socio.fecha_asociacion"
-              type="date"
-              placeholder="Ingrese la fecha de asociacion"
-              invalid-feedback="Complete este campo"
-              required
-            >
-            </b-form-input>
-          </b-form-group>
-            
-          <b-form-group label="*Mutual de asociación" label-for="id_mutual">
-            <b-form-select
-              id="id_mutual"
-              v-model="socio.mutual"
-              type="text"
-              placeholder="Ingrese el ID de la mutual"
-              invalid-feedback="Complete este campo"
-              required
-              :options="op_mutuales"
-            >
-            </b-form-select>
-            <!-- <b-form-invalid-feedback id="id_mutual-live-feedback"
+						<b-form-group
+							label="*Fecha de nacimiento"
+							label-for="fecha_nacimiento"
+						>
+							<b-form-input
+								id="fecha_nacimiento"
+								v-model="socio.fecha_nacimiento"
+								type="date"
+								placeholder="Ingrese una fecha"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+						</b-form-group>
+
+						<b-form-group
+							label="*Fecha de asociacion"
+							label-for="fecha_asociacion"
+						>
+							<b-form-input
+								id="fecha_asociacion"
+								v-model="socio.fecha_asociacion"
+								type="date"
+								placeholder="Ingrese la fecha de asociacion"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+						</b-form-group>
+
+						<b-form-group label="*Mutual de asociación" label-for="id_mutual">
+							<b-form-select
+								id="id_mutual"
+								v-model="socio.mutual"
+								type="text"
+								placeholder="Ingrese el ID de la mutual"
+								invalid-feedback="Complete este campo"
+								required
+								:options="op_mutuales"
+							>
+							</b-form-select>
+							<!-- <b-form-invalid-feedback id="id_mutual-live-feedback"
               >{{ validacion.id_mutual.mensaje }}
             </b-form-invalid-feedback> -->
-          </b-form-group>
+						</b-form-group>
 
+						<b-form-group label="*Tiene Obra social" label-for="obra_social">
+							<b-form-checkbox
+								id="obra_social"
+								v-model="socio.tieneObraSocial"
+								value="true"
+								type="boolean"
+								invalid-feedback="Complete este campo"
+								required
+								unchecked-value="false"
+							>
+							</b-form-checkbox>
+						</b-form-group>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
 
-          <b-form-group label="*Tiene Obra social" label-for="obra_social">
-            <b-form-checkbox
-              id="obra_social"
-              v-model="socio.tieneObraSocial"
-              value="true"
-              type="boolean"
-              invalid-feedback="Complete este campo"
-              required
-              unchecked-value="false"
-            >
-            </b-form-checkbox>
-          </b-form-group>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
+			<b-card no-body class="mb-1">
+				<b-card-header header-tag="header" class="p-1" role="tab">
+					<b-button
+						block
+						v-b-toggle.accordion-2
+						style="background-color: darkorange"
+						>Domicilio:</b-button
+					>
+				</b-card-header>
+				<b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
+					<b-card-body>
+						<b-form-group label="*Calle" label-for="calle">
+							<b-form-input
+								id="calle"
+								v-model="socio.calle"
+								type="text"
+								placeholder="Ingrese una calle"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+						</b-form-group>
 
-    <b-card no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button block v-b-toggle.accordion-2 style="background-color:darkorange;">Domicilio:</b-button>
-        </b-card-header>
-        <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
-          <b-card-body>
-            <b-form-group label="*Calle" label-for="calle">
-              <b-form-input
-                id="calle"
-                v-model="socio.calle"
-                type="text"
-                placeholder="Ingrese una calle"
-                invalid-feedback="Complete este campo"
-                required
-              >
-              </b-form-input>
-            </b-form-group>
+						<b-form-group label="*Localidad" label-for="localidad">
+							<b-form-select
+								id="localidad"
+								v-model="socio.localidad"
+								:options="op_localidad"
+								type="text"
+								placeholder="Ingrese una localidad"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-select>
+						</b-form-group>
 
-            <b-form-group label="*Localidad" label-for="localidad">
-              <b-form-select
-                id="localidad"
-                v-model="socio.localidad"
-                :options="op_localidad"
-                type="text"
-                placeholder="Ingrese una localidad"
-                invalid-feedback="Complete este campo"
-                required
-              >
-              </b-form-select>
-            </b-form-group>
-      
+						<b-form-group label="*Departamento" label-for="departamento">
+							<b-form-select
+								id="departamento"
+								v-model="socio.departamento"
+								type="text"
+								placeholder="Ingrese un departamento"
+								invalid-feedback="Complete este campo"
+								required
+								:options="options"
+							>
+							</b-form-select>
+						</b-form-group>
 
-            <b-form-group label="*Departamento" label-for="departamento">
-              <b-form-select
-                id="departamento"
-                v-model="socio.departamento"
-                type="text"
-                placeholder="Ingrese un departamento"
-                invalid-feedback="Complete este campo"
-                required
-                :options="options"
-              >
-              </b-form-select>
-            </b-form-group>
+						<b-form-group label="*Codigo postal" label-for="cod_postal">
+							<b-form-input
+								id="cod_postal"
+								v-model="socio.cod_postal"
+								type="number"
+								placeholder="Ingrese un numero"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+						</b-form-group>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
 
+			<b-card no-body class="mb-1">
+				<b-card-header header-tag="header" class="p-1" role="tab">
+					<b-button
+						block
+						v-b-toggle.accordion-3
+						style="background-color: darkorange"
+						>Contacto:</b-button
+					>
+				</b-card-header>
+				<b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
+					<b-card-body>
+						<b-form-group label="*Email" label-for="email">
+							<b-form-input
+								id="email"
+								v-model="socio.email"
+								type="email"
+								placeholder="Ingrese un email"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+						</b-form-group>
 
-            <b-form-group label="*Codigo postal" label-for="cod_postal">
-              <b-form-input
-                id="cod_postal"
-                v-model="socio.cod_postal"
-                type="number"
-                placeholder="Ingrese un numero"
-                invalid-feedback="Complete este campo"
-                required
-              >
-              </b-form-input>
-            </b-form-group>
-          </b-card-body>
-      </b-collapse>
-    </b-card>
+						<b-form-group label="Telefono fijo" label-for="tel_fijo">
+							<b-form-input
+								id="tel_fijo"
+								v-model="socio.tel_fijo"
+								type="number"
+								placeholder="Ingrese un numero"
+							>
+							</b-form-input>
+						</b-form-group>
 
-    <b-card no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button block v-b-toggle.accordion-3 style="background-color:darkorange;">Contacto:</b-button>
-        </b-card-header>
-        <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
-          <b-card-body>
-            <b-form-group label="*Email" label-for="email">
-             <b-form-input
-              id="email"
-              v-model="socio.email"
-              type="email"
-              placeholder="Ingrese un email"
-              invalid-feedback="Complete este campo"
-              required
-            >
-            </b-form-input>
-          </b-form-group>
+						<b-form-group label="Celular" label-for="tel_celular">
+							<b-form-input
+								id="tel_celular"
+								v-model="socio.tel_celular"
+								type="number"
+								placeholder="Ingrese un numero"
+							>
+							</b-form-input>
+						</b-form-group>
+						<b-form-group label="Carencia" label-for="carencia">
+							<b-form-input
+								id="carencia"
+								v-model="socio.carencia"
+								type="date"
+								placeholder="Ingrese una fecha"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+						</b-form-group>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
 
-          <b-form-group label="Telefono fijo" label-for="tel_fijo">
-            <b-form-input
-              id="tel_fijo"
-              v-model="socio.tel_fijo"
-              type="number"
-              placeholder="Ingrese un numero"
-            >
-            </b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Celular" label-for="tel_celular">
-            <b-form-input
-              id="tel_celular"
-              v-model="socio.tel_celular"
-              type="number"
-              placeholder="Ingrese un numero"
-            >
-            </b-form-input>
-          </b-form-group>
-          <b-form-group label="Carencia" label-for="carencia">
-            <b-form-input
-              id="carencia"
-              v-model="socio.carencia"
-              type="date"
-              placeholder="Ingrese una fecha"
-              invalid-feedback="Complete este campo"
-              required
-            >
-            </b-form-input>
-          </b-form-group>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-
-          
-          
-      
-      
-      
-      
-      
-      
-      
-      <!--
+			<!--
       <h4>Servicios: </h4>
       <b-form-group label="*Servicios" label-for="servicios">
         <div id='plan_servicios'>
@@ -251,151 +264,161 @@
         </div>
       </b-form-group>
     -->
-    </b-form>
-    
+		</b-form>
 
-    <!---------------- FAMILIARES ---------------------------->
-    <b-button class="mt-2" variant="primary"  @click="sumarFliares()" style="color:white;">¿Agregar adherentes?</b-button>
-    <div v-show="btn_familiar" v-for="(item,index) in familiar" :key="index">
-      <b-form>
-        <h4>Datos del Adherente: {{index+1}}</h4>
-        <b-form-group label="*Nombre/s" label-for="nombre">
-          <b-form-input
-            id="nombre"
-            v-model="item.nombre"
-            type="text"
-            placeholder="*Ingrese los Nombre/s"
-            invalid-feedback="Complete este campo"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
-        <b-form-group label="*Apellido/s" label-for="apellido">
-          <b-form-input
-            id="apellido"
-            v-model="item.apellido"
-            type="text"
-            placeholder="*Ingrese los Apellido/s"
-            invalid-feedback="Complete este campo"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
-        <b-form-group label="*DNI" label-for="dni_familiar">
-          <b-form-input
-            id="dni_familiar"
-            v-model="item.dni_familiar"
-            type="number"
-            placeholder="Ingrese un DNI"
-            invalid-feedback="Complete este campo"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
+		<!---------------- FAMILIARES ---------------------------->
+		<b-button
+			class="mt-2"
+			variant="primary"
+			@click="sumarFliares()"
+			style="color: white"
+			>¿Agregar adherentes?</b-button
+		>
+		<div v-show="btn_familiar" v-for="(item, index) in familiar" :key="index">
+			<b-form>
+				<h4>Datos del Adherente: {{ index + 1 }}</h4>
+				<b-form-group label="*Nombre/s" label-for="nombre">
+					<b-form-input
+						id="nombre"
+						v-model="item.nombre"
+						type="text"
+						placeholder="*Ingrese los Nombre/s"
+						invalid-feedback="Complete este campo"
+						required
+					>
+					</b-form-input>
+				</b-form-group>
+				<b-form-group label="*Apellido/s" label-for="apellido">
+					<b-form-input
+						id="apellido"
+						v-model="item.apellido"
+						type="text"
+						placeholder="*Ingrese los Apellido/s"
+						invalid-feedback="Complete este campo"
+						required
+					>
+					</b-form-input>
+				</b-form-group>
+				<b-form-group label="*DNI" label-for="dni_familiar">
+					<b-form-input
+						id="dni_familiar"
+						v-model="item.dni_familiar"
+						type="number"
+						placeholder="Ingrese un DNI"
+						invalid-feedback="Complete este campo"
+						required
+					>
+					</b-form-input>
+				</b-form-group>
 
-        <b-form-group label="*Fecha de nacimiento" label-for="fecha_nacimiento">
-          <b-form-input
-            id="fecha_nacimiento"
-            v-model="item.fecha_nacimiento"
-            type="date"
-            placeholder="Ingrese una fecha"
-            invalid-feedback="Complete este campo"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
-  
-         <b-form-group label="*Fecha de asociación" label-for="fecha_asociacion">
-          <b-form-input
-            id="fecha_asociacion"
-            v-model="item.fecha_asociacion"
-            type="date"
-            placeholder="Ingrese una fecha"
-            invalid-feedback="Complete este campo"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
-  
+				<b-form-group label="*Fecha de nacimiento" label-for="fecha_nacimiento">
+					<b-form-input
+						id="fecha_nacimiento"
+						v-model="item.fecha_nacimiento"
+						type="date"
+						placeholder="Ingrese una fecha"
+						invalid-feedback="Complete este campo"
+						required
+					>
+					</b-form-input>
+				</b-form-group>
 
-        <b-form-group label="Carencia" label-for="carencia">
-          <b-form-input
-            id="carencia"
-            v-model="item.carencia"
-            type="date"
-            placeholder="Ingrese una fecha"
-            invalid-feedback="Complete este campo"
-            required
-          >
-          </b-form-input>
-      </b-form-group>
+				<b-form-group label="*Fecha de asociación" label-for="fecha_asociacion">
+					<b-form-input
+						id="fecha_asociacion"
+						v-model="item.fecha_asociacion"
+						type="date"
+						placeholder="Ingrese una fecha"
+						invalid-feedback="Complete este campo"
+						required
+					>
+					</b-form-input>
+				</b-form-group>
 
+				<b-form-group label="Carencia" label-for="carencia">
+					<b-form-input
+						id="carencia"
+						v-model="item.carencia"
+						type="date"
+						placeholder="Ingrese una fecha"
+						invalid-feedback="Complete este campo"
+						required
+					>
+					</b-form-input>
+				</b-form-group>
 
-
-      <b-form-group label="*Tiene Obra social">
-            <b-form-checkbox
-              v-model="item.tieneObraSocial"
-              value="true"
-              type="boolean"
-              invalid-feedback="Complete este campo"
-              required
-              unchecked-value="false"
-            >
-            </b-form-checkbox>
-          </b-form-group>
-
-    </b-form>
-    <b-button class="mt-2" variant="primary" @click="sumarFliares()" style="color:white;">+</b-button>
-    
-  </div>
-<!-- 
+				<b-form-group label="*Tiene Obra social">
+					<b-form-checkbox
+						v-model="item.tieneObraSocial"
+						value="true"
+						type="boolean"
+						invalid-feedback="Complete este campo"
+						required
+						unchecked-value="false"
+					>
+					</b-form-checkbox>
+				</b-form-group>
+			</b-form>
+			<b-button
+				class="mt-2"
+				variant="primary"
+				@click="sumarFliares()"
+				style="color: white"
+				>+</b-button
+			>
+		</div>
+		<!-- 
     {{ socio }}
     {{familiar}} -->
-    <!-- {{ data }} -->
-    <b-button class="mt-2" variant="success" block @click="postSocio()">Guardar</b-button>
-    
-  </div>
+		<!-- {{ data }} -->
+		<b-button class="mt-2" variant="success" block @click="postSocio()"
+			>Guardar</b-button
+		>
+	</div>
 </template>
 
 <script>
-import { APIControler } from "@/store/APIControler";
+	import { APIControler } from "@/store/APIControler";
 
-export default {
-  data() {
-    return {
-      socio: {},
-      familiar:[
-        
-      ],
-      data: {},
-      plan: [],
-      list_mutuales: {},
-      op_mutuales: [{ value: null, text: "Elija una mutual", disabled: true }],
+	export default {
+		props: {
+			updateTable: Function,
+		},
+		data() {
+			return {
+				socio: {},
+				familiar: [],
+				data: {},
+				plan: [],
+				list_mutuales: {},
+				op_mutuales: [
+					{ value: null, text: "Elija una mutual", disabled: true },
+				],
 
-      btn_familiar: false,
-      cantidad: 0,
-      select: null,
-      options: [
-        {value: null, text: 'Elija un departamento'},
-        {value: 'Burruyacú', text: '1- Burruyacú'},
-        {value: 'Capital', text: '2- Capital'},
-        {value: 'Chicligasta', text: '3- Chicligasta'},
-        {value: 'Cruz Alta', text: '4- Cruz Alta'},
-        {value: 'Famaillá', text: '5- Famaillá'},
-        {value: 'Graneros', text: '6- Graneros'},
-        {value: 'Juan Bautista Alberdi', text: '7- Juan Bautista Alberdi'},
-        {value: 'La Cocha', text: '8- La Cocha'},
-        {value: 'Leales', text: '9- Leales'},
-        {value: 'Lules', text: '10- Lules'},
-        {value: 'Monteros', text: '11- Monteros'},
-        {value: 'Río Chico', text: '12- Río Chico'},
-        {value: 'Simoca', text: '13- Simoca'},
-        {value: 'Tafí del Valle', text: '14- Tafí del Valle'},
-        {value: 'Tafí Viejo', text: '15- Tafí Viejo'},
-        {value: 'Trancas', text: '16- Trancas'},
-        {value: 'Yerba Buena', text: '17- Yerba Buena'},
-      ],
-      op_localidad: [
+				btn_familiar: false,
+				cantidad: 0,
+				select: null,
+				options: [
+					{ value: null, text: "Elija un departamento" },
+					{ value: "Burruyacú", text: "1- Burruyacú" },
+					{ value: "Capital", text: "2- Capital" },
+					{ value: "Chicligasta", text: "3- Chicligasta" },
+					{ value: "Cruz Alta", text: "4- Cruz Alta" },
+					{ value: "Famaillá", text: "5- Famaillá" },
+					{ value: "Graneros", text: "6- Graneros" },
+					{ value: "Juan Bautista Alberdi", text: "7- Juan Bautista Alberdi" },
+					{ value: "La Cocha", text: "8- La Cocha" },
+					{ value: "Leales", text: "9- Leales" },
+					{ value: "Lules", text: "10- Lules" },
+					{ value: "Monteros", text: "11- Monteros" },
+					{ value: "Río Chico", text: "12- Río Chico" },
+					{ value: "Simoca", text: "13- Simoca" },
+					{ value: "Tafí del Valle", text: "14- Tafí del Valle" },
+					{ value: "Tafí Viejo", text: "15- Tafí Viejo" },
+					{ value: "Trancas", text: "16- Trancas" },
+					{ value: "Yerba Buena", text: "17- Yerba Buena" },
+				],
+				op_localidad: [
 					{ value: null, text: "Elija una localidad" },
 					{ value: "Acheral", text: " 1 - Acheral " },
 					{
@@ -593,95 +616,102 @@ export default {
 					{ value: "Yerba Buena", text: " 110 - Yerba Buena " },
 					{ value: "Yánima", text: " 111 - Yánima " },
 				],
-    };
-  },
+			};
+		},
 
-  methods: {
-    async getSocios() {
-      let socioAPI = new APIControler();
-      this.data = await socioAPI.getData();
-    },
-    async postSocio() {
-      let socioAPI = new APIControler();
-      this.data = await socioAPI.postData(this.socio);
-     if(this.familiar.length>0){this.postFamiliar();}
-      
-      //this.resetForm();
-    },
-    async sumarFliares(){
-      this.btn_familiar=true;
-      // this.resetFormAdh();
-      // this.cantidad=this.cantidad +1;
-      this.familiar.push({
-          numero_socio:null, 
-          apellido : "",
-          nombre : "",
-          dni_familiar : null,
-          fecha_nacimiento:null,
-          fecha_asociacion:null,
-          carencia: null,
-          tieneObraSocial:false,
-        })
-    },
-    async postFamiliar() {
-      let familiarAPI = new APIControler();
-      let _nroSocio='http://localhost:8081/socios/'+ this.socio.numero_socio +'/';
-      familiarAPI.apiUrl.pathname='familiar/';
-      console.log("Mostrando familiar")
-      console.log(this.familiar)
-      for (const adherente of this.familiar) {
-        console.log("Mostrando adherente")
-        console.log(adherente)
-        adherente.numero_socio=_nroSocio          
-        await familiarAPI.postData(adherente);
-      }
-      
-      // this.resetFormAdh();
-    },
-    async getMutuales() {
-      let mutualesAPI = new APIControler();
-      mutualesAPI.apiUrl.pathname = "mutuales/";
-      this.data = await mutualesAPI.getData(this.list_mutuales);
-      this.data.forEach((element) => {
-        let option = {};
-        option.value =
-          "http://localhost:8081/mutuales/" + element.id_mutual + "/";
-        option.text =
-          element.id_mutual + "-- " + element.nombre + ", " + element.sucursal;
-        console.log(option);
-        this.op_mutuales.push(option);
-      });
-    },
-    async resetForm() {
-        this.socio.numero_socio = null;
-        this.socio.apellido = "";
-        this.socio.nombre = "";
-        this.socio.dni = null;
-        this.socio.fecha_nacimiento=null;
-        this.socio.fecha_asociacion=null;
-        this.socio.calle = "";
-        this.socio.localidad = "";
-        this.socio.departamento = "";
-        this.socio.cod_postal = null;
-        this.socio.tel_fijo = null;
-        this.socio.tel_celular = null;
-        this.socio.carencia= null;
-    },
-    async resetFormAdh() {
-      /*
+		methods: {
+			async getSocios() {
+				let socioAPI = new APIControler();
+				this.data = await socioAPI.getData();
+			},
+			async postSocio() {
+				let socioAPI = new APIControler();
+				this.data = await socioAPI.postData(this.socio);
+				if (this.familiar.length > 0) {
+					this.postFamiliar();
+				}
+
+				//this.resetForm();
+				this.updateTable();
+			},
+			async sumarFliares() {
+				this.btn_familiar = true;
+				// this.resetFormAdh();
+				// this.cantidad=this.cantidad +1;
+				this.familiar.push({
+					numero_socio: null,
+					apellido: "",
+					nombre: "",
+					dni_familiar: null,
+					fecha_nacimiento: null,
+					fecha_asociacion: null,
+					carencia: null,
+					tieneObraSocial: false,
+				});
+			},
+			async postFamiliar() {
+				let familiarAPI = new APIControler();
+				let _nroSocio =
+					"http://localhost:8081/socios/" + this.socio.numero_socio + "/";
+				familiarAPI.apiUrl.pathname = "familiar/";
+				console.log("Mostrando familiar");
+				console.log(this.familiar);
+				for (const adherente of this.familiar) {
+					console.log("Mostrando adherente");
+					console.log(adherente);
+					adherente.numero_socio = _nroSocio;
+					await familiarAPI.postData(adherente);
+				}
+
+				// this.resetFormAdh();
+			},
+			async getMutuales() {
+				let mutualesAPI = new APIControler();
+				mutualesAPI.apiUrl.pathname = "mutuales/";
+				this.data = await mutualesAPI.getData(this.list_mutuales);
+				this.data.forEach((element) => {
+					let option = {};
+					option.value =
+						"http://localhost:8081/mutuales/" + element.id_mutual + "/";
+					option.text =
+						element.id_mutual +
+						"-- " +
+						element.nombre +
+						", " +
+						element.sucursal;
+					console.log(option);
+					this.op_mutuales.push(option);
+				});
+			},
+			async resetForm() {
+				this.socio.numero_socio = null;
+				this.socio.apellido = "";
+				this.socio.nombre = "";
+				this.socio.dni = null;
+				this.socio.fecha_nacimiento = null;
+				this.socio.fecha_asociacion = null;
+				this.socio.calle = "";
+				this.socio.localidad = "";
+				this.socio.departamento = "";
+				this.socio.cod_postal = null;
+				this.socio.tel_fijo = null;
+				this.socio.tel_celular = null;
+				this.socio.carencia = null;
+			},
+			async resetFormAdh() {
+				/*
         this.familiar.apellido = "";
         this.familiar.nombre = "";
         this.familiar.dni_familiar = null;
         this.familiar.fecha_nacimiento=null;
         this.familiar.carencia= null;
         */
-    },
-  },
-  beforeMount() {
-    this.getMutuales();
-  },
-};
+			},
+		},
+		beforeMount() {
+			this.getMutuales();
+		},
+	};
 </script>
 
-<style>
-</style>
+<style></style>

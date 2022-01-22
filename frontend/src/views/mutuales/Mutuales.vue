@@ -30,7 +30,7 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<mutual-alta />
+				<mutual-alta :updateTable="testFetch" />
 			</b-modal>
 			<b-button
 				class="mb-4 ml-2"
@@ -348,7 +348,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</h5></template
 					>
 
-					<mutual-update :mutual="editar" />
+					<mutual-update :mutual="editar" :updateTable="testFetch" />
 				</b-modal>
 			</section>
 			<aside v-show="rows > 0">

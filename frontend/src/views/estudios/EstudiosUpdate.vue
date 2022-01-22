@@ -2,18 +2,6 @@
 	<div>
 		<h6>Los campos en (*) son obligatorios</h6>
 		<h4>Modificar Estudio:</h4>
-
-		<!-- CAMPOS REQUERIDOS -->
-		<!-- id_estudio -->
-		<!-- tipo -->
-		<!-- cod_estudio -->
-		<!-- abreviatura -->
-		<!-- UB -->
-		<!-- activo -->
-		<!-- descripcion -->
-		<!-- denominación -->
-
-		<!------------------------------------------------------------------------------------------->
 		<b-form>
 			<b-form-group label="*Codigo del Estudio" label-for="cod_estudio">
 				<!-- Numero de Estudio -->
@@ -130,6 +118,7 @@
 	export default {
 		props: {
 			estudio: {},
+			updateTable: Function,
 		},
 		data() {
 			return {
@@ -181,6 +170,7 @@
 					});
 				this.respuesta=respuesta
 				this.cargarFeedback();
+				this.updateTable();
 			},
 
 			UB_Seleccion() {

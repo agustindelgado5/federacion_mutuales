@@ -29,7 +29,7 @@
 				<template #modal-title>
 					<h5 class="modal-title">Alta</h5>
 				</template>
-				<cuotas-alta />
+				<cuotas-alta :updateTable="testFetch" />
 			</b-modal>
 			<!-- =========================================================== -->
 			<!-- ==================================CREAR PDF================================== -->
@@ -302,7 +302,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					title="Editar"
 					ok-only
 				>
-					<cuotas-update :item_cuot="editar" />
+					<cuotas-update :item_cuot="editar" :updateTable="testFetch" />
 				</b-modal>
 				<!-- ================ELIMINAR UN MEDICAMENTO======================== -->
 				<b-modal

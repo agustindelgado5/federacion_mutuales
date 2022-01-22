@@ -24,7 +24,7 @@
 		</b-button>
 		<b-modal id="modal-alta" hide-footer>
 			<template #modal-title><h5 class="modal-title">Alta</h5></template>
-			<recetas-alta />
+			<recetas-alta :updateTable="testFetch" />
 		</b-modal>
 
 		<!-- ================ELIMINAR VARIAS ORDENES======================== -->
@@ -232,39 +232,39 @@
 					</b-pagination>
 				</b-col>
 			</b-container>
-      <!-- ================ELIMINAR RECETA======================== -->
+			<!-- ================ELIMINAR RECETA======================== -->
 
-		<b-modal
-			id="modal_eliminar"
-			ref="my-modal"
-			hide-footer
-			title="Eliminar"
-			ok-only
-		>
-			<div class="d-block text-center">
-				<h3>
-					¿Esta seguro de eliminar los datos de la receta
-					{{ infoEliminar.receta.id_receta }}?
-				</h3>
-			</div>
-			<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
-				>Volver Atras</b-button
-			>
-			<b-button
-				class="mt-3"
-				variant="danger"
-				block
-				@click="deleteReceta(infoEliminar.receta.id_receta)"
+			<b-modal
+				id="modal_eliminar"
+				ref="my-modal"
+				hide-footer
 				title="Eliminar"
+				ok-only
 			>
-				Eliminar
-			</b-button>
-		</b-modal>
-		<!-- ================EDITAR RECETA======================== -->
-		<b-modal id="modal-editar" hide-footer>
-			<template #modal-title><h5 class="modal-title">Editar</h5></template>
-			<recetas-update :receta="editar" />
-		</b-modal>
+				<div class="d-block text-center">
+					<h3>
+						¿Esta seguro de eliminar los datos de la receta
+						{{ infoEliminar.receta.id_receta }}?
+					</h3>
+				</div>
+				<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
+					>Volver Atras</b-button
+				>
+				<b-button
+					class="mt-3"
+					variant="danger"
+					block
+					@click="deleteReceta(infoEliminar.receta.id_receta)"
+					title="Eliminar"
+				>
+					Eliminar
+				</b-button>
+			</b-modal>
+			<!-- ================EDITAR RECETA======================== -->
+			<b-modal id="modal-editar" hide-footer>
+				<template #modal-title><h5 class="modal-title">Editar</h5></template>
+				<recetas-update :receta="editar" :updateTable="testFetch" />
+			</b-modal>
 		</section>
 		<aside v-show="rows > 0">
 			<div>
@@ -289,8 +289,6 @@
 
 			<br />
 		</aside>
-
-		
 	</div>
 </template>
 
@@ -336,7 +334,7 @@
 				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
-        		btn_limpiar:true,
+				btn_limpiar: true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
@@ -507,7 +505,7 @@
 		transition: 0.5s;
 		width: 100%;
 	}
-  
+
 	.container {
 		float: left;
 		width: 80%;
@@ -516,5 +514,4 @@
 		float: right;
 		width: 20%;
 	}
-  
 </style>

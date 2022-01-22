@@ -30,7 +30,7 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<farmacias-alta />
+				<farmacias-alta :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ==================================CREAR PDF================================== -->
@@ -473,7 +473,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			</aside>
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<farmacias-update :farmacia="editar" />
+				<farmacias-update :farmacia="editar" :updateTable="testFetch"/>
 			</b-modal>
 
 			<!-- ==================================CREAR PDF================================== -->

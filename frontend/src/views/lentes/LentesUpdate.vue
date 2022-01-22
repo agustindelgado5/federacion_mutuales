@@ -254,12 +254,12 @@
 	import axios from "axios";
 
 	export default {
-    props: {
+		props: {
 			lente: {},
+			updateTable: Function,
 		},
 		data() {
 			return {
-				
 				ventasOpticas: {},
 				data: {},
 

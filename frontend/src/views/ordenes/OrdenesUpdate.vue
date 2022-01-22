@@ -3,18 +3,6 @@
 		<h6>Los campos en (*) son obligatorios</h6>
 		<h4>Nueva Orden:</h4>
 
-		<!-- CAMPOS REQUERIDOS -->
-		<!-- N° Orden -->
-		<!-- N° Socio -->
-		<!-- Paciente -->
-		<!-- Servicio -->
-		<!-- Id Medico -->
-		<!-- Id Mutual -->
-		<!-- Fecha -->
-		<!-- Precio -->
-		<!-- Realizado -->
-
-		<!------------------------------------------------------------------------------------------->
 		<b-form>
 			<b-form-group label="*N° Orden" label-for="numero_orden">
 				<!-- Numero de Orden -->
@@ -303,6 +291,7 @@
 	export default {
 		props: {
 			orden: {},
+			updateTable: Function,
 		},
 		data() {
 			return {
@@ -446,12 +435,17 @@
 						swal("Operación Exitosa", " ", "success");
 					})
 					.catch(function (error) {
-						const mje=error.response.status<500?"Los datos no son válidos":"Se ha detectado un problema ";
-						swal("¡ERROR!",mje, "error");
+						const mje =
+							error.response.status < 500
+								? "Los datos no son válidos"
+								: "Se ha detectado un problema ";
+						swal("¡ERROR!", mje, "error");
 						respuesta = error.response.data;
 						//console.log(error.response.data);
 					});
 				this.cargarFeedback(respuesta);
+
+				this.updateTable();
 				console.log("respuesta:");
 				console.log(respuesta);
 			},

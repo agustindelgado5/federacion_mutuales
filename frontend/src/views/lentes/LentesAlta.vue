@@ -251,6 +251,9 @@
 <script>
 	import { APIControler } from "@/store/APIControler";
 	export default {
+		props: {
+			updateTable: Function,
+		},
 		data() {
 			return {
 				lente: {},
@@ -306,6 +309,7 @@
 				lenteAPI.apiUrl.pathname = "lentes/";
 				this.respuesta = await lenteAPI.postData(this.lente);
 				this.cargarFeedback();
+				this.updateTable();
 			},
 
 			cargarFeedback() {

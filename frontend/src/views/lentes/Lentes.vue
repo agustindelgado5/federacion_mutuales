@@ -30,10 +30,10 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<lentes-alta />
+				<lentes-alta :updateTable="testFetch"/>
 			</b-modal>
 
-      <!-- ============================================================ -->
+			<!-- ============================================================ -->
 			<b-button
 				class="mb-4 ml-2"
 				variant="danger"
@@ -221,7 +221,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									title="Editar este registro"
 									v-b-modal.modal-editar
 									@click="editarLente(row.item, row.index)"
-                  :disabled="btn_editar"
+									:disabled="btn_editar"
 								>
 									<v-icon class="mr-2"> mdi-pencil </v-icon>
 									Editar
@@ -232,7 +232,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									id="button-3"
 									@click="showModalinfo(row.item, row.index)"
 									title="Eliminar este registro"
-                  :disabled="btn_eliminar"
+									:disabled="btn_eliminar"
 								>
 									<v-icon class="mr-2"> mdi-delete </v-icon>
 									Eliminar
@@ -285,10 +285,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				</b-button>
 			</b-modal>
 
-      <!-- ================EDITAR Lente======================== -->
+			<!-- ================EDITAR Lente======================== -->
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<lentes-update :lente="editar" />
+				<lentes-update :lente="editar" :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ==================================CREAR PDF================================== -->
@@ -481,7 +481,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					.finally(() => this.testFetch());
 			},
 
-      //Funcion para eliminar todos los socios seleccionados
+			//Funcion para eliminar todos los socios seleccionados
 			async delete_all_Lentes() {
 				var cantidad = this.selected.length;
 

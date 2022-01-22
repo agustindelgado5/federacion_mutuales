@@ -30,7 +30,7 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<estudios-alta />
+				<estudios-alta :updateTable="testFetch"/>
 			</b-modal>
 
 			<!-- ================ELIMINAR VARIOS ESTUDIOS======================== -->
@@ -297,7 +297,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			</b-container>
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<estudios-update :estudio="editar" />
+				<estudios-update :estudio="editar" :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ==================================CREAR PDF================================== -->

@@ -210,8 +210,12 @@
 <script>
 	import axios from "axios";
 	import { APIControler } from "@/store/APIControler";
+	
 
 	export default {
+		props: {
+			updateTable: Function,
+		},
 		data() {
 			return {
 				mutuales: {},
@@ -486,6 +490,7 @@
 					this.respuesta = await mutualAPI.postData(this.mutuales);
 					this.postServicios();
 					this.cargarFeedback();
+					this.updateTable();
 				} else {
 					swal("¡ERROR!", "Debe seleccionar al menos un servicio", "error");
 				}

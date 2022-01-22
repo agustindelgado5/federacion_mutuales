@@ -180,6 +180,7 @@
 	export default {
 		props: {
 			receta: {},
+			updateTable: Function,
 		},
 		data() {
 			return {
@@ -340,12 +341,16 @@
 						swal("Operación Exitosa", " ", "success");
 					})
 					.catch(function (error) {
-						const mje=error.response.status<500?"Los datos no son válidos":"Se ha detectado un problema ";
-        				swal("¡ERROR!",mje, "error");
+						const mje =
+							error.response.status < 500
+								? "Los datos no son válidos"
+								: "Se ha detectado un problema ";
+						swal("¡ERROR!", mje, "error");
 						respuesta = error.response.data;
 						//console.log(error.response.data);
 					});
 				this.cargarFeedback(respuesta);
+				this.updateTable();
 
 				// let recetaAPI = new APIControler();
 				// recetaAPI.apiUrl.pathname='recetas/';

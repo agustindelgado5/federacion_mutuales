@@ -387,6 +387,7 @@
 	export default {
 		props: {
 			socio: {},
+			updateTable: Function,
 		},
 		data() {
 			return {
@@ -650,6 +651,7 @@
 					});
 
 				//this.resetForm();
+				this.updateTable();
 			},
 			async sumarFliares() {
 				this.btn_familiar = true;

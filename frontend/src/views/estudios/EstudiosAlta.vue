@@ -2,18 +2,6 @@
 	<div>
 		<h6>Los campos en (*) son obligatorios</h6>
 		<h4>Nuevo Estudio:</h4>
-
-		<!-- CAMPOS REQUERIDOS -->
-		<!-- id_estudio -->
-		<!-- tipo -->
-		<!-- cod_estudio -->
-		<!-- abreviatura -->
-		<!-- UB -->
-		<!-- activo -->
-		<!-- descripcion -->
-		<!-- denominación -->
-
-		<!------------------------------------------------------------------------------------------->
 		<b-form>
 			<b-form-group label="*Codigo del Estudio" label-for="cod_estudio">
 				<!-- Numero de Estudio -->
@@ -128,6 +116,9 @@
 	import { APIControler } from "@/store/APIControler";
 
 	export default {
+		props: {
+			updateTable: Function,
+		},
 		data() {
 			return {
 				estudio: {},
@@ -166,6 +157,7 @@
 				this.UB_Seleccion();
 				this.respuesta = await estudioAPI.postData(this.estudio);
 				this.cargarFeedback();
+				this.updateTable();
 			},
 
 			UB_Seleccion() {

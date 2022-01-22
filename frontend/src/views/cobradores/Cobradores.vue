@@ -24,7 +24,7 @@
 		</b-button>
 		<b-modal id="modal-alta" hide-footer>
 			<template #modal-title><h5 class="modal-title">Alta</h5></template>
-			<cobradores-alta />
+			<cobradores-alta :updateTable="testFetch" />
 		</b-modal>
 
 		<!-- ================ELIMINAR VARIAS CUOTAS======================== -->
@@ -167,7 +167,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<template slot="cell(id_cobrador)" slot-scope="data">
 					<b>{{ data.value }}</b>
 				</template>
-        
+
 				<template slot="cell(numero_socio)" slot-scope="data">
 					{{ data.value.split("/")[4] }}
 				</template>
@@ -297,7 +297,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 		<b-modal id="modal-editar" hide-footer>
 			<template #modal-title><h5 class="modal-title">Editar</h5></template>
-			<cobradores-update :cobrador="editar" />
+			<cobradores-update :cobrador="editar" :updateTable="testFetch" />
 		</b-modal>
 	</div>
 </template>

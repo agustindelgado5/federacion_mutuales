@@ -29,7 +29,7 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<gastosSalientes-alta />
+				<gastosSalientes-alta :updateTable="testFetch"/>
 			</b-modal>
 
 			<!-- ================ELIMINAR VARIOS GASTOS======================== -->
@@ -308,7 +308,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			</b-container>
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<gastosSalientes-update :gastoSaliente="editar" />
+				<gastosSalientes-update :gastoSaliente="editar" :updateTable="testFetch"/>
 			</b-modal>
 		</div>
 	</v-app>
@@ -318,7 +318,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 	let api = new URL("http://localhost");
 	api.pathname = "gastosSalientes";
 	api.port = 8081;
-	import VueAwesomplete from "vue-awesomplete";
 
 	import GastosSalientesAlta from "./GastosSalientesAlta.vue";
 	import GastosSalientesUpdate from "./GastosSalientesUpdate.vue";
