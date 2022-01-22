@@ -61,6 +61,7 @@
         <b-form-input
           id="fecha"
           v-model="gastoSaliente.fecha"
+          :state="validacion.fecha.estado"
           type="date"
           placeholder="Ingrese una fecha"
           invalid-feedback="Complete este campo"
@@ -122,16 +123,16 @@ export default {
       let respuesta ="vacio"
       await axios.put('http://localhost:8081/gastosSalientes/'+this.gastoSaliente.id_gasto+ '/', this.gastoSaliente)
       .then(function (data){
-        
         swal("Operación Exitosa", " ", "success");
       })
       .catch(function (error) {
-        swal("¡ERROR!", "Se ha detectado un problema ", "error");
+        const mje=error.response.status<500?"Los datos no son válidos":"Se ha detectado un problema ";
+        swal("¡ERROR!",mje, "error");
         respuesta=error.response.data;
       })
       this.cargarFeedback(respuesta)
-      console.log("respuesta:");
-      console.log(respuesta);
+      // console.log("respuesta:");
+      // console.log(respuesta);
     },
     
     cargarFeedback(respuestaAPI){

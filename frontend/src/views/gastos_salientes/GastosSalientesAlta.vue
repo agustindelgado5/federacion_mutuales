@@ -70,6 +70,7 @@
         <b-form-input
           id="fecha"
           v-model="gastoSaliente.fecha"
+          :state="validacion.fecha.estado"
           type="date"
           placeholder="Ingrese una fecha"
           invalid-feedback="Complete este campo"
@@ -100,7 +101,8 @@ export default {
         descripcion: {estado:null,mensaje:""},
         total: {estado:null,mensaje:""},
         fecha: {estado:null,mensaje:""},
-      }
+      },
+      respuesta:{}
     };
   },
   methods: {
@@ -111,19 +113,18 @@ export default {
     async postGastosSalientes() {
       let gastoSalienteAPI = new APIControler();
       gastoSalienteAPI.apiUrl.pathname='gastosSalientes/';
-      let respuesta = await gastoSalienteAPI.postData(this.gastoSaliente); 
-      this.cargarFeedback(respuesta)
+      this.respuesta = await gastoSalienteAPI.postData(this.gastoSaliente); 
+      this.cargarFeedback()
     },
 
-    cargarFeedback(respuestaAPI){
-      for(let key in this.validacion){
-        this.validacion[key].estado=true
-      }
-      for(let key in respuestaAPI){
-        this.validacion[key].estado=false
-        this.validacion[key].mensaje=respuestaAPI[key][0]
-        
-      }
+    cargarFeedback() {
+				let valido;
+				for (let key in this.validacion) {
+					valido = !this.respuesta.hasOwnProperty(key);
+					this.validacion[key].estado = valido;
+					//console.log(key);
+					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
+				}
     }
   },
 };
