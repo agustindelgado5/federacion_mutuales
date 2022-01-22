@@ -197,9 +197,9 @@ export default {
         swal("Operación Exitosa", " ", "success");
       })
       .catch(function (error) {
-        swal("¡ERROR!", "Se ha detectado un problema ", "error");
+        const mje=error.response.status<500?"Los datos no son válidos":"Se ha detectado un problema ";
+        swal("¡ERROR!",mje, "error");        
         respuesta=error.response.data;
-
       })
       this.cargarFeedback(respuesta)
 

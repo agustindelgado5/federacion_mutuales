@@ -121,6 +121,7 @@ export default {
       list_socios:{},
       Cobradores: {},
       data: {},
+      respuesta: {},
       op_socios: [
         {value: null, text: 'Elija un socio', disabled: true},
       ],
@@ -158,8 +159,18 @@ export default {
     async postCobrador() {
       let cobradorAPI = new APIControler();
       cobradorAPI.apiUrl.pathname='cobradores/'
-      this.data = await cobradorAPI.postData(this.Cobradores);
+      this.respuesta = await cobradorAPI.postData(this.Cobradores);
+      this.cargarFeedback()
     },
+    cargarFeedback() {
+				let valido;
+				for (let key in this.validacion) {
+					valido = !this.respuesta.hasOwnProperty(key);
+					this.validacion[key].estado = valido;
+					//console.log(key);
+					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
+				}
+    }
   },
    beforeMount(){
     this.getSocios();
