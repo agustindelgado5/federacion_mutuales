@@ -249,7 +249,7 @@
 						element.id_medicamento +
 						"/";
 					option.text = element.id_medicamento + "-- " + element.nombre;
-					console.log(option);
+					// console.log(option);
 					this.op_medicamentos.push(option);
 				});
 			},
@@ -263,7 +263,7 @@
 					option.value =
 						"http://localhost:8081/farmacias/" + element.cod_farmacia + "/";
 					option.text = element.farmacia;
-					console.log(option);
+					// console.log(option);
 					this.op_farmacias.push(option);
 				});
 			},
@@ -274,8 +274,8 @@
 				this.data = await familiarAPI.getData(this.list_familiar);
 				let option_titular = {};
 				option_titular.value = this.receta.numero_socio;
-				console.log("this.receta.numero_socio");
-				console.log(this.receta.numero_socio);
+				// console.log("this.receta.numero_socio");
+				// console.log(this.receta.numero_socio);
 				option_titular.text = "Titular";
 				this.list_pacientes.push(option_titular);
 
@@ -340,9 +340,9 @@
 						swal("Operación Exitosa", " ", "success");
 					})
 					.catch(function (error) {
-						swal("¡ERROR!", "Se ha detectado un problema ", "error");
+						const mje=error.response.status<500?"Los datos no son válidos":"Se ha detectado un problema ";
+        				swal("¡ERROR!",mje, "error");
 						respuesta = error.response.data;
-
 						//console.log(error.response.data);
 					});
 				this.cargarFeedback(respuesta);
@@ -350,7 +350,7 @@
 				// let recetaAPI = new APIControler();
 				// recetaAPI.apiUrl.pathname='recetas/';
 				// let respuesta = await recetaAPI.putData(this.receta);
-				// this.cargarFeedback(respuesta);
+				//console.log(respuesta);
 			},
 			cargarFeedback(respuesta) {
 				let valido;
