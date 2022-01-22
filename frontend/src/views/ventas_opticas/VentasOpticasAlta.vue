@@ -58,17 +58,20 @@
 <script>
 import { APIControler } from "@/store/APIControler";
 export default {
+  props: {
+			updateTable: Function,
+		},
   data() {
     return {
       list_socios:{},
       ventaOptica: {},
+      respuesta: {},
       data: {},
       op_socios: [
         {value: null, text: 'Elija un socio', disabled: true},
       ],
 
       validacion: {
-       
         codigo_seguimiento: { estado: null, mensaje: "" },
         numero_socio: { estado: null, mensaje: "" },
       }
@@ -100,14 +103,12 @@ export default {
       ventaOpticaAPI.apiUrl.pathname = "ventasOpticas/";
       this.respuesta = await ventaOpticaAPI.postData(this.ventaOptica);
       this.cargarFeedback();
+      this.updateTable()
     },
 
     cargarFeedback() {
       let valido;
-      if(typeof this.respuesta === 'undefined')
-      {
-        return
-      }
+      this.respuesta=this.respuesta || {}
       for (let key in this.validacion) {
         valido = !this.respuesta.hasOwnProperty(key);
         this.validacion[key].estado = valido;

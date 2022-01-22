@@ -24,7 +24,7 @@
     </b-button>
     <b-modal id="modal-alta" hide-footer>
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
-      <ventasOpticas-alta />
+      <ventasOpticas-alta :updateTable="testFetch" />
     </b-modal>
 
 
@@ -74,7 +74,9 @@
       <template #empty="">
         <b>No hay registros para mostrar</b>
       </template>
-      
+      <template slot="cell(numero_socio)" slot-scope="data">
+						{{ data.value.split("/")[4] }}
+        </template>
       <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
           <b-button-group>
@@ -120,7 +122,7 @@
     >
       <div class="d-block text-center">
         <h3>
-          ¿Esta seguro de eliminar los datos de la cirugia
+          ¿Esta seguro de eliminar los datos de la venta 
           {{ infoEliminar.ventaOptica.codigo_seguimiento }}?
         </h3>
       </div>
@@ -152,7 +154,7 @@
     </b-container>
     <b-modal id="modal-editar" hide-footer>
       <template #modal-title><h5 class="modal-title">Editar</h5></template>
-      <ventasOpticas-update :ventaOptica="editar" />
+      <ventasOpticas-update :ventaOptica="editar" :updateTable="testFetch" />
     </b-modal>
 
     <!-- ==================================CREAR PDF================================== -->
@@ -235,8 +237,8 @@ export default {
     return {
       tabla_ventasOpticas: [],
       fields: [
-        { key: "codigo_seguimiento", label: "Codigo Armazon", sortable: true },
-        { key: "numero_socio", label: "Numero Socio", sortable: true },
+        { key: "codigo_seguimiento", label: "Código Armazon", sortable: true },
+        { key: "numero_socio", label: "Número Socio", sortable: true },
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
       totalRows: 1, //Total de filas
@@ -298,7 +300,7 @@ export default {
     },
     altaVentaOptica() {},
 
-    async deleteVenta(codigo_seguimiento) {
+    async deleteVentaOptica(codigo_seguimiento) {
       axios
         .delete("http://localhost:8081/ventasOpticas/" + codigo_seguimiento + "/")
         .then((datos) => {

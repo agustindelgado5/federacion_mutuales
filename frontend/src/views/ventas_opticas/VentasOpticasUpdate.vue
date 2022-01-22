@@ -19,6 +19,7 @@
           placeholder="Ingrese el código"
           invalid-feedback="Complete este campo"
           :state="validacion.codigo_seguimiento.estado"
+          :disabled="true"
           required
         >
         </b-form-input>
@@ -49,7 +50,7 @@
 
 
     </b-form>
-    <b-button class="mt-2" variant="success" block @click="postVentaOptica()"
+    <b-button class="mt-2" variant="success" block @click="putVentaOptica()"
       >Guardar</b-button
     >
   </div>
@@ -57,18 +58,27 @@
 
 <script>
 import { APIControler } from "@/store/APIControler";
+import axios from "axios";
 export default {
+  props: {
+			ventaOptica: {},
+			updateTable: Function,
+		},
   data() {
     return {
       list_socios:{},
-      ventaOptica: {},
       data: {},
+      respuesta: {},
+      validarError: {
+					validateStatus: function (status) {
+						return status < 500; // Resolve only if the status code is less than 500
+					},
+				},
       op_socios: [
         {value: null, text: 'Elija un socio', disabled: true},
       ],
 
       validacion: {
-       
         codigo_seguimiento: { estado: null, mensaje: "" },
         numero_socio: { estado: null, mensaje: "" },
       }
@@ -95,19 +105,36 @@ export default {
       let  ventaOpticaAPI = new APIControler();
       this.data = await  ventaOpticaAPI.getData();
     },
-    async postVentaOptica() {
-      let ventaOpticaAPI = new APIControler();
-      ventaOpticaAPI.apiUrl.pathname = "ventasOpticas/";
-      this.respuesta = await ventaOpticaAPI.postData(this.ventaOptica);
-      this.cargarFeedback();
-    },
+    
+    async putVentaOptica() {
+				try {
+					this.respuesta = await axios.put(
+						"http://localhost:8081/ventasOpticas/" +
+							this.ventaOptica.codigo_seguimiento +
+							"/",
+						this.ventaOptica,
+						this.validarError
+					);
+					const content = this.respuesta.request;
+					if (content.statusText == "OK") {
+						this.respuesta = "";
+						swal("Carga Exitosa", " ", "success");
+					} else {
+						//console.log(content.response);
+						this.respuesta = JSON.parse(content.response);
+						swal("¡ERROR!", "Los datos no son válidos", "error");
+					}
+				} catch (error) {
+					swal("¡ERROR!", "Se ha detectado un problema ", "error");
+					console.log(error);
+				}
+				this.cargarFeedback();
+				this.updateTable();
+			},
+
 
     cargarFeedback() {
-      let valido;
-      if(typeof this.respuesta === 'undefined')
-      {
-        return
-      }
+      let valido; 
       for (let key in this.validacion) {
         valido = !this.respuesta.hasOwnProperty(key);
         this.validacion[key].estado = valido;
