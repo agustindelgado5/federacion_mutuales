@@ -114,6 +114,7 @@ export default {
   data() {
     return {
       medicamentos: {},
+      respuesta: {},
       farmacias:{},
       data: {},
       
@@ -156,8 +157,8 @@ export default {
       let medicamentosAPI = new APIControler();
       medicamentosAPI.apiUrl.pathname='medicamentos/'
       //this.data = await medicamentosAPI.postData(this.medicamentos);
-      let respuesta = await medicamentosAPI.postData(this.medicamentos);
-      this.cargarFeedback(respuesta);
+      this.respuesta = await medicamentosAPI.postData(this.medicamentos);
+      this.cargarFeedback();
       this.resetForm();
     },
 
@@ -175,6 +176,7 @@ export default {
 
     cargarFeedback() {
 				let valido;
+        if(!this.respuesta) this.respuesta={};
 				for (let key in this.validacion) {
 					valido = !this.respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;

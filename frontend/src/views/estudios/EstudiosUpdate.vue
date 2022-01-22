@@ -134,6 +134,7 @@
 		data() {
 			return {
 				data: {},
+				respuesta: {},
 
 				op_tipo: [
 					{ value: null, text: "Elija un tipo", disabled: true },
@@ -174,10 +175,12 @@
 						swal("Operación Exitosa", " ", "success");
 					})
 					.catch(function (error) {
-						swal("¡ERROR!", "Se ha detectado un problema ", "error");
+						const mje=error.response.status<500?"Los datos no son válidos":"Se ha detectado un problema ";
+						swal("¡ERROR!",mje, "error");
 						respuesta = error.response.data;
 					});
-				this.cargarFeedback(respuesta);
+				this.respuesta=respuesta
+				this.cargarFeedback();
 			},
 
 			UB_Seleccion() {
@@ -188,12 +191,12 @@
 
 			cargarFeedback() {
 				let valido;
-				if (typeof this.respuesta === "undefined") {
-					return;
-				}
+				if(!this.respuesta) this.respuesta={};
 				for (let key in this.validacion) {
 					valido = !this.respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;
+										console.log(key)
+
 					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
 				}
 			},
