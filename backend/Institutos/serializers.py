@@ -7,8 +7,14 @@ class InstitutosSerializer(serializers.HyperlinkedModelSerializer):
         model = institutos
         fields = (
             "codigo_institucion",
-            "id_medico",
-            
-            
+            "nombre",
+            "cuit",
+            "direccion",
+            "localidad", 
+            "provincia", 
+            "telefono",
+            "horarios",
+            "responsable",
+            "telefono_responsable",
         )
         read_only_fields = ["created ", "updated"]
