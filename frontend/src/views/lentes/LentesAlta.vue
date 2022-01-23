@@ -314,9 +314,7 @@
 
 			cargarFeedback() {
 				let valido;
-				if (typeof this.respuesta === "undefined") {
-					return;
-				}
+				this.respuesta=this.respuesta || {}
 				for (let key in this.validacion) {
 					valido = !this.respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;

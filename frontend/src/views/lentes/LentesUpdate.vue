@@ -262,6 +262,7 @@
 			return {
 				ventasOpticas: {},
 				data: {},
+				respuesta: {},
 
 				options: [{ value: null, text: "Elija una venta", disabled: true }],
 
@@ -323,20 +324,20 @@
 						swal("Operación Exitosa", " ", "success");
 					})
 					.catch(function (error) {
-						swal("¡ERROR!", "Se ha detectado un problema ", "error");
-						console.log(error);
-						// respuesta=error.response.data;
-						//console.log(error.response.data);
+						const mje=error.response.status < 500
+							? "Los datos no son válidos"
+							: "Se ha detectado un problema ";
+						swal("¡ERROR!", mje, "error");
+						respuesta = error.response.data;
 					});
-
+				this.respuesta=respuesta
+				this.cargarFeedback()
+				this.updateTable()
 				//this.resetForm();
 			},
 
 			cargarFeedback() {
 				let valido;
-				if (typeof this.respuesta === "undefined") {
-					return;
-				}
 				for (let key in this.validacion) {
 					valido = !this.respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;
