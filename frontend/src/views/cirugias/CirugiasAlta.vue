@@ -15,7 +15,7 @@
 		<!------------------------------------------------------------------------------------------->
 		<b-form>
 			<b-form-group
-				label="*Codigo de intervencion"
+				label="Codigo de intervencion"
 				label-for="codigo_intervencion"
 			>
 				<!-- codigo_intervencion -->
@@ -40,7 +40,7 @@
 					v-model="cirugia.descripcion"
 					:state="validacion.descripcion.estado"
 					type="text"
-					placeholder="*Ingrese una abreviatura"
+					placeholder="Ingrese una abreviatura"
 					invalid-feedback="Complete este campo"
 					required
 				>
@@ -56,7 +56,7 @@
 					v-model="cirugia.nivel"
 					:state="validacion.nivel.estado"
 					type="number"
-					placeholder="*Ingrese una observacion"
+					placeholder="Ingrese una observacion"
 					invalid-feedback="Complete este campo"
 					required
 				>
@@ -66,13 +66,13 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="*Numero de ayudantes" label-for="numero_ayudantes">
+			<b-form-group label="Numero de ayudantes" label-for="numero_ayudantes">
 				<b-form-input
 					id="numero_ayudantes"
 					v-model="cirugia.numero_ayudantes"
 					:state="validacion.numero_ayudantes.estado"
 					type="number"
-					placeholder="*Ingrese el numero de ayudantes"
+					placeholder="Ingrese el numero de ayudantes"
 					invalid-feedback="Complete este campo"
 					required
 				>
@@ -83,7 +83,7 @@
 			</b-form-group>
 
 			<b-form-group
-				label="*Honorarios Cirujanos"
+				label="Honorarios Cirujanos"
 				label-for="honorario_cirujano"
 			>
 				<b-form-input
@@ -91,7 +91,7 @@
 					v-model="cirugia.honorario_cirujano"
 					:state="validacion.honorario_cirujano.estado"
 					type="text"
-					placeholder="*Ingrese el honorario del cirujano "
+					placeholder="Ingrese el honorario del cirujano "
 					invalid-feedback="Complete este campo"
 					required
 				>
@@ -102,7 +102,7 @@
 			</b-form-group>
 
 			<b-form-group
-				label="*Honorarios ayudantes"
+				label="Honorarios ayudantes"
 				label-for="honorario_ayudante"
 			>
 				<b-form-input
@@ -110,7 +110,7 @@
 					v-model="cirugia.honorario_ayudante"
 					:state="validacion.honorario_ayudante.estado"
 					type="text"
-					placeholder="*Ingrese el honorario del ayudante"
+					placeholder="Ingrese el honorario del ayudante"
 					invalid-feedback="Complete este campo"
 					required
 				>
@@ -126,7 +126,7 @@
 					v-model="cirugia.observacion"
 					:state="validacion.observacion.estado"
 					type="text"
-					placeholder="*Ingrese una observacion"
+					placeholder="Ingrese una observacion"
 					invalid-feedback="Complete este campo"
 					required
 				>
@@ -178,7 +178,7 @@
 				cirugiaAPI.apiUrl.pathname = "cirugias/";
 				this.respuesta = await cirugiaAPI.postData(this.cirugia);
 				this.cargarFeedback();
-        this.updateTable();
+        		this.updateTable();
 			},
 
 			cargarFeedback() {

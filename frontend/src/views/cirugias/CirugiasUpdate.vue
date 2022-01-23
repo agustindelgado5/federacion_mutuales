@@ -14,7 +14,7 @@
 
     <!------------------------------------------------------------------------------------------->
     <b-form>
-      <b-form-group label="*Codigo de intervencion" label-for="codigo_intervencion">
+      <b-form-group label="Codigo de intervencion" label-for="codigo_intervencion">
         <!-- codigo_intervencion -->
         <b-form-input
           id="codigo_intervencion"
@@ -39,7 +39,7 @@
           v-model="cirugia.descripcion"
           :state="validacion.descripcion.estado"
           type="text"
-          placeholder="*Ingrese una abreviatura"
+          placeholder="Ingrese una abreviatura"
           invalid-feedback="Complete este campo"
           required
         >
@@ -57,7 +57,7 @@
           v-model="cirugia.nivel"
           :state="validacion.nivel.estado"
           type="number"
-          placeholder="*Ingrese una observacion"
+          placeholder="Ingrese una observacion"
           invalid-feedback="Complete este campo"
           required
         >
@@ -67,13 +67,13 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-       <b-form-group label="*Numero de ayudantes" label-for="numero_ayudantes">
+       <b-form-group label="Numero de ayudantes" label-for="numero_ayudantes">
         <b-form-input
           id="numero_ayudantes"
           v-model="cirugia.numero_ayudantes"
           :state="validacion.numero_ayudantes.estado"
           type="number"
-          placeholder="*Ingrese el numero de ayudantes"
+          placeholder="Ingrese el numero de ayudantes"
           invalid-feedback="Complete este campo"
           required
         >
@@ -83,13 +83,13 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group label="*Honorarios Cirujanos" label-for="honorario_cirujano">
+      <b-form-group label="Honorarios Cirujanos" label-for="honorario_cirujano">
         <b-form-input
           id="honorario_cirujano"
           v-model="cirugia.honorario_cirujano"
           :state="validacion.honorario_cirujano.estado"
           type="text"
-          placeholder="*Ingrese el honorario del cirujano "
+          placeholder="Ingrese el honorario del cirujano "
           invalid-feedback="Complete este campo"
           required
         >
@@ -99,13 +99,13 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group label="*Honorarios ayudantes" label-for="honorario_ayudante">
+      <b-form-group label="Honorarios ayudantes" label-for="honorario_ayudante">
         <b-form-input
           id="honorario_ayudante"
           v-model="cirugia.honorario_ayudante"
           :state="validacion.honorario_ayudante.estado"
           type="text"
-          placeholder="*Ingrese el honorario del ayudante"
+          placeholder="Ingrese el honorario del ayudante"
           invalid-feedback="Complete este campo"
           required
         >
@@ -123,7 +123,7 @@
           v-model="cirugia.observacion"
           :state="validacion.observacion.estado"
           type="text"
-          placeholder="*Ingrese una observacion"
+          placeholder="Ingrese una observacion"
           invalid-feedback="Complete este campo"
           required
         >
@@ -135,20 +135,23 @@
 
 
     </b-form>
-    <b-button class="mt-2" variant="success" block @click="postCirugia()"
+    <b-button class="mt-2" variant="success" block @click="putCirugia()"
       >Guardar</b-button
     >
   </div>
 </template>
 
 <script>
-import { APIControler } from "@/store/APIControler";
+import axios from "axios";
 
 export default {
+  props: {
+      cirugia: {},
+			updateTable: Function,
+		},
   data() {
     return {
 
-      cirugia: {},
       data: {},
 
       validacion: {
@@ -168,20 +171,8 @@ export default {
 
   methods: {
 
-      async getFarmacias() {
-          let farmaciaAPI = new APIControler();
-          farmaciaAPI.apiUrl.pathname = 'cirugias/'
-          this.data = await farmaciaAPI.getData(this.cirugias);
-          this.data.forEach(element => {
-              let option = {}
-              option.value = 'http://localhost:8081/cirugias/' + element.codigo_intervencion + '/';
-              option.text = element.cirugia;
-              console.log(option);
-              this.options.push(option);
-          });
-      },
-
-      async putFarmacia() {
+      
+      async putCirugia() {
           let respuesta = "vacio"
           // try{
           await axios.put('http://localhost:8081/cirugias/' + this.cirugia.codigo_intervencion + '/', this.cirugia)
@@ -190,36 +181,24 @@ export default {
                   swal("Operación Exitosa", " ", "success");
               })
               .catch(function (error) {
-                  swal("¡ERROR!", "Se ha detectado un problema ", "error");
+                  const mje=error.response.status < 500
+                            ? "Los datos no son válidos"
+                            : "Se ha detectado un problema ";
+                  swal("¡ERROR!", mje, "error");
                   respuesta = error.response.data;
-
-                  //console.log(error.response.data);
               })
           this.cargarFeedback(respuesta)
-          console.log("respuesta:");
-          console.log(respuesta);
-
-          // }
-          // catch(error) {
-
-          //     console.log("error:");
-          //     console.log(error.response);
-          // }
-          //finally{location.href = '/farmacias'} ;
+          this.updateTable()
       },
 
-    cargarFeedback() {
-      let valido;
-      if(typeof this.respuesta === 'undefined')
-      {
-        return
-      }
-      for (let key in this.validacion) {
-        valido = !this.respuesta.hasOwnProperty(key);
-        this.validacion[key].estado = valido;
-        if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
-      }
-    },
+    cargarFeedback(respuestaAPI) {
+				let valido;
+				for (let key in this.validacion) {
+					valido = !respuestaAPI.hasOwnProperty(key);
+					this.validacion[key].estado = valido;
+					if (!valido) this.validacion[key].mensaje = respuestaAPI[key][0];
+				}
+			},
   },
   beforeMount() {
   },

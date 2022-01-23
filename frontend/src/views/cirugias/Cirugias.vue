@@ -150,7 +150,7 @@
 		</b-container>
 		<b-modal id="modal-editar" hide-footer>
 			<template #modal-title><h5 class="modal-title">Editar</h5></template>
-			<cirugias-update :cirugia="editar" />
+			<cirugias-update :cirugia="editar" :updateTable="testFetch" />
 		</b-modal>
 
 		<!-- ==================================CREAR PDF================================== -->
@@ -234,19 +234,19 @@
 				fields: [
 					{
 						key: "codigo_intervencion",
-						label: "Codigo Intervencion",
+						label: "Código Intervención",
 						sortable: true,
 					},
 					{ key: "descripcion", label: "Descripción", sortable: true },
-					{ key: "nivel", label: "nivel", sortable: true },
+					{ key: "nivel", label: "Nivel", sortable: true },
 					{
 						key: "numero_ayudantes",
-						label: "numero_ayudantes",
+						label: "Número de ayudantes",
 						sortable: true,
 					},
 					{
 						key: "honorario_cirujano",
-						label: "Honorarios Cirujanos",
+						label: "Honorarios Cirujano",
 						sortable: true,
 					},
 					{
@@ -255,7 +255,7 @@
 						sortable: true,
 					},
 					{ key: "honorario_total", label: "Honorario Total", sortable: true },
-					{ key: "observacion", label: "Observacion", sortable: true },
+					{ key: "observacion", label: "Observación", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				totalRows: 1, //Total de filas

@@ -21,7 +21,10 @@ class cirugias(models.Model):
 
     @property
     def honorario_total(self):
-        return float(self.honorario_cirujano) + float(self.honorario_ayudante)*float(self.numero_ayudantes);
+        if(self.honorario_ayudante and self.honorario_cirujano and self.numero_ayudantes):
+            return float(self.honorario_cirujano) + float(self.honorario_ayudante)*float(self.numero_ayudantes);
+        else:
+            return 0;
     
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
