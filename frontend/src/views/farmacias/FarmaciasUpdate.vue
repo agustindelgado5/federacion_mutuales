@@ -4,210 +4,260 @@
 		<h4>Datos</h4>
 
 		<b-form>
-			<b-form-group
-				label="*ID Farmacia"
-				label-for="cod_farmacia"
-				@submit.stop.prevent="handleSubmit"
-			>
-				<b-form-input
-					id="cod_farmacia"
-					v-model="farmacia.cod_farmacia"
-					:state="validacion.cod_farmacia.estado"
-					:disabled="true"
-					type="number"
-					placeholder="Ingrese el ID de la farmacia"
-					invalid-feedback="Complete este campo"
-					required
+			<b-card no-body class="mb-1">
+				<b-card-header header-tag="header" class="p-1" role="tab">
+					<b-button
+						block
+						v-b-toggle.accordion-1
+						style="background-color: darkorange"
+						>Datos Principales:</b-button
+					>
+				</b-card-header>
+				<b-collapse
+					id="accordion-1"
+					visible
+					accordion="my-accordion"
+					role="tabpanel"
 				>
-				</b-form-input>
-				<b-form-invalid-feedback id="cod_farmacia-live-feedback"
-					>{{ validacion.cod_farmacia.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+					<b-card-body>
+						<!-- cod_farmacia -->
+						<b-form-group
+							label="*ID Farmacia"
+							label-for="cod_farmacia"
+							@submit.stop.prevent="handleSubmit"
+						>
+							<b-form-input
+								id="cod_farmacia"
+								v-model="farmacia.cod_farmacia"
+								:state="validacion.cod_farmacia.estado"
+								type="number"
+								placeholder="Ingrese el ID de la farmacia"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="cod_farmacia-live-feedback"
+								>{{ validacion.cod_farmacia.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<!-- matricula_farm -->
-			<b-form-group
-				label="*Matricula Farmacia"
-				label-for="matricula_farm"
-				@submit.stop.prevent="handleSubmit"
-			>
-				<b-form-input
-					id="matricula_farm"
-					v-model="farmacia.matricula_farm"
-					type="number"
-					placeholder="Ingrese la matricula de la farmacia"
-					:state="validacion.matricula_farm.estado"
-					invalid-feedback="Complete este campo"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="matricula_farm-live-feedback"
-					>{{ validacion.matricula_farm.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<!-- matricula_farm -->
+						<b-form-group
+							label="*Matricula Farmacia"
+							label-for="matricula_farm"
+							@submit.stop.prevent="handleSubmit"
+						>
+							<b-form-input
+								id="matricula_farm"
+								v-model="farmacia.matricula_farm"
+								type="number"
+								placeholder="Ingrese la matricula de la farmacia"
+								:state="validacion.matricula_farm.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="matricula_farm-live-feedback"
+								>{{ validacion.matricula_farm.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<!-- farmacia -->
-			<b-form-group label="*Farmacia" label-for="farmacia">
-				<b-form-input
-					id="farmacia"
-					v-model="farmacia.farmacia"
-					type="text"
-					placeholder="*Ingrese el nombre de la farmacia"
-					:state="validacion.farmacia.estado"
-					invalid-feedback="Complete este campo"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="farmacia-live-feedback"
-					>{{ validacion.farmacia.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<!-- farmacia -->
+						<b-form-group label="*Farmacia" label-for="farmacia">
+							<b-form-input
+								id="farmacia"
+								v-model="farmacia.farmacia"
+								type="text"
+								placeholder="*Ingrese el nombre de la farmacia"
+								:state="validacion.farmacia.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="farmacia-live-feedback"
+								>{{ validacion.farmacia.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<!-- cuit -->
-			<b-form-group
-				label="*CUIT Farmacia"
-				label-for="cuit"
-				@submit.stop.prevent="handleSubmit"
-			>
-				<b-form-input
-					id="cuit"
-					v-model="farmacia.cuit"
-					type="number"
-					placeholder="Ingrese el CUIT de la farmacia"
-					:state="validacion.cuit.estado"
-					invalid-feedback="Complete este campo"
-					required
+						<!-- cuit -->
+						<b-form-group
+							label="*CUIT Farmacia"
+							label-for="cuit"
+							@submit.stop.prevent="handleSubmit"
+						>
+							<b-form-input
+								id="cuit"
+								v-model="farmacia.cuit"
+								type="number"
+								placeholder="Ingrese el CUIT de la farmacia"
+								:state="validacion.cuit.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="cuit-live-feedback"
+								>{{ validacion.cuit.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
+			<b-card no-body class="mb-1">
+				<b-card-header header-tag="header" class="p-1" role="tab">
+					<b-button
+						block
+						v-b-toggle.accordion-2
+						style="background-color: darkorange"
+						>Direccion:</b-button
+					>
+				</b-card-header>
+				<b-collapse
+					id="accordion-2"
+					visible
+					accordion="my-accordion"
+					role="tabpanel"
 				>
-				</b-form-input>
-				<b-form-invalid-feedback id="cuit-live-feedback"
-					>{{ validacion.cuit.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+					<b-card-body>
+						<!-- localidad -->
+						<b-form-group label="*Localidad" label-for="localidad">
+							<b-form-input
+								id="localidad"
+								v-model="farmacia.localidad"
+								type="text"
+								placeholder="*Ingrese la localidad"
+								:state="validacion.localidad.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="localidad-live-feedback"
+								>{{ validacion.localidad.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<!-- localidad -->
-			<b-form-group label="*Localidad" label-for="localidad">
-				<b-form-input
-					id="localidad"
-					v-model="farmacia.localidad"
-					type="text"
-					placeholder="*Ingrese la localidad"
-					:state="validacion.localidad.estado"
-					invalid-feedback="Complete este campo"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="localidad-live-feedback"
-					>{{ validacion.localidad.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<!-- direccion -->
+						<b-form-group label="*Direccion" label-for="direccion">
+							<b-form-input
+								id="direccion"
+								v-model="farmacia.direccion"
+								type="text"
+								placeholder="*Ingrese la direccion"
+								:state="validacion.direccion.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="direccion-live-feedback"
+								>{{ validacion.direccion.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<!-- direccion -->
-			<b-form-group label="*Direccion" label-for="direccion">
-				<b-form-input
-					id="direccion"
-					v-model="farmacia.direccion"
-					type="text"
-					placeholder="*Ingrese la direccion"
-					:state="validacion.direccion.estado"
-					invalid-feedback="Complete este campo"
-					required
+						<!-- cod_postal -->
+						<b-form-group
+							label="*Codigo postal"
+							label-for="cod_postal"
+							@submit.stop.prevent="handleSubmit"
+						>
+							<b-form-input
+								id="cod_postal"
+								v-model="farmacia.cod_postal"
+								type="number"
+								placeholder="Ingrese el codigo postal"
+								:state="validacion.cod_postal.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="cod_postal-live-feedback"
+								>{{ validacion.cod_postal.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
+			<b-card no-body class="mb-1">
+				<b-card-header header-tag="header" class="p-1" role="tab">
+					<b-button
+						block
+						v-b-toggle.accordion-3
+						style="background-color: darkorange"
+						>Contacto:</b-button
+					>
+				</b-card-header>
+				<b-collapse
+					id="accordion-3"
+					visible
+					accordion="my-accordion"
+					role="tabpanel"
 				>
-				</b-form-input>
-				<b-form-invalid-feedback id="direccion-live-feedback"
-					>{{ validacion.direccion.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+					<b-card-body>
+						<!-- email -->
+						<b-form-group label="*Email" label-for="email">
+							<b-form-input
+								id="email"
+								v-model="farmacia.email"
+								type="email"
+								placeholder="Ingrese un email"
+								:state="validacion.email.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="email-live-feedback"
+								>{{ validacion.email.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<!-- cod_postal -->
-			<b-form-group
-				label="*Codigo postal"
-				label-for="cod_postal"
-				@submit.stop.prevent="handleSubmit"
-			>
-				<b-form-input
-					id="cod_postal"
-					v-model="farmacia.cod_postal"
-					type="number"
-					placeholder="Ingrese el codigo postal"
-					:state="validacion.cod_postal.estado"
-					invalid-feedback="Complete este campo"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="cod_postal-live-feedback"
-					>{{ validacion.cod_postal.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<!-- tel_fijo -->
+						<b-form-group label="Telefono fijo" label-for="tel_fijo">
+							<b-form-input
+								id="tel_fijo"
+								v-model="farmacia.tel_fijo"
+								type="number"
+								placeholder="Ingrese un numero de telefono fijo"
+								:state="validacion.tel_fijo.estado"
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="tel_fijo-live-feedback"
+								>{{ validacion.tel_fijo.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<!-- email -->
-			<b-form-group label="*Email" label-for="email">
-				<b-form-input
-					id="email"
-					v-model="farmacia.email"
-					type="email"
-					placeholder="Ingrese un email"
-					:state="validacion.email.estado"
-					invalid-feedback="Complete este campo"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="email-live-feedback"
-					>{{ validacion.email.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<!-- tel_celular -->
+						<b-form-group label="Telefono Celular" label-for="tel_celular">
+							<b-form-input
+								id="tel_celular"
+								v-model="farmacia.tel_celular"
+								type="number"
+								placeholder="Ingrese un numero de telefono celular"
+								:state="validacion.tel_celular.estado"
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="tel_celular-live-feedback"
+								>{{ validacion.tel_celular.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<!-- tel_fijo -->
-			<b-form-group label="Telefono fijo" label-for="tel_fijo">
-				<b-form-input
-					id="tel_fijo"
-					v-model="farmacia.tel_fijo"
-					type="number"
-					placeholder="Ingrese un numero de telefono fijo"
-					:state="validacion.tel_fijo.estado"
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="tel_fijo-live-feedback"
-					>{{ validacion.tel_fijo.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
-
-			<!-- tel_celular -->
-			<b-form-group label="Telefono Celular" label-for="tel_celular">
-				<b-form-input
-					id="tel_celular"
-					v-model="farmacia.tel_celular"
-					type="number"
-					placeholder="Ingrese un numero de telefono celular"
-					:state="validacion.tel_celular.estado"
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="tel_celular-live-feedback"
-					>{{ validacion.tel_celular.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
-
-			<!-- representante -->
-			<b-form-group label="*Representante" label-for="representante">
-				<b-form-input
-					id="representante"
-					v-model="farmacia.representante"
-					type="text"
-					placeholder="*Ingrese el nombre del representante"
-					invalid-feedback="Complete este campo"
-					:state="validacion.representante.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="representante-live-feedback"
-					>{{ validacion.representante.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<!-- representante -->
+						<b-form-group label="*Representante" label-for="representante">
+							<b-form-input
+								id="representante"
+								v-model="farmacia.representante"
+								type="text"
+								placeholder="*Ingrese el nombre del representante"
+								invalid-feedback="Complete este campo"
+								:state="validacion.representante.estado"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="representante-live-feedback"
+								>{{ validacion.representante.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
 		</b-form>
-
-		<!-- {{farmacia}}
-    <br>
-    <br>
-    {{ data }} -->
 
 		<b-button class="mt-2" variant="success" block @click="putFarmacia()"
 			>Modificar</b-button
@@ -291,10 +341,8 @@
 				this.updateTable();
 				console.log("respuesta:");
 				console.log(respuesta);
-
 			},
 
-      
 			cargarFeedback(respuestaAPI) {
 				console.log("respuestaAPI");
 				console.log(respuestaAPI);
