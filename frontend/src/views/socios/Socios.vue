@@ -719,7 +719,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										<b-card-header header-tag="header" class="p-1" role="tab">
 											<b-button
 												block
-												v-b-toggle.accordion-3
+												v-b-toggle.accordion-filter-3
 												variant="info"
 												style="font-size: 0.82em"
 											>
@@ -727,7 +727,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											</b-button>
 										</b-card-header>
 										<b-collapse
-											id="accordion-3"
+											id="accordion-filter-3"
 											visible
 											accordion="my-accordion"
 											role="tabpanel"
@@ -766,7 +766,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										<b-card-header header-tag="header" class="p-1" role="tab">
 											<b-button
 												block
-												v-b-toggle.accordion-5
+												v-b-toggle.accordion-filter-5
 												variant="info"
 												style="font-size: 0.82em"
 											>
@@ -774,7 +774,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											</b-button>
 										</b-card-header>
 										<b-collapse
-											id="accordion-5"
+											id="accordion-filter-5"
 											visible
 											accordion="my-accordion"
 											role="tabpanel"

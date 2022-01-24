@@ -23,45 +23,61 @@
 							<b-form-input
 								id="numero_socio"
 								v-model="socio.numero_socio"
+								:state="validacion.numero_socio.estado"
 								type="number"
 								placeholder="Ingrese un Numero"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="numero_socio-live-feedback"
+								>{{ validacion.numero_socio.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*Nombre/s" label-for="nombre">
 							<b-form-input
 								id="nombre"
 								v-model="socio.nombre"
+								:state="validacion.nombre.estado"
 								type="text"
 								placeholder="*Ingrese los Nombre/s"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="nombre-live-feedback"
+								>{{ validacion.nombre.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*Apellido/s" label-for="apellido">
 							<b-form-input
 								id="apellido"
 								v-model="socio.apellido"
+								:state="validacion.apellido.estado"
 								type="text"
 								placeholder="*Ingrese los Apellido/s"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="apellido-live-feedback"
+								>{{ validacion.apellido.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*DNI" label-for="dni">
 							<b-form-input
 								id="dni"
 								v-model="socio.dni"
+								:state="validacion.dni.estado"
 								type="number"
 								placeholder="Ingrese un DNI"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="dni-live-feedback"
+								>{{ validacion.dni.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 
 						<b-form-group
@@ -71,12 +87,16 @@
 							<b-form-input
 								id="fecha_nacimiento"
 								v-model="socio.fecha_nacimiento"
+								:state="validacion.fecha_nacimiento.estado"
 								type="date"
 								placeholder="Ingrese una fecha"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="fecha_nacimiento-live-feedback"
+								>{{ validacion.fecha_nacimiento.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 
 						<b-form-group
@@ -86,12 +106,16 @@
 							<b-form-input
 								id="fecha_asociacion"
 								v-model="socio.fecha_asociacion"
+								:state="validacion.fecha_asociacion.estado"
 								type="date"
 								placeholder="Ingrese la fecha de asociacion"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="fecha_asociacion-live-feedback"
+								>{{ validacion.fecha_asociacion.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 
 						<b-form-group label="*Mutual de asociación" label-for="id_mutual">
@@ -99,6 +123,7 @@
 								id="id_mutual"
 								v-model="socio.mutual"
 								type="text"
+								:state="validacion.mutual.estado"
 								placeholder="Ingrese el ID de la mutual"
 								invalid-feedback="Complete este campo"
 								required
@@ -114,11 +139,11 @@
 							<b-form-checkbox
 								id="obra_social"
 								v-model="socio.tieneObraSocial"
+								:state="validacion.tieneObraSocial.estado"
 								value="true"
 								type="boolean"
 								invalid-feedback="Complete este campo"
 								required
-								unchecked-value="false"
 							>
 							</b-form-checkbox>
 						</b-form-group>
@@ -141,18 +166,23 @@
 							<b-form-input
 								id="calle"
 								v-model="socio.calle"
+								:state="validacion.calle.estado"
 								type="text"
 								placeholder="Ingrese una calle"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="calle-live-feedback"
+								>{{ validacion.calle.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 
 						<b-form-group label="*Localidad" label-for="localidad">
 							<b-form-select
 								id="localidad"
 								v-model="socio.localidad"
+								:state="validacion.localidad.estado"
 								:options="op_localidad"
 								type="text"
 								placeholder="Ingrese una localidad"
@@ -160,12 +190,16 @@
 								required
 							>
 							</b-form-select>
+							<b-form-invalid-feedback id="localidad-live-feedback"
+								>{{ validacion.localidad.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 
 						<b-form-group label="*Departamento" label-for="departamento">
 							<b-form-select
 								id="departamento"
 								v-model="socio.departamento"
+								:state="validacion.departamento.estado"
 								type="text"
 								placeholder="Ingrese un departamento"
 								invalid-feedback="Complete este campo"
@@ -173,18 +207,25 @@
 								:options="options"
 							>
 							</b-form-select>
+							<b-form-invalid-feedback id="departamento-live-feedback"
+								>{{ validacion.departamento.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 
 						<b-form-group label="*Codigo postal" label-for="cod_postal">
 							<b-form-input
 								id="cod_postal"
 								v-model="socio.cod_postal"
+								:state="validacion.cod_postal.estado"
 								type="number"
 								placeholder="Ingrese un numero"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="cod_postal-live-feedback"
+								>{{ validacion.cod_postal.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 					</b-card-body>
 				</b-collapse>
@@ -203,6 +244,7 @@
 					<b-card-body>
 						<b-form-group label="*Email" label-for="email">
 							<b-form-input
+								:state="validacion.email.estado"
 								id="email"
 								v-model="socio.email"
 								type="email"
@@ -211,37 +253,52 @@
 								required
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="email-live-feedback"
+								>{{ validacion.email.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 
 						<b-form-group label="Telefono fijo" label-for="tel_fijo">
 							<b-form-input
 								id="tel_fijo"
 								v-model="socio.tel_fijo"
+								:state="validacion.tel_fijo.estado"
 								type="number"
 								placeholder="Ingrese un numero"
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="tel_fijo-live-feedback"
+								>{{ validacion.tel_fijo.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 
 						<b-form-group label="Celular" label-for="tel_celular">
 							<b-form-input
 								id="tel_celular"
 								v-model="socio.tel_celular"
+								:state="validacion.tel_celular.estado"
 								type="number"
 								placeholder="Ingrese un numero"
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="tel_celular-live-feedback"
+								>{{ validacion.tel_celular.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="Carencia" label-for="carencia">
 							<b-form-input
 								id="carencia"
 								v-model="socio.carencia"
+								:state="validacion.carencia.estado"
 								type="date"
 								placeholder="Ingrese una fecha"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
+							<b-form-invalid-feedback id="carencia-live-feedback"
+								>{{ validacion.carencia.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 					</b-card-body>
 				</b-collapse>
@@ -279,6 +336,7 @@
 				<h4>Datos del Adherente: {{ index + 1 }}</h4>
 				<b-form-group label="*Nombre/s" label-for="nombre">
 					<b-form-input
+						:state="validacionFamiliar[index].nombre.estado"
 						id="nombre"
 						v-model="item.nombre"
 						type="text"
@@ -287,9 +345,13 @@
 						required
 					>
 					</b-form-input>
+							<b-form-invalid-feedback id="nombre-live-feedback"
+								>{{ validacionFamiliar[index].nombre.mensaje }}
+							</b-form-invalid-feedback>
 				</b-form-group>
 				<b-form-group label="*Apellido/s" label-for="apellido">
 					<b-form-input
+								:state="validacionFamiliar[index].apellido.estado"
 						id="apellido"
 						v-model="item.apellido"
 						type="text"
@@ -298,9 +360,13 @@
 						required
 					>
 					</b-form-input>
+							<b-form-invalid-feedback id="apellido-live-feedback"
+								>{{ validacionFamiliar[index].apellido.mensaje }}
+							</b-form-invalid-feedback>
 				</b-form-group>
 				<b-form-group label="*DNI" label-for="dni_familiar">
 					<b-form-input
+						:state="validacionFamiliar[index].dni_familiar.estado"
 						id="dni_familiar"
 						v-model="item.dni_familiar"
 						type="number"
@@ -309,10 +375,14 @@
 						required
 					>
 					</b-form-input>
+							<b-form-invalid-feedback id="dni_familiar-live-feedback"
+								>{{ validacionFamiliar[index].dni_familiar.mensaje }}
+							</b-form-invalid-feedback>
 				</b-form-group>
 
 				<b-form-group label="*Fecha de nacimiento" label-for="fecha_nacimiento">
 					<b-form-input
+								:state="validacionFamiliar[index].fecha_nacimiento.estado"
 						id="fecha_nacimiento"
 						v-model="item.fecha_nacimiento"
 						type="date"
@@ -321,10 +391,14 @@
 						required
 					>
 					</b-form-input>
+							<b-form-invalid-feedback id="fecha_nacimiento-live-feedback"
+								>{{ validacionFamiliar[index].fecha_nacimiento.mensaje }}
+							</b-form-invalid-feedback>
 				</b-form-group>
 
 				<b-form-group label="*Fecha de asociación" label-for="fecha_asociacion">
 					<b-form-input
+								:state="validacionFamiliar[index].fecha_asociacion.estado"
 						id="fecha_asociacion"
 						v-model="item.fecha_asociacion"
 						type="date"
@@ -333,10 +407,14 @@
 						required
 					>
 					</b-form-input>
+							<b-form-invalid-feedback id="fecha_asociacion-live-feedback"
+								>{{ validacionFamiliar[index].fecha_asociacion.mensaje }}
+							</b-form-invalid-feedback>
 				</b-form-group>
 
 				<b-form-group label="Carencia" label-for="carencia">
 					<b-form-input
+						:state="validacionFamiliar[index].carencia.estado"
 						id="carencia"
 						v-model="item.carencia"
 						type="date"
@@ -345,6 +423,9 @@
 						required
 					>
 					</b-form-input>
+							<b-form-invalid-feedback id="carencia-live-feedback"
+								>{{ validacionFamiliar[index].carencia.mensaje }}
+							</b-form-invalid-feedback>
 				</b-form-group>
 
 				<b-form-group label="*Tiene Obra social">
@@ -352,6 +433,7 @@
 						v-model="item.tieneObraSocial"
 						value="true"
 						type="boolean"
+						:state="validacionFamiliar[index].tieneObraSocial.estado"
 						invalid-feedback="Complete este campo"
 						required
 						unchecked-value="false"
@@ -386,10 +468,30 @@
 		},
 		data() {
 			return {
-				socio: {},
+				socio: {tieneObraSocial:false},
 				familiar: [],
 				data: {},
 				plan: [],
+				validacion: {
+					numero_socio: { estado: null, mensaje: "" },
+					nombre: { estado: null, mensaje: "" },
+					apellido: { estado: null, mensaje: "" },
+					dni: { estado: null, mensaje: "" },
+					fecha_nacimiento: { estado: null, mensaje: "" },
+					mutual: { estado: null, mensaje: "" },
+					tieneObraSocial:{ estado: null, mensaje: "" },
+					fecha_asociacion: { estado: null, mensaje: "" },
+					carencia: { estado: null, mensaje: "" },
+					calle: { estado: null, mensaje: "" },
+					localidad: { estado: null, mensaje: "" },
+					departamento: { estado: null, mensaje: "" },
+					cod_postal: { estado: null, mensaje: "" },
+					email: { estado: null, mensaje: "" },
+					tel_fijo: { estado: null, mensaje: "" },
+					tel_celular: { estado: null, mensaje: "" }
+
+				},
+				validacionFamiliar: [],
 				list_mutuales: {},
 				op_mutuales: [
 					{ value: null, text: "Elija una mutual", disabled: true },
@@ -397,6 +499,7 @@
 
 				btn_familiar: false,
 				cantidad: 0,
+				respuesta:{},
 				select: null,
 				options: [
 					{ value: null, text: "Elija un departamento" },
@@ -626,14 +729,37 @@
 			},
 			async postSocio() {
 				let socioAPI = new APIControler();
-				this.data = await socioAPI.postData(this.socio);
+				this.respuesta = await socioAPI.postData(this.socio);
 				if (this.familiar.length > 0) {
 					this.postFamiliar();
 				}
 
 				//this.resetForm();
+				this.cargarFeedback();
 				this.updateTable();
 			},
+			cargarFeedback() {
+				let valido;
+				if (!this.respuesta) this.respuesta = {};
+				for (let key in this.validacion) {
+					valido = !this.respuesta.hasOwnProperty(key);
+					this.validacion[key].estado = valido;
+					//console.log(key);
+					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
+				}
+			},
+			cargarFeedbackFamiliares(response,index) {
+				let valido;
+				if (!response) response = {};
+				for (let key in this.validacionFamiliar[index]) {
+					valido = !response.hasOwnProperty(key);
+					this.validacionFamiliar[index][key].estado = valido;
+					//console.log(key);
+					if (!valido) this.validacionFamiliar[index][key].mensaje = response[key][0];
+				}
+			},
+
+
 			async sumarFliares() {
 				this.btn_familiar = true;
 				// this.resetFormAdh();
@@ -648,6 +774,16 @@
 					carencia: null,
 					tieneObraSocial: false,
 				});
+				this.validacionFamiliar.push({
+					numero_socio: { estado: null, mensaje: "" },
+					nombre: { estado: null, mensaje: "" },
+					apellido: { estado: null, mensaje: "" },
+					dni_familiar: { estado: null, mensaje: "" },
+					fecha_nacimiento: { estado: null, mensaje: "" },
+					fecha_asociacion: { estado: null, mensaje: "" },
+					carencia: { estado: null, mensaje: "" },
+					tieneObraSocial: { estado: null, mensaje: "" },
+				});
 			},
 			async postFamiliar() {
 				let familiarAPI = new APIControler();
@@ -656,11 +792,13 @@
 				familiarAPI.apiUrl.pathname = "familiar/";
 				console.log("Mostrando familiar");
 				console.log(this.familiar);
-				for (const adherente of this.familiar) {
+				let response;
+				for (const [index,adherente] of this.familiar.entries()) {
 					console.log("Mostrando adherente");
 					console.log(adherente);
 					adherente.numero_socio = _nroSocio;
-					await familiarAPI.postData(adherente);
+					response=await familiarAPI.postData(adherente);
+					this.cargarFeedbackFamiliares(response,index)
 				}
 
 				// this.resetFormAdh();
