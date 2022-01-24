@@ -1,190 +1,242 @@
 <template>
 	<div>
 		<h6>Los campos en (*) son obligatorios</h6>
-		<h4>Registrar nueva Mutual:</h4>
 
 		<!------------------------------------------------------------------------------------------->
 
-		
 		<b-form>
-			<b-form-group label="*Matricula" label-for="matricula">
-				<b-form-input
-					id="matricula"
-					v-model="mutuales.matricula"
-					type="text"
-					placeholder="Ingrese una sucursal"
-					invalid-feedback="Complete este campo"
-					:state="validacion.matricula.estado"
-					required
+			<b-card no-body class="mb-1">
+				<b-card-header header-tag="header" class="p-1" role="tab">
+					<b-button
+						block
+						v-b-toggle.accordion-1
+						style="background-color: darkorange"
+						>Datos Principales:</b-button
+					>
+				</b-card-header>
+				<b-collapse
+					id="accordion-1"
+					visible
+					accordion="my-accordion"
+					role="tabpanel"
 				>
-				</b-form-input>
-				<b-form-invalid-feedback id="matricula-live-feedback"
-					>{{ validacion.matricula.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+					<b-card-body>
+						<b-form-group label="*Matricula" label-for="matricula">
+							<b-form-input
+								id="matricula"
+								v-model="mutuales.matricula"
+								type="text"
+								placeholder="Ingrese una sucursal"
+								invalid-feedback="Complete este campo"
+								:state="validacion.matricula.estado"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="matricula-live-feedback"
+								>{{ validacion.matricula.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<b-form-group label="*Nombre de la mutual" label-for="nombre">
-				<b-form-input
-					id="nombre"
-					v-model="mutuales.nombre"
-					type="text"
-					placeholder="*Ingrese el Nombre"
-					invalid-feedback="Complete este campo"
-					required
-					:state="validacion.nombre.estado"
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="nombre-live-feedback"
-					>{{ validacion.nombre.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<b-form-group label="*Nombre de la mutual" label-for="nombre">
+							<b-form-input
+								id="nombre"
+								v-model="mutuales.nombre"
+								type="text"
+								placeholder="*Ingrese el Nombre"
+								invalid-feedback="Complete este campo"
+								required
+								:state="validacion.nombre.estado"
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="nombre-live-feedback"
+								>{{ validacion.nombre.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<b-form-group label="*Direccion" label-for="direccion">
-				<b-form-input
-					id="direccion"
-					v-model="mutuales.direccion"
-					type="text"
-					placeholder="Ingrese una direccion"
-					invalid-feedback="Complete este campo"
-					:state="validacion.direccion.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="direccion-live-feedback"
-					>{{ validacion.direccion.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<b-form-group label="*CUIT" label-for="cuit">
+							<b-form-input
+								id="cuit"
+								v-model="mutuales.cuit"
+								type="text"
+								placeholder="Ingrese una sucursal"
+								invalid-feedback="Complete este campo"
+								:state="validacion.cuit.estado"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="cuit-live-feedback"
+								>{{ validacion.cuit.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<b-form-group label="*Localidad" label-for="localidad">
-				<b-form-select
-					id="localidad"
-					v-model="mutuales.localidad"
-					type="text"
-					placeholder="Ingrese una sucursal"
-					invalid-feedback="Complete este campo"
-					:state="validacion.localidad.estado"
-					:options="op_localidad"
-					required
-				>
-				</b-form-select>
-				<b-form-invalid-feedback id="localidad-live-feedback"
-					>{{ validacion.localidad.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<b-form-group label="*Fecha Inicio" label-for="fecha_inicio">
+							<b-form-input
+								id="fecha_inicio"
+								v-model="mutuales.fecha_inicio"
+								type="date"
+								placeholder="Ingrese una sucursal"
+								invalid-feedback="Complete este campo"
+								:state="validacion.fecha_inicio.estado"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="fecha_inicio-live-feedback"
+								>{{ validacion.fecha_inicio.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<b-form-group label="*Sucursal" label-for="sucursal">
-				<b-form-select
-					id="sucursal"
-					v-model="mutuales.sucursal"
-					type="text"
-					placeholder="Ingrese una sucursal"
-					invalid-feedback="Complete este campo"
-					:state="validacion.sucursal.estado"
-					:options="options"
-					required
+						<b-form-group label="*Fecha Ingreso" label-for="fecha_ingreso">
+							<b-form-input
+								id="fecha_ingreso"
+								v-model="mutuales.fecha_ingreso"
+								type="date"
+								placeholder="Ingrese una sucursal"
+								invalid-feedback="Complete este campo"
+								:state="validacion.fecha_ingreso.estado"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="fecha_ingreso-live-feedback"
+								>{{ validacion.fecha_ingreso.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
+			<b-card no-body class="mb-1">
+				<b-card-header header-tag="header" class="p-1" role="tab">
+					<b-button
+						block
+						v-b-toggle.accordion-2
+						style="background-color: darkorange"
+						>Direccion:</b-button
+					>
+				</b-card-header>
+				<b-collapse
+					id="accordion-2"
+					visible
+					accordion="my-accordion"
+					role="tabpanel"
 				>
-				</b-form-select>
-				<b-form-invalid-feedback id="sucursal-live-feedback"
-					>{{ validacion.sucursal.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+					<b-card-body>
+						<b-form-group label="*Direccion" label-for="direccion">
+							<b-form-input
+								id="direccion"
+								v-model="mutuales.direccion"
+								type="text"
+								placeholder="Ingrese una direccion"
+								invalid-feedback="Complete este campo"
+								:state="validacion.direccion.estado"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="direccion-live-feedback"
+								>{{ validacion.direccion.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<b-form-group label="*CUIT" label-for="cuit">
-				<b-form-input
-					id="cuit"
-					v-model="mutuales.cuit"
-					type="text"
-					placeholder="Ingrese una sucursal"
-					invalid-feedback="Complete este campo"
-					:state="validacion.cuit.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="cuit-live-feedback"
-					>{{ validacion.cuit.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<b-form-group label="*Localidad" label-for="localidad">
+							<b-form-select
+								id="localidad"
+								v-model="mutuales.localidad"
+								type="text"
+								placeholder="Ingrese una sucursal"
+								invalid-feedback="Complete este campo"
+								:state="validacion.localidad.estado"
+								:options="op_localidad"
+								required
+							>
+							</b-form-select>
+							<b-form-invalid-feedback id="localidad-live-feedback"
+								>{{ validacion.localidad.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<b-form-group label="Email" label-for="email">
-				<b-form-input
-					id="email"
-					v-model="mutuales.email"
-					type="text"
-					placeholder="Ingrese una sucursal"
-					invalid-feedback="Complete este campo"
-					:state="validacion.email.estado"
-					required
+						<b-form-group label="*Sucursal" label-for="sucursal">
+							<b-form-select
+								id="sucursal"
+								v-model="mutuales.sucursal"
+								type="text"
+								placeholder="Ingrese una sucursal"
+								invalid-feedback="Complete este campo"
+								:state="validacion.sucursal.estado"
+								:options="options"
+								required
+							>
+							</b-form-select>
+							<b-form-invalid-feedback id="sucursal-live-feedback"
+								>{{ validacion.sucursal.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
+			<b-card no-body class="mb-1">
+				<b-card-header header-tag="header" class="p-1" role="tab">
+					<b-button
+						block
+						v-b-toggle.accordion-3
+						style="background-color: darkorange"
+						>Contacto:</b-button
+					>
+				</b-card-header>
+				<b-collapse
+					id="accordion-3"
+					visible
+					accordion="my-accordion"
+					role="tabpanel"
 				>
-				</b-form-input>
-				<b-form-invalid-feedback id="email-live-feedback"
-					>{{ validacion.email.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+					<b-card-body>
+						<b-form-group label="Email" label-for="email">
+							<b-form-input
+								id="email"
+								v-model="mutuales.email"
+								type="text"
+								placeholder="Ingrese una sucursal"
+								invalid-feedback="Complete este campo"
+								:state="validacion.email.estado"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="email-live-feedback"
+								>{{ validacion.email.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<b-form-group label="Telefono" label-for="Telefono">
-				<b-form-input
-					id="telefono"
-					v-model="mutuales.telefono"
-					type="text"
-					placeholder="Ingrese una sucursal"
-					invalid-feedback="Complete este campo"
-					:state="validacion.telefono.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="telefono-live-feedback"
-					>{{ validacion.telefono.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<b-form-group label="Telefono" label-for="Telefono">
+							<b-form-input
+								id="telefono"
+								v-model="mutuales.telefono"
+								type="text"
+								placeholder="Ingrese una sucursal"
+								invalid-feedback="Complete este campo"
+								:state="validacion.telefono.estado"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="telefono-live-feedback"
+								>{{ validacion.telefono.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
 
-			<b-form-group label="*Representante" label-for="representante">
-				<b-form-input
-					id="representante"
-					v-model="mutuales.representante"
-					type="text"
-					placeholder="Ingrese una sucursal"
-					invalid-feedback="Complete este campo"
-					:state="validacion.representante.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="representante-live-feedback"
-					>{{ validacion.sucursal.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
-	
-
-			<b-form-group label="*Fecha Inicio" label-for="fecha_inicio">
-				<b-form-input
-					id="fecha_inicio"
-					v-model="mutuales.fecha_inicio"
-					type="date"
-					placeholder="Ingrese una sucursal"
-					invalid-feedback="Complete este campo"
-					:state="validacion.fecha_inicio.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="fecha_inicio-live-feedback"
-					>{{ validacion.fecha_inicio.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
-
-			<b-form-group label="*Fecha Ingreso" label-for="fecha_ingreso">
-				<b-form-input
-					id="fecha_ingreso"
-					v-model="mutuales.fecha_ingreso"
-					type="date"
-					placeholder="Ingrese una sucursal"
-					invalid-feedback="Complete este campo"
-					:state="validacion.fecha_ingreso.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="fecha_ingreso-live-feedback"
-					>{{ validacion.fecha_ingreso.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+						<b-form-group label="*Representante" label-for="representante">
+							<b-form-input
+								id="representante"
+								v-model="mutuales.representante"
+								type="text"
+								placeholder="Ingrese una sucursal"
+								invalid-feedback="Complete este campo"
+								:state="validacion.representante.estado"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="representante-live-feedback"
+								>{{ validacion.sucursal.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
 
 			<b-form-group
 				label="*Servicio"
@@ -210,7 +262,6 @@
 <script>
 	import axios from "axios";
 	import { APIControler } from "@/store/APIControler";
-	
 
 	export default {
 		props: {
@@ -538,7 +589,7 @@
 			//Validacion de los campos
 			cargarFeedback() {
 				let valido;
-				if(!this.respuesta) this.respuesta={};
+				if (!this.respuesta) this.respuesta = {};
 				for (let key in this.validacion) {
 					valido = !this.respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;
