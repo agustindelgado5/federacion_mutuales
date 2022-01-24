@@ -28,32 +28,30 @@
 		</b-modal>
 
 		<!-- ======== Formulario de Busqueda ======== -->
-		<div>
-			<b-input-group size="sm" class="mb-2">
-				<b-input-group-prepend is-text>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="16"
-						height="16"
-						fill="currentColor"
-						class="bi bi-search"
-						viewBox="0 0 16 16"
-					>
-						<path
-							d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-						/>
-					</svg>
-				</b-input-group-prepend>
-				<b-form-input
-					v-model="buscar"
-					type="text"
-					placeholder="Busque un registro"
-					v-on:keyup="buscarnow()"
-					ref="buscadorlista"
-				></b-form-input>
-			</b-input-group>
-		</div>
-		<!-- ======================================== -->
+			<b-form-group
+				label-for="filter-input"
+				label-align-sm="right"
+				label-size="sm"
+				class="mb-0"
+				style="width: 100%; padding-bottom: 1em"
+				v-show="rows > 0"
+			>
+				<b-input-group size="sm">
+					<b-form-input
+						id="filter-input"
+						v-model="filter"
+						type="search"
+						placeholder="Buscar registros"
+					></b-form-input>
+
+					<b-input-group-append>
+						<b-button :disabled="!filter" @click="filter = ''"
+							>Limpiar</b-button
+						>
+					</b-input-group-append>
+				</b-input-group>
+			</b-form-group>
+			<!-- ======================================== -->
 		<!-- ======== Tabla con los registros ======= -->
 
 		<b-table
@@ -67,12 +65,13 @@
 			:per-page="perPage"
 			:current-page="currentPage"
 			:no-border-collapse="false"
+			:filter="filter"
+			empty-filtered-text="No hemos encontrado registros que coincidan con lo que está buscando"
+      		@filtered="onFiltered"
 			ref="tablaregistros"
 			id="tablaregistros"
+			empty-text="No hay registros para mostrar"
 		>
-			<template #empty="">
-				<b>No hay registros para mostrar</b>
-			</template>
 
 			<template slot="cell(action)" slot-scope="row">
 				<div class="mt-3">
@@ -231,6 +230,7 @@
 		data() {
 			return {
 				tabla_cirugias: [],
+				filter: null,
 				fields: [
 					{
 						key: "codigo_intervencion",
@@ -276,12 +276,13 @@
 			id() {
 				return this.tabla_cirugias.codigo_intervencion;
 			},
-			items() {
-				return tabla_cirugias.filter((item) => {
-					return item.codigo_intervencion
-						.toLowerCase()
-						.includes(this.buscar.toLowerCase());
-				});
+			sortOptions() {
+			// Create an options list from our fields
+			return this.fields
+				.filter(f => f.sortable)
+				.map(f => {
+					return { text: f.label, value: f.key }
+				})
 			},
 		},
 		methods: {
@@ -331,46 +332,12 @@
 					})
 					.finally(() => this.testFetch());
 			},
-			async buscarnow() {
-				// Declare variables
-				var input,
-					filter,
-					table,
-					tr,
-					td,
-					i,
-					txtValue,
-					p1, //codigo_intervencion
-					p2, //descripcion
-					p3; //nivel
-				p4; //numero_ayudantes
-				p5; //honorario cirujano
-				p6; //honorario ayudante
-				p7; //observacion
-				input = this.$refs.buscadorlista;
-				filter = input.value.toUpperCase();
-				table = document.getElementById("tablaregistros");
-				tr = table.getElementsByTagName("tr");
-
-				// Loop through all list items, and hide those who don't match the search query
-				for (i = 1; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td");
-					p1 = td[0].textContent || td[0].innerText;
-					p2 = td[1].textContent || td[1].innerText;
-					p3 = td[2].textContent || td[2].innerText;
-					p4 = td[3].textContent || td[2].innerText;
-					p5 = td[4].textContent || td[2].innerText;
-					p6 = td[5].textContent || td[2].innerText;
-					p7 = td[6].textContent || td[2].innerText;
-
-					txtValue = p1 + p2 + p3 + p4 + p5 + p6 + p7;
-					if (txtValue.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-				}
-			},
+			//Funcion de busqueda
+			onFiltered(filteredItems) {
+			// Trigger pagination to update the number of buttons/pages due to filtering
+			this.totalRows = filteredItems.length
+			this.currentPage = 1
+			}
 		},
 		beforeMount() {
 			this.testFetch();
