@@ -1,5 +1,6 @@
 from django.db import models
 from Socios.models import socios
+from django.db.models.fields import AutoField
 
 # Create your models here.
 """
@@ -8,7 +9,7 @@ Construyo la entidad medicamentos con sus atributos
 
 
 class cuotas(models.Model):
-    id_cuota = models.IntegerField(primary_key=True)
+    id_cuota = AutoField(primary_key=True)
     personapago = models.CharField(max_length=60)
     monto = models.DecimalField(decimal_places=2, max_digits=6)
     fecharealizacion = models.DateTimeField(auto_now_add=True)

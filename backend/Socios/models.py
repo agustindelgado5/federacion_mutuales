@@ -19,7 +19,7 @@ Construyo la entidad socios con sus atributos
 
 class socios(models.Model):
     # nombre=models.CharField(max_length=50)
-    numero_socio = models.IntegerField(primary_key=True)
+    numero_socio = AutoField(primary_key=True)
     apellido = models.CharField(max_length=80)
     nombre = models.CharField(max_length=80)
     dni = models.IntegerField(unique=True)
