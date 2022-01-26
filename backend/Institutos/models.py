@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields import AutoField
 from Profesionales.models import profesionales
 from backend.deptos import provincias
 # Create your models here.
@@ -40,17 +41,21 @@ class institutos(models.Model):
         )
         return cadena
 
-"""
+
 class institutos_profesionales(models.Model):
-    codigo_institucion = models.ForeignKey(institutos, on_delete=models.CASCADE, primary_key=True) 
+    id_inst_prof  = AutoField(primary_key=True)
+    codigo_institucion = models.ForeignKey(institutos, on_delete=models.CASCADE) 
     id_medico = models.ForeignKey(profesionales, on_delete=models.CASCADE) #codigo mostrado al usuario
+    #created = models.DateTimeField(auto_now_add=True)
+    #updated = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "institutos_profesionales"
         verbose_name = "instituto_profesionales"
         verbose_name_plural = "institutos_profesionales"
+        ordering = ["codigo_institucion"]
         unique_together = (('codigo_institucion', 'id_medico'),)
-        #ordering = ["codigo_institucion"]
+        
 
-"""
+
 
