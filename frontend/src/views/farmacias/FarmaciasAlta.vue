@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h6>Los campos en (*) son obligatorios</h6>
-		
+
 		<b-form>
 			<b-card no-body class="mb-1">
 				<b-card-header header-tag="header" class="p-1" role="tab">
@@ -20,6 +20,7 @@
 				>
 					<b-card-body>
 						<!-- cod_farmacia -->
+						<!-- 
 						<b-form-group
 							label="*ID Farmacia"
 							label-for="cod_farmacia"
@@ -39,6 +40,7 @@
 								>{{ validacion.cod_farmacia.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
+						-->
 
 						<!-- matricula_farm -->
 						<b-form-group

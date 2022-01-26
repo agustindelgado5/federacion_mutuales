@@ -1,8 +1,9 @@
 <template>
 	<div>
 		<h6>Los campos en (*) son obligatorios</h6>
-		<h4>Datos</h4>
+
 		<b-form @submit.stop.prevent>
+			<!-- 
 			<b-form-group
 				label="*ID"
 				label-for="id_cuota"
@@ -22,6 +23,7 @@
 					{{ validacion.id_cuota.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
+			-->
 
 			<b-form-group label="*Socio" label-for="numero_socio">
 				<b-form-select
@@ -109,7 +111,7 @@
 	import { APIControler } from "@/store/APIControler";
 
 	export default {
-        props: {
+		props: {
 			updateTable: Function,
 		},
 		data() {
@@ -169,7 +171,7 @@
 				let respuesta = await cuotasAPI.postData(this.cuotas);
 				this.cargarFeedback(respuesta);
 				this.resetForm();
-                this.updateTable();
+				this.updateTable();
 			},
 
 			async resetForm() {

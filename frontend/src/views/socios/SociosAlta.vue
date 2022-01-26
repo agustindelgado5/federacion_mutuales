@@ -19,6 +19,7 @@
 					role="tabpanel"
 				>
 					<b-card-body>
+						<!-- 
 						<b-form-group label="*N° Socio" label-for="numero_socio">
 							<b-form-input
 								id="numero_socio"
@@ -34,6 +35,7 @@
 								>{{ validacion.numero_socio.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
+						-->
 						<b-form-group label="*Nombre/s" label-for="nombre">
 							<b-form-input
 								id="nombre"
@@ -345,13 +347,13 @@
 						required
 					>
 					</b-form-input>
-							<b-form-invalid-feedback id="nombre-live-feedback"
-								>{{ validacionFamiliar[index].nombre.mensaje }}
-							</b-form-invalid-feedback>
+					<b-form-invalid-feedback id="nombre-live-feedback"
+						>{{ validacionFamiliar[index].nombre.mensaje }}
+					</b-form-invalid-feedback>
 				</b-form-group>
 				<b-form-group label="*Apellido/s" label-for="apellido">
 					<b-form-input
-								:state="validacionFamiliar[index].apellido.estado"
+						:state="validacionFamiliar[index].apellido.estado"
 						id="apellido"
 						v-model="item.apellido"
 						type="text"
@@ -360,9 +362,9 @@
 						required
 					>
 					</b-form-input>
-							<b-form-invalid-feedback id="apellido-live-feedback"
-								>{{ validacionFamiliar[index].apellido.mensaje }}
-							</b-form-invalid-feedback>
+					<b-form-invalid-feedback id="apellido-live-feedback"
+						>{{ validacionFamiliar[index].apellido.mensaje }}
+					</b-form-invalid-feedback>
 				</b-form-group>
 				<b-form-group label="*DNI" label-for="dni_familiar">
 					<b-form-input
@@ -375,14 +377,14 @@
 						required
 					>
 					</b-form-input>
-							<b-form-invalid-feedback id="dni_familiar-live-feedback"
-								>{{ validacionFamiliar[index].dni_familiar.mensaje }}
-							</b-form-invalid-feedback>
+					<b-form-invalid-feedback id="dni_familiar-live-feedback"
+						>{{ validacionFamiliar[index].dni_familiar.mensaje }}
+					</b-form-invalid-feedback>
 				</b-form-group>
 
 				<b-form-group label="*Fecha de nacimiento" label-for="fecha_nacimiento">
 					<b-form-input
-								:state="validacionFamiliar[index].fecha_nacimiento.estado"
+						:state="validacionFamiliar[index].fecha_nacimiento.estado"
 						id="fecha_nacimiento"
 						v-model="item.fecha_nacimiento"
 						type="date"
@@ -391,14 +393,14 @@
 						required
 					>
 					</b-form-input>
-							<b-form-invalid-feedback id="fecha_nacimiento-live-feedback"
-								>{{ validacionFamiliar[index].fecha_nacimiento.mensaje }}
-							</b-form-invalid-feedback>
+					<b-form-invalid-feedback id="fecha_nacimiento-live-feedback"
+						>{{ validacionFamiliar[index].fecha_nacimiento.mensaje }}
+					</b-form-invalid-feedback>
 				</b-form-group>
 
 				<b-form-group label="*Fecha de asociación" label-for="fecha_asociacion">
 					<b-form-input
-								:state="validacionFamiliar[index].fecha_asociacion.estado"
+						:state="validacionFamiliar[index].fecha_asociacion.estado"
 						id="fecha_asociacion"
 						v-model="item.fecha_asociacion"
 						type="date"
@@ -407,9 +409,9 @@
 						required
 					>
 					</b-form-input>
-							<b-form-invalid-feedback id="fecha_asociacion-live-feedback"
-								>{{ validacionFamiliar[index].fecha_asociacion.mensaje }}
-							</b-form-invalid-feedback>
+					<b-form-invalid-feedback id="fecha_asociacion-live-feedback"
+						>{{ validacionFamiliar[index].fecha_asociacion.mensaje }}
+					</b-form-invalid-feedback>
 				</b-form-group>
 
 				<b-form-group label="Carencia" label-for="carencia">
@@ -423,9 +425,9 @@
 						required
 					>
 					</b-form-input>
-							<b-form-invalid-feedback id="carencia-live-feedback"
-								>{{ validacionFamiliar[index].carencia.mensaje }}
-							</b-form-invalid-feedback>
+					<b-form-invalid-feedback id="carencia-live-feedback"
+						>{{ validacionFamiliar[index].carencia.mensaje }}
+					</b-form-invalid-feedback>
 				</b-form-group>
 
 				<b-form-group label="*Tiene Obra social">
@@ -468,7 +470,7 @@
 		},
 		data() {
 			return {
-				socio: {tieneObraSocial:false},
+				socio: { tieneObraSocial: false },
 				familiar: [],
 				data: {},
 				plan: [],
@@ -479,7 +481,7 @@
 					dni: { estado: null, mensaje: "" },
 					fecha_nacimiento: { estado: null, mensaje: "" },
 					mutual: { estado: null, mensaje: "" },
-					tieneObraSocial:{ estado: null, mensaje: "" },
+					tieneObraSocial: { estado: null, mensaje: "" },
 					fecha_asociacion: { estado: null, mensaje: "" },
 					carencia: { estado: null, mensaje: "" },
 					calle: { estado: null, mensaje: "" },
@@ -488,8 +490,7 @@
 					cod_postal: { estado: null, mensaje: "" },
 					email: { estado: null, mensaje: "" },
 					tel_fijo: { estado: null, mensaje: "" },
-					tel_celular: { estado: null, mensaje: "" }
-
+					tel_celular: { estado: null, mensaje: "" },
 				},
 				validacionFamiliar: [],
 				list_mutuales: {},
@@ -499,7 +500,7 @@
 
 				btn_familiar: false,
 				cantidad: 0,
-				respuesta:{},
+				respuesta: {},
 				select: null,
 				options: [
 					{ value: null, text: "Elija un departamento" },
@@ -748,17 +749,17 @@
 					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
 				}
 			},
-			cargarFeedbackFamiliares(response,index) {
+			cargarFeedbackFamiliares(response, index) {
 				let valido;
 				if (!response) response = {};
 				for (let key in this.validacionFamiliar[index]) {
 					valido = !response.hasOwnProperty(key);
 					this.validacionFamiliar[index][key].estado = valido;
 					//console.log(key);
-					if (!valido) this.validacionFamiliar[index][key].mensaje = response[key][0];
+					if (!valido)
+						this.validacionFamiliar[index][key].mensaje = response[key][0];
 				}
 			},
-
 
 			async sumarFliares() {
 				this.btn_familiar = true;
@@ -793,12 +794,12 @@
 				console.log("Mostrando familiar");
 				console.log(this.familiar);
 				let response;
-				for (const [index,adherente] of this.familiar.entries()) {
+				for (const [index, adherente] of this.familiar.entries()) {
 					console.log("Mostrando adherente");
 					console.log(adherente);
 					adherente.numero_socio = _nroSocio;
-					response=await familiarAPI.postData(adherente);
-					this.cargarFeedbackFamiliares(response,index)
+					response = await familiarAPI.postData(adherente);
+					this.cargarFeedbackFamiliares(response, index);
 				}
 
 				// this.resetFormAdh();

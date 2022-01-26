@@ -19,6 +19,7 @@
 					role="tabpanel"
 				>
 					<b-card-body>
+						<!-- 
 						<b-form-group label="*Id Medico" label-for="id_medico">
 							<b-form-input
 								id="id_medico"
@@ -34,6 +35,7 @@
 								>{{ validacion.id_medico.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
+						-->
 						<b-form-group label="*Matricula" label-for="matricula">
 							<b-form-input
 								id="matricula"

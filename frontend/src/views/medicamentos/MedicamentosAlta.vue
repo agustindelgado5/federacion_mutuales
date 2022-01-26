@@ -3,6 +3,7 @@
 		<h6>Los campos en (*) son obligatorios</h6>
 		<h4>Datos</h4>
 		<b-form @submit.stop.prevent>
+			<!-- 
 			<b-form-group
 				label="*ID"
 				label-for="id_medicamento"
@@ -22,6 +23,7 @@
 					{{ validacion.id_medicamento.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
+			-->
 
 			<b-form-group
 				label="*Nombre"
