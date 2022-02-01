@@ -27,7 +27,7 @@
 			</b-form-group>
 
 			{{ selected }}
-			
+			{{ consultorios }}
 		</b-form>
 		<b-button class="mt-2" variant="success" block @click="postInstituto()"
 			>Guardar</b-button
@@ -48,9 +48,9 @@
 			return {
 				//list_profesionales: {},
 				instituto: {},
-
 				data: {},
 				selected: [],
+				consultorios: [],
 
 				op_consultorios: [
 					{ value: null, text: "Elija los consultorios", disabled: true },
@@ -59,17 +59,6 @@
 				validacion: {
 					//id_medico: { estado: null, mensaje: "" },
 					//codigo_institucion: { estado: null, mensaje: "" },
-					nombre: { estado: null, mensaje: "" },
-					cuit: { estado: null, mensaje: "" },
-					direccion: { estado: null, mensaje: "" },
-					localidad: { estado: null, mensaje: "" },
-					provincia: { estado: null, mensaje: "" },
-
-					telefono: { estado: null, mensaje: "" },
-					horarios: { estado: null, mensaje: "" },
-
-					responsable: { estado: null, mensaje: "" },
-					telefono_responsable: { estado: null, mensaje: "" },
 				},
 
 				respuesta: null,
@@ -93,6 +82,7 @@
 					this.op_consultorios.push(option);
 				});
 			},
+			
 
 			async postInstituto() {
 				var id = this.profesional.id_medico;
@@ -114,15 +104,27 @@
 
 						swal("Carga exitosa", "", "success");
 					}
-				}
-				else{
+				} else {
 					swal("¡ERROR!", "Debe seleccionar al menos un servicio", "error");
 				}
 
 				//this.cargarFeedback();
 				this.updateTable();
 			},
+			
 
+			async getInstitutosProfesionales() {
+				let listado = {};
+				let institutosAPI = new APIControler();
+				institutosAPI.apiUrl.pathname = "institutos_profesional/";
+				this.consultorios = await institutosAPI.getData(listado);
+
+			},
+
+		
+			
+
+			/*
 			cargarFeedback() {
 				let valido;
 				if (typeof this.respuesta === "undefined") {
@@ -134,6 +136,7 @@
 					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
 				}
 			},
+			*/
 		},
 		beforeMount() {
 			//this.getProfesionales();
