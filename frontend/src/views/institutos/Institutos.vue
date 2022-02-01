@@ -485,7 +485,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						console.log(error);
 						this.hideModal();
 					})
-					.finally(() => this.testFetch());
+					.finally(() => {
+						this.hideModal();
+						this.testFetch();
+					});
 			},
 
 			//Funcion para eliminar todos los profesionales
