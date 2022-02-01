@@ -17,12 +17,13 @@
     >
       <template v-slot:header>
         <input
-          type="text"
-          id="buscadorepico"
-          v-on:keyup="buscarnow()"
-          class="buscador"
-          ref="buscadormenu"
-          placeholder="Buscar Acciones..."
+            type="text"
+            id="buscadorepico"
+            v-on:keyup="buscarnow()"
+            class="buscador"
+            ref="buscadormenu"
+            placeholder="Buscar Acciones..."
+            style="background-color:black;"
         />
       </template>
       <template v-slot:toggle-icon> </template>

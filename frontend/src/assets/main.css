@@ -7,7 +7,13 @@ body {
 .v-sidebar-menu.vsm_expanded {
     max-width:280px !important;
 }
-
+.buscador::placeholder {
+    color:white;
+}
+.buscador {
+    padding:1em;
+    color:white;
+}
 .v-sidebar-menu .vsm--item {
     max-width: 280px !important;
 }
