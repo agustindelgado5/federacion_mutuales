@@ -8,13 +8,11 @@
 
 			<h2>Listado de Cuotas</h2>
 
-			<b-button @click="testFetch" class="mb-4" variant="light">
-				<v-icon dark style="color: black"
-					>mdi-format-list-bulleted-square</v-icon
-				>
-				Mostrar
+			<b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
+				<v-icon dark style="color: black">mdi-cached</v-icon>
+				Actualizar
 			</b-button>
-			<!-- ================ALTA MEDICAMENTOS======================== -->
+			<!-- ================ALTA CUOTAS======================== -->
 			<b-button
 				class="mb-4 ml-2"
 				v-b-modal.modal-alta
@@ -85,10 +83,11 @@
 					ok-only
 				>
 					<div class="d-block text-center" v-if="selected.length === rows">
-						<h3>¿Esta seguro de eliminar todos los registros ?</h3>
+						<h3>¿Está seguro de eliminar todos los registros?</h3>
 					</div>
 					<div class="d-block text-center" v-else>
-						<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
+						<h3 v-if="selected.length>1">¿Está seguro de eliminar {{ selected.length }} registros?</h3>
+						<h3 v-else>¿Está seguro de eliminar un registro?</h3>
 					</div>
 
 					<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
@@ -187,12 +186,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					selectable
 					select-mode="multi"
 					@row-selected="seleccionar_una"
+					empty-text="No hay registros cargados"
+					empty-filtered-text="No hemos encontrado registros que coincidan con lo que está buscando"
 					:filter="filter"
 					@filtered="onFiltered"
 				>
-					<template #empty="">
-						<b>{{ msj_tabla }}</b>
-					</template>
+					
 
 					<template #cell(selected)="{ rowSelected }">
 						<template v-if="rowSelected">
@@ -222,7 +221,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								<b-button
 									variant="info"
 									id="button-1"
-									title="Mostrar Info"
+									title="Mostrar Información adicional"
 									:disabled="btn_mostrar"
 									@click="row.toggleDetails"
 								>
@@ -259,11 +258,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							<b-list-group horizontal>
 								<b-list-group>
 									<b-list-group-item
-										><b>Persona que Pago :</b>
+										><b>Persona que pagó :</b>
 										{{ row.item.personapago.toUpperCase() }}</b-list-group-item
 									>
 									<b-list-group-item
-										><b>nombre de socio:</b>
+										><b>Nombre del socio:</b>
 										{{ row.item.socio }}</b-list-group-item
 									>
 									<b-list-group-item
@@ -448,18 +447,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				:manual-pagination="false"
 				pdf-format="a4"
 				pdf-orientation="portrait"
-				pdf-content-width="80%"
-				@progress="onProgress($event)"
-				@startPagination="startPagination()"
-				@hasPaginated="hasPaginated()"
-				@beforeDownload="beforeDownload($event)"
-				@hasDownloaded="hasDownloaded($event)"
+				pdf-content-width="100%"
 				ref="html2Pdf"
 			>
-				<section slot="pdf-content">
+				<section class="container-fluid pt-5" slot="pdf-content">
 					<!-- PDF Content Here -->
 					<section class="pdf-item">
-						<h3>Federación Tucumana de Mutuales</h3>
+						<h3 class="text-center">Federación Tucumana de Mutuales</h3>
 						<img
 							src="@/assets/logo.jpg"
 							alt="Logo Federación"
@@ -468,21 +462,22 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						/>
 					</section>
 					<section class="pdf-item">
-						<h3>Listado de Cuotas</h3>
+						<h3 class="text-center mb-3">Listado de Cuotas</h3>
+						
 						<b-table
-							:fields="fields"
-							responsive
+							:fields="fields.slice(1,-1).map(x=>{x.sortable=false;return x})"
 							:items="tabla_cuot"
 							:no-border-collapse="false"
 							small
-							fixed
 							bordered
 							head-variant="light"
 						>
-							<template slot="cell(id_cuota)" slot-scope="data">
-								{{ data.value[0] }}
+							<template slot="cell(fecharealizacion)" slot-scope="data">
+								{{ data.value | Date }}
 							</template>
 						</b-table>
+					
+							
 					</section>
 				</section>
 			</vue-html2pdf>
@@ -511,13 +506,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			return {
 				tabla_cuot: [],
 				fields: [
-					{ key: "selected", label: "Seleccionar", sortable: true },
+					{ key: "selected", label: ""},
 					{ key: "id_cuota", label: "ID", sortable: true },
-					{ key: "personapago", label: "Persona que Pago", sortable: true },
+					{ key: "personapago", label: "Persona que Pagó", sortable: true },
 					{ key: "monto", label: "Monto", sortable: true },
 					{
 						key: "fecharealizacion",
-						label: "Fecha Realizacion",
+						label: "Fecha",
 						sortable: true,
 					},
 					{ key: "socio", label: "Socio", sortable: true },
@@ -542,7 +537,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				},
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
-				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
 				btn_eliminar: false,
@@ -568,7 +562,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			//Funcion para mostrar todos los medicamentos
 			async getSocio(numero_socio) {
 				let socioAPI = new APIControler();
-				socioAPI.apiUrl.pathname = "socios/" + numero_socio;
+				socioAPI.apiUrl.pathname = "socios/" + numero_socio+'/';
 				let response = await fetch(socioAPI.apiUrl);
 				let data = await response.json();
 				return data;
@@ -593,9 +587,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 					this.btn_down_pdf = false; //Habilito los botones
 
-					if (this.tabla_cuot.length == 0) {
-						this.msj_tabla = " No se encuentran regitros en esta tabla ";
-					}
 				} catch (error) {
 					console.log(error);
 				}

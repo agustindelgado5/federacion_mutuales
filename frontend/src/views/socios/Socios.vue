@@ -456,10 +456,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 												><b>Celular:</b>
 												{{ row.item.tel_celular }}</b-list-group-item
 											>
-											<b-list-group-item
+											<!-- <b-list-group-item
 												><b>Carencia:</b>
 												{{ row.item.carencia | FormatStringToDate }}
-											</b-list-group-item>
+											</b-list-group-item> -->
 											<b-list-group-item
 												><b>Tiene Obra social:</b>
 												{{ row.item.tieneObraSocial ? "Si" : "No" }}

@@ -38,12 +38,12 @@
 			</b-form-group>
 
 			<!-- {{ list_familiar }} -->
-			<b-form-group label="*Personapago">
+			<b-form-group label="*Persona que pagó">
 				<b-form-input
 					id="personapago"
 					v-model="item_cuot.personapago"
 					type="text"
-					placeholder="Ingrese el nombre de la persona que pago"
+					placeholder="Ingrese el nombre de la persona que pagó"
 					invalid-feedback="Complete este campo"
 					:state="validacion.personapago.estado"
 					required
@@ -72,7 +72,7 @@
 					{{ validacion.monto.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
-			<b-form-group label="*Fecha Realizacion">
+			<b-form-group label="Fecha de Realización">
 				<b-form-input
 					id="fecharealizacion"
 					v-model="item_cuot.fecharealizacion"
@@ -175,12 +175,12 @@
         this.updateTable();
 			},
 			cargarFeedback(respuestaAPI) {
+				if (!respuestaAPI) respuestaAPI = {};
+				let valido;
 				for (let key in this.validacion) {
-					this.validacion[key].estado = true;
-				}
-				for (let key in respuestaAPI) {
-					this.validacion[key].estado = false;
-					this.validacion[key].mensaje = respuestaAPI[key][0];
+					valido = !respuestaAPI.hasOwnProperty(key);
+					this.validacion[key].estado = valido;
+					if (!valido) this.validacion[key].mensaje = respuestaAPI[key][0];
 				}
 			},
 		},

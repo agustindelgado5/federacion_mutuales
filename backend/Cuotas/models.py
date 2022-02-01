@@ -1,6 +1,7 @@
 from django.db import models
 from Socios.models import socios
 from django.db.models.fields import AutoField
+from datetime import datetime
 
 # Create your models here.
 """
@@ -12,7 +13,7 @@ class cuotas(models.Model):
     id_cuota = AutoField(primary_key=True)
     personapago = models.CharField(max_length=60)
     monto = models.DecimalField(decimal_places=2, max_digits=6)
-    fecharealizacion = models.DateTimeField(auto_now_add=True)
+    fecharealizacion = models.DateTimeField(default=datetime.now)
     numero_socio = models.ForeignKey(
         socios, on_delete=models.DO_NOTHING, related_name="numsociocuotas"
     )

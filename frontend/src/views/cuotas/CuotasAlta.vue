@@ -43,7 +43,7 @@
 			</b-form-group>
 
 			<b-form-group
-				label="*Personapago"
+				label="*Persona que pagó"
 				label-for="personapago"
 				@submit.stop.prevent="handleSubmit"
 			>
@@ -51,7 +51,7 @@
 					id="personapago"
 					v-model="cuotas.personapago"
 					type="text"
-					placeholder="Ingrese el nombre de la persona que pago"
+					placeholder="Ingrese el nombre de la persona que pagó"
 					invalid-feedback="Complete este campo"
 					:state="validacion.personapago.estado"
 					required
@@ -81,7 +81,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 			<b-form-group
-				label="*Fecha Realizacion"
+				label="Fecha de Realización"
 				label-for="fecharealizacion"
 				@submit.stop.prevent="handleSubmit"
 			>
@@ -183,6 +183,7 @@
 
 			cargarFeedback(respuesta) {
 				let valido;
+				if (!respuesta) respuesta = {};
 				for (let key in this.validacion) {
 					valido = !respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;
