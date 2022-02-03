@@ -1,5 +1,6 @@
 from django.db import models
 from backend.deptos import provincias
+from django.db.models.fields import AutoField
 
 # Create your models here.
 
@@ -9,7 +10,7 @@ Construyo la entidad farmacias con sus atributos
 
 
 class farmacias(models.Model):
-    cod_farmacia = models.IntegerField(primary_key=True)
+    cod_farmacia = AutoField(primary_key=True)
     matricula_farm = models.IntegerField(unique=True)
     farmacia = models.CharField(max_length=50)
     cuit = models.IntegerField(unique=True)

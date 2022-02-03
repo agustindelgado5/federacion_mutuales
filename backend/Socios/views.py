@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.request import Request
 from .utils import calcular_edad
+from rest_framework.permissions import IsAuthenticated
 from datetime import datetime
 from Socios.models import socios, familiar
 from Socios.serializers import SociosSerializer, FamiliarSerializer
@@ -13,6 +14,7 @@ from Cuotas.serializers import CuotasSerializer
 from rest_framework.test import APIRequestFactory
 
 class SociosViewSet(viewsets.ModelViewSet):
+    # permission_classes = (IsAuthenticated,)
     serializer_class = SociosSerializer
     queryset = socios.objects.all()
     @action(methods=['GET'], detail = True)
@@ -39,7 +41,7 @@ class SociosViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializers):
         _edad = calcular_edad(datetime.strptime(self.request.POST['fecha_nacimiento'],'%Y-%m-%d'))
         serializers.save(edad=_edad)
-        
+
     def perform_update(self, serializers):
         _edad = calcular_edad(datetime.strptime(self.request.POST['fecha_nacimiento'],'%Y-%m-%d'))
         serializers.save(edad=_edad)
@@ -63,7 +65,7 @@ class FamiliarViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializers):
         _edad = calcular_edad(datetime.strptime(self.request.POST['fecha_nacimiento'],'%Y-%m-%d'))
         serializers.save(edad=_edad)
-        
+
     def perform_update(self, serializers):
         _edad = calcular_edad(datetime.strptime(self.request.POST['fecha_nacimiento'],'%Y-%m-%d'))
         serializers.save(edad=_edad)

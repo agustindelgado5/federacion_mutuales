@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     "GastosSalientes",
     "Cirugias",
     "Institutos",
+    "Lentes",
+    "VentasOpticas",
+
 ]
 
 MIDDLEWARE = [

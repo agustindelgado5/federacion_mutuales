@@ -1,12 +1,12 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import AutoField
-from backend.deptos import deptos_tucuman
+from backend.deptos import deptos_tucuman, comumas_municipios
 
 # from django import forms
 from django.contrib.postgres.fields import ArrayField
 from .utils import calcular_edad
-from Mutuales.models import servicios
+from Mutuales.models import mutuales, servicios
 
 # Create your models here.
 
@@ -19,16 +19,22 @@ Construyo la entidad socios con sus atributos
 
 class socios(models.Model):
     # nombre=models.CharField(max_length=50)
-    numero_socio = models.IntegerField(primary_key=True)
+    numero_socio = AutoField(primary_key=True)
     apellido = models.CharField(max_length=80)
     nombre = models.CharField(max_length=80)
     dni = models.IntegerField(unique=True)
     calle = models.CharField(max_length=50)
-    localidad = models.CharField(max_length=30)
+    localidad = models.CharField(max_length=50, choices=comumas_municipios)
     departamento = models.CharField(max_length=30, choices=deptos_tucuman)
     cod_postal = models.IntegerField()
     fecha_nacimiento = models.DateField()
-    edad = models.IntegerField(blank=True, null=True, editable=False)
+    fecha_asociacion = models.DateField()
+    #edad = models.IntegerField(blank=True, null=True, editable=False)
+    id_mutual = models.ForeignKey(mutuales,null=True, blank=True, on_delete=models.DO_NOTHING)
+    tieneObraSocial = models.BooleanField()
+    #plan = models.ForeignKey(planes, on_delete=models.DO_NOTHING)
+    #vendedor = models.ForeignKey(vendedores, on_delete=models.DO_NOTHING)
+
     email = models.EmailField()
     tel_fijo = models.IntegerField(null=True, blank=True)
     tel_celular = models.IntegerField(null=True, blank=True)
@@ -39,23 +45,22 @@ class socios(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def edad(self):
+        #return 0
+        return calcular_edad(self.fecha_nacimiento)
     class Meta:
         db_table = "socios"
         verbose_name = "socio"
         verbose_name_plural = "socios"
         ordering = ["numero_socio"]
 
-    """
-    @property
-    def edad_socio(self):
-        #return 0
-        return calcular_edad(self.fecha_nacimiento)
     
+    """
     def save(self):
         self.edad=self.edad_socio
         super (socios,self).save() 
     """
-
     def __str__(self):
         cadena = (
             str(self.numero_socio)
@@ -79,13 +84,20 @@ class familiar(models.Model):
     apellido = models.CharField(max_length=80)
     nombre = models.CharField(max_length=80)
     fecha_nacimiento = models.DateField()
-    edad = models.IntegerField(null=True, blank=True)
+    #edad = models.IntegerField(null=True, blank=True)
     carencia = models.DateField(null=True, blank=True)
+    fecha_asociacion = models.DateField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     # relacion 1:N, BORRADO: NOT ACTION
     numero_socio = models.ForeignKey(socios, on_delete=models.DO_NOTHING)
+    tieneObraSocial = models.BooleanField()
+    #plan = models.ForeignKey(planes, on_delete=models.DO_NOTHING)
 
+    @property
+    def edad(self):
+        return calcular_edad(self.fecha_nacimiento)
+    
     class Meta:
         db_table = "familiares"
         verbose_name = "familiar"
@@ -93,11 +105,6 @@ class familiar(models.Model):
         ordering = ["numero_socio"]
 
     """
-    @property
-    def edad_socio(self):
-        #return 0
-        return calcular_edad(self.fecha_nacimiento)
-    
     def save(self):
         self.edad=self.edad_socio
         super (familiar,self).save()

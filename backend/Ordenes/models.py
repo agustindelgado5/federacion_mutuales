@@ -2,6 +2,7 @@ from django.db import models
 from Socios.models import socios
 from Profesionales.models import profesionales
 from Mutuales.models import mutuales
+from django.db.models.fields import AutoField
 
 # Create your models here.
 
@@ -11,7 +12,7 @@ Construyo la entidad para las ordenes medicas
 
 
 class ordenes(models.Model):
-    numero_orden = models.IntegerField(primary_key=True)
+    numero_orden = AutoField(primary_key=True)
     numero_socio = models.ForeignKey(socios, on_delete=models.DO_NOTHING)
     # paciente=models.ForeignKey(familiar, on_delete=models.DO_NOTHING)
     paciente = models.CharField(max_length=60)

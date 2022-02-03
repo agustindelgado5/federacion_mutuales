@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 
@@ -12,7 +13,7 @@ class gastosSalientes(models.Model):
     nro_ticket = models.IntegerField()
     descripcion = models.CharField(max_length=50)
     total = models.DecimalField(decimal_places=2, max_digits=6)
-    fecha = models.DateTimeField(auto_now_add=True)
+    fecha = models.DateField(default=datetime.now)
     
     class Meta:
         db_table = "gastosSalientes"

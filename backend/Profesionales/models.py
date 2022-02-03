@@ -1,11 +1,11 @@
 from django.db import models
 from backend.deptos import provincias
-
+from django.db.models.fields import AutoField
 # Create your models here.
 
 
 class profesionales(models.Model):
-    id_medico = models.IntegerField(primary_key=True)
+    id_medico = AutoField(primary_key=True)
     apellido = models.CharField(max_length=80)
     nombre = models.CharField(max_length=80)
     dni = models.IntegerField(unique=True)

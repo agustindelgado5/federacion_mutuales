@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.fields import AutoField
-from backend.deptos import deptos_tucuman
+from backend.deptos import deptos_tucuman, comumas_municipios
 # Create your models here.
 
 """
@@ -23,12 +23,21 @@ class servicios(models.Model):
         return cadena
 
 """
-Construyo la entidad para las omutuales
+Construyo la entidad para las mutuales
 """
 class mutuales(models.Model):
     id_mutual=models.AutoField(primary_key=True)
+    matricula=models.IntegerField(unique=True)
     nombre=models.CharField(max_length=100)
+    direccion = models.CharField(max_length=100)
+    localidad=models.CharField(max_length=50, choices=comumas_municipios)
     sucursal=models.CharField(max_length=30, choices=deptos_tucuman)
+    cuit=models.CharField(max_length=11, unique=True)
+    email=models.EmailField(blank=True, null=True)
+    telefono=models.CharField(max_length=10, blank=True, null=True)
+    representante=models.CharField(max_length=100)
+    fecha_inicio=models.DateField()
+    fecha_ingreso=models.DateField()  
     ##id_servicio=models.ForeignKey(servicios, on_delete=models.CASCADE)
     created=models.DateTimeField(auto_now_add=True) 
     updated=models.DateTimeField(auto_now_add=True)

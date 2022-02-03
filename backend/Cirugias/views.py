@@ -12,3 +12,4 @@ from Cirugias.serializers import CirugiasSerializer
 class CirugiasViewSet(viewsets.ModelViewSet):
     serializer_class = CirugiasSerializer
     queryset = cirugias.objects.all()
+    
