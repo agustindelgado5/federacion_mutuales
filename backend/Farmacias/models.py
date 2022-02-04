@@ -1,5 +1,8 @@
 from django.db import models
+
 from backend.deptos import provincias
+from backend.datos_pagos import cuentas
+from backend.datos_pagos import modos
 from django.db.models.fields import AutoField
 
 # Create your models here.
@@ -24,6 +27,11 @@ class farmacias(models.Model):
     representante = models.CharField(max_length=50)
     tel_celular = models.IntegerField(null=True, blank=True)
     # carencia=models.DateField(null=True, blank=True)
+    cbu=models.IntegerField()
+    entidad_bancaria=models.CharField(max_length=80)
+    nro_cuenta=models.IntegerField()
+    tipo_cuenta=models.CharField(max_length=20, choices=cuentas)
+    modalidad_pago=models.CharField(max_length=20, choices=modos)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
 

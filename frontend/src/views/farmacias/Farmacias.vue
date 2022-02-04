@@ -310,6 +310,26 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											><b>Representante:</b> {{ row.item.representante }}
 										</b-list-group-item>
 									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-2">
+										<b-list-group-item
+											><b>CBU:</b>
+											{{ row.item.cbu }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Entidad Bancaria:</b>
+											{{ row.item.entidad_bancaria }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Nro Cuenta:</b> {{ row.item.nro_cuenta }}
+										</b-list-group-item>
+										<b-list-group-item
+											><b>Tipo De Cuenta:</b> {{ row.item.tipo_cuenta }}
+										</b-list-group-item>
+										<b-list-group-item
+											><b>Modalidad De Pago:</b> {{ row.item.modalidad_pago }}
+										</b-list-group-item>
+									</b-list-group>
 								</b-list-group>
 							</div>
 						</b-card>
@@ -520,6 +540,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "tel_fijo", label: "Telefono Fijo", sortable: true },
 					{ key: "tel_celular", label: "Celular", sortable: true },
 					{ key: "representante", label: "Representante", sortable: true },
+					{ key: "cbu", label: "CBU", sortable: true },
+					{ key: "entidad_bancaria", label: "Entidad Bancaria", sortable: true },
+					{ key: "nro_cuenta", label: "Nro Cuenta", sortable: true },
+					{ key: "tipo_cuenta", label: "Tipo De Cuenta", sortable: true },
+					{ key: "modalidad_pago", label: "Modalidad De Pago", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				totalRows: 1, //Total de filas

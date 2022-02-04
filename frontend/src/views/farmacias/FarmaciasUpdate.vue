@@ -257,6 +257,115 @@
 					</b-card-body>
 				</b-collapse>
 			</b-card>
+			<b-card no-body class="mb-1">
+				<b-card-header header-tag="header" class="p-1" role="tab">
+					<b-button
+						block
+						v-b-toggle.accordion-4
+						style="background-color: darkorange"
+						>Datos De Pago:</b-button
+					>
+				</b-card-header>
+				<b-collapse
+					id="accordion-4"
+					visible
+					accordion="my-accordion"
+					role="tabpanel"
+				>
+					<b-card-body>
+						<!-- cbu -->
+						<b-form-group label="*CBU" label-for="cbu">
+							<b-form-input
+								id="cbu"
+								v-model="farmacia.cbu"
+								type="number"
+								placeholder="*Ingrese el cbu"
+								:state="validacion.cbu.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="cbu-live-feedback"
+								>{{ validacion.cbu.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+
+						<!-- entidad_bancaria -->
+						<b-form-group label="*Entidad Bancaria" label-for="entidad_bancaria">
+							<b-form-input
+								id="entidad_bancaria"
+								v-model="farmacia.entidad_bancaria"
+								type="text"
+								placeholder="*Ingrese la entidad bancaria"
+								:state="validacion.entidad_bancaria.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="entidad_bancaria-live-feedback"
+								>{{ validacion.entidad_bancaria.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+
+						<!-- nro_cuenta -->
+						<b-form-group
+							label="*Numero De Cuenta"
+							label-for="nro_cuenta"
+							@submit.stop.prevent="handleSubmit"
+						>
+							<b-form-input
+								id="nro_cuenta"
+								v-model="farmacia.nro_cuenta"
+								type="number"
+								placeholder="Ingrese el número de cuenta"
+								:state="validacion.nro_cuenta.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="nro_cuenta-live-feedback"
+								>{{ validacion.nro_cuenta.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+						<!--tipo_cuenta-->
+						<b-form-group
+							label="*Tipo de cuenta"
+							label-for="tipo_cuenta"
+							
+						>
+							<b-form-select
+								id="tipo_cuenta"
+								v-model="farmacia.tipo_cuenta"
+								:state="validacion.tipo_cuenta.estado"
+								type="text"
+								placeholder="Ingrese un tipo de cuenta"
+								invalid-feedback="Complete este campo"
+								required
+								:options="options1"
+							>
+							</b-form-select>
+						</b-form-group>
+						<!--modalidad_pago-->
+						<b-form-group
+							label="*Modalidad De Pago"
+							label-for="modalidad_pago"
+							
+						>
+							<b-form-select
+								id="modalidad_pago"
+								v-model="farmacia.modalidad_pago"
+								:state="validacion.modalidad_pago.estado"
+								type="text"
+								placeholder="Ingrese la modalidad de pago"
+								invalid-feedback="Complete este campo"
+								required
+								:options="options2"
+							>
+							</b-form-select>
+						</b-form-group>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
 		</b-form>
 
 		<b-button class="mt-2" variant="success" block @click="putFarmacia()"
@@ -292,7 +401,19 @@
 					tel_celular: { estado: null, mensaje: "" },
 					matricula_farm: { estado: null, mensaje: "" },
 					representante: { estado: null, mensaje: "" },
+					cbu: { estado: null, mensaje: "" },
+					entidad_bancaria:{ estado: null, mensaje: "" },
+					nro_cuenta: { estado: null, mensaje: "" },
+					tipo_cuenta: { estado: null, mensaje: "" },
+					modalidad_pago: { estado: null, mensaje: "" },
 				},
+				options1: [
+					{ value: "Cuenta Corriente", text: "1- Cuenta Corriente" },
+					{ value: "Caja de ahorros", text: "2- Caja de ahorros" },],
+
+				options2: [
+					{ value: "Efectivo", text: "1- Efectivo" },
+					{ value: "Transferencia", text: "2- Transferencia" },],
 			};
 		},
 		created: function () {
