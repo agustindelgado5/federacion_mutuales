@@ -293,6 +293,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											{{ row.item.localidad }}</b-list-group-item
 										>
 										<b-list-group-item
+											><b>Direccion:</b>
+											{{ row.item.direccion }}</b-list-group-item
+										>
+										<b-list-group-item
 											><b>Correo:</b> {{ row.item.email }}
 										</b-list-group-item>
 									</b-list-group>
@@ -536,6 +540,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "cuit", label: "CUIT", sortable: true },
 					{ key: "farmacia", label: "Farmacia", sortable: true },
 					{ key: "localidad", label: "Sucursal", sortable: true },
+					{ key: "direccion", label: "Direccion", sortable: true },
 					{ key: "email", label: "Correo", sortable: true },
 					{ key: "tel_fijo", label: "Telefono Fijo", sortable: true },
 					{ key: "tel_celular", label: "Celular", sortable: true },
