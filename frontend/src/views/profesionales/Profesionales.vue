@@ -272,9 +272,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											><b>Matricula:</b>
 											{{ row.item.matricula }}</b-list-group-item
 										>
-										<b-list-group-item
-											><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item
-										>
 									</b-list-group>
 									&nbsp;
 									<b-list-group class="col-5">
@@ -303,6 +300,35 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										<b-list-group-item
 											><b>Calle:</b> {{ row.item.domicilio }}
 										</b-list-group-item>
+									</b-list-group>
+								</b-list-group>
+							</div>
+						</b-card>
+						<b-card title="Datos Bancarios: ">
+							<div>
+								<b-list-group horizontal>
+									<b-list-group class="col-3">
+										<b-list-group-item
+											><b>Banco:</b> {{ row.item.banco }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>CBU:</b> {{ row.item.cbu }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Alias del CBU:</b>
+											{{ row.item.alias_cbu }}</b-list-group-item
+										>
+									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-5">
+										<b-list-group-item
+											><b>Tipo de cuenta:</b>
+											{{ row.item.tipo_cuenta }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Titular de la cuenta:</b>
+											{{ row.item.titular_cuenta }}</b-list-group-item
+										>
 									</b-list-group>
 								</b-list-group>
 							</div>
@@ -490,8 +516,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				</div>
 			</aside>
 
-			
-
 			<!-- ================EDITAR INSTITUTO======================== -->
 			<b-modal id="modal-editar-instituto" hide-footer>
 				<template #modal-title>
@@ -512,9 +536,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 			<b-modal id="modal-horario" hide-footer>
 				<template #modal-title>
-					<h5 class="modal-title">
-						Editar horarios
-					</h5>
+					<h5 class="modal-title">Editar horarios</h5>
 				</template>
 				<profesionales-horarios
 					:datos="horario_profesional"
@@ -854,12 +876,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 
 			editarHorario(item) {
-				let aux =[]
-				let datos = {}
-				datos.id_medico = item.id_medico
+				let aux = [];
+				let datos = {};
+				datos.id_medico = item.id_medico;
 				datos.list_consultorios = item.list_consultorios;
-				aux.push(datos)
-				this.horario_profesional=aux;				
+				aux.push(datos);
+				this.horario_profesional = aux;
 				console.log("Elemento a modificar: ", this.horario_profesional);
 			},
 

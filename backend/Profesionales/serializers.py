@@ -19,6 +19,11 @@ class ProfesionalesSerializer(serializers.HyperlinkedModelSerializer):
             "tel_fijo",
             "tel_celular",
             "matricula",
+            "cbu",
+            "alias_cbu",
+            "titular_cuenta", 
+            "tipo_cuenta", 
+            "banco",
             "created",
             "updated",
         )
