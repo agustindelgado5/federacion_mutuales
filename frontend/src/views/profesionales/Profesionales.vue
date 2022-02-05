@@ -344,22 +344,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									<template #empty="">
 										<b>No hay registros para mostrar</b>
 									</template>
-
-									<template slot="cell(action)" slot-scope="row">
-										<b-button-group>
-											<b-button
-												variant="warning"
-												id="button-2"
-												title="Editar este registro"
-												v-b-modal.modal-editar
-												@click="editarPago(row.item, row.index)"
-												:disabled="true"
-											>
-												<v-icon class="mr-2"> mdi-pencil </v-icon>
-												Editar
-											</b-button>
-										</b-button-group>
-									</template>
 								</b-table>
 							</div>
 							<b-button
@@ -388,31 +372,30 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								</svg>
 								Generar PDF
 							</b-button>
+							<b-button-group>
+								<b-button
+									variant="warning"
+									class="mb-0 ml-2"
+									title="Editar este registro"
+									v-b-modal.modal-horario
+									@click="editarHorario(row.item)"
+								>
+									<v-icon class="mr-2"> mdi-pencil </v-icon>
+									Editar Horarios
+								</b-button>
 
-							<b-button
-								variant="success"
-								class="mb-0 ml-2"
-								v-b-modal.modal-alta-instituto
-								@click="altaInstituto(row.item)"
-								title="Agregar consultorios"
-								style="color: white"
-								v-show="row.item.list_consultorios.length == 0"
-							>
-								<v-icon dark> mdi-plus </v-icon>
-								Agregar consultorios
-							</b-button>
-							<b-button
-								variant="success"
-								class="mb-0 ml-2"
-								v-b-modal.modal-editar-instituto
-								@click="editarInstituto(row.item)"
-								title="Editar consultorios"
-								style="color: white"
-								v-show="row.item.list_consultorios.length > 0"
-							>
-								<v-icon dark> mdi-plus </v-icon>
-								Editar consultorios
-							</b-button>
+								<b-button
+									variant="success"
+									class="mb-0 ml-2"
+									v-b-modal.modal-editar-instituto
+									@click="editarInstituto(row.item)"
+									title="Editar consultorios"
+									style="color: white"
+								>
+									<v-icon dark> mdi-plus </v-icon>
+									Editar consultorios
+								</b-button>
+							</b-button-group>
 						</b-card>
 					</template>
 				</b-table>
@@ -507,20 +490,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				</div>
 			</aside>
 
-			<!-- ================AGREGAR INSTITUTO======================== -->
-			<b-modal id="modal-alta-instituto" hide-footer>
-				<template #modal-title>
-					<h5 class="modal-title">
-						Elija los consultorios para: {{ asignar_consultorios.apellido }},
-						{{ asignar_consultorios.nombre }}
-					</h5>
-				</template>
-				<!-- {{ editar }} -->
-				<alta-consutorios
-					:profesional="asignar_consultorios"
-					:updateTable="testFetch"
-				/>
-			</b-modal>
+			
 
 			<!-- ================EDITAR INSTITUTO======================== -->
 			<b-modal id="modal-editar-instituto" hide-footer>
@@ -534,6 +504,21 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<!-- {{ editar }} -->
 				<update-consultorios
 					:profesional="asignar_consultorios"
+					:updateTable="testFetch"
+				/>
+			</b-modal>
+
+			<!-- ================EDITAR HORARIO======================== -->
+
+			<b-modal id="modal-horario" hide-footer>
+				<template #modal-title>
+					<h5 class="modal-title">
+						Editar horarios
+					</h5>
+				</template>
+				<profesionales-horarios
+					:datos="horario_profesional"
+					:consultorios="list_consultorios"
 					:updateTable="testFetch"
 				/>
 			</b-modal>
@@ -601,7 +586,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 	import ProfesionalesAlta from "./ProfesionalesAlta.vue";
 	import ProfesionalesUpdate from "./ProfesionalesUpdate.vue";
 	import ProfesionalesPdfdata from "./ProfesionalesPdfdata.vue";
-	import AltaConsutorios from "./AltaConsultorios.vue";
+	import ProfesionalesHorarios from "./ProfesionalesHorarios.vue";
 	import UpdateConsultorios from "./UpdateConsultorios.vue";
 	import axios from "axios";
 
@@ -610,8 +595,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			ProfesionalesAlta,
 			ProfesionalesUpdate,
 			ProfesionalesPdfdata,
-			AltaConsutorios,
 			UpdateConsultorios,
+			ProfesionalesHorarios,
 		},
 		data() {
 			return {
@@ -658,7 +643,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 					{ key: "horariosAtencion", label: "Horarios", sortable: true },
 
-					{ key: "action", label: "Acciones", variant: "secondary" },
+					///{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				buscar: "",
 				editar: {},
@@ -666,6 +651,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				asignar_consultorios: {}, //Array que contiene los datos del profesional al que se le asignaran los consultorios
 				list_consultorios: [], //Array que contiene todos los institutos
 				consultorio_del_medico: [], //Array que contiene todos los institutos de un medico en particular
+				horario_profesional: {},
+
 				filter: null,
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
@@ -706,6 +693,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		},
 
 		computed: {
+			//...mapState("HorariosProf", ["horario"]),
 			rows() {
 				return (this.totalRows = this.tabla_profesionales.length);
 			},
@@ -839,22 +827,20 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 				var id =
 					"http://localhost:8081/profesionales/" + medico.id_medico + "/";
-				let consultorios_prof = [];
 
+				let consultorios_prof = [];
 				for (let i = 0; i < this.list_consultorios.length; i++) {
 					var CodMedico = this.list_consultorios[i].id_medico;
 					var CodInst = this.list_consultorios[i].codigo_institucion;
+					var HorarioMedico = this.list_consultorios[i].horarios;
 
 					if (CodMedico == id) {
-						//console.log("CodMedico: ", CodMedico, "CodInst: ", CodInst, "id:" , id);
 						var institutos = await this.getDataInstituto(CodInst);
-						//console.log("--inst: ", institutos);
+						institutos.horariosAtencion = HorarioMedico;
 						consultorios_prof.push(institutos);
 					}
 				}
 				medico.list_consultorios = consultorios_prof;
-				console.log("lista: ", medico.list_consultorios);
-				//this.consultorio_del_medico = consultorios_prof;
 			},
 
 			async getDataInstituto(id) {
@@ -865,6 +851,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				let response = await fetch(institutosAPI.apiUrl);
 				let data = await response.json();
 				return data;
+			},
+
+			editarHorario(item) {
+				let aux =[]
+				let datos = {}
+				datos.id_medico = item.id_medico
+				datos.list_consultorios = item.list_consultorios;
+				aux.push(datos)
+				this.horario_profesional=aux;				
+				console.log("Elemento a modificar: ", this.horario_profesional);
 			},
 
 			//Selecciona una a una
@@ -921,7 +917,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			//Funcion para crear el PDF
 			async generarPDFProfesional(item) {
 				this.profesionalAPdf = { ...item };
-				//console.log("Profesional: ", this.profesionalAPdf);
 				this.$refs["modal-pdfProfesional"].show();
 			},
 
