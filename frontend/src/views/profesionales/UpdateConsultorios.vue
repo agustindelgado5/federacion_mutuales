@@ -144,7 +144,7 @@
 					*/
 					if ((await this.estaCargado(id, this.selected[i])) == null) {
 						this.postInstituto(id, this.selected[i]);
-						this.updateTable();
+						//this.updateTable();
 					}
 				}
 
@@ -171,6 +171,7 @@
 				swal("Carga exitosa", "", "success");
 
 				this.getInstitutosProfesionales();
+				this.updateTable();
 			},
 			//Me fijo si el servicio ya esta cargado
 			async estaCargado(id, consultorio) {
@@ -235,6 +236,7 @@
 					);
 				}
 			},
+			
 		},
 		beforeMount() {
 			//this.getProfesionales();
