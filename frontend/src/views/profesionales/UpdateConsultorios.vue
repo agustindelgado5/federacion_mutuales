@@ -26,16 +26,6 @@
 				></b-form-checkbox-group>
 			</b-form-group>
 
-			<!-- 
-				{{ selected }}
-			<br />
-			{{ selected_anterior }}
-			
-			<br />
-			{{ instituto }}
-			<br />
-			{{ data }}
-			-->
 		</b-form>
 		<b-button class="mt-2" variant="success" block @click="putInstituto()"
 			>Guardar</b-button
@@ -132,7 +122,6 @@
 				En caso de agregar un nuevo elemento, hago el post
 				*/
 				for (var i = 0; i < this.selected.length; i++) {
-					/*
 					console.log(
 						"id_medico: ",
 						id,
@@ -141,7 +130,7 @@
 						"cargado: ",
 						await this.estaCargado(id, this.selected[i])
 					);
-					*/
+
 					if ((await this.estaCargado(id, this.selected[i])) == null) {
 						this.postInstituto(id, this.selected[i]);
 						//this.updateTable();
@@ -174,38 +163,25 @@
 				this.updateTable();
 			},
 			//Me fijo si el servicio ya esta cargado
-			async estaCargado(id, consultorio) {
-				/*
-				console.log(
-					"id_medico: http://localhost:8081/profesionales/" + id + "/",
-					"codigo_institucion",
-					consultorio
-				);
-				*/
-
+			async estaCargado(id, instituto) {
 				try {
-					let valor = {};
-					axios
-						.get("http://localhost:8081/institutos_profesional/", {
-							id_medico: "http://localhost:8081/profesionales/" + id + "/",
-							codigo_institucion: consultorio,
-						})
-						.then((datos) => {
-							if (datos != null) {
-								console.log("¡El consultorio ya se encuentra cargado!");
-								///return true;
-							}
-							valor = datos;
-							return valor;
-						});
-					//valor = true;
+					let idMedico = "http://localhost:8081/profesionales/" + id + "/";
+					let IdCons = instituto;
+
+					for (let j = 0; j < this.consultorios.length; j++) {
+						if (
+							this.consultorios[j].codigo_institucion == IdCons &&
+							this.consultorios[j].id_medico == idMedico
+						) {
+							return this.consultorios[j];
+						}
+					}
+					return null;
 				} catch (error) {
 					console.log(error);
 					//valor = false;
 					return null;
 				}
-
-				//return valor;
 			},
 			//Hago un post de un nuevo instituto
 			async postInstituto(id, consultorio) {
@@ -236,7 +212,6 @@
 					);
 				}
 			},
-			
 		},
 		beforeMount() {
 			//this.getProfesionales();
@@ -248,3 +223,4 @@
 </script>
 
 <style></style>
+
