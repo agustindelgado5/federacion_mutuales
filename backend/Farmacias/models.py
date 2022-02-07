@@ -27,7 +27,7 @@ class farmacias(models.Model):
     representante = models.CharField(max_length=50)
     tel_celular = models.IntegerField(null=True, blank=True)
     # carencia=models.DateField(null=True, blank=True)
-    cbu=models.IntegerField()
+    cbu=models.CharField(unique=True, max_length=22)
     entidad_bancaria=models.CharField(max_length=80)
     nro_cuenta=models.IntegerField()
     tipo_cuenta=models.CharField(max_length=20, choices=cuentas)

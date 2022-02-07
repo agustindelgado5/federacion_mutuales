@@ -14,18 +14,23 @@
 									<b-list-group class="col-3">
 										<b-list-group-item
 											><b>Fecha de ingreso:</b>
-											{{ PDFprofesional.fecha_ingreso }}</b-list-group-item
+											{{
+												PDFprofesional.fecha_ingreso | Date
+											}}</b-list-group-item
 										>
 										<b-list-group-item
 											><b>Matricula:</b>
 											{{ PDFprofesional.matricula }}</b-list-group-item
 										>
 										<b-list-group-item
-											><b>DNI:</b> {{ PDFprofesional.cuit }}</b-list-group-item
+											><b>DNI:</b> {{ PDFprofesional.dni }}</b-list-group-item
 										>
 									</b-list-group>
 									&nbsp;
 									<b-list-group class="col-5">
+										<b-list-group-item
+											><b>Calle:</b> {{ PDFprofesional.domicilio }}
+										</b-list-group-item>
 										<b-list-group-item
 											><b>Provincia:</b>
 											{{ PDFprofesional.provincia }}</b-list-group-item
@@ -34,12 +39,12 @@
 											><b>Localidad:</b>
 											{{ PDFprofesional.localidad }}</b-list-group-item
 										>
-										<b-list-group-item
-											><b>Correo:</b> {{ PDFprofesional.email }}
-										</b-list-group-item>
 									</b-list-group>
 									&nbsp;
 									<b-list-group class="col-4">
+										<b-list-group-item
+											><b>Correo:</b> {{ PDFprofesional.email }}
+										</b-list-group-item>
 										<b-list-group-item
 											><b>Telefono Fijo:</b>
 											{{ PDFprofesional.tel_fijo }}</b-list-group-item
@@ -48,15 +53,59 @@
 											><b>Celular:</b>
 											{{ PDFprofesional.tel_celular }}</b-list-group-item
 										>
-										<b-list-group-item
-											><b>Calle:</b> {{ PDFprofesional.domicilio }}
-										</b-list-group-item>
 									</b-list-group>
 								</b-list-group>
 							</div>
 						</b-card-text>
 					</b-card>
 				</b-card-group>
+				<br />
+				<b-card title="Datos Bancarios: ">
+					<div>
+						<b-list-group horizontal>
+							<b-list-group class="col-5">
+								<b-list-group-item
+									><b>Banco:</b> {{ PDFprofesional.banco }}</b-list-group-item
+								>
+								<b-list-group-item
+									><b>CBU:</b> {{ PDFprofesional.cbu }}</b-list-group-item
+								>
+								<b-list-group-item
+									><b>Alias del CBU:</b>
+									{{ PDFprofesional.alias_cbu }}</b-list-group-item
+								>
+							</b-list-group>
+							&nbsp;
+							<b-list-group class="col-5">
+								<b-list-group-item
+									><b>Tipo de cuenta:</b>
+									{{ PDFprofesional.tipo_cuenta }}</b-list-group-item
+								>
+								<b-list-group-item
+									><b>Titular de la cuenta:</b>
+									{{ PDFprofesional.titular_cuenta }}</b-list-group-item
+								>
+							</b-list-group>
+						</b-list-group>
+					</div>
+				</b-card>
+				<br />
+				<b-card title="Consultorios: ">
+					<div>
+						<b-table
+							hover
+							:items="PDFprofesional.list_consultorios"
+							:fields="fields_consultorios"
+							:sticky-header="true"
+							:no-border-collapse="true"
+							show-empty
+						>
+							<template #empty="">
+								<b>No hay registros para mostrar</b>
+							</template>
+						</b-table>
+					</div>
+				</b-card>
 			</section>
 		</section>
 		<br />
@@ -72,7 +121,7 @@
 		<vue-html2pdf
 			:show-layout="false"
 			:float-layout="true"
-			:enable-download="true"
+			:enable-download="false"
 			:preview-modal="true"
 			:paginate-elements-by-height="1400"
 			filename="DatosDelProfesional"
@@ -102,19 +151,23 @@
 										<b-list-group class="col-3">
 											<b-list-group-item
 												><b>Fecha de ingreso:</b>
-												{{ PDFprofesional.fecha_ingreso }}</b-list-group-item
+												{{
+													PDFprofesional.fecha_ingreso | Date
+												}}</b-list-group-item
 											>
 											<b-list-group-item
 												><b>Matricula:</b>
 												{{ PDFprofesional.matricula }}</b-list-group-item
 											>
 											<b-list-group-item
-												><b>DNI:</b>
-												{{ PDFprofesional.cuit }}</b-list-group-item
+												><b>DNI:</b> {{ PDFprofesional.dni }}</b-list-group-item
 											>
 										</b-list-group>
 										&nbsp;
 										<b-list-group class="col-5">
+											<b-list-group-item
+												><b>Calle:</b> {{ PDFprofesional.domicilio }}
+											</b-list-group-item>
 											<b-list-group-item
 												><b>Provincia:</b>
 												{{ PDFprofesional.provincia }}</b-list-group-item
@@ -123,12 +176,12 @@
 												><b>Localidad:</b>
 												{{ PDFprofesional.localidad }}</b-list-group-item
 											>
-											<b-list-group-item
-												><b>Correo:</b> {{ PDFprofesional.email }}
-											</b-list-group-item>
 										</b-list-group>
 										&nbsp;
 										<b-list-group class="col-4">
+											<b-list-group-item
+												><b>Correo:</b> {{ PDFprofesional.email }}
+											</b-list-group-item>
 											<b-list-group-item
 												><b>Telefono Fijo:</b>
 												{{ PDFprofesional.tel_fijo }}</b-list-group-item
@@ -137,15 +190,59 @@
 												><b>Celular:</b>
 												{{ PDFprofesional.tel_celular }}</b-list-group-item
 											>
-											<b-list-group-item
-												><b>Calle:</b> {{ PDFprofesional.domicilio }}
-											</b-list-group-item>
 										</b-list-group>
 									</b-list-group>
 								</div>
 							</b-card-text>
 						</b-card>
 					</b-card-group>
+					<br />
+					<b-card title="Datos Bancarios: ">
+						<div>
+							<b-list-group horizontal>
+								<b-list-group class="col-5">
+									<b-list-group-item
+										><b>Banco:</b> {{ PDFprofesional.banco }}</b-list-group-item
+									>
+									<b-list-group-item
+										><b>CBU:</b> {{ PDFprofesional.cbu }}</b-list-group-item
+									>
+									<b-list-group-item
+										><b>Alias del CBU:</b>
+										{{ PDFprofesional.alias_cbu }}</b-list-group-item
+									>
+								</b-list-group>
+								&nbsp;
+								<b-list-group class="col-5">
+									<b-list-group-item
+										><b>Tipo de cuenta:</b>
+										{{ PDFprofesional.tipo_cuenta }}</b-list-group-item
+									>
+									<b-list-group-item
+										><b>Titular de la cuenta:</b>
+										{{ PDFprofesional.titular_cuenta }}</b-list-group-item
+									>
+								</b-list-group>
+							</b-list-group>
+						</div>
+					</b-card>
+					<br />
+					<b-card title="Consultorios: ">
+						<div>
+							<b-table
+								hover
+								:items="PDFprofesional.list_consultorios"
+								:fields="fields_consultorios"
+								:sticky-header="true"
+								:no-border-collapse="true"
+								show-empty
+							>
+								<template #empty="">
+									<b>No hay registros para mostrar</b>
+								</template>
+							</b-table>
+						</div>
+					</b-card>
 				</section>
 			</section>
 		</vue-html2pdf>
@@ -163,7 +260,25 @@
 		},
 
 		data() {
-			return {};
+			return {
+				fields_consultorios: [
+					{
+						key: "codigo_institucion",
+						label: "Codigo",
+						sortable: true,
+					},
+
+					{ key: "nombre", label: "Nombre", sortable: true },
+
+					{ key: "direccion", label: "Direccion", sortable: true },
+					{ key: "localidad", label: "Localidad", sortable: true },
+					{ key: "provincia", label: "Provincia", sortable: true },
+
+					{ key: "horariosAtencion", label: "Horarios", sortable: true },
+
+					///{ key: "action", label: "Acciones", variant: "secondary" },
+				],
+			};
 		},
 
 		methods: {

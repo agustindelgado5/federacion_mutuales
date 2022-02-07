@@ -266,7 +266,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									<b-list-group class="col-3">
 										<b-list-group-item
 											><b>Fecha de ingreso:</b>
-											{{ row.item.fecha_ingreso }}</b-list-group-item
+											{{ row.item.fecha_ingreso | Date }}</b-list-group-item
 										>
 										<b-list-group-item
 											><b>Matricula:</b>
@@ -274,7 +274,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										>
 									</b-list-group>
 									&nbsp;
-									<b-list-group class="col-5">
+									<b-list-group class="col-4">
+										<b-list-group-item
+											><b>Calle:</b> {{ row.item.domicilio }}
+										</b-list-group-item>
 										<b-list-group-item
 											><b>Provincia:</b>
 											{{ row.item.provincia }}</b-list-group-item
@@ -283,12 +286,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											><b>Localidad:</b>
 											{{ row.item.localidad }}</b-list-group-item
 										>
-										<b-list-group-item
-											><b>Correo:</b> {{ row.item.email }}
-										</b-list-group-item>
 									</b-list-group>
 									&nbsp;
 									<b-list-group class="col-4">
+										<b-list-group-item
+											><b>Correo:</b> {{ row.item.email }}
+										</b-list-group-item>
 										<b-list-group-item
 											><b>Telefono Fijo:</b>
 											{{ row.item.tel_fijo }}</b-list-group-item
@@ -297,9 +300,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											><b>Celular:</b>
 											{{ row.item.tel_celular }}</b-list-group-item
 										>
-										<b-list-group-item
-											><b>Calle:</b> {{ row.item.domicilio }}
-										</b-list-group-item>
 									</b-list-group>
 								</b-list-group>
 							</div>
