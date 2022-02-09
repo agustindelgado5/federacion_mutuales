@@ -200,6 +200,11 @@ export default {
           disable: false,
           to: "/ventasOpticas",
         },
+        {
+          text: "Planes",
+          disable: false,
+          to: "/planes",
+        },
       ],
       name: "SidebarMenu",
       menu: [
@@ -326,6 +331,12 @@ export default {
           title: `Servicios`,
           href: "/servicios",
           icon: "fa fa-chart-pie",
+          child: [],
+        },
+        {
+          title: `Planes`,
+          href: "/planes",
+          icon: "fa fa-book",
           child: [],
         },
       ],

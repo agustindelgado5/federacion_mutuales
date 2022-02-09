@@ -128,7 +128,12 @@ const routes = [
     name: 'baja_mora',
     component: () => import('../views/socios/SociosBajaMora.vue')
   },
-
+  {
+    path: '/planes',
+    name: 'Planes',
+    component: () => import('../views/planes/Planes.vue'),
+    meta: { title: 'Planes - Federación Tucumana de Mutuales' }
+  },
 ];
 
 const router = new VueRouter({

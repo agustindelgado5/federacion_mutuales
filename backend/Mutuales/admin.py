@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import mutuales, servicios, servicio_mutual
+from .models import mutuales, servicios, servicio_mutual, planes
 # Register your models here.
 
 class serviciosAdmin(admin.ModelAdmin):
@@ -23,6 +23,14 @@ class servicios_mutualesAdmin(admin.ModelAdmin):
     #autocomplete_fields=['id_servicio']
     #readonly_fields=('created', 'updated')
 
+class planesAdmin(admin.ModelAdmin):
+    list_display=('id_plan','nombre','precio')
+    search_fields=('id_plan','nombre','beneficio')
+    ordering=['nombre', 'id_plan']
+    #autocomplete_fields=['id_servicio']
+    #readonly_fields=('created', 'updated')
+
 admin.site.register(servicios, serviciosAdmin)
 admin.site.register(servicio_mutual, servicios_mutualesAdmin)
 admin.site.register(mutuales, mutualesAdmin)
+admin.site.register(planes, planesAdmin)

@@ -63,3 +63,31 @@ class servicio_mutual(models.Model):
         verbose_name_plural='servicios_mutual'
         ordering=['id_mutual']
         unique_together = ('id_mutual', 'id_servicio',)
+
+
+
+class planes(models.Model):
+    id_plan = AutoField(primary_key=True)
+    nombre = models.CharField(max_length=128)
+    precio = models.DecimalField(max_digits=8, decimal_places=2)
+    beneficios = models.ManyToManyField(servicios, through='beneficiosDelPlan')
+
+    def __str__(self):
+        return self.nombre
+
+class beneficiosDelPlan(models.Model):
+
+    TIPO_CHOICE = (
+        ('1', 'Descuento Porcentual'),
+        ('2', 'Descuento Fijo'),
+        ('3', 'Limite'),
+    )
+
+    servicio = models.ForeignKey(servicios, on_delete=models.DO_NOTHING)
+    plan = models.ForeignKey(planes, on_delete=models.DO_NOTHING)
+    #tipo: si es descuento % o de un monto fijo, o limite de ordenes
+    tipo = models.CharField(choices=TIPO_CHOICE, default='1', max_length=1)
+    #cantidad: el %, monto o cantidad a aplicar, 0 to 2147483647
+    cantidad = models.PositiveIntegerField()
+    class Meta:
+        unique_together = ('plan', 'servicio',)
