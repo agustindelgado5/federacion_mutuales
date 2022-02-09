@@ -84,7 +84,7 @@ class beneficiosDelPlan(models.Model):
     )
 
     servicio = models.ForeignKey(servicios, on_delete=models.DO_NOTHING)
-    plan = models.ForeignKey(planes, on_delete=models.DO_NOTHING)
+    plan = models.ForeignKey(planes, on_delete=models.CASCADE)
     #tipo: si es descuento % o de un monto fijo, o limite de ordenes
     tipo = models.CharField(choices=TIPO_CHOICE, default='1', max_length=1)
     #cantidad: el %, monto o cantidad a aplicar, 0 to 2147483647
