@@ -5,8 +5,8 @@ from .models import estudios
 
 
 class estudiosAdmin(admin.ModelAdmin):
-    list_display = ("id_estudio","tipo", "cod_estudio", "abreviatura", "ub", "activo", "descripcion", "denominación")
-    search_fields = ("tipo", "cod_estudio", "abreviatura", "ub", "activo", "descripcion", "denominación")
+    list_display = ("id_estudio","tipo",  "abreviatura", "ub",  "descripcion", "denominación")
+    search_fields = ("tipo", "abreviatura", "ub", "descripcion", "denominación")
     ordering = ["id_estudio"]
     readonly_fields = ("created", "updated")
 

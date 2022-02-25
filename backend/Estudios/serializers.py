@@ -8,11 +8,13 @@ class EstudiosSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             "id_estudio",
             "tipo",
-            "cod_estudio",
             "abreviatura",
             "ub",
-            "activo",
+            "nbu",
+            "proveedor",
             "descripcion",
             "denominación",
+            "precio_socio",
+            "precio_federacion",  
         )
         read_only_fields = ["created ", "updated"]

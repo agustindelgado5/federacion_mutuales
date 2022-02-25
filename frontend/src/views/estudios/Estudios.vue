@@ -369,12 +369,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				tabla_estudios: [],
 				fields: [
 					{ key: "selected", label: "Seleccionar", sortable: true },
-					{ key: "cod_estudio", label: "Cod. Estudio", sortable: true },
+					
 					{ key: "tipo", label: "Tipo", sortable: true },
 					{ key: "abreviatura", label: "Abreviatura", sortable: true },
 					{ key: "ub", label: "U.B.", sortable: true },
 					{ key: "descripcion", label: "Descripción", sortable: true },
 					{ key: "denominación", label: "Denominación", sortable: true },
+					{ key: "proveedor", label: "Proveedor", sortable: true },
+					{ key: "precio_socio", label: "Precio al socio", sortable: true },
+					{ key: "precio_federacion", label: "Precio a la federacion", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				totalRows: 1, //Total de filas

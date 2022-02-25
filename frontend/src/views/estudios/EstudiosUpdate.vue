@@ -1,10 +1,12 @@
 <template>
 	<div>
 		<h6>Los campos en (*) son obligatorios</h6>
-		<h4>Modificar Estudio:</h4>
+		<h4>Nuevo Estudio:</h4>
 		<b-form>
+			<!-- Numero de Estudio -->
+			<!--
 			<b-form-group label="*Codigo del Estudio" label-for="cod_estudio">
-				<!-- Numero de Estudio -->
+				
 				<b-form-input
 					id="cod_estudio"
 					v-model="estudio.cod_estudio"
@@ -19,6 +21,7 @@
 					>{{ validacion.cod_estudio.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
+			-->
 
 			<b-form-group label="*Tipo" label-for="tipo">
 				<b-form-select
@@ -87,7 +90,7 @@
 
 			<!-- Unidad Bioquimica -->
 			<b-form-group
-				label="*U.B."
+				label="U.B."
 				label-for="ub"
 				v-show="this.estudio.tipo == 'Analisis bioquimico'"
 			>
@@ -104,9 +107,74 @@
 					>{{ validacion.ub.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
+
+			<b-form-group label="N.B.U" label-for="nbu">
+				<b-form-input
+					id="nbu"
+					v-model="estudio.nbu"
+					:state="validacion.nbu.estado"
+					type="number"
+					placeholder="Ingrese la N.B.U. correspondiente al estudio "
+					invalid-feedback="Complete este campo"
+				>
+				</b-form-input>
+				<b-form-invalid-feedback id="ub-live-feedback"
+					>{{ validacion.nbu.mensaje }}
+				</b-form-invalid-feedback>
+			</b-form-group>
+
+			<b-form-group label="Proveedor" label-for="proveedor">
+				<b-form-input
+					id="proveedor"
+					v-model="estudio.proveedor"
+					:state="validacion.proveedor.estado"
+					type="text"
+					placeholder="*Ingrese un proveedor"
+					invalid-feedback="Complete este campo"
+					required
+				>
+				</b-form-input>
+				<b-form-invalid-feedback id="descripcion-live-feedback"
+					>{{ validacion.proveedor.mensaje }}
+				</b-form-invalid-feedback>
+			</b-form-group>
+
+			<b-form-group label="*Precio al socio" label-for="precio_socio">
+				<b-form-input
+					id="precio_socio"
+					v-model="estudio.precio_socio"
+					:state="validacion.precio_socio.estado"
+					type="decimal"
+					placeholder="Ingrese el precio correspondiente al estudio "
+					invalid-feedback="Complete este campo"
+				>
+				</b-form-input>
+				<b-form-invalid-feedback id="ub-live-feedback"
+					>{{ validacion.precio_socio.mensaje }}
+				</b-form-invalid-feedback>
+			</b-form-group>
+
+			<b-form-group
+				label="*Precio a la federacion"
+				label-for="precio_federacion"
+			>
+				<b-form-input
+					id="precio_federacion"
+					v-model="estudio.precio_federacion"
+					:state="validacion.precio_federacion.estado"
+					type="decimal"
+					placeholder="Ingrese el precio correspondiente al estudio "
+					invalid-feedback="Complete este campo"
+				>
+				</b-form-input>
+				<b-form-invalid-feedback id="ub-live-feedback"
+					>{{ validacion.precio_federacion.mensaje }}
+				</b-form-invalid-feedback>
+			</b-form-group>
 		</b-form>
+
 		<b-button class="mt-2" variant="success" block @click="putEstudio()"
-			>Modificar</b-button
+			>Guardar</b-button
 		>
 	</div>
 </template>
@@ -135,8 +203,12 @@
 				],
 
 				validacion: {
+					proveedor: { estado: null, mensaje: "" },
 					tipo: { estado: null, mensaje: "" },
-					cod_estudio: { estado: null, mensaje: "" },
+					//cod_estudio: { estado: null, mensaje: "" },
+					nbu: { estado: null, mensaje: "" },
+					precio_socio: { estado: null, mensaje: "" },
+					precio_federacion: { estado: null, mensaje: "" },
 					abreviatura: { estado: null, mensaje: "" },
 					ub: { estado: null, mensaje: "" },
 					descripcion: { estado: null, mensaje: "" },
@@ -164,11 +236,14 @@
 						swal("Operación Exitosa", " ", "success");
 					})
 					.catch(function (error) {
-						const mje=error.response.status<500?"Los datos no son válidos":"Se ha detectado un problema ";
-						swal("¡ERROR!",mje, "error");
+						const mje =
+							error.response.status < 500
+								? "Los datos no son válidos"
+								: "Se ha detectado un problema ";
+						swal("¡ERROR!", mje, "error");
 						respuesta = error.response.data;
 					});
-				this.respuesta=respuesta
+				this.respuesta = respuesta;
 				this.cargarFeedback();
 				this.updateTable();
 			},
@@ -181,11 +256,11 @@
 
 			cargarFeedback() {
 				let valido;
-				if(!this.respuesta) this.respuesta={};
+				if (!this.respuesta) this.respuesta = {};
 				for (let key in this.validacion) {
 					valido = !this.respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;
-										console.log(key)
+					console.log(key);
 
 					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
 				}

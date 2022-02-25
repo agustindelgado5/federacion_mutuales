@@ -12,13 +12,17 @@ por imagen, estudio oftalmológico, etc
 class estudios(models.Model):
     id_estudio = models.AutoField(primary_key=True) #id interno
     tipo = models.CharField(max_length=60,choices=estudios_tipos)
-    cod_estudio = models.CharField(max_length=30, unique=True) #codigo mostrado al usuario
     abreviatura = models.CharField(null=True,max_length=30)
     ub = models.DecimalField(null=True, blank=True,max_digits=8, decimal_places=2)
-    activo = models.BooleanField(default=True) #para un borrado lógico
+    nbu = models.IntegerField(null=True, blank=True)
     descripcion=models.CharField(max_length=60)
     denominación=models.CharField(null=True,max_length=30)
+
+    proveedor = models.CharField(null=True, blank=True, max_length=40)
+    precio_socio = models.DecimalField(max_digits=8, decimal_places=2)
+    precio_federacion = models.DecimalField(max_digits=8, decimal_places=2)
     
+    #Datos del sistema
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
 
