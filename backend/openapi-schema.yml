@@ -1,0 +1,5460 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /auth/users/:
+    get:
+      operationId: listUsers
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - auth
+    post:
+      operationId: createUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+          description: ''
+      tags:
+      - auth
+  /auth/users/me/:
+    get:
+      operationId: meUser
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - auth
+    put:
+      operationId: meUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - auth
+    patch:
+      operationId: meUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - auth
+    delete:
+      operationId: meUser
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - auth
+  /auth/users/{id}/:
+    get:
+      operationId: retrieveUser
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usuario.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - auth
+    put:
+      operationId: updateUser
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usuario.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - auth
+    patch:
+      operationId: partialUpdateUser
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usuario.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - auth
+    delete:
+      operationId: destroyUser
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usuario.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - auth
+  /socios/:
+    get:
+      operationId: listsocios
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - socios
+    post:
+      operationId: createsocios
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Socios'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - socios
+  /socios/{numero_socio}/:
+    get:
+      operationId: retrievesocios
+      description: ''
+      parameters:
+      - name: numero_socio
+        in: path
+        required: true
+        description: A unique integer value identifying this socio.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - socios
+    put:
+      operationId: updatesocios
+      description: ''
+      parameters:
+      - name: numero_socio
+        in: path
+        required: true
+        description: A unique integer value identifying this socio.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Socios'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - socios
+    patch:
+      operationId: partialUpdatesocios
+      description: ''
+      parameters:
+      - name: numero_socio
+        in: path
+        required: true
+        description: A unique integer value identifying this socio.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Socios'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - socios
+    delete:
+      operationId: destroysocios
+      description: ''
+      parameters:
+      - name: numero_socio
+        in: path
+        required: true
+        description: A unique integer value identifying this socio.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - socios
+  /socios/{numero_socio}/aldia/:
+    get:
+      operationId: aldiasocios
+      description: ''
+      parameters:
+      - name: numero_socio
+        in: path
+        required: true
+        description: A unique integer value identifying this socio.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - socios
+  /aldia/:
+    get:
+      operationId: listsocios
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - aldia
+    post:
+      operationId: createsocios
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Socios'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - aldia
+  /aldia/{numero_socio}/:
+    get:
+      operationId: retrievesocios
+      description: ''
+      parameters:
+      - name: numero_socio
+        in: path
+        required: true
+        description: A unique integer value identifying this socio.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - aldia
+    put:
+      operationId: updatesocios
+      description: ''
+      parameters:
+      - name: numero_socio
+        in: path
+        required: true
+        description: A unique integer value identifying this socio.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Socios'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - aldia
+    patch:
+      operationId: partialUpdatesocios
+      description: ''
+      parameters:
+      - name: numero_socio
+        in: path
+        required: true
+        description: A unique integer value identifying this socio.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Socios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Socios'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - aldia
+    delete:
+      operationId: destroysocios
+      description: ''
+      parameters:
+      - name: numero_socio
+        in: path
+        required: true
+        description: A unique integer value identifying this socio.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - aldia
+  /aldia/{numero_socio}/aldia/:
+    get:
+      operationId: aldiasocios
+      description: ''
+      parameters:
+      - name: numero_socio
+        in: path
+        required: true
+        description: A unique integer value identifying this socio.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Socios'
+          description: ''
+      tags:
+      - aldia
+  /familiar/:
+    get:
+      operationId: listfamiliars
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Familiar'
+          description: ''
+      tags:
+      - familiar
+    post:
+      operationId: createfamiliar
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Familiar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Familiar'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Familiar'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Familiar'
+          description: ''
+      tags:
+      - familiar
+  /familiar/{dni_familiar}/:
+    get:
+      operationId: retrievefamiliar
+      description: ''
+      parameters:
+      - name: dni_familiar
+        in: path
+        required: true
+        description: A unique value identifying this familiar.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Familiar'
+          description: ''
+      tags:
+      - familiar
+    put:
+      operationId: updatefamiliar
+      description: ''
+      parameters:
+      - name: dni_familiar
+        in: path
+        required: true
+        description: A unique value identifying this familiar.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Familiar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Familiar'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Familiar'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Familiar'
+          description: ''
+      tags:
+      - familiar
+    patch:
+      operationId: partialUpdatefamiliar
+      description: ''
+      parameters:
+      - name: dni_familiar
+        in: path
+        required: true
+        description: A unique value identifying this familiar.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Familiar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Familiar'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Familiar'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Familiar'
+          description: ''
+      tags:
+      - familiar
+    delete:
+      operationId: destroyfamiliar
+      description: ''
+      parameters:
+      - name: dni_familiar
+        in: path
+        required: true
+        description: A unique value identifying this familiar.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - familiar
+  /farmacias/:
+    get:
+      operationId: listfarmacias
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Farmacias'
+          description: ''
+      tags:
+      - farmacias
+    post:
+      operationId: createfarmacias
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Farmacias'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Farmacias'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Farmacias'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmacias'
+          description: ''
+      tags:
+      - farmacias
+  /farmacias/{cod_farmacia}/:
+    get:
+      operationId: retrievefarmacias
+      description: ''
+      parameters:
+      - name: cod_farmacia
+        in: path
+        required: true
+        description: A unique integer value identifying this famacia.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmacias'
+          description: ''
+      tags:
+      - farmacias
+    put:
+      operationId: updatefarmacias
+      description: ''
+      parameters:
+      - name: cod_farmacia
+        in: path
+        required: true
+        description: A unique integer value identifying this famacia.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Farmacias'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Farmacias'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Farmacias'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmacias'
+          description: ''
+      tags:
+      - farmacias
+    patch:
+      operationId: partialUpdatefarmacias
+      description: ''
+      parameters:
+      - name: cod_farmacia
+        in: path
+        required: true
+        description: A unique integer value identifying this famacia.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Farmacias'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Farmacias'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Farmacias'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmacias'
+          description: ''
+      tags:
+      - farmacias
+    delete:
+      operationId: destroyfarmacias
+      description: ''
+      parameters:
+      - name: cod_farmacia
+        in: path
+        required: true
+        description: A unique integer value identifying this famacia.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - farmacias
+  /profesionales/:
+    get:
+      operationId: listprofesionales
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Profesionales'
+          description: ''
+      tags:
+      - profesionales
+    post:
+      operationId: createprofesionales
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profesionales'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Profesionales'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Profesionales'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profesionales'
+          description: ''
+      tags:
+      - profesionales
+  /profesionales/{id_medico}/:
+    get:
+      operationId: retrieveprofesionales
+      description: ''
+      parameters:
+      - name: id_medico
+        in: path
+        required: true
+        description: A unique integer value identifying this profesional.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profesionales'
+          description: ''
+      tags:
+      - profesionales
+    put:
+      operationId: updateprofesionales
+      description: ''
+      parameters:
+      - name: id_medico
+        in: path
+        required: true
+        description: A unique integer value identifying this profesional.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profesionales'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Profesionales'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Profesionales'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profesionales'
+          description: ''
+      tags:
+      - profesionales
+    patch:
+      operationId: partialUpdateprofesionales
+      description: ''
+      parameters:
+      - name: id_medico
+        in: path
+        required: true
+        description: A unique integer value identifying this profesional.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profesionales'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Profesionales'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Profesionales'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profesionales'
+          description: ''
+      tags:
+      - profesionales
+    delete:
+      operationId: destroyprofesionales
+      description: ''
+      parameters:
+      - name: id_medico
+        in: path
+        required: true
+        description: A unique integer value identifying this profesional.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - profesionales
+  /medicamentos/:
+    get:
+      operationId: listmedicamentos
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Medicamentos'
+          description: ''
+      tags:
+      - medicamentos
+    post:
+      operationId: createmedicamentos
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Medicamentos'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Medicamentos'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Medicamentos'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamentos'
+          description: ''
+      tags:
+      - medicamentos
+  /medicamentos/{id_medicamento}/:
+    get:
+      operationId: retrievemedicamentos
+      description: ''
+      parameters:
+      - name: id_medicamento
+        in: path
+        required: true
+        description: A unique integer value identifying this medicamento.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamentos'
+          description: ''
+      tags:
+      - medicamentos
+    put:
+      operationId: updatemedicamentos
+      description: ''
+      parameters:
+      - name: id_medicamento
+        in: path
+        required: true
+        description: A unique integer value identifying this medicamento.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Medicamentos'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Medicamentos'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Medicamentos'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamentos'
+          description: ''
+      tags:
+      - medicamentos
+    patch:
+      operationId: partialUpdatemedicamentos
+      description: ''
+      parameters:
+      - name: id_medicamento
+        in: path
+        required: true
+        description: A unique integer value identifying this medicamento.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Medicamentos'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Medicamentos'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Medicamentos'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamentos'
+          description: ''
+      tags:
+      - medicamentos
+    delete:
+      operationId: destroymedicamentos
+      description: ''
+      parameters:
+      - name: id_medicamento
+        in: path
+        required: true
+        description: A unique integer value identifying this medicamento.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - medicamentos
+  /recetas/:
+    get:
+      operationId: listrecetas
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Recetas'
+          description: ''
+      tags:
+      - recetas
+    post:
+      operationId: createreceta
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recetas'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Recetas'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Recetas'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recetas'
+          description: ''
+      tags:
+      - recetas
+  /recetas/{id_receta}/:
+    get:
+      operationId: retrievereceta
+      description: ''
+      parameters:
+      - name: id_receta
+        in: path
+        required: true
+        description: A unique integer value identifying this receta.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recetas'
+          description: ''
+      tags:
+      - recetas
+    put:
+      operationId: updatereceta
+      description: ''
+      parameters:
+      - name: id_receta
+        in: path
+        required: true
+        description: A unique integer value identifying this receta.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recetas'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Recetas'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Recetas'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recetas'
+          description: ''
+      tags:
+      - recetas
+    patch:
+      operationId: partialUpdatereceta
+      description: ''
+      parameters:
+      - name: id_receta
+        in: path
+        required: true
+        description: A unique integer value identifying this receta.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recetas'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Recetas'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Recetas'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recetas'
+          description: ''
+      tags:
+      - recetas
+    delete:
+      operationId: destroyreceta
+      description: ''
+      parameters:
+      - name: id_receta
+        in: path
+        required: true
+        description: A unique integer value identifying this receta.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - recetas
+  /ordenes/:
+    get:
+      operationId: listordenes
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ordenes'
+          description: ''
+      tags:
+      - ordenes
+    post:
+      operationId: createordenes
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ordenes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ordenes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Ordenes'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ordenes'
+          description: ''
+      tags:
+      - ordenes
+  /ordenes/{numero_orden}/:
+    get:
+      operationId: retrieveordenes
+      description: ''
+      parameters:
+      - name: numero_orden
+        in: path
+        required: true
+        description: A unique integer value identifying this orden.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ordenes'
+          description: ''
+      tags:
+      - ordenes
+    put:
+      operationId: updateordenes
+      description: ''
+      parameters:
+      - name: numero_orden
+        in: path
+        required: true
+        description: A unique integer value identifying this orden.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ordenes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ordenes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Ordenes'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ordenes'
+          description: ''
+      tags:
+      - ordenes
+    patch:
+      operationId: partialUpdateordenes
+      description: ''
+      parameters:
+      - name: numero_orden
+        in: path
+        required: true
+        description: A unique integer value identifying this orden.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ordenes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ordenes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Ordenes'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ordenes'
+          description: ''
+      tags:
+      - ordenes
+    delete:
+      operationId: destroyordenes
+      description: ''
+      parameters:
+      - name: numero_orden
+        in: path
+        required: true
+        description: A unique integer value identifying this orden.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - ordenes
+  /ordenes/{numero_orden}/declararOrden/:
+    get:
+      operationId: declararOrdenordenes
+      description: ''
+      parameters:
+      - name: numero_orden
+        in: path
+        required: true
+        description: A unique integer value identifying this orden.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ordenes'
+          description: ''
+      tags:
+      - ordenes
+  /servicios/:
+    get:
+      operationId: listservicios
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Servicios'
+          description: ''
+      tags:
+      - servicios
+    post:
+      operationId: createservicios
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Servicios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Servicios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Servicios'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Servicios'
+          description: ''
+      tags:
+      - servicios
+  /servicios/{id_servicio}/:
+    get:
+      operationId: retrieveservicios
+      description: ''
+      parameters:
+      - name: id_servicio
+        in: path
+        required: true
+        description: A unique integer value identifying this servicio.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Servicios'
+          description: ''
+      tags:
+      - servicios
+    put:
+      operationId: updateservicios
+      description: ''
+      parameters:
+      - name: id_servicio
+        in: path
+        required: true
+        description: A unique integer value identifying this servicio.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Servicios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Servicios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Servicios'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Servicios'
+          description: ''
+      tags:
+      - servicios
+    patch:
+      operationId: partialUpdateservicios
+      description: ''
+      parameters:
+      - name: id_servicio
+        in: path
+        required: true
+        description: A unique integer value identifying this servicio.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Servicios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Servicios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Servicios'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Servicios'
+          description: ''
+      tags:
+      - servicios
+    delete:
+      operationId: destroyservicios
+      description: ''
+      parameters:
+      - name: id_servicio
+        in: path
+        required: true
+        description: A unique integer value identifying this servicio.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - servicios
+  /mutuales/:
+    get:
+      operationId: listmutuales
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Mutuales'
+          description: ''
+      tags:
+      - mutuales
+    post:
+      operationId: createmutuales
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mutuales'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mutuales'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Mutuales'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mutuales'
+          description: ''
+      tags:
+      - mutuales
+  /mutuales/{id_mutual}/:
+    get:
+      operationId: retrievemutuales
+      description: ''
+      parameters:
+      - name: id_mutual
+        in: path
+        required: true
+        description: A unique integer value identifying this mutual.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mutuales'
+          description: ''
+      tags:
+      - mutuales
+    put:
+      operationId: updatemutuales
+      description: ''
+      parameters:
+      - name: id_mutual
+        in: path
+        required: true
+        description: A unique integer value identifying this mutual.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mutuales'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mutuales'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Mutuales'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mutuales'
+          description: ''
+      tags:
+      - mutuales
+    patch:
+      operationId: partialUpdatemutuales
+      description: ''
+      parameters:
+      - name: id_mutual
+        in: path
+        required: true
+        description: A unique integer value identifying this mutual.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mutuales'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mutuales'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Mutuales'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mutuales'
+          description: ''
+      tags:
+      - mutuales
+    delete:
+      operationId: destroymutuales
+      description: ''
+      parameters:
+      - name: id_mutual
+        in: path
+        required: true
+        description: A unique integer value identifying this mutual.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - mutuales
+  /servicio_mutual/:
+    get:
+      operationId: listservicio_mutuals
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ServiciosMutual'
+          description: ''
+      tags:
+      - servicio-mutual
+    post:
+      operationId: createservicio_mutual
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiciosMutual'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiciosMutual'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiciosMutual'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiciosMutual'
+          description: ''
+      tags:
+      - servicio-mutual
+  /servicio_mutual/{id_serv_mut}/:
+    get:
+      operationId: retrieveservicio_mutual
+      description: ''
+      parameters:
+      - name: id_serv_mut
+        in: path
+        required: true
+        description: A unique integer value identifying this servicio_mutual.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiciosMutual'
+          description: ''
+      tags:
+      - servicio-mutual
+    put:
+      operationId: updateservicio_mutual
+      description: ''
+      parameters:
+      - name: id_serv_mut
+        in: path
+        required: true
+        description: A unique integer value identifying this servicio_mutual.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiciosMutual'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiciosMutual'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiciosMutual'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiciosMutual'
+          description: ''
+      tags:
+      - servicio-mutual
+    patch:
+      operationId: partialUpdateservicio_mutual
+      description: ''
+      parameters:
+      - name: id_serv_mut
+        in: path
+        required: true
+        description: A unique integer value identifying this servicio_mutual.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiciosMutual'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiciosMutual'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiciosMutual'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiciosMutual'
+          description: ''
+      tags:
+      - servicio-mutual
+    delete:
+      operationId: destroyservicio_mutual
+      description: ''
+      parameters:
+      - name: id_serv_mut
+        in: path
+        required: true
+        description: A unique integer value identifying this servicio_mutual.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - servicio-mutual
+  /planes/:
+    get:
+      operationId: listplanes
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Planes'
+          description: ''
+      tags:
+      - planes
+    post:
+      operationId: createplanes
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Planes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Planes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Planes'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Planes'
+          description: ''
+      tags:
+      - planes
+  /planes/{id_plan}/:
+    get:
+      operationId: retrieveplanes
+      description: ''
+      parameters:
+      - name: id_plan
+        in: path
+        required: true
+        description: A unique integer value identifying this planes.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Planes'
+          description: ''
+      tags:
+      - planes
+    put:
+      operationId: updateplanes
+      description: ''
+      parameters:
+      - name: id_plan
+        in: path
+        required: true
+        description: A unique integer value identifying this planes.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Planes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Planes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Planes'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Planes'
+          description: ''
+      tags:
+      - planes
+    patch:
+      operationId: partialUpdateplanes
+      description: ''
+      parameters:
+      - name: id_plan
+        in: path
+        required: true
+        description: A unique integer value identifying this planes.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Planes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Planes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Planes'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Planes'
+          description: ''
+      tags:
+      - planes
+    delete:
+      operationId: destroyplanes
+      description: ''
+      parameters:
+      - name: id_plan
+        in: path
+        required: true
+        description: A unique integer value identifying this planes.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - planes
+  /beneficios/:
+    get:
+      operationId: listbeneficiosDelPlans
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Beneficios'
+          description: ''
+      tags:
+      - beneficios
+    post:
+      operationId: createbeneficiosDelPlan
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Beneficios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Beneficios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Beneficios'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficios'
+          description: ''
+      tags:
+      - beneficios
+  /beneficios/{id}/:
+    get:
+      operationId: retrievebeneficiosDelPlan
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this beneficios del plan.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficios'
+          description: ''
+      tags:
+      - beneficios
+    put:
+      operationId: updatebeneficiosDelPlan
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this beneficios del plan.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Beneficios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Beneficios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Beneficios'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficios'
+          description: ''
+      tags:
+      - beneficios
+    patch:
+      operationId: partialUpdatebeneficiosDelPlan
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this beneficios del plan.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Beneficios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Beneficios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Beneficios'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficios'
+          description: ''
+      tags:
+      - beneficios
+    delete:
+      operationId: destroybeneficiosDelPlan
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this beneficios del plan.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - beneficios
+  /cuotas/:
+    get:
+      operationId: listcuotas
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cuotas'
+          description: ''
+      tags:
+      - cuotas
+    post:
+      operationId: createcuotas
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cuotas'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cuotas'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cuotas'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cuotas'
+          description: ''
+      tags:
+      - cuotas
+  /cuotas/{id_cuota}/:
+    get:
+      operationId: retrievecuotas
+      description: ''
+      parameters:
+      - name: id_cuota
+        in: path
+        required: true
+        description: A unique integer value identifying this cuota.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cuotas'
+          description: ''
+      tags:
+      - cuotas
+    put:
+      operationId: updatecuotas
+      description: ''
+      parameters:
+      - name: id_cuota
+        in: path
+        required: true
+        description: A unique integer value identifying this cuota.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cuotas'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cuotas'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cuotas'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cuotas'
+          description: ''
+      tags:
+      - cuotas
+    patch:
+      operationId: partialUpdatecuotas
+      description: ''
+      parameters:
+      - name: id_cuota
+        in: path
+        required: true
+        description: A unique integer value identifying this cuota.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cuotas'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cuotas'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cuotas'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cuotas'
+          description: ''
+      tags:
+      - cuotas
+    delete:
+      operationId: destroycuotas
+      description: ''
+      parameters:
+      - name: id_cuota
+        in: path
+        required: true
+        description: A unique integer value identifying this cuota.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - cuotas
+  /cobradores/:
+    get:
+      operationId: listcobradores
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cobradores'
+          description: ''
+      tags:
+      - cobradores
+    post:
+      operationId: createcobradores
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cobradores'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cobradores'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cobradores'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cobradores'
+          description: ''
+      tags:
+      - cobradores
+  /cobradores/{id_cobrador}/:
+    get:
+      operationId: retrievecobradores
+      description: ''
+      parameters:
+      - name: id_cobrador
+        in: path
+        required: true
+        description: A unique value identifying this cobrador.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cobradores'
+          description: ''
+      tags:
+      - cobradores
+    put:
+      operationId: updatecobradores
+      description: ''
+      parameters:
+      - name: id_cobrador
+        in: path
+        required: true
+        description: A unique value identifying this cobrador.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cobradores'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cobradores'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cobradores'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cobradores'
+          description: ''
+      tags:
+      - cobradores
+    patch:
+      operationId: partialUpdatecobradores
+      description: ''
+      parameters:
+      - name: id_cobrador
+        in: path
+        required: true
+        description: A unique value identifying this cobrador.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cobradores'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cobradores'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cobradores'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cobradores'
+          description: ''
+      tags:
+      - cobradores
+    delete:
+      operationId: destroycobradores
+      description: ''
+      parameters:
+      - name: id_cobrador
+        in: path
+        required: true
+        description: A unique value identifying this cobrador.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - cobradores
+  /estudios/:
+    get:
+      operationId: listestudios
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Estudios'
+          description: ''
+      tags:
+      - estudios
+    post:
+      operationId: createestudios
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Estudios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Estudios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Estudios'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Estudios'
+          description: ''
+      tags:
+      - estudios
+  /estudios/{id_estudio}/:
+    get:
+      operationId: retrieveestudios
+      description: ''
+      parameters:
+      - name: id_estudio
+        in: path
+        required: true
+        description: A unique integer value identifying this estudio.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Estudios'
+          description: ''
+      tags:
+      - estudios
+    put:
+      operationId: updateestudios
+      description: ''
+      parameters:
+      - name: id_estudio
+        in: path
+        required: true
+        description: A unique integer value identifying this estudio.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Estudios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Estudios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Estudios'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Estudios'
+          description: ''
+      tags:
+      - estudios
+    patch:
+      operationId: partialUpdateestudios
+      description: ''
+      parameters:
+      - name: id_estudio
+        in: path
+        required: true
+        description: A unique integer value identifying this estudio.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Estudios'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Estudios'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Estudios'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Estudios'
+          description: ''
+      tags:
+      - estudios
+    delete:
+      operationId: destroyestudios
+      description: ''
+      parameters:
+      - name: id_estudio
+        in: path
+        required: true
+        description: A unique integer value identifying this estudio.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - estudios
+  /gastosSalientes/:
+    get:
+      operationId: listgastosSalientes
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GastosSalientes'
+          description: ''
+      tags:
+      - gastosSalientes
+    post:
+      operationId: creategastosSalientes
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GastosSalientes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GastosSalientes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GastosSalientes'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GastosSalientes'
+          description: ''
+      tags:
+      - gastosSalientes
+  /gastosSalientes/{id_gasto}/:
+    get:
+      operationId: retrievegastosSalientes
+      description: ''
+      parameters:
+      - name: id_gasto
+        in: path
+        required: true
+        description: A unique integer value identifying this gastosSaliente.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GastosSalientes'
+          description: ''
+      tags:
+      - gastosSalientes
+    put:
+      operationId: updategastosSalientes
+      description: ''
+      parameters:
+      - name: id_gasto
+        in: path
+        required: true
+        description: A unique integer value identifying this gastosSaliente.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GastosSalientes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GastosSalientes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GastosSalientes'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GastosSalientes'
+          description: ''
+      tags:
+      - gastosSalientes
+    patch:
+      operationId: partialUpdategastosSalientes
+      description: ''
+      parameters:
+      - name: id_gasto
+        in: path
+        required: true
+        description: A unique integer value identifying this gastosSaliente.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GastosSalientes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GastosSalientes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GastosSalientes'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GastosSalientes'
+          description: ''
+      tags:
+      - gastosSalientes
+    delete:
+      operationId: destroygastosSalientes
+      description: ''
+      parameters:
+      - name: id_gasto
+        in: path
+        required: true
+        description: A unique integer value identifying this gastosSaliente.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - gastosSalientes
+  /cirugias/:
+    get:
+      operationId: listcirugias
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cirugias'
+          description: ''
+      tags:
+      - cirugias
+    post:
+      operationId: createcirugias
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cirugias'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cirugias'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cirugias'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cirugias'
+          description: ''
+      tags:
+      - cirugias
+  /cirugias/{codigo_intervencion}/:
+    get:
+      operationId: retrievecirugias
+      description: ''
+      parameters:
+      - name: codigo_intervencion
+        in: path
+        required: true
+        description: A unique integer value identifying this cirugia.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cirugias'
+          description: ''
+      tags:
+      - cirugias
+    put:
+      operationId: updatecirugias
+      description: ''
+      parameters:
+      - name: codigo_intervencion
+        in: path
+        required: true
+        description: A unique integer value identifying this cirugia.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cirugias'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cirugias'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cirugias'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cirugias'
+          description: ''
+      tags:
+      - cirugias
+    patch:
+      operationId: partialUpdatecirugias
+      description: ''
+      parameters:
+      - name: codigo_intervencion
+        in: path
+        required: true
+        description: A unique integer value identifying this cirugia.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cirugias'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cirugias'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cirugias'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cirugias'
+          description: ''
+      tags:
+      - cirugias
+    delete:
+      operationId: destroycirugias
+      description: ''
+      parameters:
+      - name: codigo_intervencion
+        in: path
+        required: true
+        description: A unique integer value identifying this cirugia.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - cirugias
+  /institutos/:
+    get:
+      operationId: listinstitutos
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Institutos'
+          description: ''
+      tags:
+      - institutos
+    post:
+      operationId: createinstitutos
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Institutos'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Institutos'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Institutos'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Institutos'
+          description: ''
+      tags:
+      - institutos
+  /institutos/{codigo_institucion}/:
+    get:
+      operationId: retrieveinstitutos
+      description: ''
+      parameters:
+      - name: codigo_institucion
+        in: path
+        required: true
+        description: A unique integer value identifying this instituto.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Institutos'
+          description: ''
+      tags:
+      - institutos
+    put:
+      operationId: updateinstitutos
+      description: ''
+      parameters:
+      - name: codigo_institucion
+        in: path
+        required: true
+        description: A unique integer value identifying this instituto.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Institutos'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Institutos'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Institutos'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Institutos'
+          description: ''
+      tags:
+      - institutos
+    patch:
+      operationId: partialUpdateinstitutos
+      description: ''
+      parameters:
+      - name: codigo_institucion
+        in: path
+        required: true
+        description: A unique integer value identifying this instituto.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Institutos'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Institutos'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Institutos'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Institutos'
+          description: ''
+      tags:
+      - institutos
+    delete:
+      operationId: destroyinstitutos
+      description: ''
+      parameters:
+      - name: codigo_institucion
+        in: path
+        required: true
+        description: A unique integer value identifying this instituto.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - institutos
+  /institutos_profesional/:
+    get:
+      operationId: listinstitutos_profesionales
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/InstitutosProfesionales'
+          description: ''
+      tags:
+      - institutos-profesional
+    post:
+      operationId: createinstitutos_profesionales
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstitutosProfesionales'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InstitutosProfesionales'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InstitutosProfesionales'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutosProfesionales'
+          description: ''
+      tags:
+      - institutos-profesional
+  /institutos_profesional/{id_inst_prof}/:
+    get:
+      operationId: retrieveinstitutos_profesionales
+      description: ''
+      parameters:
+      - name: id_inst_prof
+        in: path
+        required: true
+        description: A unique integer value identifying this instituto_profesionales.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutosProfesionales'
+          description: ''
+      tags:
+      - institutos-profesional
+    put:
+      operationId: updateinstitutos_profesionales
+      description: ''
+      parameters:
+      - name: id_inst_prof
+        in: path
+        required: true
+        description: A unique integer value identifying this instituto_profesionales.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstitutosProfesionales'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InstitutosProfesionales'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InstitutosProfesionales'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutosProfesionales'
+          description: ''
+      tags:
+      - institutos-profesional
+    patch:
+      operationId: partialUpdateinstitutos_profesionales
+      description: ''
+      parameters:
+      - name: id_inst_prof
+        in: path
+        required: true
+        description: A unique integer value identifying this instituto_profesionales.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstitutosProfesionales'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InstitutosProfesionales'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InstitutosProfesionales'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutosProfesionales'
+          description: ''
+      tags:
+      - institutos-profesional
+    delete:
+      operationId: destroyinstitutos_profesionales
+      description: ''
+      parameters:
+      - name: id_inst_prof
+        in: path
+        required: true
+        description: A unique integer value identifying this instituto_profesionales.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - institutos-profesional
+  /lentes/:
+    get:
+      operationId: listlentes
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Lentes'
+          description: ''
+      tags:
+      - lentes
+    post:
+      operationId: createlentes
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lentes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lentes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lentes'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lentes'
+          description: ''
+      tags:
+      - lentes
+  /lentes/{codigo_optica}/:
+    get:
+      operationId: retrievelentes
+      description: ''
+      parameters:
+      - name: codigo_optica
+        in: path
+        required: true
+        description: A unique integer value identifying this lente.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lentes'
+          description: ''
+      tags:
+      - lentes
+    put:
+      operationId: updatelentes
+      description: ''
+      parameters:
+      - name: codigo_optica
+        in: path
+        required: true
+        description: A unique integer value identifying this lente.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lentes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lentes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lentes'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lentes'
+          description: ''
+      tags:
+      - lentes
+    patch:
+      operationId: partialUpdatelentes
+      description: ''
+      parameters:
+      - name: codigo_optica
+        in: path
+        required: true
+        description: A unique integer value identifying this lente.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lentes'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lentes'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lentes'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lentes'
+          description: ''
+      tags:
+      - lentes
+    delete:
+      operationId: destroylentes
+      description: ''
+      parameters:
+      - name: codigo_optica
+        in: path
+        required: true
+        description: A unique integer value identifying this lente.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - lentes
+  /ventasOpticas/:
+    get:
+      operationId: listventasOpticas
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VentasOpticas'
+          description: ''
+      tags:
+      - ventasOpticas
+    post:
+      operationId: createventasOpticas
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VentasOpticas'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VentasOpticas'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VentasOpticas'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VentasOpticas'
+          description: ''
+      tags:
+      - ventasOpticas
+  /ventasOpticas/{codigo_seguimiento}/:
+    get:
+      operationId: retrieveventasOpticas
+      description: ''
+      parameters:
+      - name: codigo_seguimiento
+        in: path
+        required: true
+        description: A unique value identifying this ventaOptica.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VentasOpticas'
+          description: ''
+      tags:
+      - ventasOpticas
+    put:
+      operationId: updateventasOpticas
+      description: ''
+      parameters:
+      - name: codigo_seguimiento
+        in: path
+        required: true
+        description: A unique value identifying this ventaOptica.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VentasOpticas'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VentasOpticas'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VentasOpticas'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VentasOpticas'
+          description: ''
+      tags:
+      - ventasOpticas
+    patch:
+      operationId: partialUpdateventasOpticas
+      description: ''
+      parameters:
+      - name: codigo_seguimiento
+        in: path
+        required: true
+        description: A unique value identifying this ventaOptica.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VentasOpticas'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VentasOpticas'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VentasOpticas'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VentasOpticas'
+          description: ''
+      tags:
+      - ventasOpticas
+    delete:
+      operationId: destroyventasOpticas
+      description: ''
+      parameters:
+      - name: codigo_seguimiento
+        in: path
+        required: true
+        description: A unique value identifying this ventaOptica.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - ventasOpticas
+  /auth/users/activation/:
+    post:
+      operationId: activationUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Activation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Activation'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activation'
+          description: ''
+      tags:
+      - auth
+  /auth/users/resend_activation/:
+    post:
+      operationId: resendActivationUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+      tags:
+      - auth
+  /auth/users/reset_password/:
+    post:
+      operationId: resetPasswordUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+      tags:
+      - auth
+  /auth/users/reset_password_confirm/:
+    post:
+      operationId: resetPasswordConfirmUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordResetConfirm'
+          description: ''
+      tags:
+      - auth
+  /auth/users/reset_username/:
+    post:
+      operationId: resetUsernameUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+      tags:
+      - auth
+  /auth/users/reset_username_confirm/:
+    post:
+      operationId: resetUsernameConfirmUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsernameResetConfirm'
+          description: ''
+      tags:
+      - auth
+  /auth/users/set_password/:
+    post:
+      operationId: setPasswordUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetPassword'
+          description: ''
+      tags:
+      - auth
+  /auth/users/set_username/:
+    post:
+      operationId: setUsernameUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetUsername'
+          description: ''
+      tags:
+      - auth
+  /auth/jwt/create/:
+    post:
+      operationId: createTokenObtainPair
+      description: 'Takes a set of user credentials and returns an access and refresh
+        JSON web
+
+        token pair to prove the authentication of those credentials.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+      tags:
+      - auth
+  /auth/jwt/refresh/:
+    post:
+      operationId: createTokenRefresh
+      description: 'Takes a refresh type JSON web token and returns an access type
+        JSON web
+
+        token if the refresh token is valid.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+      tags:
+      - auth
+  /auth/jwt/verify/:
+    post:
+      operationId: createTokenVerify
+      description: 'Takes a token and indicates if it is valid.  This view provides
+        no
+
+        information about a token''s fitness for a particular use.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenVerify'
+          description: ''
+      tags:
+      - auth
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          description: "Obligatorio. Longitud m\xE1xima de 150 caracteres. Solo puede\
+            \ estar formado por letras, n\xFAmeros y los caracteres @/./+/-/_."
+    Socios:
+      type: object
+      properties:
+        numero_socio:
+          type: integer
+          readOnly: true
+        apellido:
+          type: string
+          maxLength: 80
+        nombre:
+          type: string
+          maxLength: 80
+        dni:
+          type: integer
+        fecha_nacimiento:
+          type: string
+          format: date
+        fecha_asociacion:
+          type: string
+          format: date
+        edad:
+          type: string
+          readOnly: true
+        calle:
+          type: string
+          maxLength: 50
+        localidad:
+          enum:
+          - Acheral
+          - Agua Dulce y La Soledad
+          - Aguilares
+          - Alderetes
+          - Alpachiri y El Molino
+          - Alto Verde y Los Gucheas
+          - "Amaich\xE1 del Valle"
+          - Amberes
+          - Anca Juli
+          - Arcadia
+          - Atahona
+          - "Banda del R\xEDo Sal\xED"
+          - Bella Vista
+          - Buena Vista
+          - "Burruyac\xFA"
+          - "Capit\xE1n C\xE1ceres"
+          - Cevil Redondo
+          - Choromoro
+          - Ciudacita
+          - Colalao del Valle
+          - Colombres
+          - "Concepci\xF3n"
+          - "Delf\xEDn Gallo (Ex Ingenio Esperanza"
+          - El Bracho y El Cevilar
+          - El Cadillal
+          - El Cercado
+          - "El Cha\xF1ar"
+          - El Manantial
+          - "El Moj\xF3n"
+          - El Mollar
+          - El Naranjito
+          - El Naranjo y El Sunchal
+          - El Polear
+          - El Puestito
+          - El Sacrificio
+          - "El Timb\xF3"
+          - Escaba
+          - Esquina y Mancopa
+          - "Estaci\xF3n Araox y Tacanas"
+          - "Famaill\xE1"
+          - Gastona y Belicha
+          - Gobernador Garmendia
+          - Gobernador Piedrabuena
+          - Graneros
+          - Huasa Pampa
+          - Juan Bautista Alberdi
+          - La Cocha
+          - La Esperanza
+          - La Florida y Luisiana
+          - La Ramada y La Cruz
+          - La Trinidad
+          - Lamadrid
+          - Las Cejas
+          - Las Talas
+          - Las Talitas
+          - Los Bulacio y Los Villagra
+          - "Los G\xF3mez"
+          - Los Nogales
+          - Los Pereyra
+          - Los Puestos
+          - "Los P\xE9rez"
+          - Los Ralos
+          - Los Sarmientos y La Tipa
+          - Los Sosas
+          - Lules
+          - "Manuel Garc\xEDa Fern\xE1ndez"
+          - Manuela Pedraza
+          - Medinas
+          - Monte Bello
+          - Monteagudo
+          - Monteros
+          - Padre Monti
+          - Pampa Mayo
+          - Quilmes y Los Sueldos
+          - Raco
+          - Ranchillos y San Miguel
+          - Rumi Punco
+          - "R\xEDo Chico y Nueva Trinidad"
+          - "R\xEDo Colorado"
+          - "R\xEDo Seco"
+          - "San Andr\xE9s"
+          - "San Felipe y Santa B\xE1rbara"
+          - San Ignacio
+          - San Javier
+          - "San Jos\xE9 de la Cocha"
+          - "San Miguel de Tucum\xE1n"
+          - "San Pablo y Villa Nougu\xE9s"
+          - San Pedro de Colalao
+          - San Pedro y San Antonio
+          - Santa Ana
+          - Santa Cruz y La Tuna
+          - "Santa Luc\xEDa"
+          - Santa Rosa de Leales
+          - Santa Rosa y Los Rojo
+          - Sargento Moya
+          - Siete de Abril
+          - Simoca
+          - Soldado Maldonado
+          - Taco Ralo
+          - "Taf\xED Viejo"
+          - "Taf\xED del Valle"
+          - Tapia
+          - Teniente Berdina
+          - Trancas
+          - Villa Belgrano
+          - "Villa Benjam\xEDn Araoz"
+          - Villa Chigligasta
+          - Villa Quinteros
+          - Villa de Leales
+          - Yerba Buena
+          - "Y\xE1nima"
+          type: string
+        departamento:
+          enum:
+          - "Burruyac\xFA"
+          - Capital
+          - Chicligasta
+          - Cruz Alta
+          - "Famaill\xE1"
+          - Graneros
+          - Juan Bautista Alberdi
+          - La Cocha
+          - Leales
+          - Lules
+          - Monteros
+          - "R\xEDo Chico"
+          - Simoca
+          - "Taf\xED del Valle"
+          - "Taf\xED Viejo"
+          - Trancas
+          - Yerba Buena
+          type: string
+        cod_postal:
+          type: integer
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        tel_fijo:
+          type: integer
+          nullable: true
+        tel_celular:
+          type: integer
+          nullable: true
+        carencia:
+          type: string
+          format: date
+          nullable: true
+        id_mutual:
+          type: string
+          nullable: true
+        tieneObraSocial:
+          type: boolean
+      required:
+      - apellido
+      - nombre
+      - dni
+      - fecha_nacimiento
+      - fecha_asociacion
+      - calle
+      - localidad
+      - departamento
+      - cod_postal
+      - email
+      - tieneObraSocial
+    Familiar:
+      type: object
+      properties:
+        dni_familiar:
+          type: integer
+        apellido:
+          type: string
+          maxLength: 80
+        nombre:
+          type: string
+          maxLength: 80
+        fecha_nacimiento:
+          type: string
+          format: date
+        fecha_asociacion:
+          type: string
+          format: date
+        edad:
+          type: string
+          readOnly: true
+        carencia:
+          type: string
+          format: date
+          nullable: true
+        numero_socio:
+          type: string
+        tieneObraSocial:
+          type: boolean
+      required:
+      - dni_familiar
+      - apellido
+      - nombre
+      - fecha_nacimiento
+      - fecha_asociacion
+      - numero_socio
+      - tieneObraSocial
+    Farmacias:
+      type: object
+      properties:
+        cod_farmacia:
+          type: integer
+          readOnly: true
+        matricula_farm:
+          type: integer
+        farmacia:
+          type: string
+          maxLength: 50
+        cuit:
+          type: integer
+        direccion:
+          type: string
+          maxLength: 80
+        localidad:
+          type: string
+          maxLength: 30
+        cod_postal:
+          type: integer
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        tel_fijo:
+          type: integer
+          nullable: true
+        representante:
+          type: string
+          maxLength: 50
+        tel_celular:
+          type: integer
+          nullable: true
+        cbu:
+          type: string
+          maxLength: 22
+        entidad_bancaria:
+          type: string
+          maxLength: 80
+        nro_cuenta:
+          type: integer
+        tipo_cuenta:
+          enum:
+          - Cuenta Corriente
+          - Caja de Ahorros
+          type: string
+        modalidad_pago:
+          enum:
+          - Efectivo
+          - Transferencia
+          type: string
+      required:
+      - matricula_farm
+      - farmacia
+      - cuit
+      - direccion
+      - localidad
+      - cod_postal
+      - email
+      - representante
+      - cbu
+      - entidad_bancaria
+      - nro_cuenta
+      - tipo_cuenta
+      - modalidad_pago
+    Profesionales:
+      type: object
+      properties:
+        id_medico:
+          type: integer
+          readOnly: true
+        apellido:
+          type: string
+          maxLength: 80
+        nombre:
+          type: string
+          maxLength: 80
+        dni:
+          type: integer
+        domicilio:
+          type: string
+          maxLength: 50
+        localidad:
+          type: string
+          maxLength: 30
+        provincia:
+          enum:
+          - Buenos Aires
+          - Catamarca
+          - Chaco
+          - Chubut
+          - "C\xF3rdoba"
+          - Corrientes
+          - "Entre R\xEDos"
+          - Formosa
+          - Jujuy
+          - La Pampa
+          - La Rioja
+          - Mendoza
+          - Misiones
+          - "Neuqu\xE9n"
+          - "R\xEDo Negro"
+          - Salta
+          - San Juan
+          - San Luis
+          - Santa Cruz
+          - Santa Fe
+          - Santiago del Estero
+          - Tierra del Fuego
+          - "Tucum\xE1n"
+          type: string
+        fecha_ingreso:
+          type: string
+          format: date
+        especialidad:
+          type: string
+          nullable: true
+          maxLength: 40
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 254
+        tel_fijo:
+          type: integer
+          nullable: true
+        tel_celular:
+          type: integer
+          nullable: true
+        matricula:
+          type: integer
+        cbu:
+          type: string
+          maxLength: 22
+        alias_cbu:
+          type: string
+          maxLength: 20
+        titular_cuenta:
+          type: string
+          maxLength: 80
+        tipo_cuenta:
+          type: string
+          maxLength: 20
+        banco:
+          enum:
+          - 00007-BANCO DE GALICIA Y BUENOS AIRES S.A.U.
+          - 00011-BANCO DE LA NACION ARGENTINA
+          - 00014-BANCO DE LA PROVINCIA DE BUENOS AIRES
+          - 00015-INDUSTRIAL AND COMMERCIAL BANK OF CHINA
+          - 00016-CITIBANK N.A.
+          - 00017-BANCO BBVA ARGENTINA S.A.
+          - 00020-BANCO DE LA PROVINCIA DE CORDOBA S.A.
+          - 00027-BANCO SUPERVIELLE S.A.
+          - 00029-BANCO DE LA CIUDAD DE BUENOS AIRES
+          - 00034-BANCO PATAGONIA S.A.
+          - 00044-BANCO HIPOTECARIO S.A.
+          - 00045-BANCO DE SAN JUAN S.A.
+          - 00065-BANCO MUNICIPAL DE ROSARIO
+          - 00072-BANCO SANTANDER RIO S.A.
+          - 00083-BANCO DEL CHUBUT S.A.
+          - 00086-BANCO DE SANTA CRUZ S.A.
+          - "00093-BANCO DE LA PAMPA SOCIEDAD DE ECONOM\xCDA M"
+          - 00094-BANCO DE CORRIENTES S.A.
+          - 00143-BRUBANK S.A.U.
+          - "00097-BANCO PROVINCIA DEL NEUQU\xC9N SOCIEDAD AN\xD3"
+          - 00147-BANCO INTERFINANZAS S.A.
+          - 00150-HSBC BANK ARGENTINA S.A.
+          - 00158-OPEN BANK ARGENTINA S.A.
+          - 00165-JPMORGAN CHASE BANK, NATIONAL ASSOCIATION
+          - 00191-BANCO CREDICOOP COOPERATIVO LIMITADO
+          - 00198-BANCO DE VALORES S.A.
+          - 00247-BANCO ROELA S.A.
+          - 00254-BANCO MARIVA S.A.
+          - 00259-BANCO ITAU ARGENTINA S.A.
+          - 00262-BANK OF AMERICA, NATIONAL ASSOCIATION
+          - 00266-BNP PARIBAS
+          - 00268-BANCO PROVINCIA DE TIERRA DEL FUEGO
+          - 00269-BANCO DE LA REPUBLICA ORIENTAL DEL URUGUAY
+          - 00277-BANCO SAENZ S.A.
+          - 00281-BANCO MERIDIAN S.A.
+          - 00285-BANCO MACRO S.A.
+          - 00299-BANCO COMAFI SOCIEDAD ANONIMA
+          - 00300-BANCO DE INVERSION Y COMERCIO EXTERIOR S
+          - 00301-BANCO PIANO S.A.
+          - 00305-BANCO JULIO SOCIEDAD ANONIMA
+          - 00309-BANCO RIOJA SOCIEDAD ANONIMA UNIPERSONAL
+          - 00310-BANCO DEL SOL S.A.
+          - 00311-NUEVO BANCO DEL CHACO S. A.
+          - 00312-BANCO VOII S.A.
+          - 00315-BANCO DE FORMOSA S.A.
+          - 00319-BANCO CMF S.A.
+          - 00321-BANCO DE SANTIAGO DEL ESTERO S.A.
+          - 00322-BANCO INDUSTRIAL S.A.
+          - 00330-NUEVO BANCO DE SANTA FE SOCIEDAD ANONIMA
+          - 00331-BANCO CETELEM ARGENTINA S.A.
+          - 00332-BANCO DE SERVICIOS FINANCIEROS S.A.
+          - 00336-BANCO BRADESCO ARGENTINA S.A.U.
+          - 00338-BANCO DE SERVICIOS Y TRANSACCIONES S.A.
+          - 00339-RCI BANQUE S.A.
+          - 00340-BACS BANCO DE CREDITO Y SECURITIZACION S
+          - 00341-BANCO MASVENTAS S.A.
+          - 00384-WILOBANK S.A.
+          - "00386-NUEVO BANCO DE ENTRE R\xCDOS S.A."
+          - 00389-BANCO COLUMBIA S.A.
+          - 00426-BANCO BICA S.A.
+          - 00431-BANCO COINAG S.A.
+          - 00432-BANCO DE COMERCIO S.A.
+          - 00435-BANCO SUCREDITO REGIONAL S.A.U.
+          - 00448-BANCO DINO S.A.
+          - 00515-BANK OF CHINA LIMITED SUCURSAL BUENOS AI
+          - "44059-FORD CREDIT COMPA\xD1IA FINANCIERA S.A."
+          - "44077-COMPA\xD1IA FINANCIERA ARGENTINA S.A."
+          - "44088-VOLKSWAGEN FINANCIAL SERVICES COMPA\xD1IA F"
+          - "44090-CORDIAL COMPA\xD1\xCDA FINANCIERA S.A."
+          - "44092-FCA COMPA\xD1IA FINANCIERA S.A."
+          - "44093-GPAT COMPA\xD1IA FINANCIERA S.A.U."
+          - "44095-ROMBO COMPA\xD1\xCDA FINANCIERA S.A."
+          - "44096-JOHN DEERE CREDIT COMPA\xD1\xCDA FINANCIERA S."
+          - "44098-PSA FINANCE ARGENTINA COMPA\xD1\xCDA FINANCIER"
+          - "44099-TOYOTA COMPA\xD1\xCDA FINANCIERA DE ARGENTINA"
+          - "45030-NARANJA DIGITAL COMPA\xD1\xCDA FINANCIERA S.A."
+          - "45056-MONTEMAR COMPA\xD1IA FINANCIERA S.A."
+          - "45072-TRANSATLANTICA COMPA\xD1IA FINANCIERA S.A."
+          - "65203-CREDITO REGIONAL COMPA\xD1IA FINANCIERA S.A"
+          type: string
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - apellido
+      - nombre
+      - dni
+      - domicilio
+      - localidad
+      - provincia
+      - fecha_ingreso
+      - matricula
+      - cbu
+      - alias_cbu
+      - titular_cuenta
+      - tipo_cuenta
+      - banco
+    Medicamentos:
+      type: object
+      properties:
+        id_medicamento:
+          type: integer
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 30
+        presentacion:
+          type: string
+          maxLength: 100
+        laboratorio:
+          type: string
+          maxLength: 30
+        cod_farmacia:
+          type: string
+      required:
+      - nombre
+      - presentacion
+      - laboratorio
+      - cod_farmacia
+    Recetas:
+      type: object
+      properties:
+        id_receta:
+          type: integer
+          readOnly: true
+        numero_socio:
+          type: string
+        diagnostico:
+          type: string
+          maxLength: 200
+        paciente:
+          type: string
+          maxLength: 60
+        id_medico:
+          type: string
+        id_medicamento:
+          type: string
+        cod_farmacia:
+          type: string
+        fecha:
+          type: string
+          format: date
+        carencia:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - numero_socio
+      - diagnostico
+      - paciente
+      - id_medico
+      - id_medicamento
+      - cod_farmacia
+      - fecha
+    Ordenes:
+      type: object
+      properties:
+        numero_orden:
+          type: integer
+          readOnly: true
+        numero_socio:
+          type: string
+        paciente:
+          type: string
+          maxLength: 60
+        servicio:
+          type: string
+          maxLength: 30
+        id_medico:
+          type: string
+        id_mutual:
+          type: string
+        fecha:
+          type: string
+          format: date
+        hora:
+          type: string
+        precio:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+        realizado:
+          type: boolean
+      required:
+      - numero_socio
+      - paciente
+      - servicio
+      - id_medico
+      - id_mutual
+      - fecha
+      - hora
+      - precio
+    Servicios:
+      type: object
+      properties:
+        id_servicio:
+          type: integer
+          readOnly: true
+        servicio:
+          type: string
+          maxLength: 20
+      required:
+      - servicio
+    Mutuales:
+      type: object
+      properties:
+        id_mutual:
+          type: integer
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 100
+        direccion:
+          type: string
+          maxLength: 100
+        localidad:
+          enum:
+          - Acheral
+          - Agua Dulce y La Soledad
+          - Aguilares
+          - Alderetes
+          - Alpachiri y El Molino
+          - Alto Verde y Los Gucheas
+          - "Amaich\xE1 del Valle"
+          - Amberes
+          - Anca Juli
+          - Arcadia
+          - Atahona
+          - "Banda del R\xEDo Sal\xED"
+          - Bella Vista
+          - Buena Vista
+          - "Burruyac\xFA"
+          - "Capit\xE1n C\xE1ceres"
+          - Cevil Redondo
+          - Choromoro
+          - Ciudacita
+          - Colalao del Valle
+          - Colombres
+          - "Concepci\xF3n"
+          - "Delf\xEDn Gallo (Ex Ingenio Esperanza"
+          - El Bracho y El Cevilar
+          - El Cadillal
+          - El Cercado
+          - "El Cha\xF1ar"
+          - El Manantial
+          - "El Moj\xF3n"
+          - El Mollar
+          - El Naranjito
+          - El Naranjo y El Sunchal
+          - El Polear
+          - El Puestito
+          - El Sacrificio
+          - "El Timb\xF3"
+          - Escaba
+          - Esquina y Mancopa
+          - "Estaci\xF3n Araox y Tacanas"
+          - "Famaill\xE1"
+          - Gastona y Belicha
+          - Gobernador Garmendia
+          - Gobernador Piedrabuena
+          - Graneros
+          - Huasa Pampa
+          - Juan Bautista Alberdi
+          - La Cocha
+          - La Esperanza
+          - La Florida y Luisiana
+          - La Ramada y La Cruz
+          - La Trinidad
+          - Lamadrid
+          - Las Cejas
+          - Las Talas
+          - Las Talitas
+          - Los Bulacio y Los Villagra
+          - "Los G\xF3mez"
+          - Los Nogales
+          - Los Pereyra
+          - Los Puestos
+          - "Los P\xE9rez"
+          - Los Ralos
+          - Los Sarmientos y La Tipa
+          - Los Sosas
+          - Lules
+          - "Manuel Garc\xEDa Fern\xE1ndez"
+          - Manuela Pedraza
+          - Medinas
+          - Monte Bello
+          - Monteagudo
+          - Monteros
+          - Padre Monti
+          - Pampa Mayo
+          - Quilmes y Los Sueldos
+          - Raco
+          - Ranchillos y San Miguel
+          - Rumi Punco
+          - "R\xEDo Chico y Nueva Trinidad"
+          - "R\xEDo Colorado"
+          - "R\xEDo Seco"
+          - "San Andr\xE9s"
+          - "San Felipe y Santa B\xE1rbara"
+          - San Ignacio
+          - San Javier
+          - "San Jos\xE9 de la Cocha"
+          - "San Miguel de Tucum\xE1n"
+          - "San Pablo y Villa Nougu\xE9s"
+          - San Pedro de Colalao
+          - San Pedro y San Antonio
+          - Santa Ana
+          - Santa Cruz y La Tuna
+          - "Santa Luc\xEDa"
+          - Santa Rosa de Leales
+          - Santa Rosa y Los Rojo
+          - Sargento Moya
+          - Siete de Abril
+          - Simoca
+          - Soldado Maldonado
+          - Taco Ralo
+          - "Taf\xED Viejo"
+          - "Taf\xED del Valle"
+          - Tapia
+          - Teniente Berdina
+          - Trancas
+          - Villa Belgrano
+          - "Villa Benjam\xEDn Araoz"
+          - Villa Chigligasta
+          - Villa Quinteros
+          - Villa de Leales
+          - Yerba Buena
+          - "Y\xE1nima"
+          type: string
+        sucursal:
+          enum:
+          - "Burruyac\xFA"
+          - Capital
+          - Chicligasta
+          - Cruz Alta
+          - "Famaill\xE1"
+          - Graneros
+          - Juan Bautista Alberdi
+          - La Cocha
+          - Leales
+          - Lules
+          - Monteros
+          - "R\xEDo Chico"
+          - Simoca
+          - "Taf\xED del Valle"
+          - "Taf\xED Viejo"
+          - Trancas
+          - Yerba Buena
+          type: string
+        matricula:
+          type: integer
+        cuit:
+          type: string
+          maxLength: 11
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 254
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 10
+        representante:
+          type: string
+          maxLength: 100
+        fecha_inicio:
+          type: string
+          format: date
+        fecha_ingreso:
+          type: string
+          format: date
+      required:
+      - nombre
+      - direccion
+      - localidad
+      - sucursal
+      - matricula
+      - cuit
+      - representante
+      - fecha_inicio
+      - fecha_ingreso
+    ServiciosMutual:
+      type: object
+      properties:
+        id_serv_mut:
+          type: integer
+          readOnly: true
+        id_mutual:
+          type: string
+        id_servicio:
+          type: string
+      required:
+      - id_mutual
+      - id_servicio
+    Planes:
+      type: object
+      properties:
+        id_plan:
+          type: integer
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 128
+        precio:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+        beneficios:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              tipo:
+                enum:
+                - '1'
+                - '2'
+                - '3'
+                type: string
+              cantidad:
+                type: integer
+              servicio:
+                type: string
+              plan:
+                type: string
+                readOnly: true
+            required:
+            - cantidad
+            - servicio
+      required:
+      - nombre
+      - precio
+      - beneficios
+    Beneficios:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tipo:
+          enum:
+          - '1'
+          - '2'
+          - '3'
+          type: string
+        cantidad:
+          type: integer
+        servicio:
+          type: string
+        plan:
+          type: string
+          readOnly: true
+      required:
+      - cantidad
+      - servicio
+    Cuotas:
+      type: object
+      properties:
+        id_cuota:
+          type: integer
+          readOnly: true
+        personapago:
+          type: string
+          maxLength: 60
+        monto:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 10000
+          minimum: -10000
+        fecharealizacion:
+          type: string
+          format: date
+        numero_socio:
+          type: string
+      required:
+      - personapago
+      - monto
+      - numero_socio
+    Cobradores:
+      type: object
+      properties:
+        id_cobrador:
+          type: integer
+        numero_socio:
+          type: string
+        nombre:
+          type: string
+          maxLength: 80
+        apellido:
+          type: string
+          maxLength: 80
+        dni:
+          type: integer
+        fecha_cobro:
+          type: string
+          format: date
+      required:
+      - id_cobrador
+      - numero_socio
+      - nombre
+      - apellido
+      - dni
+      - fecha_cobro
+    Estudios:
+      type: object
+      properties:
+        id_estudio:
+          type: integer
+          readOnly: true
+        tipo:
+          enum:
+          - Oftalmologia
+          - Optica
+          - Analisis bioquimico
+          - Odontologia
+          - Diag. Imagenes
+          type: string
+        abreviatura:
+          type: string
+          nullable: true
+          maxLength: 30
+        ub:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+          nullable: true
+        nbu:
+          type: integer
+          nullable: true
+        proveedor:
+          type: string
+          nullable: true
+          maxLength: 40
+        descripcion:
+          type: string
+          maxLength: 60
+        "denominaci\xF3n":
+          type: string
+          nullable: true
+          maxLength: 30
+        precio_socio:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+        precio_federacion:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+      required:
+      - tipo
+      - descripcion
+      - precio_socio
+      - precio_federacion
+    GastosSalientes:
+      type: object
+      properties:
+        id_gasto:
+          type: integer
+          readOnly: true
+        nro_ticket:
+          type: integer
+        descripcion:
+          type: string
+          maxLength: 50
+        total:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 10000
+          minimum: -10000
+        fecha:
+          type: string
+          format: date
+      required:
+      - nro_ticket
+      - descripcion
+      - total
+    Cirugias:
+      type: object
+      properties:
+        codigo_intervencion:
+          type: integer
+          readOnly: true
+        descripcion:
+          type: string
+          maxLength: 30
+        nivel:
+          type: integer
+        numero_ayudantes:
+          type: integer
+          nullable: true
+        honorario_cirujano:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+          nullable: true
+        honorario_ayudante:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+          nullable: true
+        honorario_total:
+          type: string
+          readOnly: true
+        observacion:
+          type: string
+          maxLength: 60
+      required:
+      - descripcion
+      - nivel
+      - observacion
+    Institutos:
+      type: object
+      properties:
+        codigo_institucion:
+          type: integer
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 80
+        cuit:
+          type: string
+          maxLength: 10
+        direccion:
+          type: string
+          maxLength: 50
+        localidad:
+          type: string
+          maxLength: 30
+        provincia:
+          enum:
+          - Buenos Aires
+          - Catamarca
+          - Chaco
+          - Chubut
+          - "C\xF3rdoba"
+          - Corrientes
+          - "Entre R\xEDos"
+          - Formosa
+          - Jujuy
+          - La Pampa
+          - La Rioja
+          - Mendoza
+          - Misiones
+          - "Neuqu\xE9n"
+          - "R\xEDo Negro"
+          - Salta
+          - San Juan
+          - San Luis
+          - Santa Cruz
+          - Santa Fe
+          - Santiago del Estero
+          - Tierra del Fuego
+          - "Tucum\xE1n"
+          type: string
+        telefono:
+          type: string
+          maxLength: 10
+        horarios:
+          type: string
+        responsable:
+          type: string
+          maxLength: 80
+        telefono_responsable:
+          type: string
+          maxLength: 10
+      required:
+      - nombre
+      - cuit
+      - direccion
+      - localidad
+      - provincia
+      - telefono
+      - horarios
+      - responsable
+      - telefono_responsable
+    InstitutosProfesionales:
+      type: object
+      properties:
+        id_inst_prof:
+          type: integer
+          readOnly: true
+        codigo_institucion:
+          type: string
+        id_medico:
+          type: string
+      required:
+      - codigo_institucion
+      - id_medico
+    Lentes:
+      type: object
+      properties:
+        codigo_optica:
+          type: integer
+          readOnly: true
+        medida_lente:
+          type: string
+          maxLength: 30
+        patillas:
+          type: string
+          maxLength: 30
+        marca:
+          type: string
+          maxLength: 30
+        descripcion:
+          type: string
+          maxLength: 60
+        precio_laboratorio:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+          nullable: true
+        precio_optica:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+          nullable: true
+        precio_mutual:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+          nullable: true
+        precio_venta:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+          nullable: true
+        precio_tarjeta:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000000
+          minimum: -1000000
+          nullable: true
+        stock:
+          type: integer
+          nullable: true
+      required:
+      - medida_lente
+      - patillas
+      - marca
+      - descripcion
+    VentasOpticas:
+      type: object
+      properties:
+        codigo_seguimiento:
+          type: integer
+        numero_socio:
+          type: string
+      required:
+      - codigo_seguimiento
+      - numero_socio
+    UserCreate:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        username:
+          type: string
+          description: "Obligatorio. Longitud m\xE1xima de 150 caracteres. Solo puede\
+            \ estar formado por letras, n\xFAmeros y los caracteres @/./+/-/_."
+          pattern: ^[\w.@+-]+\z
+          maxLength: 150
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - username
+      - password
+    Activation:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+      required:
+      - uid
+      - token
+    SendEmailReset:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    PasswordResetConfirm:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+        new_password:
+          type: string
+      required:
+      - uid
+      - token
+      - new_password
+    UsernameResetConfirm:
+      type: object
+      properties:
+        new_username:
+          type: string
+          description: "Obligatorio. Longitud m\xE1xima de 150 caracteres. Solo puede\
+            \ estar formado por letras, n\xFAmeros y los caracteres @/./+/-/_."
+          pattern: ^[\w.@+-]+\z
+          maxLength: 150
+      required:
+      - new_username
+    SetPassword:
+      type: object
+      properties:
+        new_password:
+          type: string
+        current_password:
+          type: string
+      required:
+      - new_password
+      - current_password
+    SetUsername:
+      type: object
+      properties:
+        current_password:
+          type: string
+        new_username:
+          type: string
+          description: "Obligatorio. Longitud m\xE1xima de 150 caracteres. Solo puede\
+            \ estar formado por letras, n\xFAmeros y los caracteres @/./+/-/_."
+          pattern: ^[\w.@+-]+\z
+          maxLength: 150
+      required:
+      - current_password
+      - new_username
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - username
+      - password
+    TokenRefresh:
+      type: object
+      properties:
+        refresh:
+          type: string
+        access:
+          type: string
+          readOnly: true
+      required:
+      - refresh
+    TokenVerify:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+      - token

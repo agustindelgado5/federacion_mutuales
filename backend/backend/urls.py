@@ -22,4 +22,5 @@ urlpatterns = [
     path("", include("Institutos.urls")),
     path("", include("Lentes.urls")),
     path("", include("VentasOpticas.urls")),
+    path("", include("Vendedores.urls")),
 ]

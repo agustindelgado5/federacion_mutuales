@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "Institutos",
     "Lentes",
     "VentasOpticas",
+    'Vendedores',
 
 ]
 
