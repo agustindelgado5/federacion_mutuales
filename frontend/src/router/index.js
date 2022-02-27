@@ -134,6 +134,12 @@ const routes = [
     component: () => import('../views/planes/Planes.vue'),
     meta: { title: 'Planes - Federación Tucumana de Mutuales' }
   },
+  {
+    path: '/test',
+    name: 'Test',
+    component: () => import('../views/Test.vue'),
+    meta: { title: 'TEST' }
+  },
 ];
 
 const router = new VueRouter({

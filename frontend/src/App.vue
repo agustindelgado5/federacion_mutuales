@@ -96,7 +96,7 @@ export default {
     MenuBurger,
     MenuShadow,
     MenuPanel,
-  },
+},
   props: {
     source: {
       type: Object,
