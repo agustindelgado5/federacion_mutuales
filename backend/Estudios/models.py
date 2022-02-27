@@ -1,5 +1,7 @@
 from django.db import models
 from backend.tipos_Estudios import estudios_tipos
+from django.db.models.fields import AutoField
+from Socios.models import socios
 
 # Create your models here.
 
@@ -34,10 +36,27 @@ class estudios(models.Model):
 
     def __str__(self):
         cadena = (
-            str(self.cod_estudio)
+            str(self.id_estudio)
             + " - "
             + str(self.tipo)
             + " - "
             + str(self.descripcion)
         )
         return cadena
+
+
+
+class estudio_socio(models.Model):
+    id_estudio_socio = AutoField(primary_key=True)
+    numero_socio=models.ForeignKey(socios, on_delete=models.CASCADE)
+    id_estudio=models.ForeignKey(estudios, on_delete=models.CASCADE)
+    #Datos del sistema
+    created  = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now_add=True) 
+
+    class Meta:
+        db_table='estudios_socios'
+        verbose_name='estudio_socio'
+        verbose_name_plural='estudios_socios'
+        ordering=['numero_socio']
+        unique_together = ('numero_socio', 'id_estudio',)

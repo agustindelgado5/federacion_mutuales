@@ -18,30 +18,36 @@ Construyo la entidad socios con sus atributos
 
 
 class socios(models.Model):
-    # nombre=models.CharField(max_length=50)
     numero_socio = AutoField(primary_key=True)
+    #Datos personales
     apellido = models.CharField(max_length=80)
     nombre = models.CharField(max_length=80)
     dni = models.IntegerField(unique=True)
+    fecha_nacimiento = models.DateField()
+    #edad = models.IntegerField(blank=True, null=True, editable=False)
+
+    #Direccion
     calle = models.CharField(max_length=50)
     localidad = models.CharField(max_length=50, choices=comumas_municipios)
     departamento = models.CharField(max_length=30, choices=deptos_tucuman)
     cod_postal = models.IntegerField()
-    fecha_nacimiento = models.DateField()
-    fecha_asociacion = models.DateField()
-    #edad = models.IntegerField(blank=True, null=True, editable=False)
+
+    #Contacto
+    email = models.EmailField()
+    tel_fijo = models.IntegerField(null=True, blank=True)
+    tel_celular = models.IntegerField(null=True, blank=True)
+
+    #Datos de la asociacion
+    fecha_asociacion = models.DateField() 
     id_mutual = models.ForeignKey(mutuales,null=True, blank=True, on_delete=models.DO_NOTHING)
     tieneObraSocial = models.BooleanField()
     #plan = models.ForeignKey(planes, on_delete=models.DO_NOTHING)
     #vendedor = models.ForeignKey(vendedores, on_delete=models.DO_NOTHING)
-
-    email = models.EmailField()
-    tel_fijo = models.IntegerField(null=True, blank=True)
-    tel_celular = models.IntegerField(null=True, blank=True)
-    # servicios_socio = models.ManyToManyField(servicios) #Atributo multivaludo
+    #servicios_socio = models.ManyToManyField(servicios) #Atributo multivaludo
     # servicios = ArrayField(models.CharField(choices=CHOICES, max_length=20),20)
 
     carencia = models.DateField(null=True, blank=True)
+    #Datos del sistema
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
 
@@ -122,3 +128,5 @@ class familiar(models.Model):
             + str(self.carencia)
         )
         return cadena
+
+

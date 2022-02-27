@@ -70,3 +70,8 @@ class FamiliarViewSet(viewsets.ModelViewSet):
         _edad = calcular_edad(datetime.strptime(self.request.POST['fecha_nacimiento'],'%Y-%m-%d'))
         serializers.save(edad=_edad)
     """
+"""
+class ServiciosSocioViewSet(viewsets.ModelViewSet):
+    serializer_class = ServiciosSociosSerializer
+    queryset = servicio_socio.objects.all()
+"""

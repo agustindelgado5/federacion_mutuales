@@ -2,7 +2,6 @@ from django.contrib import admin
 
 # from django.contrib.admin.sites import site
 from .models import socios, familiar
-
 # Register your models here.
 
 

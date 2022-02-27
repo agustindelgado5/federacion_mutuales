@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from Socios.models import socios, familiar
 
-
 class SociosSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = socios
@@ -48,3 +47,14 @@ class FamiliarSerializer(serializers.HyperlinkedModelSerializer):
 
         )
         read_only_fields = ["edad","created ", "updated"]
+
+"""
+class ServiciosSociosSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = servicio_socio
+        fields = (
+            "numero_socio",
+            "id_servicio",
+        )
+        read_only_fields = ["created ", "updated"]
+"""

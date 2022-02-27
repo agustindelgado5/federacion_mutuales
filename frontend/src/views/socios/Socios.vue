@@ -44,17 +44,9 @@
 				<template #modal-title>
 					<h5 class="modal-title">Alta</h5>
 				</template>
-				<socios-alta :updateTable="testFetch"/>
+				<socios-alta :updateTable="testFetch" />
 			</b-modal>
 
-			<!-- ================ PAGO DE AFILIACION ======================== -->
-			<b-button
-				@click="GenerarPagoAfiliacion()"
-				class="mb-4 ml-2"
-				id="btn_Pago_afiliacion"
-				title="Pago Afiliacion"
-				>Pago de Afiliacion</b-button
-			>
 			<!-- ============================================================ -->
 			<b-button
 				class="mb-4 ml-2"
@@ -296,10 +288,28 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										id="button-2"
 										@click="showModalinfo1(row.item, row.index)"
 										:disabled="btn_pagado"
+										title="Ver si el socio pago"
 									>
 										<!-- isabled="btn_editar" -->
 										<v-icon class="mr-2"> mdi-cash </v-icon>
 										¿Pagado?
+									</b-button>
+
+									<b-button
+										:to="{
+											name: 'estudioSocio',
+											params: { socio: row.item },
+											query: { id: row.item.numero_socio },
+										}"
+										variant="primary"
+										id="button-3"
+										title="Ver estudios asociadas"
+										:disabled="btn_ordenes"
+										style="color: white"
+									>
+										<!-- @click="ordenesProfesional(row.item)" -->
+										<v-icon dark>mdi-format-list-bulleted-square</v-icon>
+										Estudios
 									</b-button>
 
 									<b-button
@@ -349,7 +359,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										id="modal_pagado"
 										ref="my-modalpagado"
 										hide-footer
-										title="Pagado?"
+										title="¿Pagado?"
 										ok-only
 									>
 										<div class="d-block text-center">
@@ -838,12 +848,19 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			</b-overlay>
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<socios-update :socio="editar" :updateTable="testFetch"/>
+				<socios-update :socio="editar" :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ==================================CREAR CARNET================================== -->
-			<b-modal size="lg" ref="modal-carnetSocio" id="modal-carnetSocio" hide-footer>
-				<template #modal-title><h5 class="modal-title">Vista Previa</h5></template>
+			<b-modal
+				size="lg"
+				ref="modal-carnetSocio"
+				id="modal-carnetSocio"
+				hide-footer
+			>
+				<template #modal-title
+					><h5 class="modal-title">Vista Previa</h5></template
+				>
 				<socios-carnet :carnet="carnetAPDF" />
 			</b-modal>
 			<!-- ================================================================================ -->
@@ -1466,8 +1483,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.filter_fechaAsociacion.desde = null;
 				this.filter_fechaAsociacion.hasta = null;
 			},
-
-
 		},
 		beforeMount() {
 			//this.show = true;
