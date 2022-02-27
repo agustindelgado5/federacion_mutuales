@@ -55,16 +55,11 @@
 				selected_anterior: [],
 				lista_estudios: [],
 
-				list_institutos: {},
+				//list_institutos: {},
 
 				op_estudios: [
 					{ value: null, text: "Elija los consultorios", disabled: true },
 				],
-
-				validacion: {
-					//id_medico: { estado: null, mensaje: "" },
-					//codigo_institucion: { estado: null, mensaje: "" },
-				},
 
 				respuesta: null,
 			};
@@ -118,23 +113,11 @@
 
 			async putEstudio() {
 				var id = this.Socio.numero_socio;
-				//console.log("Selected for edit: ", this.selected, "length:", this.selected.length);
 
 				/*
 				En caso de agregar un nuevo elemento, hago el post
 				*/
 				for (var i = 0; i < this.selected.length; i++) {
-					/*
-					console.log(
-						"id_medico: ",
-						id,
-						"consultorio:",
-						this.selected[i],
-						"cargado: ",
-						await this.estaCargado(id, this.selected[i])
-					);
-                    */
-
 					if ((await this.estaCargado(id, this.selected[i])) == null) {
 						this.postEstudio(id, this.selected[i]);
 						//this.updateTable();
@@ -151,9 +134,9 @@
 				console.log("elemento a eliminar: ", diferencia);
 				if (diferencia != null) {
 					diferencia.forEach((element) => {
-						for (let j = 0; j < this.consultorios.length; j++) {
-							if (this.consultorios[j].codigo_institucion == element) {
-								this.DeleteEstudio(this.consultorios[j].id_inst_prof);
+						for (let j = 0; j < this.lista_estudios.length; j++) {
+							if (this.lista_estudios[j].id_estudio == element) {
+								this.DeleteEstudio(this.lista_estudios[j].id_estudio_socio);
 								this.updateTable();
 								break;
 							}
@@ -202,7 +185,7 @@
 			},
 
 			//Hago una eliminacion de un registro
-			async DeleteInstituto(id) {
+			async DeleteEstudio(id) {
 				try {
 					axios
 						.delete("http://localhost:8081/estudios_socios/" + id + "/")
