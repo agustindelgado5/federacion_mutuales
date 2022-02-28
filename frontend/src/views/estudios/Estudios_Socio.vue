@@ -1,269 +1,461 @@
 <template>
-	<div id="estudios" class="myTable">
-		<!--HEAD DE LA PAGINA -->
-		<vue-headful
-			title="Mis Estudios - Federación Tucumana de Mutuales"
-		></vue-headful>
+	<v-app id="app">
+		<div id="estudios" class="myTable">
+			<!--HEAD DE LA PAGINA -->
+			<vue-headful
+				title="Mis Estudios - Federación Tucumana de Mutuales"
+			></vue-headful>
 
-		<h2>
-			Listado de Estudios de {{ socio.apellido.toUpperCase() }},
-			{{ socio.nombre.toUpperCase() }}
-		</h2>
-		<b-button @click="testFetch" class="mb-4" title="Recargar" variant="light">
-			<v-icon dark style="color: black">mdi-cached</v-icon>
-			Actualizar
-		</b-button>
+			<h2>
+				Listado de Estudios de {{ socio.apellido.toUpperCase() }},
+				{{ socio.nombre.toUpperCase() }}
+			</h2>
+			<b-button
+				@click="testFetch"
+				class="mb-4"
+				title="Recargar"
+				variant="light"
+			>
+				<v-icon dark style="color: black">mdi-cached</v-icon>
+				Actualizar
+			</b-button>
 
-		<!--========================EDITAR ESTUDIOS============================ -->
-		<b-button
-			variant="success"
-			class="mb-4"
-			v-b-modal.modal-editar-estudios
-			title="Editar estudios"
-			style="color: white"
-		>
-			<v-icon dark> mdi-plus </v-icon>
-			Editar estudios
-		</b-button>
+			<!--========================EDITAR ESTUDIOS============================ -->
+			<b-button
+				variant="success"
+				class="mb-4"
+				v-b-modal.modal-editar-estudios
+				title="Editar estudios"
+				style="color: white"
+			>
+				<v-icon dark> mdi-plus </v-icon>
+				Editar estudios
+			</b-button>
 
-		<b-modal id="modal-editar-estudios" hide-footer>
-			<template #modal-title>
-				<h5 class="modal-title">Editar - Elija los estudios para:</h5>
-			</template>
-			<update-estudiosocio :Socio="socio" :updateTable="testFetch" />
-		</b-modal>
-		<!--==================================================================== -->
+			<b-modal id="modal-editar-estudios" hide-footer>
+				<template #modal-title>
+					<h5 class="modal-title">Editar - Elija los estudios para:</h5>
+				</template>
+				<update-estudiosocio :Socio="socio" :updateTable="testFetch" />
+			</b-modal>
+			<!--==================================================================== -->
 
-		<!-- ======== Formulario de Busqueda ======== -->
-		<b-form-group
-			label-for="filter-input"
-			label-align-sm="right"
-			label-size="sm"
-			class="mb-0"
-			style="width: 100%; padding-bottom: 1em"
-			v-show="rows > 0"
-		>
-			<b-input-group size="sm">
-				<b-form-input
-					id="filter-input"
-					v-model="filter"
-					type="search"
-					placeholder="Buscar registros"
-				></b-form-input>
+			<!-- ======== Formulario de Busqueda ======== -->
+			<b-form-group
+				label-for="filter-input"
+				label-align-sm="right"
+				label-size="sm"
+				class="mb-0"
+				style="width: 100%; padding-bottom: 1em"
+				v-show="rows > 0"
+			>
+				<b-input-group size="sm">
+					<b-form-input
+						id="filter-input"
+						v-model="filter"
+						type="search"
+						placeholder="Buscar registros"
+					></b-form-input>
 
-				<b-input-group-append>
-					<b-button :disabled="!filter" @click="filter = ''">Limpiar</b-button>
-				</b-input-group-append>
-			</b-input-group>
-		</b-form-group>
-		<!-- ======================================== -->
-		<!--
+					<b-input-group-append>
+						<b-button :disabled="!filter" @click="filter = ''"
+							>Limpiar</b-button
+						>
+					</b-input-group-append>
+				</b-input-group>
+			</b-form-group>
+			<!-- ======================================== -->
+			<!--
 		{{ this.tabla_estudios }}
 		<br />
 		{{ this.socio }}
 		-->
-		<div v-if="rows > 0">
-			<div v-if="selected.length > 0">
-				<div v-if="rows != rowsFilter">
-					<pre>
+			<div v-if="rows > 0">
+				<div v-if="selected.length > 0">
+					<div v-if="rows != rowsFilter">
+						<pre>
 Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
-							selected.length
-						}}</pre
-					>
+								selected.length
+							}}</pre
+						>
+					</div>
+					<div v-else>
+						<pre>
+Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
+								selected.length
+							}}</pre
+						>
+					</div>
 				</div>
 				<div v-else>
-					<pre>
-Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
-							selected.length
-						}}</pre
-					>
+					<div v-if="rows != rowsFilter">
+						<pre>Registros Fitrados: {{ rowsFilter }} </pre>
+					</div>
+					<div v-else>
+						<pre>Cantidad de registros: {{ rows }}</pre>
+					</div>
 				</div>
+				<b-button
+					class="mb-4 ml-2"
+					size="sm"
+					style="color: white"
+					title="Seleccionar Todo"
+					@click="seleccionar_todas"
+					:disabled="btn_select"
+				>
+					Seleccionar Todo
+				</b-button>
+				<b-button
+					class="mb-4 ml-2"
+					size="sm"
+					style="color: white"
+					title="Limpiar Seleccion"
+					@click="limpiar_seleccion"
+					:disabled="btn_limpiar"
+				>
+					Limpiar Seleccion
+				</b-button>
 			</div>
 			<div v-else>
-				<div v-if="rows != rowsFilter">
-					<pre>Registros Fitrados: {{ rowsFilter }} </pre>
-				</div>
-				<div v-else>
-					<pre>Cantidad de registros: {{ rows }}</pre>
-				</div>
+				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
-			<b-button
-				class="mb-4 ml-2"
-				size="sm"
-				style="color: white"
-				title="Seleccionar Todo"
-				@click="seleccionar_todas"
-				:disabled="btn_select"
-			>
-				Seleccionar Todo
-			</b-button>
-			<b-button
-				class="mb-4 ml-2"
-				size="sm"
-				style="color: white"
-				title="Limpiar Seleccion"
-				@click="limpiar_seleccion"
-				:disabled="btn_limpiar"
-			>
-				Limpiar Seleccion
-			</b-button>
-		</div>
-		<div v-else>
-			<pre>Cantidad de registros: {{ rows }}</pre>
-		</div>
 
-		<section>
-			<!-- ======== Tabla con los registros ======= -->
-			<b-table
-				:fields="fields"
-				striped
-				sortable
-				responsive
-				hover
-				:items="tabla_estudios"
-				show-empty
-				:per-page="perPage"
-				:current-page="currentPage"
-				:sticky-header="true"
-				:no-border-collapse="false"
-				ref="tablaregistros"
-				id="tablaregistros"
-				selectable
-				select-mode="multi"
-				@row-selected="seleccionar_una"
-				:filter="filter"
-				@filtered="onFiltered"
-			>
-				<template #empty="">
-					<b>No hay registros para mostrar</b>
-				</template>
-
-				<template #cell(selected)="{ rowSelected }">
-					<template v-if="rowSelected">
-						<span aria-hidden="true">&check;</span>
-						<span class="sr-only">Selected</span>
+			<section class="container">
+				<!-- ======== Tabla con los registros ======= -->
+				<b-table
+					:fields="fields"
+					striped
+					sortable
+					responsive
+					hover
+					:items="
+						tabla_estudios
+							| Tipo(filter_tipo)
+							| Proveedor(filter_proveedor)
+							| FechaRealizacionRange(
+								filter_fechaRealizacion.desde,
+								filter_fechaRealizacion.hasta
+							)
+					"
+					show-empty
+					:per-page="perPage"
+					:current-page="currentPage"
+					:sticky-header="true"
+					:no-border-collapse="false"
+					ref="tablaregistros"
+					id="tablaregistros"
+					selectable
+					select-mode="multi"
+					@row-selected="seleccionar_una"
+					:filter="filter"
+					@filtered="onFiltered"
+				>
+					<template #empty="">
+						<b>No hay registros para mostrar</b>
 					</template>
-					<template v-else>
-						<span aria-hidden="true">&nbsp;</span>
-						<span class="sr-only">Not selected</span>
+
+					<template #cell(selected)="{ rowSelected }">
+						<template v-if="rowSelected">
+							<span aria-hidden="true">&check;</span>
+							<span class="sr-only">Selected</span>
+						</template>
+						<template v-else>
+							<span aria-hidden="true">&nbsp;</span>
+							<span class="sr-only">Not selected</span>
+						</template>
 					</template>
-				</template>
-				<template slot="cell(id_estudio_socio)" slot-scope="data">
-					<b>{{ data.value }}</b>
-				</template>
-				<template slot="cell(id_estudio)" slot-scope="data">
-					<b>{{ data.value }}</b>
-				</template>
+					<template slot="cell(id_estudio_socio)" slot-scope="data">
+						<b>{{ data.value }}</b>
+					</template>
+					<template slot="cell(id_estudio)" slot-scope="data">
+						<b>{{ data.value }}</b>
+					</template>
 
-				<template slot="cell(fecha)" slot-scope="data">
-					{{ data.value | Date }}
-				</template>
+					<template slot="cell(fecha)" slot-scope="data">
+						{{ data.value | Date }}
+					</template>
 
-				<template slot="cell(precio_socio)" slot-scope="data">
-					${{ data.value }}
-				</template>
+					<template slot="cell(precio_socio)" slot-scope="data">
+						${{ data.value }}
+					</template>
 
-				<template slot="cell(action)" slot-scope="row">
-					<div class="mt-3">
-						<b-button-group>
-							<!-- ==================================CREAR PDF================================== -->
-							<!-- Generar PDF -->
-							<b-button
-								@click="generarPDFEstudio(row.item)"
-								id="btn_down_pdf"
-								class="mb-0 ml-2"
-								title="Generar PDF"
-								variant="info"
-								style="color: white"
-							>
-								<!-- :disabled="btn_down_pdf" -->
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="16"
-									height="16"
-									fill="currentColor"
-									class="bi bi-file-pdf-fill"
-									viewBox="0 0 16 16"
+					<template slot="cell(action)" slot-scope="row">
+						<div class="mt-3">
+							<b-button-group>
+								<!-- ==================================CREAR PDF================================== -->
+								<!-- Generar PDF -->
+								<b-button
+									@click="generarPDFEstudio(row.item)"
+									id="btn_down_pdf"
+									class="mb-0 ml-2"
+									title="Generar PDF"
+									variant="info"
+									style="color: white"
 								>
-									<path
-										d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
-									/>
-									<path
-										fill-rule="evenodd"
-										d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
-									/>
-								</svg>
-								Generar PDF
-							</b-button>
-							<!-- ============================================================================== -->
-							<b-button
-								variant="danger"
-								id="button-3"
-								@click="InfoDeleteEstudio(row.item)"
-								title="Eliminar este registro"
-								:disabled="btn_eliminar"
-							>
-								<v-icon class="mr-2"> mdi-delete </v-icon>
-								Eliminar
-							</b-button>
-						</b-button-group>
-					</div>
-				</template>
-			</b-table>
+									<!-- :disabled="btn_down_pdf" -->
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										fill="currentColor"
+										class="bi bi-file-pdf-fill"
+										viewBox="0 0 16 16"
+									>
+										<path
+											d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
+										/>
+										<path
+											fill-rule="evenodd"
+											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
+										/>
+									</svg>
+									Generar PDF
+								</b-button>
+								<!-- ============================================================================== -->
+								<b-button
+									variant="danger"
+									id="button-3"
+									@click="InfoDeleteEstudio(row.item)"
+									title="Eliminar este registro"
+									:disabled="btn_eliminar"
+								>
+									<v-icon class="mr-2"> mdi-delete </v-icon>
+									Eliminar
+								</b-button>
+							</b-button-group>
+						</div>
+					</template>
+				</b-table>
 
-			<!-- ====================================================== -->
-			<b-container fluid>
-				<b-col class="my-1">
-					<b-pagination
-						v-model="currentPage"
-						align="center"
-						pills
-						:total-rows="totalRows"
-						:per-page="perPage"
-						aria-controls="table_ordenes"
-					>
-					</b-pagination>
-				</b-col>
-			</b-container>
-		</section>
+				<!-- ====================================================== -->
+				<b-container fluid>
+					<b-col class="my-1">
+						<b-pagination
+							v-model="currentPage"
+							align="center"
+							pills
+							:total-rows="totalRows"
+							:per-page="perPage"
+							aria-controls="table_ordenes"
+						>
+						</b-pagination>
+					</b-col>
+				</b-container>
+			</section>
+			<aside v-show="rows > 0">
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="REGISTROS POR PAGINA"
+							class="text-center"
+						>
+							<b-form-group label-for="per-page-select" class="mb-0">
+								<b-form-select
+									id="per-page-select"
+									v-model="perPage"
+									:options="pageOptions"
+									size="sm"
+								></b-form-select>
+							</b-form-group>
+						</b-card>
+					</b-card-group>
+				</div>
+				<br />
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="FILTRAR POR"
+							class="text-center"
+						>
+							<div class="accordion" role="tablist">
+								<b-card no-body>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-filter-1
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											TIPO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-filter-1"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="tipo"
+													v-model="filter_tipo"
+													:items="options_tipo"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_tipo != null">
+													<b-button @click="filter_tipo = null" title="Limpiar">
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
 
-		<!-- ================DECLARAR ESTUDIO======================== -->
-		<b-modal
-			id="modal_eliminar"
-			ref="my-modal"
-			hide-footer
-			title="Eliminar"
-			ok-only
-		>
-			<div class="d-block text-center">
-				<h3>
-					¿Esta seguro de eliminar el estudio
-					{{ this.eliminarEstudio.id_estudio }}?
-				</h3>
-			</div>
-			<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
-				>Volver Atras</b-button
-			>
-			<b-button
-				class="mt-3"
-				variant="danger"
-				block
-				@click="deleteEstudio()"
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-filter-2
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											PROVEEDOR
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-filter-2"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="proveedor"
+													v-model="filter_proveedor"
+													:items="options_proveedor"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_proveedor != null">
+													<b-button
+														@click="filter_proveedor = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-filter-5
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											ASOCIACION
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-filter-5"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+										style="color: black"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<b-form-group
+													label="Desde"
+													label-for="fecha_realizacion_desde"
+												>
+													<b-form-input
+														id="fecha_realizacion_desde"
+														v-model="filter_fechaRealizacion.desde"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+												<b-form-group
+													label="Hasta"
+													label-for="fecha_realizacion_hasta"
+												>
+													<b-form-input
+														id="fecha_realizacion_hasta"
+														v-model="filter_fechaRealizacion.hasta"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+
+												<div style="color: black">
+													{{ filter_fechaRealizacion.desde }} <br />
+													{{ filter_fechaRealizacion.hasta }} <br />
+												</div>
+												<div
+													v-show="
+														filter_fechaRealizacion.desde != null &&
+														filter_fechaRealizacion.hasta != null
+													"
+												>
+													<b-button
+														@click="limpiar_filtro_fechaRealizacion()"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+								</b-card>
+							</div>
+						</b-card>
+					</b-card-group>
+				</div>
+			</aside>
+
+			<!-- ================DECLARAR ESTUDIO======================== -->
+			<b-modal
+				id="modal_eliminar"
+				ref="my-modal"
+				hide-footer
 				title="Eliminar"
+				ok-only
 			>
-				Eliminar
-			</b-button>
-		</b-modal>
+				<div class="d-block text-center">
+					<h3>
+						¿Esta seguro de eliminar el estudio
+						{{ this.eliminarEstudio.id_estudio }}?
+					</h3>
+				</div>
+				<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
+					>Volver Atras</b-button
+				>
+				<b-button
+					class="mt-3"
+					variant="danger"
+					block
+					@click="deleteEstudio()"
+					title="Eliminar"
+				>
+					Eliminar
+				</b-button>
+			</b-modal>
 
-		<!-- ==================================CREAR PDF================================== -->
-		<b-modal size="xl" ref="modal-pdfEstudio" id="modal-pdfEstudio" hide-footer>
-			<template #modal-title
-				><h5 class="modal-title">Vista Previa</h5></template
+			<!-- ==================================CREAR PDF================================== -->
+			<b-modal
+				size="xl"
+				ref="modal-pdfEstudio"
+				id="modal-pdfEstudio"
+				hide-footer
 			>
-			<estudiosociopdf :PDFestudio_socio="estudioAPDF" :Socio="socio" />
-		</b-modal>
-		<!-- ==============================================================================-->
-	</div>
+				<template #modal-title
+					><h5 class="modal-title">Vista Previa</h5></template
+				>
+				<estudiosociopdf :PDFestudio_socio="estudioAPDF" :Socio="socio" />
+			</b-modal>
+			<!-- ==============================================================================-->
+		</div>
+	</v-app>
 </template>
 
 <script>
@@ -302,6 +494,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
+				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
 				buscar: "",
 				token: "",
 				infoDeclarar: {
@@ -319,6 +512,20 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				btn_eliminar: false,
 				btn_select: false,
 				btn_limpiar: true,
+
+				//Campos a filtrar
+				filter_tipo: null,
+				filter_proveedor: null,
+
+				//Opciones de filtro
+				filter_fechaRealizacion: {
+					desde: null,
+					hasta: null,
+				},
+				options_tipo: [{ value: null, text: "Elija un tipo", selected: true }],
+				options_proveedor: [
+					{ value: null, text: "Elija un proveedor", selected: true },
+				],
 			};
 		},
 		/*
@@ -355,6 +562,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						//this.getEstudioSocio();
 					}
 					this.getEstudioSocio();
+
 					const res = await fetch(api);
 					const data = await res.json();
 				} catch (error) {
@@ -408,12 +616,35 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						}
 					}
 				});
+				this.getOptions();
 			},
 
 			estaCargado(data_estudio) {
 				return this.tabla_estudios.find(
 					(element) => element.id_estudio_socio == data_estudio.id_estudio_socio
 				);
+			},
+
+			async getOptions() {
+				console.log("ENTRO A LA FUNCION DE OPCIONES");
+				this.tabla_estudios.forEach((element) => {
+					let opcionTipo = {};
+					let opcionProv = {};
+					opcionTipo.value = opcionTipo.text = element.tipo;
+					//opcionTipo.text = element.laboratorio;
+					opcionProv.value = opcionProv.text = element.proveedor;
+					//opcionProv.text = element.cod_farmacia.split("/")[4];
+					if (this.options_tipo.find((x) => x.value == opcionTipo.value)) {
+						console.log(opcionTipo, " ya se encuentra en el listado");
+					} else {
+						this.options_tipo.push(opcionTipo);
+					}
+					if (this.options_proveedor.find((x) => x.value == opcionProv.value)) {
+						console.log(opcionProv, " ya se encuentra en el listado");
+					} else {
+						this.options_proveedor.push(opcionProv);
+					}
+				});
 			},
 
 			InfoDeleteEstudio(item) {
@@ -524,10 +755,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.totalRows = filteredItems.length;
 				this.currentPage = 1;
 			},
+
+			limpiar_filtro_fechaRealizacion() {
+				this.filter_fechaRealizacion.desde = null;
+				this.filter_fechaRealizacion.hasta = null;
+			},
 		},
 		beforeMount() {
 			this.socio = this.$route.params.socio || {};
 			this.testFetch();
+			//this.getOptions();
 			//this.getEstudioSocio();
 		},
 	};
@@ -542,5 +779,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		overflow: auto;
 		transition: 0.5s;
 		width: 100%;
+	}
+	.container {
+		float: left;
+		width: 80%;
+	}
+	aside {
+		float: right;
+		width: 20%;
 	}
 </style>
