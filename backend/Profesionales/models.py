@@ -26,6 +26,7 @@ class profesionales(models.Model):
     fecha_ingreso = models.DateField()
     especialidad = models.CharField(max_length=40, null=True, blank=True)
     matricula = models.IntegerField(unique=True)
+    diasliquidacion = models.PositiveIntegerField(default=30)
 
     #Datos bancarios
     cbu=models.CharField(unique=True, max_length=22)

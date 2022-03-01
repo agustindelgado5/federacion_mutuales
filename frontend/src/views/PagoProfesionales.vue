@@ -147,7 +147,7 @@
 													>{{ orden.fecha.split("-")[2] }}/{{
 														orden.fecha.split("-")[1]
 													}}/{{ orden.fecha.split("-")[0] }} | <b>Hora: </b
-													>{{ orden.hora }} | <b>Precio: </b>${{ orden.precio }}
+													>{{ orden.hora }} | <b>Precio A Pagar: </b>${{ orden.preciomutual }}
 												</b-list-group-item>
 											</b-list-group>
 										</b-list-group>
@@ -279,7 +279,7 @@
 									:key="orden.num_orden"
 								>
 									{{ orden.num_orden }} - {{ orden.fecha }} -
-									{{ orden.hora }} - ${{ orden.precio }}
+									{{ orden.hora }} - ${{ orden.preciomutual }}
 								</b-list-group-item>
 							</b-list-group>
 							<br />
@@ -363,6 +363,11 @@
 						label: "Nombre Completo",
 						sortable: true,
 					},
+                    {
+                        key: "totalapagar",
+                        label: "Total a Pagar",
+                        sortable: true,
+                    },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				fields_ordenes: [
@@ -386,7 +391,6 @@
 						label: "Forma de Pago",
 						sortable: true,
 					},
-
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				//buscar: "",
@@ -456,7 +460,7 @@
 			sumaTotal(array) {
 				let suma = 0;
 				for (let index = 0; index < array.length; index++) {
-					suma += array[index].precio;
+					suma += array[index].preciomutual;
 				}
 				return suma;
 			},
@@ -510,8 +514,9 @@
 									orden_Prof.num_orden = orden.numero_orden;
 									orden_Prof.fecha = orden.fecha;
 									orden_Prof.hora = orden.hora;
-									orden_Prof.precio = parseFloat(orden.precio);
+									orden_Prof.preciomutual = parseFloat(orden.preciomutual);
 									orden_Prof.realizado = orden.realizado;
+                                    orden_Prof.presentada = orden.presentada;
 
 									if (orden_Prof.realizado == false) {
 										console.log(
@@ -670,11 +675,11 @@
 			},
 			onShown() {
 				// Focus the cancel button when the overlay is showing
-				this.$refs.cancel.focus();
+				//this.$refs.cancel.focus();
 			},
 			onHidden() {
 				// Focus the show button when the overlay is removed
-				this.$refs.show.focus();
+				//this.$refs.show.focus();
 			},
 		},
 		beforeMount() {
