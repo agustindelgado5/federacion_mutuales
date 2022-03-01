@@ -40,6 +40,53 @@
 			</b-modal>
 			<!--==================================================================== -->
 
+			<!-- ===========================ELIMINO TODOS LOS ESTUDIOS================================= -->
+			<b-button
+				class="mb-4 ml-2"
+				variant="danger"
+				id="btn_del_full"
+				title="Eliminar todos los registros"
+				style="color: white"
+				:disabled="btn_del_full"
+				v-b-modal.modal-eliminarTodo
+			>
+				<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
+				Eliminar
+			</b-button>
+
+			<div>
+				<b-modal
+					ref="my-modal"
+					id="modal-eliminarTodo"
+					hide-footer
+					title="Eliminar"
+					ok-only
+				>
+					<div class="d-block text-center" v-if="selected.length === rows">
+						<h3>¿Esta seguro de eliminar todos los registros ?</h3>
+					</div>
+					<div class="d-block text-center" v-else>
+						<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
+					</div>
+
+					<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
+						Volver Atras
+					</b-button>
+
+					<b-button
+						class="mt-3"
+						variant="danger"
+						block
+						title="Eliminar"
+						@click="delete_all_Estudios()"
+					>
+						Eliminar
+					</b-button>
+				</b-modal>
+			</div>
+			<!-- ======================================================================================- -->
+
+
 			<!-- ======== Formulario de Busqueda ======== -->
 			<b-form-group
 				label-for="filter-input"
@@ -413,7 +460,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				</div>
 			</aside>
 
-			<!-- ================DECLARAR ESTUDIO======================== -->
+			<!-- ================ELIMINAR ESTUDIO======================== -->
 			<b-modal
 				id="modal_eliminar"
 				ref="my-modal"
@@ -460,7 +507,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 <script>
 	let api = new URL("http://localhost");
-	api.pathname = "ordenes";
+	api.pathname = "socios";
 	//api.port = 8000;
 	api.port = 8081;
 
@@ -552,6 +599,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		methods: {
 			async testFetch() {
 				try {
+					/*
+					console.log("typeof: ", typeof this.$route.params.socio);
 					if (typeof this.$route.params.socio === "undefined") {
 						console.log("Socio vacio");
 						const baseURL = "http://localhost:8081";
@@ -561,10 +610,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						this.socio = response.data;
 						//this.getEstudioSocio();
 					}
+					*/
+					const baseURL = "http://localhost:8081";
+					const response = await axios.get(
+						baseURL + "/socios/" + this.$route.query.id
+					);
+					this.socio = response.data;
 					this.getEstudioSocio();
-
+					/*
 					const res = await fetch(api);
 					const data = await res.json();
+					console.log("const data: ", data, "const resp: ", res)
+					*/
 				} catch (error) {
 					console.log(error);
 				}
@@ -619,12 +676,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.getOptions();
 			},
 
+
+			//Compruebo si el elemento ya esta en el arreglo	
 			estaCargado(data_estudio) {
 				return this.tabla_estudios.find(
 					(element) => element.id_estudio_socio == data_estudio.id_estudio_socio
 				);
 			},
 
+			//Obtengo las opciones a filtrar
 			async getOptions() {
 				console.log("ENTRO A LA FUNCION DE OPCIONES");
 				this.tabla_estudios.forEach((element) => {
@@ -647,12 +707,14 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				});
 			},
 
+			//Informacion del estudio a eliminar
 			InfoDeleteEstudio(item) {
 				this.eliminarEstudio = item;
 				console.log("ESTUDIO A ELIMINAR: ", this.eliminarEstudio);
 				this.showModal();
 			},
 
+			//Elimino un estudio
 			async deleteEstudio() {
 				console.log("Ingreso a la funcion para eliminar");
 
@@ -675,10 +737,40 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								console.log(error);
 							})
 							.finally(() => {
-								this.getEstudioSocio();
+								location.reload();
+								//this.testFetch();
+								//this.getEstudioSocio();
 							});
 						break;
 					}
+				}
+			},
+
+			//Funcion para eliminar todos los socios seleccionados
+			async delete_all_Estudios() {
+				var cantidad = this.selected.length;
+
+				try {
+					for (var i = 0; i < cantidad; i++) {
+						axios.delete(
+							"http://localhost:8081/estudios_socios/" +
+								this.selected[i].id_estudio_socio +
+								"/"
+						);
+						if (this.selected.length == 0) {
+							console.log("Eliminacion Exitosa");
+							break;
+						}
+					}
+					this.hideModal();
+					swal("Eliminacion Exitosa", " ", "success");
+					this.testFetch();
+				} catch (error) {
+					this.hideModal();
+					swal("¡ERROR!", "Se ha detectado un problema ", "error");
+					console.log(error);
+				} finally {
+					location.reload();
 				}
 			},
 
