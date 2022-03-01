@@ -59,4 +59,4 @@ class estudio_socio(models.Model):
         verbose_name='estudio_socio'
         verbose_name_plural='estudios_socios'
         ordering=['numero_socio']
-        unique_together = ('numero_socio', 'id_estudio',)
+        unique_together = ('numero_socio', 'id_estudio', 'created')

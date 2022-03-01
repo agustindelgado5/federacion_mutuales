@@ -17,11 +17,16 @@
 				</b-form-input>
 			</b-form-group>
 
-			<b-form-group
-				label="Estudios disponibles"
-				label-for="codigo_institucion"
-				v-slot="{ ariaDescribedby }"
-			>
+			<b-form-group label="Estudios disponibles" label-for="selected">
+				<v-autocomplete
+					id="proveedor"
+					v-model="selected"
+					:items="op_estudios"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
+				<!--
 				<b-form-checkbox-group
 					v-model="selected"
 					:options="op_estudios"
@@ -29,7 +34,9 @@
 					name="flavour-2a"
 					stacked
 				></b-form-checkbox-group>
+				-->
 			</b-form-group>
+			{{ selected }}
 		</b-form>
 		<b-button class="mt-2" variant="success" block @click="putEstudio()"
 			>Guardar</b-button
@@ -51,8 +58,8 @@
 				//list_profesionales: {},
 				estudio: {},
 				data: {},
-				selected: [],
-				selected_anterior: [],
+				selected: null,
+				//selected_anterior: [],
 				lista_estudios: [],
 
 				//list_institutos: {},
@@ -60,6 +67,8 @@
 				op_estudios: [
 					{ value: null, text: "Elija los consultorios", disabled: true },
 				],
+
+				validacion: {},
 
 				respuesta: null,
 			};
@@ -101,7 +110,7 @@
 						this.selected.push(element.id_estudio);
 					}
 				});
-				this.selected_anterior = this.selected;
+				//this.selected_anterior = this.selected;
 			},
 
 			async getEstudiosSocios() {
@@ -112,91 +121,33 @@
 			},
 
 			async putEstudio() {
-				var id = this.Socio.numero_socio;
+				//var id = this.Socio.numero_socio;
 
-				/*
-				En caso de agregar un nuevo elemento, hago el post
-				*/
-				for (var i = 0; i < this.selected.length; i++) {
-					if ((await this.estaCargado(id, this.selected[i])) == null) {
-						this.postEstudio(id, this.selected[i]);
-						//this.updateTable();
-					}
-				}
+				let dataUP = {};
+				dataUP.numero_socio =
+					"http://localhost:8081/socios/" + this.Socio.numero_socio + "/";
+				dataUP.id_estudio = this.selected;
 
-				/*
-				En caso de sacar un nuevo elemento, hago el delete
-				*/
-
-				let diferencia = this.selected_anterior.filter(
-					(elemento) => this.selected.indexOf(elemento) == -1
-				);
-				console.log("elemento a eliminar: ", diferencia);
-				if (diferencia != null) {
-					diferencia.forEach((element) => {
-						for (let j = 0; j < this.lista_estudios.length; j++) {
-							if (this.lista_estudios[j].id_estudio == element) {
-								this.DeleteEstudio(this.lista_estudios[j].id_estudio_socio);
-								this.updateTable();
-								break;
-							}
-						}
-					});
-					//this.DeleteInstituto(id, diferencia);
-				}
-				swal("Carga exitosa", "", "success");
+				let servicioAPI = new APIControler();
+				console.log(servicioAPI.apiUrl);
+				servicioAPI.apiUrl.pathname = "estudios_socios/";
+				let respuesta = await servicioAPI.postData(dataUP);
+				console.log("RESPUESTA", respuesta)
+				this.cargarFeedback(respuesta);
 
 				this.getEstudiosSocios();
 				this.updateTable();
 			},
-			//Me fijo si el estudio ya esta cargado
-			async estaCargado(id, estudio) {
-				try {
-					let idSocio = "http://localhost:8081/socios/" + id + "/";
-					let IdEstudio = estudio;
 
-					for (let j = 0; j < this.lista_estudios.length; j++) {
-						if (
-							this.lista_estudios[j].id_estudio == IdEstudio &&
-							this.lista_estudios[j].numero_socio == idSocio
-						) {
-							return this.lista_estudios[j];
-						}
-					}
-					return null;
-				} catch (error) {
-					console.log(error);
-					//valor = false;
-					return null;
-				}
-			},
-			//Hago un post de un nuevo estudio
-			async postEstudio(id, estudio) {
-				try {
-					axios.post("http://localhost:8081/estudios_socios/", {
-						numero_socio: "http://localhost:8081/socios/" + id + "/",
-						id_estudio: estudio,
-					});
-
-					console.log("¡Estudios cargados con exito!");
-				} catch (error) {
-					console.log(error);
-				}
-			},
-
-			//Hago una eliminacion de un registro
-			async DeleteEstudio(id) {
-				try {
-					axios
-						.delete("http://localhost:8081/estudios_socios/" + id + "/")
-						.then((datos) => {
-							console.log("¡Estudio eliminado con exito!");
-							//console.log(datos);
-						});
-				} catch (error) {
-					console.log(
-						"¡No se pudo eliminar el consultorio: " + id + "!" + error
-					);
+			//Validacion de los campos
+			cargarFeedback() {
+				let valido;
+				if (!this.respuesta) this.respuesta = {};
+				for (let key in this.validacion) {
+					valido = !this.respuesta.hasOwnProperty(key);
+					this.validacion[key].estado = valido;
+					//console.log(key);
+					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
 				}
 			},
 		},
