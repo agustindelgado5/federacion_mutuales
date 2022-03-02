@@ -135,9 +135,15 @@ const routes = [
     meta: { title: 'Planes - Federación Tucumana de Mutuales' }
   },
   {
-    path: '/test',
-    name: 'Test',
-    component: () => import('../views/Test.vue'),
+    path: '/test_form',
+    name: 'TestForm',
+    component: () => import('../views/tests_components/TestForm.vue'),
+    meta: { title: 'TEST' }
+  },
+  {
+    path: '/test_table',
+    name: 'TestTable',
+    component: () => import('../views/tests_components/TestTable.vue'),
     meta: { title: 'TEST' }
   },
 ];

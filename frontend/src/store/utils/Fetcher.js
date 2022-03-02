@@ -66,4 +66,10 @@ export class Fetcher {
             return response;
         } catch (error) { console.error(error); }
     }
+
+    async getList() {
+        let response = await this.get()
+        let json = await response.json();
+        return json.results;
+    }
 }
