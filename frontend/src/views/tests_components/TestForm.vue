@@ -6,9 +6,8 @@
 </template>
 
 <script>
-import BaseForm from "../components/BaseForm.vue";
+import BaseForm from "../../components/BaseForm.vue";
 export default {
-  name: "test",
   components: { BaseForm },
   data() {
     return {
