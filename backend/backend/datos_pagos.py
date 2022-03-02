@@ -1,10 +1,10 @@
 cuentas= [
-    ("Cuenta Corriente","1-Cuenta Corriente"),
-    ("Caja de Ahorros","2-Caja de Ahorros"),
+    ("Cuenta Corriente","1- Cuenta Corriente"),
+    ("Caja de ahorros","2- Caja de ahorros"),
     ]
 
 
 modos= [
-    ("Efectivo","1- Efectivo"),
-    ("Transferencia","2-Transferencia"),
+    ("Efectivo", "1- Efectivo"),
+    ("Transferencia","2- Transferencia"),
     ]

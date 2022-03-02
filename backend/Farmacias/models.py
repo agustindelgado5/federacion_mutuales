@@ -30,8 +30,8 @@ class farmacias(models.Model):
     cbu=models.CharField(unique=True, max_length=22, default=-1)
     entidad_bancaria=models.CharField(max_length=80, default="ninguna")
     nro_cuenta=models.IntegerField(default=-1)
-    #tipo_cuenta=models.CharField(max_length=20, choices=cuentas)
-    #modalidad_pago=models.CharField(max_length=20, choices=modos)
+    tipo_cuenta=models.CharField(max_length=20, choices=cuentas)
+    modalidad_pago=models.CharField(max_length=20, choices=modos)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
 

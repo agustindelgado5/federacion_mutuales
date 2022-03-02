@@ -7,6 +7,8 @@ class CirugiasSerializer(serializers.HyperlinkedModelSerializer):
         model = cirugias
         fields = (
             "codigo_intervencion",
+            "numero_socio",
+            "codigo_institucion",
             "descripcion",
             "nivel",
             "numero_ayudantes",

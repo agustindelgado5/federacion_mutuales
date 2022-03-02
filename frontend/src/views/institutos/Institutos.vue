@@ -3,10 +3,10 @@
 		<div id="institutos" class="myTable">
 			<!--HEAD DE LA PAGINA -->
 			<vue-headful
-				title="Institutos - Federación Tucumana de Mutuales"
+				title=" Instituciones - Federación Tucumana de Mutuales"
 			></vue-headful>
 
-			<h2>Listado de Institutos</h2>
+			<h2>Listado de  Instituciones</h2>
 			<b-button
 				@click="testFetch"
 				class="mb-4"
@@ -22,11 +22,11 @@
 				class="mb-4 ml-2"
 				v-b-modal.modal-alta
 				@click="altaInstituto()"
-				title="Nuevo Instituto"
+				title="Nueva  Institución"
 				style="color: white"
 			>
 				<v-icon dark> mdi-plus </v-icon>
-				Nuevo Instituto
+				Nueva Institución
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>

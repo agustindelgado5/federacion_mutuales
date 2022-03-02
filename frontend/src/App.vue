@@ -186,7 +186,7 @@ export default {
           to: "/cirugias",
         },
         {
-          text: "Institutos",
+          text: "Instituciones",
           disable: false,
           to: "/institutos",
         },

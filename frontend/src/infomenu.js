@@ -37,7 +37,7 @@ const data = {
                     children: [],
                 },
                 {
-                    title: `Institutos`,
+                    title: `Instituciones`,
                     link: '/institutos',
                     children: [],
                 },

@@ -594,6 +594,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				perPage: 10, // Datos en la tabla por pagina
 				//buscar: '',
 				filter: null,
+				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
 				editar: {},
 				infoEliminar: {
 					id: "modal_eliminar",
