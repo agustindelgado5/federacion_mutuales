@@ -165,7 +165,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						 hover
 						 :items="
 						tabla_cirugias
-							
+							|Socio(filter_socio)
+							|Institucion(filter_institucion)
 					"
 						 show-empty
 						 :per-page="perPage"
@@ -339,8 +340,98 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</b-card>
 					</b-card-group>
 				</div>
+					<br />
 
-			
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="FILTRAR POR"
+							class="text-center"
+						>
+							<div class="accordion" role="tablist">
+								<b-card no-body>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-1
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											SOCIO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-1"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-1">
+												<v-autocomplete
+													id="socio"
+													v-model="filter_socio"
+													:items="options_socio"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_socio != null">
+													<b-button
+														@click="filter_socio = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+										<b-card-header header-tag="header" class="p-2" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-2
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											Institucion
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-2"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-2">
+												<v-autocomplete
+													id="institucion"
+													v-model="filter_institucion"
+													:items="options_institucion"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_institucion != null">
+													<b-button
+														@click="filter_institucion = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+								</b-card>
+								
+							</div>
+						</b-card>
+					</b-card-group>
+				</div>
 			</aside>
 
 			<b-modal id="modal-editar" hide-footer>
@@ -443,6 +534,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "observacion", label: "Observación", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
+				filter: null,
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
@@ -464,6 +556,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				btn_cirugias: false,
 				btn_eliminar: false,
 				btn_select: false,
+				//Campos a filtrar
+				filter_socio: null,
+				filter_institucion:null,
+				//Opciones de filtrado
+				options_socio: [{ value: null, text: "Elija un socio",selected: true  }],
+				options_institucion: [{ value: null, text: "Elija una institucion",selected: true  }],
 				cirugiaAPDF: {}, //Se carga cuando se hace clic en exportar a pdf, con la cirugia a exportar
 			};
 		},
@@ -499,13 +597,24 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					this.tabla_cirugias = lista_cirugias;
 
 					this.tabla_cirugias.forEach((element) => {
-						let opcion = {};
-						opcion.value = element.cirugia;
-						opcion.text = element.cirugia;
-						if (this.options_cirugia.find((x) => x.value == opcion.value)) {
-							console.log(opcion, " ya se encuentra en el listado");
+						let opcionFarm = {};
+						let opcionInst = {};
+						opcionInst.value = element.codigo_institucion;
+						opcionInst.text = element.codigo_institucion.split("/")[4];
+						opcionFarm.value = element.numero_socio;
+						opcionFarm.text = element.numero_socio.split("/")[4];
+						if (
+							this.options_institucion.find((x) => x.value == opcionInst.value)
+						) {
+							console.log(opcionInst, " ya se encuentra en el listado");
 						} else {
-							this.options_cirugia.push(opcion);
+							this.options_institucion.push(opcionInst);
+						}
+
+						if (this.options_socio.find((x) => x.value == opcionFarm.value)) {
+							console.log(opcionFarm, " ya se encuentra en el listado");
+						} else {
+							this.options_socio.push(opcionFarm);
 						}
 					});
 				} catch (error) {
