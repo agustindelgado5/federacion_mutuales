@@ -162,7 +162,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					sortable
 					responsive
 					hover
-					:items="tabla_estudios | Tipo(filter_tipo) | Proveedor(filter_proveedor)"
+					:items="
+						tabla_estudios | Tipo(filter_tipo) | Proveedor(filter_proveedor)
+					"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
@@ -179,8 +181,20 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<b>No hay registros para mostrar</b>
 					</template>
 
-					<template slot="cell(cod_estudio)" slot-scope="data">
+					<template slot="cell(id_estudio)" slot-scope="data">
 						<b>{{ data.value }}</b>
+					</template>
+
+					<template slot="cell(id_proveedor)" slot-scope="data">
+						{{ data.value.split("/")[4] }}
+					</template>
+
+					<template slot="cell(precio_socio)" slot-scope="data">
+						${{ data.value}}
+					</template>
+
+					<template slot="cell(precio_federacion)" slot-scope="data">
+						${{ data.value}}
 					</template>
 
 					<template #cell(selected)="{ rowSelected }">
@@ -326,10 +340,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 													filled
 												></v-autocomplete>
 												<div v-show="filter_tipo != null">
-													<b-button
-														@click="filter_tipo = null"
-														title="Limpiar"
-													>
+													<b-button @click="filter_tipo = null" title="Limpiar">
 														Limpiar
 													</b-button>
 												</div>
@@ -483,13 +494,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				tabla_estudios: [],
 				fields: [
 					{ key: "selected", label: "Seleccionar", sortable: true },
-
+					{ key: "id_estudio", label: "ID", sortable: true },
 					{ key: "tipo", label: "Tipo", sortable: true },
 					{ key: "abreviatura", label: "Abreviatura", sortable: true },
 					{ key: "ub", label: "U.B.", sortable: true },
 					{ key: "descripcion", label: "Descripción", sortable: true },
 					{ key: "denominación", label: "Denominación", sortable: true },
-					{ key: "proveedor", label: "Proveedor", sortable: true },
+					{ key: "id_proveedor", label: "Proveedor", sortable: true },
 					{ key: "precio_socio", label: "Precio al socio", sortable: true },
 					{
 						key: "precio_federacion",
@@ -529,9 +540,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				filter_proveedor: null,
 
 				//Opciones de filtro
-				options_tipo: [
-					{ value: null, text: "Elija un tipo", selected: true },
-				],
+				options_tipo: [{ value: null, text: "Elija un tipo", selected: true }],
 				options_proveedor: [
 					{ value: null, text: "Elija un proveedor", selected: true },
 				],
@@ -569,13 +578,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					this.tabla_estudios.forEach((element) => {
 						let opcionTipo = {};
 						let opcionProv = {};
-						opcionTipo.value = opcionTipo.text= element.tipo;
+						opcionTipo.value = opcionTipo.text = element.tipo;
 						//opcionTipo.text = element.laboratorio;
-						opcionProv.value = opcionProv.text =element.proveedor;
+						opcionProv.value = opcionProv.text = element.proveedor;
 						//opcionProv.text = element.cod_farmacia.split("/")[4];
-						if (
-							this.options_tipo.find((x) => x.value == opcionTipo.value)
-						) {
+						if (this.options_tipo.find((x) => x.value == opcionTipo.value)) {
 							console.log(opcionTipo, " ya se encuentra en el listado");
 						} else {
 							this.options_tipo.push(opcionTipo);

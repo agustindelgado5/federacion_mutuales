@@ -87,7 +87,7 @@
 					option.text =
 						element.tipo +
 						" - " +
-						element.proveedor +
+						element.id_proveedor.split("/")[4] +
 						" - $" +
 						element.precio_socio;
 					console.log(option);

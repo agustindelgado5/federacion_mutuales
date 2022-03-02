@@ -87,6 +87,17 @@ const routes = [
     component: () => import('../views/cuotas/Cuotas.vue')
   },
   {
+    path: '/proveedor_estudios',
+    name: 'proveedor',
+    component: () => import('../views/proveedor/Proveedores.vue')
+  },
+
+  {
+    path: '/socios/estudios',
+    name: 'estudioSocio',
+    component: () => import('../views/estudios/Estudios_Socio.vue')
+  },
+  {
     path: '/estudios',
     name: 'estudios',
     component: () => import('../views/estudios/Estudios.vue')

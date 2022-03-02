@@ -530,7 +530,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "id_estudio_socio", label: "ID", sortable: true },
 					{ key: "id_estudio", label: "Estudio", sortable: true },
 					{ key: "tipo", label: "Tipo", sortable: true },
-					{ key: "proveedor", label: "Proveedor", sortable: true },
+					{ key: "id_proveedor", label: "Proveedor", sortable: true },
 					{ key: "precio_socio", label: "Precio", sortable: true },
 					{ key: "fecha", label: "Fecha de Emision", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
