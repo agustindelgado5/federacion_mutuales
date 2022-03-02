@@ -30,7 +30,7 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<estudios-alta :updateTable="testFetch"/>
+				<estudios-alta :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ================ELIMINAR VARIOS ESTUDIOS======================== -->
@@ -153,16 +153,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			<div v-else>
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
-			<!-- ======== Tabla con los registros ======= -->
 
-			<section>
+			<section class="container">
+				<!-- ======== Tabla con los registros ======= -->
 				<b-table
 					:fields="fields"
 					striped
 					sortable
 					responsive
 					hover
-					:items="tabla_estudios"
+					:items="tabla_estudios | Tipo(filter_tipo) | Proveedor(filter_proveedor)"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
@@ -253,7 +253,133 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</div>
 					</template>
 				</b-table>
+				<b-container fluid>
+					<b-col class="my-1">
+						<b-pagination
+							v-model="currentPage"
+							align="center"
+							pills
+							:total-rows="totalRows"
+							:per-page="perPage"
+							aria-controls="table_estudios"
+						>
+						</b-pagination>
+					</b-col>
+				</b-container>
 			</section>
+
+			<aside v-show="rows > 0">
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="REGISTROS POR PAGINA"
+							class="text-center"
+						>
+							<b-form-group label-for="per-page-select" class="mb-0">
+								<b-form-select
+									id="per-page-select"
+									v-model="perPage"
+									:options="pageOptions"
+									size="sm"
+								></b-form-select>
+							</b-form-group>
+						</b-card>
+					</b-card-group>
+				</div>
+				<br />
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="FILTRAR POR"
+							class="text-center"
+						>
+							<div class="accordion" role="tablist">
+								<b-card no-body>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-filter-1
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											TIPO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-filter-1"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="tipo"
+													v-model="filter_tipo"
+													:items="options_tipo"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_tipo != null">
+													<b-button
+														@click="filter_tipo = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-filter-2
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											PROVEEDOR
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-filter-2"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="proveedor"
+													v-model="filter_proveedor"
+													:items="options_proveedor"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_proveedor != null">
+													<b-button
+														@click="filter_proveedor = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+								</b-card>
+							</div>
+						</b-card>
+					</b-card-group>
+				</div>
+			</aside>
 			<!-- ================ELIMINAR ESTUDIO======================== -->
 
 			<b-modal
@@ -282,19 +408,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					Eliminar
 				</b-button>
 			</b-modal>
-			<b-container fluid>
-				<b-col class="my-1">
-					<b-pagination
-						v-model="currentPage"
-						align="center"
-						pills
-						:total-rows="totalRows"
-						:per-page="perPage"
-						aria-controls="table_estudios"
-					>
-					</b-pagination>
-				</b-col>
-			</b-container>
+
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
 				<estudios-update :estudio="editar" :updateTable="testFetch" />
@@ -369,7 +483,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				tabla_estudios: [],
 				fields: [
 					{ key: "selected", label: "Seleccionar", sortable: true },
-					
+
 					{ key: "tipo", label: "Tipo", sortable: true },
 					{ key: "abreviatura", label: "Abreviatura", sortable: true },
 					{ key: "ub", label: "U.B.", sortable: true },
@@ -377,12 +491,17 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "denominación", label: "Denominación", sortable: true },
 					{ key: "proveedor", label: "Proveedor", sortable: true },
 					{ key: "precio_socio", label: "Precio al socio", sortable: true },
-					{ key: "precio_federacion", label: "Precio a la federacion", sortable: true },
+					{
+						key: "precio_federacion",
+						label: "Precio a la federacion",
+						sortable: true,
+					},
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
+				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
 				filter: null,
 
 				selected: [],
@@ -404,6 +523,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					id: "modal_eliminar",
 					estudio: -1,
 				},
+
+				//Campos a filtrar
+				filter_tipo: null,
+				filter_proveedor: null,
+
+				//Opciones de filtro
+				options_tipo: [
+					{ value: null, text: "Elija un tipo", selected: true },
+				],
+				options_proveedor: [
+					{ value: null, text: "Elija un proveedor", selected: true },
+				],
 			};
 		},
 		computed: {
@@ -434,6 +565,29 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					console.log(lista_estudios);
 
 					this.tabla_estudios = lista_estudios;
+
+					this.tabla_estudios.forEach((element) => {
+						let opcionTipo = {};
+						let opcionProv = {};
+						opcionTipo.value = opcionTipo.text= element.tipo;
+						//opcionTipo.text = element.laboratorio;
+						opcionProv.value = opcionProv.text =element.proveedor;
+						//opcionProv.text = element.cod_farmacia.split("/")[4];
+						if (
+							this.options_tipo.find((x) => x.value == opcionTipo.value)
+						) {
+							console.log(opcionTipo, " ya se encuentra en el listado");
+						} else {
+							this.options_tipo.push(opcionTipo);
+						}
+						if (
+							this.options_proveedor.find((x) => x.value == opcionProv.value)
+						) {
+							console.log(opcionProv, " ya se encuentra en el listado");
+						} else {
+							this.options_proveedor.push(opcionProv);
+						}
+					});
 				} catch (error) {
 					console.log(error);
 				}
@@ -572,5 +726,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		overflow: auto;
 		transition: 0.5s;
 		width: 100%;
+	}
+	.container {
+		float: left;
+		width: 80%;
+	}
+	aside {
+		float: right;
+		width: 20%;
 	}
 </style>

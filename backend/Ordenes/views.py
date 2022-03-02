@@ -16,6 +16,6 @@ class OrdenesViewSet(viewsets.ModelViewSet):
     def declararOrden(self, request, pk=None):
         print("escribiendo en viewset ")
         o =self.get_object()
-        token=int(request.query_params["token"])
-        mje=o.verificarOrden(token)
+        #token=int(request.query_params["token"])
+        mje=o.verificarOrden()
         return Response({"Verificacion": mje})

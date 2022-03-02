@@ -159,31 +159,29 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			<section class="container">
 				<!-- ======== Tabla con los registros ======= -->
 
-				<b-table
-					:fields="fields"
-					striped
-					sortable
-					responsive
-					hover
-					:items="
+				<b-table :fields="fields"
+						 striped
+						 sortable
+						 responsive
+						 hover
+						 :items="
 						tabla_ordenes
 							| FechaRange(filter_fecha.desde, filter_fecha.hasta)
 							| Servicio(filter_servicio)
 							| Realizado(filter_realizado)
 					"
-					show-empty
-					:per-page="perPage"
-					:current-page="currentPage"
-					:sticky-header="true"
-					:no-border-collapse="false"
-					ref="tablaregistros"
-					id="tablaregistros"
-					:filter="filter"
-					@filtered="onFiltered"
-					@row-selected="seleccionar_una"
-					selectable
-					select-mode="multi"
-				>
+						 show-empty
+						 :per-page="perPage"
+						 :current-page="currentPage"
+						 :sticky-header="true"
+						 :no-border-collapse="false"
+						 ref="tablaregistros"
+						 id="tablaregistros"
+						 :filter="filter"
+						 @filtered="onFiltered"
+						 @row-selected="seleccionar_una"
+						 selectable
+						 select-mode="multi">
 					<template #empty="">
 						<b>No hay registros para mostrar</b>
 					</template>
@@ -227,34 +225,78 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 					<template slot="cell(realizado)" slot-scope="data">
 						<div v-if="data.value === true">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="16"
-								height="16"
-								fill="currentColor"
-								class="bi bi-check-circle-fill"
-								viewBox="0 0 16 16"
-								style="color: green"
-							>
-								<path
-									d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
-								/>
+							<svg xmlns="http://www.w3.org/2000/svg"
+								 width="16"
+								 height="16"
+								 fill="currentColor"
+								 class="bi bi-check-circle-fill"
+								 viewBox="0 0 16 16"
+								 style="color: green">
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
 							</svg>
 							SI
 						</div>
 						<div v-else>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="16"
-								height="16"
-								fill="currentColor"
-								class="bi bi-x-circle-fill"
-								viewBox="0 0 16 16"
-								style="color: red"
-							>
-								<path
-									d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
-								/>
+							<svg xmlns="http://www.w3.org/2000/svg"
+								 width="16"
+								 height="16"
+								 fill="currentColor"
+								 class="bi bi-x-circle-fill"
+								 viewBox="0 0 16 16"
+								 style="color: red">
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+							</svg>
+							NO
+						</div>
+					</template>
+					<template slot="cell(presentada)" slot-scope="data">
+						<div v-if="data.value === true">
+							<svg xmlns="http://www.w3.org/2000/svg"
+								 width="16"
+								 height="16"
+								 fill="currentColor"
+								 class="bi bi-check-circle-fill"
+								 viewBox="0 0 16 16"
+								 style="color: green">
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+							</svg>
+							SI
+						</div>
+						<div v-else>
+							<svg xmlns="http://www.w3.org/2000/svg"
+								 width="16"
+								 height="16"
+								 fill="currentColor"
+								 class="bi bi-x-circle-fill"
+								 viewBox="0 0 16 16"
+								 style="color: red">
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+							</svg>
+							NO
+						</div>
+					</template>
+					<template slot="cell(vencida)" slot-scope="data">
+						<div v-if="data.value === true">
+							<svg xmlns="http://www.w3.org/2000/svg"
+								 width="16"
+								 height="16"
+								 fill="currentColor"
+								 class="bi bi-check-circle-fill"
+								 viewBox="0 0 16 16"
+								 style="color: green">
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+							</svg>
+							SI
+						</div>
+						<div v-else>
+							<svg xmlns="http://www.w3.org/2000/svg"
+								 width="16"
+								 height="16"
+								 fill="currentColor"
+								 class="bi bi-x-circle-fill"
+								 viewBox="0 0 16 16"
+								 style="color: red">
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
 							</svg>
 							NO
 						</div>
@@ -264,54 +306,42 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							<b-button-group>
 								<!-- ==================================CREAR PDF================================== -->
 								<!-- Generar PDF -->
-								<b-button
-									@click="generarPDF(row.item)"
-									id="btn_down_pdf"
-									class="mb-0 ml-2"
-									title="Generar PDF"
-									variant="info"
-									style="color: white"
-									:disabled="btn_down_pdf"
-								>
+								<b-button @click="generarPDF(row.item)"
+										  id="btn_down_pdf"
+										  class="mb-0 ml-2"
+										  title="Generar PDF"
+										  variant="info"
+										  style="color: white"
+										  :disabled="btn_down_pdf">
 									<!-- :disabled="btn_down_pdf" -->
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="16"
-										height="16"
-										fill="currentColor"
-										class="bi bi-file-pdf-fill"
-										viewBox="0 0 16 16"
-									>
-										<path
-											d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
-										/>
-										<path
-											fill-rule="evenodd"
-											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
-										/>
+									<svg xmlns="http://www.w3.org/2000/svg"
+										 width="16"
+										 height="16"
+										 fill="currentColor"
+										 class="bi bi-file-pdf-fill"
+										 viewBox="0 0 16 16">
+										<path d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z" />
+										<path fill-rule="evenodd"
+											  d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z" />
 									</svg>
 									Generar
 									<!-- ============================================================================== -->
 								</b-button>
-								<b-button
-									variant="warning"
-									id="button-2"
-									title="Editar este registro"
-									v-b-modal.modal-editar
-									@click="editarOrden(row.item, row.index)"
-									:disabled="btn_editar"
-								>
+								<b-button variant="warning"
+										  id="button-2"
+										  title="Editar este registro"
+										  v-b-modal.modal-editar
+										  @click="editarOrden(row.item, row.index)"
+										  :disabled="btn_editar">
 									<v-icon class="mr-2"> mdi-pencil </v-icon>
 									Editar
 								</b-button>
 
-								<b-button
-									variant="danger"
-									id="button-3"
-									@click="showModalinfo(row.item, row.index)"
-									title="Eliminar este registro"
-									:disabled="btn_eliminar"
-								>
+								<b-button variant="danger"
+										  id="button-3"
+										  @click="showModalinfo(row.item, row.index)"
+										  title="Eliminar este registro"
+										  :disabled="btn_eliminar">
 									<v-icon class="mr-2"> mdi-delete </v-icon>
 									Eliminar
 								</b-button>
@@ -617,8 +647,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "id_mutual", label: "Id Mutual", sortable: true },
 					{ key: "fecha", label: "Fecha", sortable: true },
 					{ key: "hora", label: "Hora", sortable: true },
-					{ key: "precio", label: "Precio", sortable: true },
+					{ key: "preciosocio", label: "Precio Socio", sortable: true },
+                    { key: "preciomutual", label: "Precio Mutual", sortable: true },
 					{ key: "realizado", label: "Realizado", sortable: true },
+					{ key: "presentada", label: "Presentada", sortable: true },
+					{ key: "vencida", label: "Vencida", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				filter: null,
@@ -829,6 +862,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 				this.ordenAPDF = { ...item };
 				this.ordenAPDF.realizado = item.realizado ? "Si" : "No";
+				this.ordenAPDF.presentada = item.realizado ? "Si" : "No";
+                this.ordenAPDF.vencida = item.realizado ? "Si" : "No";
 				this.ordenAPDF.id_medico = resultMed.apellido + ", " + resultMed.nombre;
 				this.ordenAPDF.id_mutual = resultMutual.nombre;
 				this.ordenAPDF.numero_socio =
