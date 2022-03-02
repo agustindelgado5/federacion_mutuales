@@ -400,7 +400,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											variant="info"
 											style="font-size: 0.82em"
 										>
-											REALIZACION
+											ASOCIACION
 										</b-button>
 									</b-card-header>
 									<b-collapse

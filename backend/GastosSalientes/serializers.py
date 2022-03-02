@@ -11,4 +11,5 @@ class GastosSalientesSerializer(serializers.HyperlinkedModelSerializer):
             "descripcion",
             "total",
             "fecha",
+            "modo_pago",
         )

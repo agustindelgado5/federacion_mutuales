@@ -647,7 +647,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						key: "especialidad",
 						sortable: true,
 					},
-
+                    {
+                        key: "diasliquidacion",
+                        label: "Dias de Liquidacion",
+                        sortable: true,
+                    },
+                    {
+						key: "totaldepago",
+                        label: "Total a pagar",
+                        sortable: true,
+                    },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				fields_consultorios: [
