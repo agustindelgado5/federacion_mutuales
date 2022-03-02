@@ -257,6 +257,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									<b-list-group-item
 										><b>Fecha:</b> {{ row.item.fecha }}</b-list-group-item
 									>
+									<b-list-group-item
+										><b>Modo de pago:</b> {{ row.item.modo_pago }}</b-list-group-item
+									>
 								</b-list-group>
 								&nbsp;
 							</b-list-group>
@@ -336,6 +339,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "descripcion", label: "Descripcion", sortable: true },
 					{ key: "total", label: "Total", sortable: true },
 					{ key: "fecha", label: "Fecha", sortable: true },
+					{ key: "modo_pago", label: "Modo de pago", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				selected: [],
