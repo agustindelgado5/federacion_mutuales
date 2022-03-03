@@ -152,7 +152,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 		</b-form>
-		{{ estudio }}
+	
 
 		<b-button class="mt-2" variant="success" block @click="postEstudio()"
 			>Guardar</b-button

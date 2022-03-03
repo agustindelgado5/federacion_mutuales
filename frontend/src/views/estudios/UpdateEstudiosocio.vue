@@ -36,7 +36,6 @@
 				></b-form-checkbox-group>
 				-->
 			</b-form-group>
-			{{ selected }}
 		</b-form>
 		<b-button class="mt-2" variant="success" block @click="putEstudio()"
 			>Guardar</b-button
@@ -81,18 +80,43 @@
 				estudiosAPI.apiUrl.pathname = "estudios/";
 				this.estudio = await estudiosAPI.getData(this.estudio);
 				this.estudio.forEach((element) => {
-					let option = {};
-					option.value =
-						"http://localhost:8081/estudios/" + element.id_estudio + "/";
-					option.text =
-						element.tipo +
-						" - " +
-						element.id_proveedor.split("/")[4] +
-						" - $" +
-						element.precio_socio;
-					console.log(option);
-					this.op_estudios.push(option);
+					this.getProveedor(element);
 				});
+			},
+			async getProveedor(estudioSocio) {
+				let idProv = estudioSocio.id_proveedor;
+				let dataProv = {};
+				axios
+					.get(idProv)
+					.then((response) => {
+						// Obtenemos los datos
+						dataProv = response.data;
+						let option = {};
+						option.value =
+							"http://localhost:8081/estudios/" + estudioSocio.id_estudio + "/";
+						option.text =
+							estudioSocio.tipo +
+							" - " +
+							dataProv.id_proveedor +
+							"/" +
+							dataProv.nombre +
+							"/" +
+							dataProv.direccion +
+							"/" +
+							dataProv.localidad +
+							"/" +
+							dataProv.provincia +
+							" - $" +
+							estudioSocio.precio_socio;
+
+						this.op_estudios.push(option);
+					})
+					.catch((error) => {
+						// Capturamos los errores
+						console.log("ERROR:", error);
+						//return null
+					});
+				return await dataProv;
 			},
 
 			//Obtengo los consultorios ya seleccionados
@@ -107,7 +131,7 @@
 						"http://localhost:8081/socios/" + this.Socio.numero_socio + "/"
 					) {
 						console.log("Entro al if");
-						this.selected.push(element.id_estudio);
+						this.selected = element.id_estudio;
 					}
 				});
 				//this.selected_anterior = this.selected;
@@ -132,7 +156,7 @@
 				console.log(servicioAPI.apiUrl);
 				servicioAPI.apiUrl.pathname = "estudios_socios/";
 				let respuesta = await servicioAPI.postData(dataUP);
-				console.log("RESPUESTA", respuesta)
+				console.log("RESPUESTA", respuesta);
 				this.cargarFeedback(respuesta);
 
 				this.getEstudiosSocios();

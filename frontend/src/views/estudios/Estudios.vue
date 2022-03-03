@@ -33,6 +33,20 @@
 				<estudios-alta :updateTable="testFetch" />
 			</b-modal>
 
+			<!-- ================================================================ -->
+			<b-button
+				class="mb-4 ml-2"
+				variant="info"
+				id="btn_del_prov"
+				@click="VerProveedores()"
+				title="Ver Proveedores"
+				style="color: white"
+			>
+				<v-icon dark>mdi-format-list-bulleted-square</v-icon>
+				Proveedores
+			</b-button>
+			<!-- ================================================================ -->
+
 			<!-- ================ELIMINAR VARIOS ESTUDIOS======================== -->
 			<b-button
 				class="mb-4 ml-2"
@@ -190,11 +204,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					</template>
 
 					<template slot="cell(precio_socio)" slot-scope="data">
-						${{ data.value}}
+						${{ data.value }}
 					</template>
 
 					<template slot="cell(precio_federacion)" slot-scope="data">
-						${{ data.value}}
+						${{ data.value }}
 					</template>
 
 					<template #cell(selected)="{ rowSelected }">
@@ -480,7 +494,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 	api.pathname = "estudios";
 	//api.port = 8000;
 	api.port = 8081;
-
+	import { APIControler } from "@/store/APIControler";
 	import EstudiosAlta from "./EstudiosAlta.vue";
 	import EstudiosUpdate from "./EstudiosUpdate.vue";
 	import VueHtml2pdf from "vue-html2pdf";
@@ -500,7 +514,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "ub", label: "U.B.", sortable: true },
 					{ key: "descripcion", label: "Descripción", sortable: true },
 					{ key: "denominación", label: "Denominación", sortable: true },
-					{ key: "id_proveedor", label: "Proveedor", sortable: true },
+					{ key: "proveedor", label: "Proveedor", sortable: true },
 					{ key: "precio_socio", label: "Precio al socio", sortable: true },
 					{
 						key: "precio_federacion",
@@ -572,8 +586,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					var lista_estudios = data.results;
 
 					console.log(lista_estudios);
+					//this.getProveedor(lista_estudios);
 
-					this.tabla_estudios = lista_estudios;
+					//this.tabla_estudios = lista_estudios;
+					this.tabla_estudios = await this.getProveedor(lista_estudios);
 
 					this.tabla_estudios.forEach((element) => {
 						let opcionTipo = {};
@@ -599,6 +615,39 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					console.log(error);
 				}
 			},
+
+			async getProveedor(lista_estudios) {
+				let listado = {};
+				let DataReturn = [];
+				let proveedorAPI = new APIControler();
+				proveedorAPI.apiUrl.pathname = "proveedor_estudios/";
+				let proveedor = await proveedorAPI.getData(listado);
+				console.log("DATA LOS PROVEEDORES: ", proveedor);
+
+				proveedor.forEach((element) => {
+					var idProv =
+						"http://localhost:8081/proveedor_estudios/" +
+						element.id_proveedor +
+						"/";
+					lista_estudios.forEach((estudio) => {
+						if (idProv == estudio.id_proveedor) {
+							let datos = {};
+							datos.id_estudio = estudio.id_estudio;
+							datos.tipo = estudio.tipo;
+							datos.abreviatura = estudio.abreviatura;
+							datos.ub = estudio.ub;
+							datos.descripcion = estudio.descripcion;
+							datos.denominación = estudio.denominación;
+							datos.proveedor = element.id_proveedor + "- " + element.nombre;
+							datos.precio_socio = estudio.precio_socio;
+							datos.precio_federacion = estudio.precio_federacion;
+							DataReturn.push(datos);
+						}
+					});
+				});
+				return DataReturn;
+			},
+
 			editarEstudio(item, index) {
 				this.editar = item;
 			},
@@ -648,14 +697,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							break;
 						}
 					}
+					//this.testFetch();
 					this.hideModal();
+
 					swal("Eliminacion Exitosa", " ", "success");
 				} catch (error) {
 					this.hideModal();
 					swal("¡ERROR!", "Se ha detectado un problema ", "error");
 					console.log(error);
 				} finally {
-					this.testFetch();
+					location.reload();
 				}
 			},
 
@@ -717,9 +768,14 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.estudioAPDF = { ...item };
 				this.$refs.html2Pdf.generatePdf();
 			},
+
+			VerProveedores() {
+				this.$router.push("proveedor_estudios");
+			},
 		},
 		beforeMount() {
 			this.testFetch();
+			//this.getProveedor();
 		},
 	};
 </script>

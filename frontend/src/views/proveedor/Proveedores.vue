@@ -191,12 +191,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</template>
 					</template>
 
-					<template slot="cell(id_medico)" slot-scope="data">
+					<template slot="cell(id_proveedor)" slot-scope="data">
 						<b>{{ data.value }}</b>
-					</template>
-
-					<template slot="cell(apellido)" slot-scope="data">
-						{{ data.value.toUpperCase() }}
 					</template>
 
 					<template slot="cell(nombre)" slot-scope="data">
@@ -230,23 +226,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								</b-button>
 
 								<b-button
-									:to="{
-										name: 'ordenesProf',
-										params: { prof: row.item },
-										query: { id: row.item.id_medico },
-									}"
-									variant="primary"
-									id="button-3"
-									title="Ver ordenes asociadas"
-									:disabled="btn_ordenes"
-									style="color: white"
-								>
-									<!-- @click="ordenesproveedor(row.item)" -->
-									<v-icon dark>mdi-format-list-bulleted-square</v-icon>
-									Ordenes
-								</b-button>
-
-								<b-button
 									variant="danger"
 									id="button-3"
 									@click="showModalinfo(row.item, row.index)"
@@ -265,18 +244,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								<b-list-group horizontal>
 									<b-list-group class="col-3">
 										<b-list-group-item
-											><b>Fecha de ingreso:</b>
-											{{ row.item.fecha_ingreso | Date }}</b-list-group-item
+											><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item
 										>
 										<b-list-group-item
-											><b>Matricula:</b>
-											{{ row.item.matricula }}</b-list-group-item
+											><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item
 										>
 									</b-list-group>
 									&nbsp;
 									<b-list-group class="col-4">
 										<b-list-group-item
-											><b>Calle:</b> {{ row.item.domicilio }}
+											><b>Calle:</b> {{ row.item.direccion }}
 										</b-list-group-item>
 										<b-list-group-item
 											><b>Provincia:</b>
@@ -302,75 +279,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										>
 									</b-list-group>
 								</b-list-group>
-							</div>
-						</b-card>
-						<b-card title="Datos Bancarios: ">
-							<div>
-								<b-list-group horizontal>
-									<b-list-group class="col-3">
-										<b-list-group-item
-											><b>Banco:</b> {{ row.item.banco }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>CBU:</b> {{ row.item.cbu }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Alias del CBU:</b>
-											{{ row.item.alias_cbu }}</b-list-group-item
-										>
-									</b-list-group>
-									&nbsp;
-									<b-list-group class="col-5">
-										<b-list-group-item
-											><b>Tipo de cuenta:</b>
-											{{ row.item.tipo_cuenta }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Titular de la cuenta:</b>
-											{{ row.item.titular_cuenta }}</b-list-group-item
-										>
-									</b-list-group>
-								</b-list-group>
-							</div>
-						</b-card>
-						<b-card title="Consultorios: ">
-							<div>
-								<b-form-group
-									label-for="filter-input"
-									label-align-sm="right"
-									label-size="sm"
-									class="mb-0"
-									style="width: 100%; padding-bottom: 1em"
-								>
-									<b-input-group size="sm">
-										<b-form-input
-											id="filter-input"
-											v-model="filter"
-											type="search"
-											placeholder="Buscar registros"
-										></b-form-input>
-
-										<b-input-group-append>
-											<b-button :disabled="!filter" @click="filter = ''">
-												Limpiar
-											</b-button>
-										</b-input-group-append>
-									</b-input-group>
-								</b-form-group>
-
-								<b-table
-									hover
-									:items="row.item.list_consultorios"
-									:fields="fields_consultorios"
-									:sticky-header="true"
-									:no-border-collapse="true"
-									:filter="filter"
-									show-empty
-								>
-									<template #empty="">
-										<b>No hay registros para mostrar</b>
-									</template>
-								</b-table>
 							</div>
 							<b-button
 								@click="generarPDFproveedor(row.item)"
@@ -398,30 +306,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								</svg>
 								Generar PDF
 							</b-button>
-							<b-button-group>
-								<b-button
-									variant="warning"
-									class="mb-0 ml-2"
-									title="Editar este registro"
-									v-b-modal.modal-horario
-									@click="editarHorario(row.item)"
-								>
-									<v-icon class="mr-2"> mdi-pencil </v-icon>
-									Editar Horarios
-								</b-button>
-
-								<b-button
-									variant="success"
-									class="mb-0 ml-2"
-									v-b-modal.modal-editar-instituto
-									@click="editarInstituto(row.item)"
-									title="Editar consultorios"
-									style="color: white"
-								>
-									<v-icon dark> mdi-plus </v-icon>
-									Editar consultorios
-								</b-button>
-							</b-button-group>
 						</b-card>
 					</template>
 				</b-table>
@@ -462,6 +346,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				</div>
 
 				<br />
+				<!--
 				<div>
 					<b-card-group deck>
 						<b-card
@@ -514,6 +399,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</b-card>
 					</b-card-group>
 				</div>
+				-->
 			</aside>
 
 			<!-- ================EDITAR PROVEEDOR======================== -->
@@ -577,18 +463,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 	import { APIControler } from "@/store/APIControler";
 	import ProveedoresAlta from "./ProveedoresAlta.vue";
 	import ProveedoresUpdate from "./ProveedoresUpdate.vue";
-	//import proveedoresPdfdata from "./proveedoresPdfdata.vue";
-	//import proveedoresHorarios from "./proveedoresHorarios.vue";
-	//import UpdateConsultorios from "./UpdateConsultorios.vue";
+	import ProveedoresPdfdata from "./ProveedoresPdfdata.vue";
+
 	import axios from "axios";
 
 	export default {
 		components: {
 			ProveedoresAlta,
 			ProveedoresUpdate,
-			//proveedoresPdfdata,
-			//UpdateConsultorios,
-			//proveedoresHorarios,
+			ProveedoresPdfdata,
 		},
 		data() {
 			return {
