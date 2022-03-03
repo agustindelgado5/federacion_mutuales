@@ -208,7 +208,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<template #empty="">
 							<b>No hay registros para mostrar</b>
 						</template>
-
+						<template slot="cell(monto)" slot-scope="data">
+							${{ data.value||0 }}
+						</template>
 						<template #cell(selected)="{ rowSelected }">
 							<template v-if="rowSelected">
 								<span aria-hidden="true">&check;</span>
@@ -907,12 +909,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			return {
 				tabla_socios: [],
 				fields: [
-					{ key: "selected", label: "Seleccionar", sortable: true },
+					{ key: "selected", label: "", sortable: true },
 					{ key: "numero_socio", label: "N° Socio", sortable: true },
 					{ key: "apellido", label: "Apellido/s", sortable: true },
 					{ key: "nombre", label: "Nombre/s", sortable: true },
 					{ key: "dni", label: "DNI", sortable: true },
 					{ key: "edad", label: "Edad", sortable: true },
+					{ key: "monto", label: "Monto", sortable: true },
 					/*{
 						key: "fecha_nacimiento",
 						label: "Fecha de Nacimiento",

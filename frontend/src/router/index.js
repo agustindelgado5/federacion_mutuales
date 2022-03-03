@@ -108,6 +108,11 @@ const routes = [
     component: () => import('../views/ordenes/Ordenes_Profesional.vue')
   },
   {
+    path: '/cobrador',
+    name: 'cobrador',
+    component: () => import('../views/socios/Socios_Cobrador.vue')
+  },
+  {
     path: "/gastosSalientes",
     name: "GastosSalientes",
     component: () => import("../views/gastos_salientes/GastosSalientes.vue"),

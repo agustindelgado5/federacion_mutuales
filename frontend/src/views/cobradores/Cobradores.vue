@@ -168,10 +168,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					<b>{{ data.value }}</b>
 				</template>
 
-				<template slot="cell(numero_socio)" slot-scope="data">
-					{{ data.value.split("/")[4] }}
-				</template>
-
 				<template #cell(selected)="{ rowSelected }">
 					<template v-if="rowSelected">
 						<span aria-hidden="true">&check;</span>
@@ -194,7 +190,20 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							>
 								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
 							</b-button>
-
+							<b-button
+								:to="{
+									name: 'cobrador',
+									params: { id: row.item },
+									query: { id: row.item.id_cobrador },
+								}"
+								variant="primary"
+								id="button-4"
+								title="Ver socios del cobrador"
+								style="color: white"
+							>
+								<v-icon dark>mdi-format-list-bulleted-square</v-icon>
+								Socios
+							</b-button>
 							<b-button
 								variant="warning"
 								id="button-2"
@@ -228,9 +237,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										{{ row.item.id_cobrador }}</b-list-group-item
 									>
 									<b-list-group-item
-										><b>N socio:</b>
-										{{ row.item.numero_socio.split("/")[4] }}</b-list-group-item
-									>
+										><b>DNI:</b> {{ row.item.dni }}
+									</b-list-group-item>
 								</b-list-group>
 								&nbsp;
 								<b-list-group class="col-5">
@@ -240,9 +248,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									<b-list-group-item
 										><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item
 									>
-									<b-list-group-item
-										><b>DNI:</b> {{ row.item.dni }}
-									</b-list-group-item>
 								</b-list-group>
 							</b-list-group>
 						</div>
@@ -319,7 +324,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				tabla_cobradores: [],
 				fields: [
 					{ key: "selected", label: "Seleccionar", sortable: true },
-					{ key: "numero_socio", label: "N° Socio", sortable: true },
 					{ key: "id_cobrador", label: "ID Cobrador", sortable: true },
 					{ key: "apellido", sortable: true },
 					{ key: "nombre", sortable: true },

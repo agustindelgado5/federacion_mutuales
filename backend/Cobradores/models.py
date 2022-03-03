@@ -1,5 +1,5 @@
 from django.db import models
-from Socios.models import socios
+#from Socios.models import socios
 
 # Create your models here.
 
@@ -10,7 +10,7 @@ Construyo la entidad para los cobradores
 
 class cobradores(models.Model):
     id_cobrador = models.IntegerField(primary_key=True)
-    numero_socio = models.ForeignKey(socios, on_delete=models.DO_NOTHING)
+    #numero_socio = models.ForeignKey(socios, on_delete=models.DO_NOTHING) #Un cobrador no sirve para un solo socio
     apellido = models.CharField(max_length=80)
     nombre = models.CharField(max_length=80)
     dni = models.IntegerField(unique=True)
