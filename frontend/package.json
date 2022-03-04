@@ -20,6 +20,7 @@
     "vue": "^2.6.11",
     "vue-awesomplete": "^0.1.8",
     "vue-cookies": "^1.7.4",
+    "vue-full-loading": "^1.2.1",
     "vue-headful": "^2.1.0",
     "vue-html2pdf": "^1.8.0",
     "vue-nested-menu": "^1.0.0",
