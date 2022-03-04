@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.fields import AutoField
-from backend.deptos import deptos_tucuman
+from backend.deptos import deptos_tucuman, comumas_municipios
 # Create your models here.
 
 """
@@ -23,12 +23,21 @@ class servicios(models.Model):
         return cadena
 
 """
-Construyo la entidad para las omutuales
+Construyo la entidad para las mutuales
 """
 class mutuales(models.Model):
     id_mutual=models.AutoField(primary_key=True)
+    matricula=models.IntegerField(unique=True)
     nombre=models.CharField(max_length=100)
+    direccion = models.CharField(max_length=100)
+    localidad=models.CharField(max_length=50, choices=comumas_municipios)
     sucursal=models.CharField(max_length=30, choices=deptos_tucuman)
+    cuit=models.CharField(max_length=11, unique=True)
+    email=models.EmailField(blank=True, null=True)
+    telefono=models.CharField(max_length=10, blank=True, null=True)
+    representante=models.CharField(max_length=100)
+    fecha_inicio=models.DateField()
+    fecha_ingreso=models.DateField()  
     ##id_servicio=models.ForeignKey(servicios, on_delete=models.CASCADE)
     created=models.DateTimeField(auto_now_add=True) 
     updated=models.DateTimeField(auto_now_add=True)
@@ -54,3 +63,31 @@ class servicio_mutual(models.Model):
         verbose_name_plural='servicios_mutual'
         ordering=['id_mutual']
         unique_together = ('id_mutual', 'id_servicio',)
+
+
+
+class planes(models.Model):
+    id_plan = AutoField(primary_key=True)
+    nombre = models.CharField(max_length=128)
+    precio = models.DecimalField(max_digits=8, decimal_places=2)
+    beneficios = models.ManyToManyField(servicios, through='beneficiosDelPlan')
+
+    def __str__(self):
+        return self.nombre
+
+class beneficiosDelPlan(models.Model):
+
+    TIPO_CHOICE = (
+        ('1', 'Descuento Porcentual'),
+        ('2', 'Descuento Fijo'),
+        ('3', 'Limite'),
+    )
+
+    servicio = models.ForeignKey(servicios, on_delete=models.DO_NOTHING)
+    plan = models.ForeignKey(planes, on_delete=models.CASCADE)
+    #tipo: si es descuento % o de un monto fijo, o limite de ordenes
+    tipo = models.CharField(choices=TIPO_CHOICE, default='1', max_length=1)
+    #cantidad: el %, monto o cantidad a aplicar, 0 to 2147483647
+    cantidad = models.PositiveIntegerField()
+    class Meta:
+        unique_together = ('plan', 'servicio',)

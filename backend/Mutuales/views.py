@@ -3,8 +3,8 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 #from rest_framework.decorators import action
 #from rest_framework.response import Response
 
-from Mutuales.models import mutuales, servicio_mutual, servicios
-from Mutuales.serializers import  MutualesSerializer, ServiciosSerializer, ServiciosMutualSerializer
+from Mutuales.models import mutuales, servicio_mutual, servicios, planes,beneficiosDelPlan
+from Mutuales.serializers import  MutualesSerializer, ServiciosSerializer, ServiciosMutualSerializer,PlanesSerializer,BeneficiosSerializer
 #from django.contrib.auth.models import User
 
 
@@ -40,5 +40,10 @@ class ServiciosMutualViewSet(viewsets.ModelViewSet):
     queryset = servicio_mutual.objects.all()
 
     
+class PlanesViewSet(viewsets.ModelViewSet):
+    serializer_class = PlanesSerializer
+    queryset = planes.objects.all()
 
-    
+class BeneficiosViewSet(viewsets.ModelViewSet):
+    serializer_class = BeneficiosSerializer
+    queryset = beneficiosDelPlan.objects.all()

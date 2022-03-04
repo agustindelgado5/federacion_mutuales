@@ -3,8 +3,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from Institutos.models import institutos
-from Institutos.serializers import InstitutosSerializer
+from Institutos.models import institutos, institutos_profesionales
+from Institutos.serializers import InstitutosSerializer, InstitutosProfesionalesSerializer
 
 # Create your views here.
 
@@ -12,3 +12,10 @@ from Institutos.serializers import InstitutosSerializer
 class InstitutosViewSet(viewsets.ModelViewSet):
     serializer_class = InstitutosSerializer
     queryset = institutos.objects.all()
+
+
+class InstitutosProfesionalesViewSet(viewsets.ModelViewSet):
+    serializer_class = InstitutosProfesionalesSerializer
+    queryset = institutos_profesionales.objects.all()
+
+

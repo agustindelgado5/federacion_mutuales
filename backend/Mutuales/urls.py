@@ -11,6 +11,8 @@ router = routers.DefaultRouter()
 router.register(r'servicios', views.ServiciosViewSet, basename='servicios')
 router.register(r'mutuales', views.MutualesViewSet, basename='mutuales')
 router.register(r'servicio_mutual', views.ServiciosMutualViewSet, basename='servicios_mutuales')
+router.register(r'planes', views.PlanesViewSet, basename='planes')
+router.register(r'beneficios', views.BeneficiosViewSet, basename='beneficios')
 
 urlpatterns = [
     path('', include(router.urls)),

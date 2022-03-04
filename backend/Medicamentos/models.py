@@ -11,7 +11,7 @@ Construyo la entidad medicamentos con sus atributos
 
 
 class medicamentos(models.Model):
-    id_medicamento = models.IntegerField(primary_key=True)
+    id_medicamento = AutoField(primary_key=True)
     nombre = models.CharField(max_length=30)
     presentacion = models.CharField(max_length=100)
     laboratorio = models.CharField(max_length=30)

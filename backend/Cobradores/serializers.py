@@ -7,10 +7,10 @@ class CobradoresSerializer(serializers.HyperlinkedModelSerializer):
         model = cobradores
         fields = (
             "id_cobrador",
-            "numero_socio",
+            # "numero_socio",
             "nombre",
             "apellido",
             "dni",
             "fecha_cobro",
         )
-        read_only_fields = ["created ", "updated"]
+        read_only_fields = ["created ", "updated","id_cobrador"]

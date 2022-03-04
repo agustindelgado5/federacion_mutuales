@@ -17,4 +17,9 @@ class FarmaciasSerializer(serializers.HyperlinkedModelSerializer):
             "tel_fijo",
             "representante",
             "tel_celular",
+            "cbu",
+            "entidad_bancaria",
+            "nro_cuenta",
+            "tipo_cuenta",
+            "modalidad_pago",
         )

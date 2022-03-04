@@ -1,9 +1,12 @@
+from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path, re_path, include
+from django.urls import path, include
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    url(r'^auth/', include('djoser.urls')),
+    url(r'^auth/', include('djoser.urls.jwt')),
     # re_path("", include("users.urls")),
     path("", include("Socios.urls")),
     path("", include("Farmacias.urls")),
@@ -17,4 +20,10 @@ urlpatterns = [
     path("", include("GastosSalientes.urls")),
     path("", include("Cirugias.urls")),
     path("", include("Institutos.urls")),
+<<<<<<< HEAD
+=======
+    path("", include("Lentes.urls")),
+    path("", include("VentasOpticas.urls")),
+    path("", include("Vendedores.urls")),
+>>>>>>> 03503535a22147f9be42c8dcea5211c83629c750
 ]

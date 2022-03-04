@@ -136,7 +136,7 @@ dmypy.json
 # bases sqlite y mongo
 *.db
 data
-migrations
+
 
 #Carpeta npm modules
 frontend/node_modules/

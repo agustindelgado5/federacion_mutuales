@@ -14,7 +14,11 @@ class OrdenesSerializer(serializers.HyperlinkedModelSerializer):
             "id_mutual",
             "fecha",
             "hora",
-            "precio",
+            "preciosocio",
+            "preciomutual",
             "realizado",
+            "presentada",
+            "fechapresentacion",
+            "vencida",
         )
         read_only_fields = ["created ", "updated"]
