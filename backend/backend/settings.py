@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # Django REST framework
     "rest_framework",
     "rest_framework.authtoken",
+    'djoser',
     # CORS
     "corsheaders",
     # LOCAL APPS

@@ -20,10 +20,7 @@ urlpatterns = [
     path("", include("GastosSalientes.urls")),
     path("", include("Cirugias.urls")),
     path("", include("Institutos.urls")),
-<<<<<<< HEAD
-=======
     path("", include("Lentes.urls")),
     path("", include("VentasOpticas.urls")),
     path("", include("Vendedores.urls")),
->>>>>>> 03503535a22147f9be42c8dcea5211c83629c750
 ]
