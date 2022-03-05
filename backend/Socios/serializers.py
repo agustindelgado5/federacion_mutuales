@@ -1,10 +1,14 @@
 from rest_framework import serializers
 from Socios.models import socios, familiar
 
+
+
+
+
 class SociosSerializer(serializers.HyperlinkedModelSerializer):
+    monto = serializers.DecimalField(max_digits=9, decimal_places=2,read_only=True)
     class Meta:
         model = socios
-        # edad = serializers.DateField(read_only=True)
         fields = (
             "numero_socio",
             "apellido",
@@ -23,11 +27,13 @@ class SociosSerializer(serializers.HyperlinkedModelSerializer):
             "carencia",
             "id_mutual",
             "tieneObraSocial",
+            "metodoPago",
+            "cobrador",
+            "monto"
             # "plan",
             # "vendedor",
         )
-        read_only_fields = ["edad", "created ", "updated"]
-
+        read_only_fields = ["edad", "created ", "updated","monto"]
 
 class FamiliarSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

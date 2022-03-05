@@ -1,12 +1,11 @@
 <template>
 	<v-app id="app">
-		<div id="estudios" class="myTable">
-			<!--HEAD DE LA PAGINA -->
+		<div id="proveedor" class="myTable">
 			<vue-headful
-				title="Estudios - Federación Tucumana de Mutuales"
+				title="Proveedor - Federación Tucumana de Mutuales"
 			></vue-headful>
 
-			<h2>Listado de Estudios</h2>
+			<h2>Listado de Proveedores</h2>
 			<b-button
 				@click="testFetch"
 				class="mb-4"
@@ -17,37 +16,23 @@
 				Actualizar
 			</b-button>
 
-			<!-- ================ALTA ESTUDIOS======================== -->
+			<!-- ================ALTA PROVEEDOR======================== -->
 			<b-button
 				class="mb-4 ml-2"
 				v-b-modal.modal-alta
-				@click="altaEstudio()"
-				title="Nuevo Estudio"
+				@click="altaproveedor()"
+				title="Nuevo proveedor"
 				style="color: white"
 			>
 				<v-icon dark> mdi-plus </v-icon>
-				Nuevo Estudio
+				Nuevo proveedor
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<estudios-alta :updateTable="testFetch" />
+				<proveedores-alta :updateTable="testFetch" />
 			</b-modal>
 
-			<!-- ================================================================ -->
-			<b-button
-				class="mb-4 ml-2"
-				variant="info"
-				id="btn_del_prov"
-				@click="VerProveedores()"
-				title="Ver Proveedores"
-				style="color: white"
-			>
-				<v-icon dark>mdi-format-list-bulleted-square</v-icon>
-				Proveedores
-			</b-button>
-			<!-- ================================================================ -->
-
-			<!-- ================ELIMINAR VARIOS ESTUDIOS======================== -->
+			<!-- ================ELIMINAR VARIOS PROVEEDORES======================== -->
 			<b-button
 				class="mb-4 ml-2"
 				variant="danger"
@@ -85,7 +70,7 @@
 						variant="danger"
 						block
 						title="Eliminar"
-						@click="delete_all_Estudios()"
+						@click="delete_all_proveedores()"
 					>
 						Eliminar
 					</b-button>
@@ -116,6 +101,8 @@
 					</b-input-group-append>
 				</b-input-group>
 			</b-form-group>
+			<!-- ======================================== -->
+
 			<!-- ======================================== -->
 
 			<div v-if="rows > 0">
@@ -169,19 +156,17 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			</div>
 
 			<section class="container">
-				<!-- ======== Tabla con los registros ======= -->
 				<b-table
 					:fields="fields"
 					striped
 					sortable
 					responsive
 					hover
-					:items="
-						tabla_estudios | Tipo(filter_tipo) | Proveedor(filter_proveedor)
-					"
+					:items="tabla_proveedores | Especialidad(filter_especialidad)"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
+					:sticky-header="true"
 					:no-border-collapse="false"
 					ref="tablaregistros"
 					id="tablaregistros"
@@ -195,22 +180,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<b>No hay registros para mostrar</b>
 					</template>
 
-					<template slot="cell(id_estudio)" slot-scope="data">
-						<b>{{ data.value }}</b>
-					</template>
-
-					<template slot="cell(id_proveedor)" slot-scope="data">
-						{{ data.value.split("/")[4] }}
-					</template>
-
-					<template slot="cell(precio_socio)" slot-scope="data">
-						${{ data.value }}
-					</template>
-
-					<template slot="cell(precio_federacion)" slot-scope="data">
-						${{ data.value }}
-					</template>
-
 					<template #cell(selected)="{ rowSelected }">
 						<template v-if="rowSelected">
 							<span aria-hidden="true">&check;</span>
@@ -222,47 +191,36 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</template>
 					</template>
 
+					<template slot="cell(id_proveedor)" slot-scope="data">
+						<b>{{ data.value }}</b>
+					</template>
+
+					<template slot="cell(nombre)" slot-scope="data">
+						{{ data.value.toUpperCase() }}
+					</template>
+
 					<template slot="cell(action)" slot-scope="row">
 						<div class="mt-3">
 							<b-button-group>
-								<!-- ==================================CREAR PDF================================== -->
-								<!-- Generar PDF -->
 								<b-button
-									@click="generarPDF(row.item)"
-									id="btn_down_pdf"
-									class="mb-0 ml-2"
-									title="Generar PDF"
 									variant="info"
-									style="color: white"
-									:disabled="btn_down_pdf"
+									id="button-1"
+									title="Mostrar Info"
+									@click="row.toggleDetails"
+									:disabled="btn_mostrar"
 								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="16"
-										height="16"
-										fill="currentColor"
-										class="bi bi-file-pdf-fill"
-										viewBox="0 0 16 16"
-									>
-										<path
-											d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
-										/>
-										<path
-											fill-rule="evenodd"
-											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
-										/>
-									</svg>
-									Generar
-									<!-- ============================================================================== -->
+									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
 								</b-button>
+
 								<b-button
 									variant="warning"
 									id="button-2"
 									title="Editar este registro"
 									v-b-modal.modal-editar
-									@click="editarEstudio(row.item, row.index)"
+									@click="editarproveedor(row.item, row.index)"
 									:disabled="btn_editar"
 								>
+									<!-- :disabled="btn_editar" -->
 									<v-icon class="mr-2"> mdi-pencil </v-icon>
 									Editar
 								</b-button>
@@ -280,7 +238,78 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							</b-button-group>
 						</div>
 					</template>
+					<template #row-details="row">
+						<b-card title="Datos del proveedor: ">
+							<div>
+								<b-list-group horizontal>
+									<b-list-group class="col-3">
+										<b-list-group-item
+											><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item
+										>
+									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-4">
+										<b-list-group-item
+											><b>Calle:</b> {{ row.item.direccion }}
+										</b-list-group-item>
+										<b-list-group-item
+											><b>Provincia:</b>
+											{{ row.item.provincia }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Localidad:</b>
+											{{ row.item.localidad }}</b-list-group-item
+										>
+									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-4">
+										<b-list-group-item
+											><b>Correo:</b> {{ row.item.email }}
+										</b-list-group-item>
+										<b-list-group-item
+											><b>Telefono Fijo:</b>
+											{{ row.item.tel_fijo }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Celular:</b>
+											{{ row.item.tel_celular }}</b-list-group-item
+										>
+									</b-list-group>
+								</b-list-group>
+							</div>
+							<b-button
+								@click="generarPDFproveedor(row.item)"
+								id="btn_down_pdf"
+								class="mb-0 ml-2"
+								title="Generar PDF"
+								variant="info"
+								style="color: white"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									fill="currentColor"
+									class="bi bi-file-pdf-fill"
+									viewBox="0 0 16 16"
+								>
+									<path
+										d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
+									/>
+									<path
+										fill-rule="evenodd"
+										d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
+									/>
+								</svg>
+								Generar PDF
+							</b-button>
+						</b-card>
+					</template>
 				</b-table>
+
 				<b-container fluid>
 					<b-col class="my-1">
 						<b-pagination
@@ -289,13 +318,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							pills
 							:total-rows="totalRows"
 							:per-page="perPage"
-							aria-controls="table_estudios"
+							aria-controls="tabla_proveedores"
 						>
 						</b-pagination>
 					</b-col>
 				</b-container>
 			</section>
-
 			<aside v-show="rows > 0">
 				<div>
 					<b-card-group deck>
@@ -316,7 +344,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</b-card>
 					</b-card-group>
 				</div>
+
 				<br />
+				<!--
 				<div>
 					<b-card-group deck>
 						<b-card
@@ -330,15 +360,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									<b-card-header header-tag="header" class="p-1" role="tab">
 										<b-button
 											block
-											v-b-toggle.accordion-filter-1
+											v-b-toggle.accordion-1
 											variant="info"
 											style="font-size: 0.82em"
 										>
-											TIPO
+											ESPECIALIDAD
 										</b-button>
 									</b-card-header>
 									<b-collapse
-										id="accordion-filter-1"
+										id="accordion-1"
 										visible
 										accordion="my-accordion"
 										role="tabpanel"
@@ -346,51 +376,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										<b-card-body>
 											<b-form-group id="input-group-4">
 												<v-autocomplete
-													id="tipo"
-													v-model="filter_tipo"
-													:items="options_tipo"
+													id="especialidad"
+													v-model="filter_especialidad"
+													:items="options_especialidad"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter_tipo != null">
-													<b-button @click="filter_tipo = null" title="Limpiar">
-														Limpiar
-													</b-button>
-												</div>
-											</b-form-group>
-										</b-card-body>
-									</b-collapse>
-
-									<b-card-header header-tag="header" class="p-1" role="tab">
-										<b-button
-											block
-											v-b-toggle.accordion-filter-2
-											variant="info"
-											style="font-size: 0.82em"
-										>
-											PROVEEDOR
-										</b-button>
-									</b-card-header>
-									<b-collapse
-										id="accordion-filter-2"
-										visible
-										accordion="my-accordion"
-										role="tabpanel"
-									>
-										<b-card-body>
-											<b-form-group id="input-group-4">
-												<v-autocomplete
-													id="proveedor"
-													v-model="filter_proveedor"
-													:items="options_proveedor"
-													type="text"
-													solo
-													filled
-												></v-autocomplete>
-												<div v-show="filter_proveedor != null">
+												<div v-show="filter_especialidad != null">
 													<b-button
-														@click="filter_proveedor = null"
+														@click="filter_especialidad = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -404,9 +399,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</b-card>
 					</b-card-group>
 				</div>
+				-->
 			</aside>
-			<!-- ================ELIMINAR ESTUDIO======================== -->
 
+			<!-- ================EDITAR PROVEEDOR======================== -->
+			<b-modal id="modal-editar" hide-footer>
+				<template #modal-title>
+					<h5 class="modal-title">Editar</h5>
+				</template>
+				<!-- {{ editar }} -->
+				<proveedores-update :proveedor="editar" :updateTable="testFetch" />
+			</b-modal>
+			<!-- ================ELIMINAR PROVEEDOR======================== -->
 			<b-modal
 				id="modal_eliminar"
 				ref="my-modal"
@@ -416,8 +420,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			>
 				<div class="d-block text-center">
 					<h3>
-						¿Esta seguro de eliminar los datos del estudio
-						{{ infoEliminar.estudio.cod_estudio }}?
+						¿Esta seguro de eliminar los datos de
+						{{ infoEliminar.proveedor.nombre }} ?
 					</h3>
 				</div>
 				<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
@@ -427,147 +431,129 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					class="mt-3"
 					variant="danger"
 					block
-					@click="deleteEstudio(infoEliminar.estudio.id_estudio)"
 					title="Eliminar"
+					@click="deleteproveedor(infoEliminar.proveedor.id_proveedor)"
+					>Eliminar</b-button
 				>
-					Eliminar
-				</b-button>
-			</b-modal>
-
-			<b-modal id="modal-editar" hide-footer>
-				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<estudios-update :estudio="editar" :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ==================================CREAR PDF================================== -->
-			<vue-html2pdf
-				:show-layout="false"
-				:float-layout="true"
-				:enable-download="false"
-				:preview-modal="true"
-				:paginate-elements-by-height="1400"
-				filename="DetalleEstudio"
-				:pdf-quality="2"
-				:manual-pagination="false"
-				pdf-format="a4"
-				pdf-orientation="portrait"
-				pdf-content-width="80%"
-				@progress="onProgress($event)"
-				@startPagination="startPagination()"
-				@hasPaginated="hasPaginated()"
-				@beforeDownload="beforeDownload($event)"
-				@hasDownloaded="hasDownloaded($event)"
-				ref="html2Pdf"
+			<b-modal
+				size="xl"
+				ref="modal-pdfproveedor"
+				id="modal-pdfproveedor"
+				hide-footer
 			>
-				<section slot="pdf-content">
-					<!-- PDF Content Here -->
-					<section class="pdf-item">
-						<h3>Federación Tucumana de Mutuales</h3>
-						<img
-							src="@/assets/logo.jpg"
-							alt="Logo Federación"
-							srcset=""
-							id="Logo_fed"
-						/>
-					</section>
-					<section class="pdf-item">
-						<h3>Estudio</h3>
-
-						<b-list-group>
-							<b-list-group-item
-								v-for="value in fields.slice(0, -1)"
-								:key="value.key"
-								>{{ value.label }}:
-								{{ estudioAPDF[value.key] }}</b-list-group-item
-							>
-						</b-list-group>
-					</section>
-				</section>
-			</vue-html2pdf>
-			<!-- ============================================================================== -->
+				<template #modal-title
+					><h5 class="modal-title">Vista Previa</h5></template
+				>
+				<proveedores-pdfdata :PDFproveedor="proveedorAPdf" />
+			</b-modal>
+			<!-- ==============================================================================-->
 		</div>
 	</v-app>
 </template>
 
 <script>
 	let api = new URL("http://localhost");
-	api.pathname = "estudios";
+	api.pathname = "proveedor_estudios";
 	//api.port = 8000;
 	api.port = 8081;
+
 	import { APIControler } from "@/store/APIControler";
-	import EstudiosAlta from "./EstudiosAlta.vue";
-	import EstudiosUpdate from "./EstudiosUpdate.vue";
-	import VueHtml2pdf from "vue-html2pdf";
+	import ProveedoresAlta from "./ProveedoresAlta.vue";
+	import ProveedoresUpdate from "./ProveedoresUpdate.vue";
+	import ProveedoresPdfdata from "./ProveedoresPdfdata.vue";
 
 	import axios from "axios";
 
 	export default {
-		components: { EstudiosAlta, EstudiosUpdate, VueHtml2pdf },
+		components: {
+			ProveedoresAlta,
+			ProveedoresUpdate,
+			ProveedoresPdfdata,
+		},
 		data() {
 			return {
-				tabla_estudios: [],
+				tabla_proveedores: [],
 				fields: [
 					{ key: "selected", label: "Seleccionar", sortable: true },
-					{ key: "id_estudio", label: "ID", sortable: true },
-					{ key: "tipo", label: "Tipo", sortable: true },
-					{ key: "abreviatura", label: "Abreviatura", sortable: true },
-					{ key: "ub", label: "U.B.", sortable: true },
-					{ key: "descripcion", label: "Descripción", sortable: true },
-					{ key: "denominación", label: "Denominación", sortable: true },
-					{ key: "proveedor", label: "Proveedor", sortable: true },
-					{ key: "precio_socio", label: "Precio al socio", sortable: true },
 					{
-						key: "precio_federacion",
-						label: "Precio a la federacion",
+						key: "id_proveedor",
+						label: "ID",
 						sortable: true,
 					},
+
+					{
+						key: "nombre",
+						sortable: true,
+					},
+					{
+						key: "cuit",
+						label: "CUIT",
+						sortable: true,
+					},
+					{ key: "direccion", label: "Direccion", sortable: true },
+					{ key: "localidad", label: "Localidad", sortable: true },
+					{ key: "provincia", label: "Provincia", sortable: true },
+					{ key: "email", label: "Mail", sortable: true },
+					{ key: "tel_fijo", label: "Telefono Fijo", sortable: true },
+					{ key: "tel_celular", label: "Telefono Celular", sortable: true },
+
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
+
+				buscar: "",
+				editar: {},
+
+				filter: null,
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
 				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
-				filter: null,
-
 				selected: [],
 
-				estudioAPDF: {},
+				proveedorAPdf: {},
 
 				//Botones
-				btn_down_pdf: false, //Desabilito los botones, hasta que muestre los datos
+				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
-				btn_limpiar: true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
 				btn_ordenes: false,
 				btn_eliminar: false,
 				btn_select: false,
-				editar: {},
+				btn_limpiar: true,
+
 				infoEliminar: {
 					id: "modal_eliminar",
-					estudio: -1,
+					proveedor: -1,
 				},
 
-				//Campos a filtrar
-				filter_tipo: null,
-				filter_proveedor: null,
-
 				//Opciones de filtro
-				options_tipo: [{ value: null, text: "Elija un tipo", selected: true }],
-				options_proveedor: [
-					{ value: null, text: "Elija un proveedor", selected: true },
+				options_especialidad: [
+					{
+						value: null,
+						text: "Elija una especialidad",
+						selected: true,
+					},
 				],
+
+				//Campos a filtrar
+				filter_especialidad: null,
 			};
 		},
-		computed: {
-			rows() {
-				return (this.totalRows = this.tabla_estudios.length);
-			},
 
+		computed: {
+			//...mapState("HorariosProf", ["horario"]),
+			rows() {
+				return (this.totalRows = this.tabla_proveedores.length);
+			},
 			rowsFilter() {
 				return this.totalRows;
 			},
+
 			sortOptions() {
 				// Create an options list from our fields
 				return this.fields
@@ -577,119 +563,82 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					});
 			},
 		},
+
 		methods: {
 			async testFetch() {
 				try {
 					const res = await fetch(api);
 					const data = await res.json();
 
-					var lista_estudios = data.results;
+					var lista_proveedores = data.results;
 
-					console.log(lista_estudios);
-					//this.getProveedor(lista_estudios);
+					console.log(lista_proveedores);
 
-					//this.tabla_estudios = lista_estudios;
-					this.tabla_estudios = await this.getProveedor(lista_estudios);
+					this.tabla_proveedores = lista_proveedores;
+					/*
+					this.tabla_proveedores.forEach((element) => {
+						this.getInstitutosproveedores(element);
+						let opcion = {};
 
-					this.tabla_estudios.forEach((element) => {
-						let opcionTipo = {};
-						let opcionProv = {};
-						opcionTipo.value = opcionTipo.text = element.tipo;
-						//opcionTipo.text = element.laboratorio;
-						opcionProv.value = opcionProv.text = element.proveedor;
-						//opcionProv.text = element.cod_farmacia.split("/")[4];
-						if (this.options_tipo.find((x) => x.value == opcionTipo.value)) {
-							console.log(opcionTipo, " ya se encuentra en el listado");
-						} else {
-							this.options_tipo.push(opcionTipo);
-						}
+						opcion.value = element.especialidad;
+						opcion.text = element.especialidad;
 						if (
-							this.options_proveedor.find((x) => x.value == opcionProv.value)
+							this.options_especialidad.find((x) => x.value == opcion.value)
 						) {
-							console.log(opcionProv, " ya se encuentra en el listado");
+							//this.options_especialidad.push(opcion);
+							console.log(opcion, " ya se encuentra en el listado");
 						} else {
-							this.options_proveedor.push(opcionProv);
+							this.options_especialidad.push(opcion);
 						}
 					});
+					*/
 				} catch (error) {
 					console.log(error);
 				}
 			},
-
-			async getProveedor(lista_estudios) {
-				let listado = {};
-				let DataReturn = [];
-				let proveedorAPI = new APIControler();
-				proveedorAPI.apiUrl.pathname = "proveedor_estudios/";
-				let proveedor = await proveedorAPI.getData(listado);
-				console.log("DATA LOS PROVEEDORES: ", proveedor);
-
-				proveedor.forEach((element) => {
-					var idProv =
-						"http://localhost:8081/proveedor_estudios/" +
-						element.id_proveedor +
-						"/";
-					lista_estudios.forEach((estudio) => {
-						if (idProv == estudio.id_proveedor) {
-							let datos = {};
-							datos.id_estudio = estudio.id_estudio;
-							datos.tipo = estudio.tipo;
-							datos.abreviatura = estudio.abreviatura;
-							datos.ub = estudio.ub;
-							datos.descripcion = estudio.descripcion;
-							datos.denominación = estudio.denominación;
-							datos.proveedor = element.id_proveedor + "- " + element.nombre;
-							datos.precio_socio = estudio.precio_socio;
-							datos.precio_federacion = estudio.precio_federacion;
-							DataReturn.push(datos);
-						}
-					});
-				});
-				return DataReturn;
-			},
-
-			editarEstudio(item, index) {
-				this.editar = item;
-			},
+			altaproveedor() {},
 			//Funcion para mostrar el modal
 			showModal() {
 				this.$refs["my-modal"].show();
 			},
 			showModalinfo(item, index) {
-				this.infoEliminar.estudio = item;
+				this.infoEliminar.proveedor = item;
 				this.showModal();
 			},
 			//Funcion para esconder el modal
 			hideModal() {
 				this.$refs["my-modal"].hide();
 			},
-			altaEstudio() {},
 
-			async deleteEstudio(id_estudio) {
+			//Funcion para eliminar un proveedor
+			async deleteproveedor(id_proveedor) {
 				axios
-					.delete("http://localhost:8081/estudios/" + id_estudio + "/")
+					.delete(
+						"http://localhost:8081/proveedor_estudios/" + id_proveedor + "/"
+					)
 					.then((datos) => {
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
-						this.hideModal();
 					})
 					.catch((error) => {
 						swal("¡ERROR!", "Se ha detectado un problema ", "error");
 						console.log(error);
-						this.hideModal();
 					})
-					.finally(() => this.testFetch());
+					.finally(() => {
+						this.hideModal();
+						this.testFetch();
+					});
 			},
 
-			//Funcion para eliminar todos los profesionales
-			async delete_all_Estudios() {
+			//Funcion para eliminar todos los proveedores
+			async delete_all_proveedores() {
 				var cantidad = this.selected.length;
 
 				try {
 					for (var i = 0; i < cantidad; i++) {
 						axios.delete(
-							"http://localhost:8081/estudios/" +
-								this.selected[i].id_estudio +
+							"http://localhost:8081/proveedor_estudios/" +
+								this.selected[i].id_proveedor +
 								"/"
 						);
 						if (this.selected.length == 0) {
@@ -697,17 +646,19 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							break;
 						}
 					}
-					//this.testFetch();
 					this.hideModal();
-
 					swal("Eliminacion Exitosa", " ", "success");
 				} catch (error) {
 					this.hideModal();
 					swal("¡ERROR!", "Se ha detectado un problema ", "error");
 					console.log(error);
 				} finally {
-					location.reload();
+					this.testFetch();
 				}
+			},
+
+			editarproveedor(item, index) {
+				this.editar = item;
 			},
 
 			//Selecciona una a una
@@ -720,6 +671,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						this.btn_mostrar = true;
 						this.btn_editar = true;
 						this.btn_eliminar = true;
+						this.btn_ordenes = true;
 					}
 					if (this.selected.length == this.rows) {
 						this.btn_select = true;
@@ -731,6 +683,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					this.btn_mostrar = false;
 					this.btn_editar = false;
 					this.btn_eliminar = false;
+					this.btn_ordenes = false;
 					this.btn_limpiar = true;
 				}
 			},
@@ -740,6 +693,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.btn_del_full = false;
 				this.btn_mostrar = true;
 				this.btn_editar = true;
+				this.btn_ordenes = true;
 				this.btn_eliminar = true;
 
 				this.btn_select = true;
@@ -750,6 +704,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.$refs.tablaregistros.clearSelected();
 				this.btn_del_full = true;
 				this.btn_mostrar = false;
+				this.btn_ordenes = false;
 				this.btn_editar = false;
 				this.btn_eliminar = false;
 
@@ -757,25 +712,22 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.btn_limpiar = true;
 			},
 
+			//Funcion para crear el PDF
+			async generarPDFproveedor(item) {
+				this.proveedorAPdf = { ...item };
+				this.$refs["modal-pdfproveedor"].show();
+			},
+
+			//Funcion de busqueda
 			onFiltered(filteredItems) {
 				// Trigger pagination to update the number of buttons/pages due to filtering
 				this.totalRows = filteredItems.length;
 				this.currentPage = 1;
 			},
-
-			//Funcion para crear el PDF
-			async generarPDF(item) {
-				this.estudioAPDF = { ...item };
-				this.$refs.html2Pdf.generatePdf();
-			},
-
-			VerProveedores() {
-				this.$router.push("proveedor_estudios");
-			},
 		},
 		beforeMount() {
 			this.testFetch();
-			//this.getProveedor();
+			//this.getInstitutosproveedores();
 		},
 	};
 </script>
@@ -790,6 +742,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		transition: 0.5s;
 		width: 100%;
 	}
+
 	.container {
 		float: left;
 		width: 80%;

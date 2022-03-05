@@ -87,6 +87,7 @@
 				style="width: 100%; padding-bottom: 1em"
 				v-show="rows > 0"
 			>
+<<<<<<< HEAD
 				<b-input-group size="sm">
 					<b-form-input
 						id="filter-input"
@@ -182,6 +183,28 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						 select-mode="multi">
 					<template #empty="">
 						<b>No hay registros para mostrar</b>
+=======
+				<template #empty="">
+					<b>No hay registros para mostrar</b>
+				</template>
+
+				<template slot="cell(apellido)" slot-scope="data">
+					{{ data.value.toUpperCase() }}
+				</template>
+
+				<template slot="cell(nombre)" slot-scope="data">
+					{{ data.value.toUpperCase() }}
+				</template>
+
+				<template slot="cell(id_cobrador)" slot-scope="data">
+					<b>{{ data.value }}</b>
+				</template>
+
+				<template #cell(selected)="{ rowSelected }">
+					<template v-if="rowSelected">
+						<span aria-hidden="true">&check;</span>
+						<span class="sr-only">Selected</span>
+>>>>>>> 03503535a22147f9be42c8dcea5211c83629c750
 					</template>
 
 					<template #cell(selected)="{ rowSelected }">
@@ -194,6 +217,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							<span class="sr-only">Not selected</span>
 						</template>
 					</template>
+<<<<<<< HEAD
 
 					<template slot="cell(id_cobrador)" slot-scope="data">
 						<b>{{ data.value }}</b>
@@ -256,6 +280,81 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									Eliminar
 								</b-button>
 							</b-button-group>
+=======
+				</template>
+
+				<template slot="cell(action)" slot-scope="row">
+					<div class="mt-3">
+						<b-button-group>
+							<b-button
+								variant="info"
+								id="button-1"
+								title="Mostrar Info"
+								@click="row.toggleDetails"
+							>
+								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+							</b-button>
+							<b-button
+								:to="{
+									name: 'cobrador',
+									params: { id: row.item },
+									query: { id: row.item.id_cobrador },
+								}"
+								variant="primary"
+								id="button-4"
+								title="Ver socios del cobrador"
+								style="color: white"
+							>
+								<v-icon dark>mdi-format-list-bulleted-square</v-icon>
+								Socios
+							</b-button>
+							<b-button
+								variant="warning"
+								id="button-2"
+								title="Editar este registro"
+								v-b-modal.modal-editar
+								@click="editarCobrador(row.item, row.index)"
+							>
+								<v-icon class="mr-2"> mdi-pencil </v-icon>
+								Editar
+							</b-button>
+
+							<b-button
+								variant="danger"
+								id="button-3"
+								@click="showModalinfo(row.item, row.index)"
+								title="Eliminar este registro"
+							>
+								<v-icon class="mr-2"> mdi-delete </v-icon>
+								Eliminar
+							</b-button>
+						</b-button-group>
+					</div>
+				</template>
+				<template #row-details="row">
+					<b-card title="Datos del cobrador: ">
+						<div>
+							<b-list-group horizontal>
+								<b-list-group class="col-3">
+									<b-list-group-item
+										><b>id cobrador:</b>
+										{{ row.item.id_cobrador }}</b-list-group-item
+									>
+									<b-list-group-item
+										><b>DNI:</b> {{ row.item.dni }}
+									</b-list-group-item>
+								</b-list-group>
+								&nbsp;
+								<b-list-group class="col-5">
+									<b-list-group-item
+										><b>Apellido:</b> {{ row.item.apellido }}</b-list-group-item
+									>
+									<b-list-group-item
+										><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item
+									>
+								</b-list-group>
+							</b-list-group>
+>>>>>>> 03503535a22147f9be42c8dcea5211c83629c750
 						</div>
 					</template>
 				</b-table>
@@ -453,7 +552,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				tabla_cobradores: [],
 				fields: [
 					{ key: "selected", label: "Seleccionar", sortable: true },
-					{ key: "numero_socio", label: "N° Socio", sortable: true },
 					{ key: "id_cobrador", label: "ID Cobrador", sortable: true },
 					{ key: "apellido", label: "Apellido", sortable: true },
 					{ key: "nombre",label: "Nombre",sortable: true },

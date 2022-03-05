@@ -8,6 +8,7 @@ from rest_framework import routers
 
 
 router = routers.DefaultRouter()
+router.register(r"proveedor_estudios", views.ProveedorViewSet, basename="proveedor_estudios")
 router.register(r"estudios", views.EstudiosViewSet, basename="estudios")
 router.register(r"estudios_socios", views.EstudiosSociosViewSet, basename="estudios_socios")
 

@@ -86,7 +86,6 @@
 			</div>
 			<!-- ======================================================================================- -->
 
-
 			<!-- ======== Formulario de Busqueda ======== -->
 			<b-form-group
 				label-for="filter-input"
@@ -644,6 +643,39 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				});
 			},
 
+			async getProveedor(estudioSocio, element) {
+				let idProv = element.id_proveedor;
+				let dataProv = {};
+				axios
+					.get(idProv)
+					.then((response) => {
+						// Obtenemos los datos
+						dataProv = response.data;
+						let data_estudio = {};
+						console.log("DATA PROV : ", dataProv);
+
+						data_estudio.id_estudio_socio = estudioSocio.id_estudio_socio;
+						data_estudio.id_estudio = element.id_estudio;
+						data_estudio.tipo = element.tipo;
+
+						data_estudio.proveedor =
+							dataProv.id_proveedor + "-" + dataProv.nombre;
+						data_estudio.precio_socio = element.precio_socio;
+						data_estudio.fecha = estudioSocio.created;
+
+						if (!this.estaCargado(data_estudio)) {
+							this.tabla_estudios.push(data_estudio);
+						}
+						this.getOptions();
+					})
+					.catch((error) => {
+						// Capturamos los errores
+						console.log("ERROR:", error);
+						//return null
+					});
+				return await dataProv;
+			},
+
 			async getEstudio(estudioSocio) {
 				let listado = {};
 				let estudiosAPI = new APIControler();
@@ -655,29 +687,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					let IdEstudio =
 						"http://localhost:8081/estudios/" + element.id_estudio + "/";
 					if (IdEstudio === estudioSocio.id_estudio) {
-						let data_estudio = {};
-						data_estudio.id_estudio_socio = estudioSocio.id_estudio_socio;
-						data_estudio.id_estudio = element.id_estudio;
-						data_estudio.tipo = element.tipo;
-						data_estudio.proveedor = element.proveedor;
-						data_estudio.precio_socio = element.precio_socio;
-						data_estudio.fecha = estudioSocio.created;
-						console.log(
-							"data: ",
-							data_estudio,
-							" cargado?: ",
-							this.estaCargado(data_estudio)
-						);
-						if (!this.estaCargado(data_estudio)) {
-							this.tabla_estudios.push(data_estudio);
-						}
+						this.getProveedor(estudioSocio, element);
 					}
 				});
-				this.getOptions();
+				
 			},
 
-
-			//Compruebo si el elemento ya esta en el arreglo	
+			//Compruebo si el elemento ya esta en el arreglo
 			estaCargado(data_estudio) {
 				return this.tabla_estudios.find(
 					(element) => element.id_estudio_socio == data_estudio.id_estudio_socio

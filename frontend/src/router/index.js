@@ -87,6 +87,17 @@ const routes = [
     component: () => import('../views/cuotas/Cuotas.vue')
   },
   {
+    path: '/proveedor_estudios',
+    name: 'proveedor',
+    component: () => import('../views/proveedor/Proveedores.vue')
+  },
+
+  {
+    path: '/socios/estudios',
+    name: 'estudioSocio',
+    component: () => import('../views/estudios/Estudios_Socio.vue')
+  },
+  {
     path: '/estudios',
     name: 'estudios',
     component: () => import('../views/estudios/Estudios.vue')
@@ -95,6 +106,11 @@ const routes = [
     path: '/ordenesProf',
     name: 'ordenesProf',
     component: () => import('../views/ordenes/Ordenes_Profesional.vue')
+  },
+  {
+    path: '/cobrador',
+    name: 'cobrador',
+    component: () => import('../views/socios/Socios_Cobrador.vue')
   },
   {
     path: "/gastosSalientes",

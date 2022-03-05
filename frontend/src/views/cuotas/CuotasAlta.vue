@@ -42,25 +42,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group
-				label="*Persona que pagó"
-				label-for="personapago"
-				@submit.stop.prevent="handleSubmit"
-			>
-				<b-form-input
-					id="personapago"
-					v-model="cuotas.personapago"
-					type="text"
-					placeholder="Ingrese el nombre de la persona que pagó"
-					invalid-feedback="Complete este campo"
-					:state="validacion.personapago.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="personapago-live-feedback">
-					{{ validacion.personapago.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+			
 			<b-form-group
 				label="*Monto"
 				label-for="monto"
@@ -80,10 +62,36 @@
 					{{ validacion.monto.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
+			
 			<b-form-group
-				label="Fecha de Realización"
-				label-for="fecharealizacion"
+				title="El mes que corresponde la cuota"
+				label="Mes"
+				label-for="periodo"
 				@submit.stop.prevent="handleSubmit"
+			>
+				<month-picker-input 
+					@change="setPeriodo" 
+					:default-month="new Date().getMonth()+1" 
+					:lang="'es'">
+				</month-picker-input>
+			</b-form-group>
+			
+			<b-form-group label="Pagada" title="Indica si la cuota fue pagada">
+				<b-form-checkbox
+					v-model="cuotas.pagado"					
+					type="boolean"
+					:state="validacion.pagado.estado"
+					invalid-feedback="Complete este campo"
+					required
+					unchecked-value="false"
+				>
+				</b-form-checkbox>
+			</b-form-group>
+
+			<b-form-group 
+				v-if="cuotas.pagado==true"
+				label="Fecha de pago"
+				label-for="fecharealizacion"
 			>
 				<b-form-input
 					id="fecharealizacion"
@@ -99,6 +107,44 @@
 					{{ validacion.fecharealizacion.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
+
+			<b-form-group
+				v-if="cuotas.pagado==true"
+				label="*Persona que pagó"
+				label-for="personapago"
+				@submit.stop.prevent="handleSubmit"
+			>
+				<b-form-input
+					id="personapago"
+					v-model="cuotas.personapago"
+					type="text"
+					placeholder="Ingrese el nombre de la persona que pagó"
+					invalid-feedback="Complete este campo"
+					:state="validacion.personapago.estado"
+					required
+				>
+				</b-form-input>
+				<b-form-invalid-feedback id="personapago-live-feedback">
+					{{ validacion.personapago.mensaje }}
+				</b-form-invalid-feedback>
+			</b-form-group>
+
+			<b-form-group v-if="cuotas.pagado==true" label="*Método de pago" label-for="metodoPago">
+				<b-form-select
+					id="metodoPago"
+					v-model="cuotas.metodoPago"
+					:state="validacion.metodoPago.estado"
+					type="text"
+					placeholder="Ingrese un método de pago"
+					invalid-feedback="Complete este campo"
+					required
+					:options="op_metodosPago"
+				>
+				</b-form-select>
+				<b-form-invalid-feedback id="metodoPago-live-feedback"
+					>{{ validacion.metodoPago.mensaje }}
+				</b-form-invalid-feedback>
+			</b-form-group>
 		</b-form>
 
 		<b-button class="mt-2" variant="success" block @click="postCuota()"
@@ -109,8 +155,12 @@
 
 <script>
 	import { APIControler } from "@/store/APIControler";
+	import { MonthPickerInput } from 'vue-month-picker'
 
 	export default {
+		components: {
+			MonthPickerInput,
+  		},
 		props: {
 			updateTable: Function,
 		},
@@ -122,30 +172,30 @@
 				list_familiar: {},
 				op_socios: [{ value: null, text: "Elija un socio", disabled: true }],
 				options: [{ value: null, text: "Elija un socio", disabled: true }],
-
+				op_metodosPago: [
+					{ value: "Mercado pago", text: "Mercado pago" },
+					{ value: "Transferencia bancaria", text: "Transferencia bancaria" },
+					{ value: "Otro", text: "Otro" },
+					{ value: "Cobrador", text: "Cobrador" },
+				],
 				text: "",
 				validacion: {
 					id_cuota: { estado: null, mensaje: "" },
-					personapago: { estado: null, mensaje: "" },
 					monto: { estado: null, mensaje: "" },
+					periodo: { estado: null, mensaje: "" },
+					pagado: { estado: null, mensaje: "" },
 					numero_socio: { estado: null, mensaje: "" },
+					personapago: { estado: null, mensaje: "" },
 					fecharealizacion: { estado: null, mensaje: "" },
+					metodoPago: { estado: null, mensaje: "" },
 				},
 			};
 		},
 
 		methods: {
-			async getPaciente() {
-				let familiarAPI = new APIControler();
-				familiarAPI.apiUrl.pathname = "familiar/";
-				this.data = await familiarAPI.getData(this.list_familiar);
-				// this.list_pacientes=this.list_pacientes.slice(0,1)
-				let option_titular = {};
-				// option_titular.value='http://localhost:8081/socios/'+ this.orden.numero_socio +'/';
-				option_titular.value = this.orden.numero_socio;
-				option_titular.text = "Titular";
-				// option_titular.text= socios.dni +' -- '+ socios.apellido +', '+ socios.nombre ;
-				this.list_familiar.push(option_titular);
+			setPeriodo (date) {
+				console.log("mostrando date: ", date.from)
+				this.cuotas.periodo = date.from.toLocaleDateString('en-CA')
 			},
 			async getSocios() {
 				let socioAPI = new APIControler();
@@ -170,7 +220,7 @@
 				cuotasAPI.apiUrl.pathname = "cuotas/";
 				let respuesta = await cuotasAPI.postData(this.cuotas);
 				this.cargarFeedback(respuesta);
-				this.resetForm();
+				//this.resetForm();
 				this.updateTable();
 			},
 

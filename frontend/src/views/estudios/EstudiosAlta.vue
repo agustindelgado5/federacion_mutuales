@@ -3,26 +3,6 @@
 		<h6>Los campos en (*) son obligatorios</h6>
 		<h4>Nuevo Estudio:</h4>
 		<b-form>
-			<!-- Numero de Estudio -->
-			<!--
-			<b-form-group label="*Codigo del Estudio" label-for="cod_estudio">
-				
-				<b-form-input
-					id="cod_estudio"
-					v-model="estudio.cod_estudio"
-					type="text"
-					placeholder="Ingrese el código"
-					invalid-feedback="Complete este campo"
-					:state="validacion.cod_estudio.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="cod_estudio-live-feedback"
-					>{{ validacion.cod_estudio.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
-			-->
-
 			<b-form-group label="*Tipo" label-for="tipo">
 				<b-form-select
 					id="tipo"
@@ -88,8 +68,6 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			
-
 			<!-- Unidad Bioquimica -->
 			<b-form-group
 				label="U.B."
@@ -126,18 +104,18 @@
 			</b-form-group>
 
 			<b-form-group label="Proveedor" label-for="proveedor">
-				<b-form-input
+				
+				<v-autocomplete
 					id="proveedor"
-					v-model="estudio.proveedor"
-					:state="validacion.proveedor.estado"
+					v-model="estudio.id_proveedor"
+					:items="option_proveedores"
 					type="text"
-					placeholder="*Ingrese un proveedor"
-					invalid-feedback="Complete este campo"
-					required
-				>
-				</b-form-input>
+					solo
+					filled
+				></v-autocomplete>
+
 				<b-form-invalid-feedback id="descripcion-live-feedback"
-					>{{ validacion.proveedor.mensaje }}
+					>{{ validacion.id_proveedor.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 
@@ -174,6 +152,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 		</b-form>
+	
 
 		<b-button class="mt-2" variant="success" block @click="postEstudio()"
 			>Guardar</b-button
@@ -192,6 +171,11 @@
 			return {
 				estudio: {},
 				data: {},
+				//proveedores : [],
+
+				option_proveedores: [
+					{ value: null, text: "Elija un proveedor", disabled: true },
+				],
 
 				op_tipo: [
 					{ value: null, text: "Elija un tipo", disabled: true },
@@ -203,7 +187,7 @@
 				],
 
 				validacion: {
-					proveedor: { estado: null, mensaje: "" },
+					id_proveedor: { estado: null, mensaje: "" },
 					tipo: { estado: null, mensaje: "" },
 					//cod_estudio: { estado: null, mensaje: "" },
 					nbu: { estado: null, mensaje: "" },
@@ -220,15 +204,45 @@
 		},
 
 		methods: {
+			/*
 			async getEstudios() {
 				let estudioAPI = new APIControler();
 				this.data = await estudioAPI.getData();
+			},
+			*/
+
+			async getProveedor() {
+				let _data = {};
+				let proveedorAPI = new APIControler();
+				proveedorAPI.apiUrl.pathname = "proveedor_estudios/";
+				let proveedores = await proveedorAPI.getData(_data);
+				console.log("PROVEEDORES: ", proveedores);
+
+				proveedores.forEach((element) => {
+					let option = {};
+					option.value =
+						"http://localhost:8081/proveedor_estudios/" +
+						element.id_proveedor +
+						"/";
+					option.text =
+						element.id_proveedor +
+						" - " +
+						element.nombre +
+						" - " +
+						element.direccion +
+						" - " +
+						element.localidad +
+						" - " +
+						element.provincia;
+					this.option_proveedores.push(option);
+				});
 			},
 			async postEstudio() {
 				let estudioAPI = new APIControler();
 				estudioAPI.apiUrl.pathname = "estudios/";
 				this.UB_Seleccion();
 				this.respuesta = await estudioAPI.postData(this.estudio);
+				console.log("respuesta: ", this.respuesta);
 				this.cargarFeedback();
 				this.updateTable();
 			},
@@ -252,6 +266,7 @@
 		},
 		beforeMount() {
 			//this.UB_Seleccion();
+			this.getProveedor();
 		},
 	};
 </script>

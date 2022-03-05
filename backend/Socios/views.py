@@ -12,11 +12,27 @@ from django.contrib.auth.models import User
 from Cuotas.models import cuotas
 from Cuotas.serializers import CuotasSerializer
 from rest_framework.test import APIRequestFactory
+from django.db.models import Avg,Window,F,Count,OuterRef,Sum,FloatField,Q,Subquery
 
 class SociosViewSet(viewsets.ModelViewSet):
     # permission_classes = (IsAuthenticated,)
+    # queryset = socios.objects.all()
     serializer_class = SociosSerializer
-    queryset = socios.objects.all()
+
+    def get_queryset(self):
+        queryset2 = cuotas.objects.filter(pagado=False).values("numero_socio").annotate(m=Sum('monto'))
+        queryset = socios.objects\
+        .annotate(monto=Subquery(queryset2.filter(numero_socio=OuterRef('numero_socio')).values('m')))\
+        .order_by()
+        print("cuotas: ",*queryset,sep='\n')
+
+        cobrador = self.request.query_params.get('cobrador')
+        cobrador2 = self.request.query_params
+        print("Cobrador: ",cobrador2)
+        if cobrador is not None:
+            queryset = queryset.filter(cobrador=cobrador)
+        return queryset
+    
     @action(methods=['GET'], detail = True)
     def aldia(self, request, pk=None):
         ultimopagado1 = cuotas.objects.filter(numero_socio = pk).order_by('fecharealizacion').last()
@@ -25,7 +41,7 @@ class SociosViewSet(viewsets.ModelViewSet):
         else:
             ultimopagado = ultimopagado1.fecharealizacion
         a = datetime.now().date()
-        date = ultimopagado.date()
+        date = ultimopagado
         diff = a - date
         return Response(diff.days)
 

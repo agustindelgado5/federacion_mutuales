@@ -137,6 +137,35 @@
             </b-form-invalid-feedback> -->
 						</b-form-group>
 
+						<b-form-group label="*Método de pago" label-for="metodoPago">
+							<b-form-select
+								id="metodoPago"
+								v-model="socio.metodoPago"
+								:state="validacion.metodoPago.estado"
+								type="text"
+								placeholder="Ingrese un método de pago"
+								invalid-feedback="Complete este campo"
+								required
+								:options="op_metodosPago"
+							>
+							</b-form-select>
+							<b-form-invalid-feedback id="metodoPago-live-feedback"
+								>{{ validacion.metodoPago.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+						<b-form-group v-show="socio.metodoPago=='Cobrador'" label="*Cobrador" label-for="id_cobrador">
+							<b-form-select
+								id="id_cobrador"
+								v-model="socio.cobrador"
+								type="text"
+								:state="validacion.cobrador.estado"
+								placeholder="Ingrese el ID del cobrador"
+								invalid-feedback="Complete este campo"
+								required
+								:options="op_cobradores"
+							>
+							</b-form-select>
+						</b-form-group>
 						<b-form-group label="*Tiene Obra social" label-for="obra_social">
 							<b-form-checkbox
 								id="obra_social"
@@ -491,11 +520,16 @@
 					email: { estado: null, mensaje: "" },
 					tel_fijo: { estado: null, mensaje: "" },
 					tel_celular: { estado: null, mensaje: "" },
+					metodoPago: { estado: null, mensaje: "" },
+					cobrador: { estado: null, mensaje: "" },
 				},
 				validacionFamiliar: [],
 				list_mutuales: {},
 				op_mutuales: [
 					{ value: null, text: "Elija una mutual", disabled: true },
+				],
+				op_cobradores: [
+					{ value: null, text: "Elija un cobrador", disabled: true },
 				],
 
 				btn_familiar: false,
@@ -521,6 +555,12 @@
 					{ value: "Tafí Viejo", text: "15- Tafí Viejo" },
 					{ value: "Trancas", text: "16- Trancas" },
 					{ value: "Yerba Buena", text: "17- Yerba Buena" },
+				],
+				op_metodosPago: [
+					{ value: "Mercado pago", text: "Mercado pago" },
+					{ value: "Transferencia bancaria", text: "Transferencia bancaria" },
+					{ value: "Otro", text: "Otro" },
+					{ value: "Cobrador", text: "Cobrador" },
 				],
 				op_localidad: [
 					{ value: null, text: "Elija una localidad" },
@@ -822,6 +862,24 @@
 					this.op_mutuales.push(option);
 				});
 			},
+			async getCobradores() {
+				let cobradoresAPI = new APIControler();
+				cobradoresAPI.apiUrl.pathname = "cobradores/";
+				this.data = await cobradoresAPI.getData();
+				this.data.forEach((element) => {
+					let option = {};
+					option.value =
+						"http://localhost:8081/cobradores/" + element.id_cobrador + "/";
+					option.text =
+						element.id_cobrador +
+						"-- " +
+						element.apellido+
+						", " +
+						element.nombre;
+
+					this.op_cobradores.push(option);
+				});
+			},
 			async resetForm() {
 				this.socio.numero_socio = null;
 				this.socio.apellido = "";
@@ -849,6 +907,7 @@
 		},
 		beforeMount() {
 			this.getMutuales();
+			this.getCobradores();
 		},
 	};
 </script>
