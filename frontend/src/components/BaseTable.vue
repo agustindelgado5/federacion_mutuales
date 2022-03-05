@@ -12,6 +12,7 @@
       selectable
       ref="tablaregistros"
       id="tablaregistros"
+      class="myTable"
     >
       <template #empty>
         <b>No hay registros para mostrar</b>
@@ -53,5 +54,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.myTable {
+		position: absolute;
+		left: 0;
+		padding: 1.5em;
+		margin-top: 4rem;
+		overflow: auto;
+		transition: 0.5s;
+		width: 100%;
+	}
 </style>
