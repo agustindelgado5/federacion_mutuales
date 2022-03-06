@@ -6,7 +6,7 @@
 				title=" Instituciones - Federación Tucumana de Mutuales"
 			></vue-headful>
 
-			<h2>Listado de  Instituciones</h2>
+			<h2>Listado de Instituciones</h2>
 			<b-button
 				@click="testFetch"
 				class="mb-4"
@@ -182,7 +182,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			<div v-else>
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
-			<section>
+			<section class="container">
 				<!-- ======== Tabla con los registros ======= -->
 
 				<b-table
@@ -191,7 +191,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					sortable
 					responsive
 					hover
-					:items="tabla_institutos"
+					:items="
+						tabla_institutos
+							| Responsable(filter_responsable)
+							| Provincia(filter_provincia)
+							| Localidad(filter_localidad)
+					"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
@@ -283,6 +288,158 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					</b-col>
 				</b-container>
 			</section>
+			<aside v-show="rows > 0">
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="REGISTROS POR PAGINA"
+							class="text-center"
+						>
+							<b-form-group label-for="per-page-select" class="mb-0">
+								<b-form-select
+									id="per-page-select"
+									v-model="perPage"
+									:options="pageOptions"
+									size="sm"
+								></b-form-select>
+							</b-form-group>
+						</b-card>
+					</b-card-group>
+				</div>
+
+				<br />
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="FILTRAR POR"
+							class="text-center"
+						>
+							<div class="accordion" role="tablist">
+								<b-card no-body>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-1
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											LOCALIDAD
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-1"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="localidad"
+													v-model="filter_localidad"
+													:items="op_localidad"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_localidad != null">
+													<b-button
+														@click="filter_localidad = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-2
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											PROVINCIA
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-2"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="localidad"
+													v-model="filter_provincia"
+													:items="options_provincia"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_provincia != null">
+													<b-button
+														@click="filter_provincia = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+									
+
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-3
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											RESPONSABLE
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-3"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="responsable"
+													v-model="filter_responsable"
+													:items="options_responsable"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_responsable != null">
+													<b-button
+														@click="filter_responsable = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+								</b-card>
+							</div>
+						</b-card>
+					</b-card-group>
+				</div>
+			</aside>
 
 			<!-- ================ELIMINAR Instituto======================== -->
 
@@ -396,6 +553,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
+				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
 				selected: [],
 				buscar: "",
 				filter: null,
@@ -417,6 +575,42 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				btn_eliminar: false,
 				btn_select: false,
 				btn_limpiar: true,
+
+				//Opciones de filtro
+				op_localidad: [{ value: null, text: "Elija una localidad" }],
+				options_responsable: [
+					{ value: null, text: "Elija un responsable", selected: true },
+				],
+				options_provincia: [
+					{ value: null, text: "Elija una provincia", selected: true },
+					{ value: "Buenos Aires", text: "1- Buenos Aires" },
+					{ value: "Catamarca", text: "2- Catamarca" },
+					{ value: "Chaco", text: "3- Chaco" },
+					{ value: "Chubut", text: "4- Chubut" },
+					{ value: "Córdoba", text: "5- Córdoba" },
+					{ value: "Corrientes", text: "6- Corrientes" },
+					{ value: "Entre Ríos", text: "7- Entre Ríos" },
+					{ value: "Formosa", text: "8- Formosa" },
+					{ value: "Jujuy", text: "9- Jujuy" },
+					{ value: "La Pampa", text: "10- La Pampa" },
+					{ value: "La Rioja", text: "11- La Rioja" },
+					{ value: "Mendoza", text: "12- Mendoza" },
+					{ value: "Misiones", text: "13- Misiones" },
+					{ value: "Neuquén", text: "14- Neuquén" },
+					{ value: "Río Negro", text: "15- Río Negro" },
+					{ value: "Salta", text: "16- Salta" },
+					{ value: "San Juan", text: "17- San Juan" },
+					{ value: "San Luis", text: "18- San Luis" },
+					{ value: "Santa Cruz", text: "19- Santa Cruz" },
+					{ value: "Santa Fe", text: "20- Santa Fe" },
+					{ value: "Santiago del Estero", text: "21- Santiago del Estero" },
+					{ value: "Tierra del Fuego", text: "22- Tierra del Fuego" },
+					{ value: "Tucumán", text: "23- Tucumán" },
+				],
+
+				filter_localidad: null,
+				filter_provincia: null,
+				filter_responsable: null,
 			};
 		},
 		computed: {
@@ -449,6 +643,30 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					console.log(lista_institutos);
 
 					this.tabla_institutos = lista_institutos;
+
+					this.tabla_institutos.forEach((element) => {
+						let opcionLocalidad = {};
+						let opcionRepre = {};
+						opcionLocalidad.value = element.localidad;
+						opcionLocalidad.text = element.localidad;
+						opcionRepre.value = element.responsable;
+						opcionRepre.text = element.responsable;
+						if (
+							this.op_localidad.find((x) => x.value == opcionLocalidad.value)
+						) {
+							console.log(opcionLocalidad, " ya se encuentra en el listado");
+						} else {
+							this.op_localidad.push(opcionLocalidad);
+						}
+
+						if (
+							this.options_responsable.find((x) => x.value == opcionRepre.value)
+						) {
+							console.log(opcionRepre, " ya se encuentra en el listado");
+						} else {
+							this.options_responsable.push(opcionRepre);
+						}
+					});
 				} catch (error) {
 					console.log(error);
 				}
@@ -603,5 +821,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		overflow: auto;
 		transition: 0.5s;
 		width: 100%;
+	}
+	.container {
+		float: left;
+		width: 80%;
+	}
+	aside {
+		float: right;
+		width: 20%;
 	}
 </style>

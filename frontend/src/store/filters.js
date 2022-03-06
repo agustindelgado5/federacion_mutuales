@@ -226,3 +226,21 @@ Vue.filter("FechaRealizacionRange", (value, desde, hasta) => {
 		return value;
 	}
 });
+
+//Filtros en Institutos
+
+Vue.filter("Responsable", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.responsable == option);
+	} else {
+		return value;
+	}
+});
+
+Vue.filter("Provincia", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.provincia == option);
+	} else {
+		return value;
+	}
+});
