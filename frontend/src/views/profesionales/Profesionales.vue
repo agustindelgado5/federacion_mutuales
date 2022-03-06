@@ -653,7 +653,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
                         sortable: true,
                     },
                     {
-						key: "totaldepago",
+						key: "totalapagar",
                         label: "Total a pagar",
                         sortable: true,
                     },

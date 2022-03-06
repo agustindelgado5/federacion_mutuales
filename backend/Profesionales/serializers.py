@@ -25,6 +25,7 @@ class ProfesionalesSerializer(serializers.HyperlinkedModelSerializer):
             "titular_cuenta", 
             "tipo_cuenta", 
             "banco",
+            "totalapagar",
             "created",
             "updated",
         )
