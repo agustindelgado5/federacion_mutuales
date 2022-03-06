@@ -3,15 +3,27 @@
     <vue-headful
       title="Servicios - Federación Tucumana de Mutuales"
     ></vue-headful>
-    <b-button v-b-modal.modal-form> Nuevo Servicio </b-button>
+    <h2>Listado de Servicios</h2>
+    <b-button v-b-modal.modal-form style="color: white" class="mb-4 ml-2">
+      Nuevo Servicio
+    </b-button>
     <b-modal id="modal-form" title="Alta" hide-footer ok-only>
       <BaseForm :fields="formFields" :createFunction="createServicios" />
+    </b-modal>
+    <b-modal
+      id="modal-form-update"
+      ref="modal-form-update"
+      title="Modificar"
+      hide-footer
+      ok-only
+    >
+      <BaseForm :fields="formFields" :updateFunction="updateServicio" />
     </b-modal>
     <BaseTable
       :fields="fields"
       :items="items"
       :deleteFunction="deleteServicio"
-      :updateFunction="updateServicio"
+      :selectRow="selectRow"
     />
   </div>
 </template>
@@ -45,6 +57,7 @@ export default {
       ],
       items: [],
       fetcher: new Fetcher("servicios/"),
+      selectedRow: {},
     };
   },
   methods: {
@@ -58,8 +71,11 @@ export default {
         this.getServicios();
       } else alert("No se pudo crear el servicio: " + payload.servicio);
     },
-    async updateServicio(row, payload) {
-      let res = await this.fetcher.update(row.item.id_servicio, payload);
+    async updateServicio(payload) {
+      let res = await this.fetcher.put(
+        this.selectedRow.item.id_servicio,
+        payload
+      );
       if (res.status === 200) {
         alert("Servicio modificado: " + payload.servicio);
         this.getServicios();
@@ -72,6 +88,10 @@ export default {
         this.getServicios();
       } else alert("No se pudo elminar el servicio");
     },
+    selectRow(row) {
+      this.selectedRow = row;
+      this.$refs["modal-form-update"].show();
+    },
   },
   created() {
     this.getServicios();
@@ -79,5 +99,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

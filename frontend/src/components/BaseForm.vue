@@ -75,7 +75,7 @@ export default {
         formInput[field.name] = field.value;
       });
       if (this.createFunction) await this.createFunction(formInput);
-      else await this.updateFunction(row, formInput);
+      else await this.updateFunction(formInput);
     },
   },
 };

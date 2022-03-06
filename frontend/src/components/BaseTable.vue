@@ -20,7 +20,7 @@
       <template slot="cell(action)" slot-scope="row">
         <div class="mt-3">
           <b-button-group>
-            <b-button variant="warning" title="Editar este registro"
+            <b-button variant="warning" title="Editar este registro" @click="selectRow(row)"
               ><v-icon class="mr-2"> mdi-pencil </v-icon> Editar</b-button
             >
             <b-button
@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  props: ["fields", "items", "deleteFunction", "updateFunction"],
+  props: ["fields", "items", "deleteFunction", "selectRow"],
   methods: {
     async deleteItem(row) {
       if (confirm("Seguro quiere eliminar?")) {
