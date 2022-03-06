@@ -597,12 +597,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					this.tabla_cirugias = lista_cirugias;
 
 					this.tabla_cirugias.forEach((element) => {
-						let opcionFarm = {};
+						let opcionSoc = {};
 						let opcionInst = {};
 						opcionInst.value = element.codigo_institucion;
 						opcionInst.text = element.codigo_institucion.split("/")[4];
-						opcionFarm.value = element.numero_socio;
-						opcionFarm.text = element.numero_socio.split("/")[4];
+						opcionSoc.value = element.numero_socio;
+						opcionSoc.text = element.numero_socio.split("/")[4];
 						if (
 							this.options_institucion.find((x) => x.value == opcionInst.value)
 						) {
@@ -611,10 +611,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							this.options_institucion.push(opcionInst);
 						}
 
-						if (this.options_socio.find((x) => x.value == opcionFarm.value)) {
-							console.log(opcionFarm, " ya se encuentra en el listado");
+						if (this.options_socio.find((x) => x.value == opcionSoc.value)) {
+							console.log(opcionSoc, " ya se encuentra en el listado");
 						} else {
-							this.options_socio.push(opcionFarm);
+							this.options_socio.push(opcionSoc);
 						}
 					});
 				} catch (error) {
@@ -741,10 +741,14 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			//Funcion para crear el PDF
 			async generarPDF(item) {
 				
-			
-
+				let resultSocio = (await axios.get(item.numero_socio)).data;
+			    let resultInstitucion=(await axios.get(item.codigo_institucion)).data;
 				this.cirugiaAPDF = { ...item };
-				
+			   
+				this.cirugiaAPDF.numero_socio =
+					resultSocio.apellido + ", " + resultSocio.nombre;
+				this.cirugiaAPDF.codigo_institucion=
+				resultInstitucion.nombre
 
 				this.$refs.html2Pdf.generatePdf();
 			},

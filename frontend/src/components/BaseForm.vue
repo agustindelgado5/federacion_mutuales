@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card :title="title">
+    <b-card class="border-0" :title="title">
       <h6>Los campos en (*) son obligatorios</h6>
       <b-form>
         <div v-for="(field, index) in fields" :key="index">
@@ -47,11 +47,15 @@
             </div>
           </b-form-group>
         </div>
-        <b-button type="submit" @click.prevent="processForm()" variant="primary"
+        <b-button
+          type="submit"
+          class="mt-2"
+          variant="success"
+          block
+          @click.prevent="processForm()"
           >Guardar</b-button
         >
       </b-form>
-      {{ payload }}
     </b-card>
   </div>
 </template>

@@ -166,7 +166,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						 :items="
 						tabla_recetas
 							|Socio(filter_socio)
+							|Paciente(filter_paciente)
 							|Medicamento(filter_medicamento)
+							|Farmacia(filter_farmacia)
 							| fecha_range(
 									filter_fecha.desde,
 									filter_fecha.hasta
@@ -388,14 +390,14 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											</b-form-group>
 										</b-card-body>
 									</b-collapse>
-										<b-card-header header-tag="header" class="p-2" role="tab">
+									<b-card-header header-tag="header" class="p-1" role="tab">
 										<b-button
 											block
 											v-b-toggle.accordion-2
 											variant="info"
 											style="font-size: 0.82em"
 										>
-											Medicamento
+											Paciente
 										</b-button>
 									</b-card-header>
 									<b-collapse
@@ -407,7 +409,45 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										<b-card-body>
 											<b-form-group id="input-group-2">
 												<v-autocomplete
-													id="institucion"
+													id="paciente"
+													v-model="filter_paciente"
+													:items="options_paciente"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_paciente != null">
+													<b-button
+														@click="filter_paciente = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-3
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											Medicamento
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-3"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-3">
+												<v-autocomplete
+													id="medicamento"
 													v-model="filter_medicamento"
 													:items="options_medicamento"
 													type="text"
@@ -425,10 +465,50 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											</b-form-group>
 										</b-card-body>
 									</b-collapse>
-									<b-card-header header-tag="header" class="p-3" role="tab">
+
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-4
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											Farmacia
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-4"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="farmacia"
+													v-model="filter_farmacia"
+													:items="options_farmacia"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_farmacia != null">
+													<b-button
+														@click="filter_farmacia = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+										
+										
+									<b-card-header header-tag="header" class="p-1" role="tab">
 											<b-button
 												block
-												v-b-toggle.accordion-filter-3
+												v-b-toggle.accordion-filter-4
 												variant="info"
 												style="font-size: 0.82em"
 											>
@@ -587,16 +667,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					id: "modal_eliminar",
 					receta: -1,
 				},
-				selected: [],
-				recetasAPdf :{},
-
-				//Opciones de filtro
-				options_medicamento: [
-					{ value: null, text: "Elija un medicamento", selected: true },
-				],
-				options_socio: [
-					{ value: null, text: "Elija un socio", selected: true },
-				],
+				
+				
 				selected: [],
 
 				//Botones
@@ -611,10 +683,19 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				btn_select: false,
 				//Campos a filtrar
 				filter_socio: null,
-				filter_institucion:null,
+				filter_paciente:null,
+				filter_medicamento:null,
+				filter_farmacia:null,
 				//Opciones de filtrado
+			//Opciones de filtro
+				
+				options_farmacia: [{ value: null, text: "Elija una farmacia",selected: true  }],
+				options_paciente: [{ value: null, text: "Elija un paciente",selected: true  }],
+
+				options_medicamento: [{ value: null, text: "Elija un medicamento",selected: true  }],
+				
 				options_socio: [{ value: null, text: "Elija un socio",selected: true  }],
-				options_institucion: [{ value: null, text: "Elija una institucion",selected: true  }],
+				
 				recetaAPDF: {}, //Se carga cuando se hace clic en exportar a pd
 				filter_fecha: {
 					desde: null,
@@ -655,23 +736,44 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 					this.tabla_recetas.forEach((element) => {
 						let opcionSoc = {};
+						let opcionPac = {};
 						let opcionMed = {};
-						opcionMed.value = element.id_medicamento;
-						opcionMed.text = element.id_medicamento.split("/")[4];
+						let opcionFar = {};
 						opcionSoc.value = element.numero_socio;
 						opcionSoc.text = element.numero_socio.split("/")[4];
-						if (
-							this.options_medicamento.find((x) => x.value == opcionMed.value)
-						) {
-							console.log(opcionMed, " ya se encuentra en el listado");
-						} else {
-							this.options_medicamento.push(opcionMed);
-						}
+						
+						opcionPac.value = element.paciente;
+						opcionPac.text = element.paciente.split("/")[4];
+
+						opcionMed.value = element.id_medicamento;
+						opcionMed.text = element.id_medicamento.split("/")[4];
+
+						opcionFar.value = element.cod_farmacia;
+						opcionFar.text = element.cod_farmacia.split("/")[4];
+						
 
 						if (this.options_socio.find((x) => x.value == opcionSoc.value)) {
 							console.log(opcionSoc, " ya se encuentra en el listado");
 						} else {
 							this.options_socio.push(opcionSoc);
+						}
+
+						if (this.options_paciente.find((x) => x.value == opcionPac.value)) {
+							console.log(opcionPac, " ya se encuentra en el listado");
+						} else {
+							this.options_paciente.push(opcionPac);
+						}
+
+						if (this.options_medicamento.find((x) => x.value == opcionMed.value)) {
+							console.log(opcionMed, " ya se encuentra en el listado");
+						} else {
+							this.options_medicamento.push(opcionMed);
+						}
+
+						if (this.options_farmacia.find((x) => x.value == opcionFar.value)) {
+							console.log(opcionFar, " ya se encuentra en el listado");
+						} else {
+							this.options_farmacia.push(opcionFar);
 						}
 					});
 				} catch (error) {
@@ -800,12 +902,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.currentPage = 1;
 			},
 			//Funcion para crear el PDF
-			async generarPDF(item) {
-				
-			
-
+				async generarPDF(item) {
+				let resultMed = (await axios.get(item.id_medicamento)).data;
+				let resultSocio = (await axios.get(item.numero_socio)).data;
+				let resultPaciente = (await axios.get(item.paciente)).data;
+				let resulFarmacia=(await axios.get(item.cod_farmacia)).data;
 				this.recetaAPDF = { ...item };
-				
+			    this.recetaAPDF.id_medicamento =  resultMed.nombre;
+				this.recetaAPDF.numero_socio =
+					resultSocio.apellido + ", " + resultSocio.nombre;
+				this.recetaAPDF.paciente =
+					resultPaciente.apellido + ", " + resultPaciente.nombre;
+				this.recetaAPDF.cod_farmacia=resulFarmacia.farmacia;
 
 				this.$refs.html2Pdf.generatePdf();
 			},
