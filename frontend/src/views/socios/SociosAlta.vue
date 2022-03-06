@@ -137,11 +137,11 @@
             </b-form-invalid-feedback> -->
 						</b-form-group>
 
-						<b-form-group label="*Método de pago" label-for="metodoPago">
+						<b-form-group label="*Método de pago" label-for="metodopago">
 							<b-form-select
-								id="metodoPago"
-								v-model="socio.metodoPago"
-								:state="validacion.metodoPago.estado"
+								id="metodopago"
+								v-model="socio.metodopago"
+								:state="validacion.metodopago.estado"
 								type="text"
 								placeholder="Ingrese un método de pago"
 								invalid-feedback="Complete este campo"
@@ -149,11 +149,11 @@
 								:options="op_metodosPago"
 							>
 							</b-form-select>
-							<b-form-invalid-feedback id="metodoPago-live-feedback"
-								>{{ validacion.metodoPago.mensaje }}
+							<b-form-invalid-feedback id="metodopago-live-feedback"
+								>{{ validacion.metodopago.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<b-form-group v-show="socio.metodoPago=='Cobrador'" label="*Cobrador" label-for="id_cobrador">
+						<b-form-group v-show="socio.metodopago=='Cobrador'" label="*Cobrador" label-for="id_cobrador">
 							<b-form-select
 								id="id_cobrador"
 								v-model="socio.cobrador"
@@ -520,7 +520,7 @@
 					email: { estado: null, mensaje: "" },
 					tel_fijo: { estado: null, mensaje: "" },
 					tel_celular: { estado: null, mensaje: "" },
-					metodoPago: { estado: null, mensaje: "" },
+					metodopago: { estado: null, mensaje: "" },
 					cobrador: { estado: null, mensaje: "" },
 				},
 				validacionFamiliar: [],
