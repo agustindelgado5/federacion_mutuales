@@ -87,28 +87,104 @@
 				style="width: 100%; padding-bottom: 1em"
 				v-show="rows > 0"
 			>
-				<template #empty="">
-					<b>No hay registros para mostrar</b>
-				</template>
+				<b-input-group size="sm">
+					<b-form-input
+						id="filter-input"
+						v-model="filter"
+						type="search"
+						placeholder="Buscar registros"
+					></b-form-input>
 
-				<template slot="cell(apellido)" slot-scope="data">
-					{{ data.value.toUpperCase() }}
-				</template>
+					<b-input-group-append>
+						<b-button :disabled="!filter" @click="filter = ''"
+							>Limpiar</b-button
+						>
+					</b-input-group-append>
+				</b-input-group>
+			</b-form-group>
+			<!-- ======================================== -->
 
-				<template slot="cell(nombre)" slot-scope="data">
-					{{ data.value.toUpperCase() }}
-				</template>
+			<div v-if="rows > 0">
+				<div v-if="selected.length > 0">
+					<pre>
+Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
+							selected.length
+						}}</pre
+					>
+				</div>
+				<div v-else>
+					<pre>Cantidad de registros: {{ rows }}</pre>
+				</div>
+				<b-button
+					class="mb-4 ml-2"
+					size="sm"
+					style="color: white"
+					title="Seleccionar Todo"
+					@click="seleccionar_todas"
+					:disabled="btn_select"
+				>
+					Seleccionar Todo
+				</b-button>
+				<b-button
+					class="mb-4 ml-2"
+					size="sm"
+					style="color: white"
+					title="Limpiar Seleccion"
+					@click="limpiar_seleccion"
+					:disabled="btn_limpiar"
+				>
+					Limpiar Seleccion
+				</b-button>
+			</div>
+			<div v-else>
+				<pre>Cantidad de registros: {{ rows }}</pre>
+			</div>
 
-				<template slot="cell(id_cobrador)" slot-scope="data">
-					<b>{{ data.value }}</b>
-				</template>
-
-				<template #cell(selected)="{ rowSelected }">
-					<template v-if="rowSelected">
-						<span aria-hidden="true">&check;</span>
-						<span class="sr-only">Selected</span>
+			<section class="cotainer">
+				<b-table
+					:fields="fields"
+					striped
+					sortable
+					responsive
+					hover
+					:items="tabla_cobradores"
+					show-empty
+					:sticky-header="true"
+					:no-border-collapse="false"
+					:per-page="perPage"
+					:current-page="currentPage"
+					ref="tablaregistros"
+					id="tablaregistros"
+					selectable
+					select-mode="multi"
+					@row-selected="seleccionar_una"
+					empty-text="No hay registros cargados"
+					empty-filtered-text="No hemos encontrado registros que coincidan con lo que está buscando"
+					:filter="filter"
+					@filtered="onFiltered"
+				>
+					<template #empty="">
+						<b>No hay registros para mostrar</b>
 					</template>
 
+					<template slot="cell(apellido)" slot-scope="data">
+						{{ data.value.toUpperCase() }}
+					</template>
+
+					<template slot="cell(nombre)" slot-scope="data">
+						{{ data.value.toUpperCase() }}
+					</template>
+
+					<template slot="cell(id_cobrador)" slot-scope="data">
+						<b>{{ data.value }}</b>
+					</template>
+
+					<template #cell(selected)="{ rowSelected }">
+						<template v-if="rowSelected">
+							<span aria-hidden="true">&check;</span>
+							<span class="sr-only">Selected</span>
+						</template>
+						<!--
 					<template #cell(selected)="{ rowSelected }">
 						<template v-if="rowSelected">
 							<span aria-hidden="true">&check;</span>
@@ -119,80 +195,83 @@
 							<span class="sr-only">Not selected</span>
 						</template>
 					</template>
-				</template>
+					-->
+					</template>
 
-				<template slot="cell(action)" slot-scope="row">
-					<div class="mt-3">
-						<b-button-group>
-							<b-button
-								variant="info"
-								id="button-1"
-								title="Mostrar Info"
-								@click="row.toggleDetails"
-							>
-								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
-							</b-button>
-							<b-button
-								:to="{
-									name: 'cobrador',
-									params: { id: row.item },
-									query: { id: row.item.id_cobrador },
-								}"
-								variant="primary"
-								id="button-4"
-								title="Ver socios del cobrador"
-								style="color: white"
-							>
-								<v-icon dark>mdi-format-list-bulleted-square</v-icon>
-								Socios
-							</b-button>
-							<b-button
-								variant="warning"
-								id="button-2"
-								title="Editar este registro"
-								v-b-modal.modal-editar
-								@click="editarCobrador(row.item, row.index)"
-							>
-								<v-icon class="mr-2"> mdi-pencil </v-icon>
-								Editar
-							</b-button>
+					<template slot="cell(action)" slot-scope="row">
+						<div class="mt-3">
+							<b-button-group>
+								<b-button
+									variant="info"
+									id="button-1"
+									title="Mostrar Info"
+									@click="row.toggleDetails"
+								>
+									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+								</b-button>
+								<b-button
+									:to="{
+										name: 'cobrador',
+										params: { id: row.item },
+										query: { id: row.item.id_cobrador },
+									}"
+									variant="primary"
+									id="button-4"
+									title="Ver socios del cobrador"
+									style="color: white"
+								>
+									<v-icon dark>mdi-format-list-bulleted-square</v-icon>
+									Socios
+								</b-button>
+								<b-button
+									variant="warning"
+									id="button-2"
+									title="Editar este registro"
+									v-b-modal.modal-editar
+									@click="editarCobrador(row.item, row.index)"
+								>
+									<v-icon class="mr-2"> mdi-pencil </v-icon>
+									Editar
+								</b-button>
 
-							<b-button
-								variant="danger"
-								id="button-3"
-								@click="showModalinfo(row.item, row.index)"
-								title="Eliminar este registro"
-							>
-								<v-icon class="mr-2"> mdi-delete </v-icon>
-								Eliminar
-							</b-button>
-						</b-button-group>
-					</div>
-				</template>
-				<template #row-details="row">
-					<b-card title="Datos del cobrador: ">
-						<div>
-							<b-list-group horizontal>
-								<b-list-group class="col-3">
-									<b-list-group-item
-										><b>id cobrador:</b>
-										{{ row.item.id_cobrador }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>DNI:</b> {{ row.item.dni }}
-									</b-list-group-item>
-								</b-list-group>
-								&nbsp;
-								<b-list-group class="col-5">
-									<b-list-group-item
-										><b>Apellido:</b> {{ row.item.apellido }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item
-									>
-								</b-list-group>
-							</b-list-group>
+								<b-button
+									variant="danger"
+									id="button-3"
+									@click="showModalinfo(row.item, row.index)"
+									title="Eliminar este registro"
+								>
+									<v-icon class="mr-2"> mdi-delete </v-icon>
+									Eliminar
+								</b-button>
+							</b-button-group>
 						</div>
+					</template>
+					<template #row-details="row">
+						<b-card title="Datos del cobrador: ">
+							<div>
+								<b-list-group horizontal>
+									<b-list-group class="col-3">
+										<b-list-group-item
+											><b>id cobrador:</b>
+											{{ row.item.id_cobrador }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>DNI:</b> {{ row.item.dni }}
+										</b-list-group-item>
+									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-5">
+										<b-list-group-item
+											><b>Apellido:</b>
+											{{ row.item.apellido }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item
+										>
+									</b-list-group>
+								</b-list-group>
+							</div>
+						</b-card>
 					</template>
 				</b-table>
 				<!-- ================ELIMINAR COBRADOR======================== -->
@@ -258,7 +337,7 @@
 						</b-card>
 					</b-card-group>
 				</div>
-					<br />
+				<br />
 
 				<div>
 					<b-card-group deck>
@@ -307,9 +386,7 @@
 											</b-form-group>
 										</b-card-body>
 									</b-collapse>
-										
 								</b-card>
-								
 							</div>
 						</b-card>
 					</b-card-group>
@@ -383,7 +460,7 @@
 	import axios from "axios";
 
 	export default {
-		components: { CobradoresAlta, CobradoresUpdate,VueHtml2pdf },
+		components: { CobradoresAlta, CobradoresUpdate, VueHtml2pdf },
 		data() {
 			return {
 				tabla_cobradores: [],
@@ -391,7 +468,7 @@
 					{ key: "selected", label: "Seleccionar", sortable: true },
 					{ key: "id_cobrador", label: "ID Cobrador", sortable: true },
 					{ key: "apellido", label: "Apellido", sortable: true },
-					{ key: "nombre",label: "Nombre",sortable: true },
+					{ key: "nombre", label: "Nombre", sortable: true },
 					{ key: "dni", label: "DNI", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
@@ -419,10 +496,12 @@
 				btn_select: false,
 				//Campos a filtrar
 				filter_socio: null,
-				
+
 				//Opciones de filtrado
-				options_socio: [{ value: null, text: "Elija un socio",selected: true  }],
-			
+				options_socio: [
+					{ value: null, text: "Elija un socio", selected: true },
+				],
+
 				cobradorAPDF: {}, //Se carga cuando se hace clic en exportar a pdf, con el cobrador a exportar
 			};
 		},
@@ -437,15 +516,15 @@
 				return this.tabla_cobradores.id_cobrador;
 			},
 			sortOptions() {
-			// Create an options list from our fields
-			return this.fields
-				.filter(f => f.sortable)
-				.map(f => {
-					return { text: f.label, value: f.key }
-				})
+				// Create an options list from our fields
+				return this.fields
+					.filter((f) => f.sortable)
+					.map((f) => {
+						return { text: f.label, value: f.key };
+					});
 			},
 		},
-	methods: {
+		methods: {
 			async testFetch() {
 				try {
 					const res = await fetch(api);
@@ -459,10 +538,9 @@
 
 					this.tabla_cobradores.forEach((element) => {
 						let opcionSoc = {};
-						
+
 						opcionSoc.value = element.numero_socio;
 						opcionSoc.text = element.numero_socio.split("/")[4];
-						
 
 						if (this.options_socio.find((x) => x.value == opcionSoc.value)) {
 							console.log(opcionSoc, " ya se encuentra en el listado");
@@ -593,19 +671,15 @@
 			},
 			//Funcion para crear el PDF
 			async generarPDF(item) {
-				
 				let resultSocio = (await axios.get(item.numero_socio)).data;
-			  
+
 				this.cobradorAPDF = { ...item };
-			   
+
 				this.cobradorAPDF.numero_socio =
 					resultSocio.apellido + ", " + resultSocio.nombre;
-				
 
 				this.$refs.html2Pdf.generatePdf();
 			},
-
-			
 		},
 		beforeMount() {
 			this.testFetch();
@@ -632,4 +706,3 @@
 		width: 20%;
 	}
 </style>
-
