@@ -59,7 +59,7 @@ class receta(models.Model):
         db_table = "recetas"
         verbose_name = "receta"
         verbose_name_plural = "recetas"
-        ordering = ["numero_socio"]
+        ordering = ["id_receta"]
 
     def __str__(self):
         cadena = str(self.numero_socio)

@@ -34,6 +34,7 @@ class profesionales(models.Model):
     titular_cuenta = models.CharField(max_length=80)
     tipo_cuenta = models.CharField(max_length=20)
     banco=models.CharField(max_length=100, choices=bancos_argentina)
+    totalapagar = models.IntegerField(default=0)
 
     #Datos en el sistema
     created = models.DateTimeField(auto_now_add=True)

@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "Lentes",
     "VentasOpticas",
     'Vendedores',
-
+    'PagadoProfesionales',
 ]
 
 MIDDLEWARE = [
@@ -113,10 +113,10 @@ CORS_ORIGIN_WHITELIST = ["http://localhost:8080"]
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-   # "default": {
-   #     "ENGINE": "django.db.backends.sqlite3",
-   #     "NAME": BASE_DIR / "db.sqlite3",
-   # }
+    #"default": {
+    #    "ENGINE": "django.db.backends.sqlite3",
+    #    "NAME": BASE_DIR / "db.sqlite3",
+    #}
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'federacion_mutuales',

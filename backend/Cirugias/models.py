@@ -14,7 +14,7 @@ Construyo la entidad para Cirugia
 class cirugias(models.Model):
     codigo_intervencion = models.AutoField(primary_key=True) #id interno
     numero_socio = models.ForeignKey(socios, on_delete=models.DO_NOTHING)
-    codigo_institucion = models.ForeignKey(institutos, on_delete=models.DO_NOTHING)
+    codigo_institucion = models.ForeignKey(institutos, on_delete=models.DO_NOTHING,null=True)
     descripcion = models.CharField(max_length=30) #codigo mostrado al usuario
     nivel = models.IntegerField()
     numero_ayudantes = models.IntegerField(null=True)
