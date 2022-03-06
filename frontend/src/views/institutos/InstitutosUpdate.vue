@@ -3,6 +3,7 @@
 		<h6>Los campos en (*) son obligatorios</h6>
 
 		<b-form>
+			<!--
 			<b-form-group label="*Codigo de instituto" label-for="codigo_institucion">
 				<b-form-input
 					id="codigo_institucion"
@@ -15,6 +16,7 @@
 				>
 				</b-form-input>
 			</b-form-group>
+			-->
 
 			<b-form-group label="*Nombre" label-for="nombre">
 				<b-form-input
