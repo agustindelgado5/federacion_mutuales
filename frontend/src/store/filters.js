@@ -153,7 +153,9 @@ Vue.filter("Servicio", (value, option) => {
 
 Vue.filter("Realizado", (value, option) => {
 	if (option != null) {
-		return value.filter((f) => f.realizado == option);
+		let Bool = false
+		if(option ==0) Bool = true
+		return value.filter((f) => f.realizado == Bool);
 	} else {
 		return value;
 	}
@@ -240,6 +242,24 @@ Vue.filter("Responsable", (value, option) => {
 Vue.filter("Provincia", (value, option) => {
 	if (option != null) {
 		return value.filter((f) => f.provincia == option);
+	} else {
+		return value;
+	}
+});
+
+Vue.filter("Consultorio", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.nombre == option);
+	} else {
+		return value;
+	}
+});
+
+//Filtros en Gastos Salientes
+
+Vue.filter("ModoPago", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.modo_pago == option);
 	} else {
 		return value;
 	}
