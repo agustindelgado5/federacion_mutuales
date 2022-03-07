@@ -35,7 +35,7 @@ class SociosViewSet(viewsets.ModelViewSet):
     
     @action(methods=['GET'], detail = True)
     def aldia(self, request, pk=None):
-        ultimopagado1 = cuotas.objects.filter(numero_socio = pk).order_by('fecharealizacion').last()
+        ultimopagado1 = cuotas.objects.filter(numero_socio = pk).filter(pagado=True).order_by('fecharealizacion').last()
         if(ultimopagado1 == None):
             return Response(-1)
         else:

@@ -338,8 +338,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				</div>
 				<br />
 
-				<!-- 
-
 				<div>
 					<b-card-group deck>
 						<b-card

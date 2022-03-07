@@ -70,10 +70,10 @@
 					ok-only
 				>
 					<div class="d-block text-center" v-if="selected.length === rows">
-						<h3>¿Esta seguro de eliminar todos los registros ?</h3>
+						<h3>¿Esta seguro de eliminar todos los registros?</h3>
 					</div>
 					<div class="d-block text-center" v-else>
-						<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
+						<h3>¿Esta seguro de eliminar {{ selected.length }} registros?</h3>
 					</div>
 
 					<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
@@ -170,8 +170,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 			<b-overlay
 				:show="show"
-				@shown="onShown"
-				@hidden="onHidden"
 				variant="dark"
 				opacity="0.51"
 			>
@@ -306,7 +304,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										variant="primary"
 										id="button-3"
 										title="Ver estudios asociadas"
-										:disabled="btn_ordenes"
+										
 										style="color: white"
 									>
 										<!-- @click="ordenesProfesional(row.item)" -->

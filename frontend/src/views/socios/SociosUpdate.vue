@@ -19,21 +19,7 @@
 					role="tabpanel"
 				>
 					<b-card-body>
-						<b-form-group label="*N° Socio" label-for="numero_socio">
-							<b-form-input
-								id="numero_socio"
-								v-model="socio.numero_socio"
-								:state="validacion.numero_socio.estado"
-								type="number"
-								placeholder="Ingrese un Numero"
-								invalid-feedback="Complete este campo"
-								required
-							>
-							</b-form-input>
-							<b-form-invalid-feedback id="numero_socio-live-feedback"
-								>{{ validacion.numero_socio.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
+						
 						<b-form-group label="*Nombre/s" label-for="nombre">
 							<b-form-input
 								id="nombre"
@@ -121,9 +107,9 @@
 						<b-form-group label="Mutual de asociación" label-for="id_mutual">
 							<b-form-select
 								id="id_mutual"
-								v-model="socio.mutual"
+								v-model="socio.id_mutual"
 								type="text"
-								:state="validacion.mutual.estado"
+								:state="validacion.id_mutual.estado"
 								placeholder="Ingrese el ID de la mutual"
 								invalid-feedback="Complete este campo"
 								:options="op_mutuales"
@@ -400,7 +386,6 @@
 						type="number"
 						placeholder="Ingrese un DNI"
 						invalid-feedback="Complete este campo"
-						disabled
 						required
 					>
 					</b-form-input>
@@ -510,7 +495,7 @@
 					apellido: { estado: null, mensaje: "" },
 					dni: { estado: null, mensaje: "" },
 					fecha_nacimiento: { estado: null, mensaje: "" },
-					mutual: { estado: null, mensaje: "" },
+					id_mutual: { estado: null, mensaje: "" },
 					tieneObraSocial:{ estado: null, mensaje: "" },
 					fecha_asociacion: { estado: null, mensaje: "" },
 					carencia: { estado: null, mensaje: "" },
@@ -860,6 +845,7 @@
 									? "Los datos no son válidos"
 									: "Se ha detectado un problema ";
 								swal("¡ERROR!", mje, "error");
+								adherente.numero_socio = undefined; //para que no detecte como modificando
 								respuesta = error.response.data;
 								console.log(error);
 							});

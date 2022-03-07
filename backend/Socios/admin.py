@@ -6,7 +6,7 @@ from .models import socios, familiar
 
 
 class sociosAdmin(admin.ModelAdmin):
-    list_display = ("numero_socio", "apellido", "nombre", "dni", "metodopago")
+    list_display = ("numero_socio", "apellido", "nombre", "dni", "metodoPago")
     search_fields = ("numero_socio", "apellido", "nombre", "dni")
     ordering = ["numero_socio"]
     # autocomplete_fields=['departamento']

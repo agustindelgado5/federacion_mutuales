@@ -41,6 +41,7 @@ export class APIControler {
       {
         swal("Carga Exitosa", " ", "success")
         console.log(content)
+        return {status:"ok",content:content}
       }
       else{
         console.log(content);

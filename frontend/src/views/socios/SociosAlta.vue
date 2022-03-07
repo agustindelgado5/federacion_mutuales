@@ -123,9 +123,9 @@
 						<b-form-group label="Mutual de asociación" label-for="id_mutual">
 							<b-form-select
 								id="id_mutual"
-								v-model="socio.mutual"
+								v-model="socio.id_mutual"
 								type="text"
-								:state="validacion.mutual.estado"
+								:state="validacion.id_mutual.estado"
 								placeholder="Ingrese el ID de la mutual"
 								invalid-feedback="Complete este campo"
 								:options="op_mutuales"
@@ -136,11 +136,11 @@
             </b-form-invalid-feedback> -->
 						</b-form-group>
 
-						<b-form-group label="*Método de pago" label-for="metodopago">
+						<b-form-group label="*Método de pago" label-for="metodoPago">
 							<b-form-select
-								id="metodopago"
-								v-model="socio.metodopago"
-								:state="validacion.metodopago.estado"
+								id="metodoPago"
+								v-model="socio.metodoPago"
+								:state="validacion.metodoPago.estado"
 								type="text"
 								placeholder="Ingrese un método de pago"
 								invalid-feedback="Complete este campo"
@@ -148,11 +148,11 @@
 								:options="op_metodosPago"
 							>
 							</b-form-select>
-							<b-form-invalid-feedback id="metodopago-live-feedback"
-								>{{ validacion.metodopago.mensaje }}
+							<b-form-invalid-feedback id="metodoPago-live-feedback"
+								>{{ validacion.metodoPago.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<b-form-group v-show="socio.metodopago=='Cobrador'" label="*Cobrador" label-for="id_cobrador">
+						<b-form-group v-show="socio.metodoPago=='Cobrador'" label="*Cobrador" label-for="id_cobrador">
 							<b-form-select
 								id="id_cobrador"
 								v-model="socio.cobrador"
@@ -506,7 +506,7 @@
 					apellido: { estado: null, mensaje: "" },
 					dni: { estado: null, mensaje: "" },
 					fecha_nacimiento: { estado: null, mensaje: "" },
-					mutual: { estado: null, mensaje: "" },
+					id_mutual: { estado: null, mensaje: "" },
 					tieneObraSocial: { estado: null, mensaje: "" },
 					fecha_asociacion: { estado: null, mensaje: "" },
 					carencia: { estado: null, mensaje: "" },
@@ -517,7 +517,7 @@
 					email: { estado: null, mensaje: "" },
 					tel_fijo: { estado: null, mensaje: "" },
 					tel_celular: { estado: null, mensaje: "" },
-					metodopago: { estado: null, mensaje: "" },
+					metodoPago: { estado: null, mensaje: "" },
 					cobrador: { estado: null, mensaje: "" },
 				},
 				validacionFamiliar: [],
@@ -768,7 +768,9 @@
 			async postSocio() {
 				let socioAPI = new APIControler();
 				this.respuesta = await socioAPI.postData(this.socio);
-				if (this.familiar.length > 0) {
+				console.log("respuesta: ",this.respuesta)
+				if (this.respuesta.status=="ok" && this.familiar.length > 0) {
+					this.socio=this.respuesta.content
 					this.postFamiliar();
 				}
 
