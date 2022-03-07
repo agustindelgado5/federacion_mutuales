@@ -46,6 +46,7 @@ class institutos_profesionales(models.Model):
     id_inst_prof  = AutoField(primary_key=True)
     codigo_institucion = models.ForeignKey(institutos, on_delete=models.CASCADE) 
     id_medico = models.ForeignKey(profesionales, on_delete=models.CASCADE) #codigo mostrado al usuario
+    horarios = models.TextField(null=True)
     #created = models.DateTimeField(auto_now_add=True)
     #updated = models.DateTimeField(auto_now_add=True)
 
