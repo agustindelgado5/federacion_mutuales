@@ -315,6 +315,11 @@ export default {
               child: [],
             },
             {
+              title: `Pagado a Profesionales`,
+              href: `/pagadoprofesionales`,
+              child: [],
+            },
+            {
               title: `Cuotas de Socios`,
               href: `/cuotas`,
               child: [],

@@ -326,6 +326,7 @@
 	import { APIControler } from "../store/APIControler";
 	import swal from "sweetalert";
 	import _ from "lodash";
+    import axios from "axios";
 	import { mapState, mapActions } from "vuex";
 
 	export default {
@@ -401,6 +402,7 @@
 				currentPage: 1, //Pagina actual
 				perPage: 30, // Datos en la tabla por pagina
 				ordenAPDF: {},
+				pagadardo: 0,
 				options: [
 					{
 						value: null,
@@ -472,7 +474,7 @@
 				if (array != null) {
 					for (let index = 0; index < array.length; index++) {
 						if (array[index].liquidacionlista == 'Si') {
-                            suma += array[index].total;
+                            suma += array[index].total - array[index].pagado;
 						}
 					}
 				}
@@ -507,7 +509,52 @@
 				console.log("FECHA", mesMM);
 				return mesMM[0].inicial + "/" + anio;
 			},
-
+			formatoMesAnio(mes, fecha)
+			{
+				let mesusado = '';
+                let anio = fecha.split('-')[0]
+				switch (mes)
+				{
+					case 'Enero':
+						mesusado = 'ENE';
+						break;
+                    case 'Febrero':
+                        mesusado = 'FEB';
+						break;
+                    case 'Marzo':
+                        mesusado = 'MAR';
+						break;
+                    case 'Abril':
+                        mesusado = 'ABR';
+						break;
+                    case 'Mayo':
+                        mesusado = 'MAY';
+						break;
+                    case 'Junio':
+                        mesusado = 'JUN';
+						break;
+                    case 'Julio':
+                        mesusado = 'JUL';
+						break;
+                    case 'Agosto':
+                        mesusado = 'AGO';
+						break;
+                    case 'Septiembre':
+                        mesusado = 'SEP';
+						break;
+                    case 'Octubre':
+                        mesusado = 'OCT';
+						break;
+                    case 'Noviembre':
+                        mesusado = 'NOV';
+						break;
+                    case 'Diciembre':
+                        mesusado = 'DIC';
+                        break;
+				}
+				mesusado = mesusado + '/' + anio;
+				return mesusado;
+			},
 			//Funcion para agrupar las ordenes por profesional y mes
 			async GroupOrdenes(lista_orden) {
 				let pagos = sessionStorage.getItem("pagos");
@@ -529,7 +576,7 @@
 							mesOrden.formaPago = mes.formaPago;
 							mesOrden.total = parseFloat(0);
 							mesOrden.liquidacionlista = 'No';
-                            mesOrden.pagado = this.getPagado(result.id_medico, mes.mes);
+                            mesOrden.pagado = this.GetPagadoDef(parseInt(result.id_medico), mesOrden.mes);
 							lista_orden.forEach((orden) => {
 								if (
 									orden.id_medico == result.id_medico &&
@@ -573,7 +620,9 @@
 								result.ordenes.push(mesOrden);
 							}
 						});
+						console.log("Hoal");
                         result.totalapagar = this.sumaTotal2(result.ordenes);
+						this.cambioenprof(result.id_medico, result.totalapagar);
 						if (
 							this.tabla_ordenes.find((x) => x.id_medico == result.id_medico)
 						) {
@@ -634,25 +683,48 @@
 					this.show = false;
 				}
 			},
-            async getPagado(id_medicardo, mesardo) {
-                try {
+            async getPagado() {
+				try {
+                    let apiPag = new URL("http://localhost");
+                    apiPag.pathname = "pagadoprofesionales";
+                    //api.port = 8000;
+                    apiPag.port = 8081;
 
-                    let pagadoAPI = new APIControler();
-                    pagadoAPI.apiUrl.pathname = "pagadoprofesionales/";
-                    this.data = await pagadoAPI.getData(this.list_pagado);
-                    let pagado = 0;
+                    const res = await fetch(apiPag);
+					const data = await res.json();
 
-                    this.data.forEach((element) => {
-						if ((element.id_medico.split("/")[4] == id_medicardo) && (element.mespagado == mesardo))
-						{
-							pagado = pagado + parseInt(element.total);
-						}
-					});
-					pagado.then((value) => { return value });
+                    this.lista_pagado = data.results;
                 } catch (error) {
                     console.log(error);
                 }
-            },
+			},
+			async cambioenprof(id_medico, totalapagarlo)
+			{
+                const item_prof = await fetch("http://localhost:8081/profesionales/" +
+					id_medico);
+                const data = await item_prof.json();
+				data.totalapagar = totalapagarlo;
+				this.respuesta = await axios.put(
+					"http://localhost:8081/profesionales/" +
+					id_medico +
+					"/",
+					data
+                );
+			},
+            GetPagadoDef(id_medicardo, mesardo)
+			{
+                let pagado = 0;
+
+				for (var i = 0; i < this.lista_pagado.length; i++) {
+					console.log("Mes Pagado:", this.lista_pagado[i].mespagado);
+					console.log("Fecha:", this.lista_pagado[i].fecha);
+                    console.log("Resultado:", );
+                    if ((parseInt(this.lista_pagado[i].id_medico.split("/")[4]) == id_medicardo) && (this.formatoMesAnio(this.lista_pagado[i].mespagado, this.lista_pagado[i].fecha) == mesardo)) {
+						pagado = pagado + parseInt(this.lista_pagado[i].total);
+					}
+				}
+				return pagado;
+			},
 			//Funcion para mostrar el modal
 			showModal() {
 				this.$refs["my-modal"].show();
@@ -739,7 +811,8 @@
 		beforeMount() {
 			this.show = true;
 			this.getOrdenes();
-            this.getPagado(2, 'Febrero');
+			this.getPagado();
+			console.log(this.formatoMesAnio('Febrero', '02-03-2021'));
 			//this.saveFile();
 		},
 	};
