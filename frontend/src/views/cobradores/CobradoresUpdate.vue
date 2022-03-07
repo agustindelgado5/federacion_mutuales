@@ -3,50 +3,28 @@
 		<h6>Los campos en (*) son obligatorios</h6>
 		<h4>Datos</h4>
 
-		<b-form-group
-			label="*Socio"
-			label-for="numero_socio"
-			@submit.stop.prevent="handleSubmit"
-		>
-			<b-form-select
-				id="numero_socio"
-				v-model="cobrador.numero_socio"
-				:state="validacion.numero_socio.estado"
-				:disabled="true"
-				type="text"
-				placeholder="Ingrese el numero de socio"
-				invalid-feedback="Complete este campo"
-				required
-				:options="op_socios"
-			>
-			</b-form-select>
-			<b-form-invalid-feedback id="numero_socio-live-feedback"
-				>{{ validacion.numero_socio.mensaje }}
-			</b-form-invalid-feedback>
-		</b-form-group>
 		<b-form>
 			<b-form-group
-				label="*ID Cobrador"
-				label-for="id_cobrador"
+				label="*Socio"
+				label-for="numero_socio"
 				@submit.stop.prevent="handleSubmit"
 			>
-				<b-form-input
-					id="id_cobrador"
-					v-model="cobrador.id_cobrador"
-					:state="validacion.id_cobrador.estado"
-					:disabled="true"
-					type="number"
-					placeholder="Ingrese el ID del cobrador"
+				<b-form-select
+					id="numero_socio"
+					v-model="cobrador.numero_socio"
+					:state="validacion.numero_socio.estado"
+					type="text"
+					placeholder="Ingrese un Numero"
 					invalid-feedback="Complete este campo"
 					required
+					:options="op_socios"
 				>
-				</b-form-input>
-				<b-form-invalid-feedback id="id_cobrador-live-feedback"
-					>{{ validacion.id_cobrador.mensaje }}
+				</b-form-select>
+				<b-form-invalid-feedback id="numero_socio-live-feedback"
+					>{{ validacion.numero_socio.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<!-- nombre_cobrador -->
 			<b-form-group
 				label="*Nombre/s"
 				label-for="nombre"
@@ -56,7 +34,7 @@
 					id="nombre"
 					v-model="cobrador.nombre"
 					type="text"
-					placeholder="Ingrese los Nombres/"
+					placeholder="*Ingrese los Nombre/s"
 					:state="validacion.nombre.estado"
 					invalid-feedback="Complete este campo"
 					required
@@ -66,7 +44,6 @@
 					>{{ validacion.nombre.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
-
 			<b-form-group
 				label="*Apellido/s"
 				label-for="apellido"
@@ -76,7 +53,7 @@
 					id="apellido"
 					v-model="cobrador.apellido"
 					type="text"
-					placeholder="*Ingrese el apellido del cobrador"
+					placeholder="*Ingrese los Apellido/s"
 					:state="validacion.apellido.estado"
 					invalid-feedback="Complete este campo"
 					required
@@ -86,7 +63,6 @@
 					>{{ validacion.apellido.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
-
 			<b-form-group
 				label="*DNI"
 				label-for="dni"
@@ -95,8 +71,8 @@
 				<b-form-input
 					id="dni"
 					v-model="cobrador.dni"
-					type="number"
-					placeholder="Ingrese el dni del cobrador"
+					type="text"
+					placeholder="Ingrese un DNI"
 					:state="validacion.dni.estado"
 					invalid-feedback="Complete este campo"
 					required
@@ -116,7 +92,7 @@
 					id="fecha_cobro"
 					v-model="cobrador.fecha_cobro"
 					type="date"
-					placeholder="*Ingrese la fecha de cobro"
+					placeholder="Ingrese una fecha"
 					:state="validacion.fecha_cobro.estado"
 					invalid-feedback="Complete este campo"
 					required
@@ -151,7 +127,7 @@
 		data() {
 			return {
 				list_socios: {},
-				cobradores: {},
+				cobrador: {},
 				data: {},
 				options: [{ value: null, text: "Elija un cobrador", disabled: true }],
 				op_socios: [{ value: null, text: "Elija un socio", disabled: true }],
@@ -191,12 +167,12 @@
 			},
 			async getCobrador() {
 				let cobradorAPI = new APIControler();
-				cobradorAPI.apiUrl.pathname = "cobradores/";
-				this.data = await cobradorAPI.getData(this.cobradores);
+				cobradorAPI.apiUrl.pathname = "cobrador/";
+				this.data = await cobradorAPI.getData(this.cobrador);
 				this.data.forEach((element) => {
 					let option = {};
 					option.value =
-						"http://localhost:8081/cobradores/" + element.id_cobrador + "/";
+						"http://localhost:8081/cobrador/" + element.id_cobrador + "/";
 					option.text = element.cobrador;
 					console.log(option);
 					this.options.push(option);

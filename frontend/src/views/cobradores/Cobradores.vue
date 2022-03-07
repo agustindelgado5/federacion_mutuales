@@ -140,7 +140,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
 
-			<section class="cotainer">
+			<section class="container">
 				<b-table
 					:fields="fields"
 					striped
@@ -252,7 +252,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								<b-list-group horizontal>
 									<b-list-group class="col-3">
 										<b-list-group-item
-											><b>id cobrador:</b>
+											><b>ID:</b>
 											{{ row.item.id_cobrador }}</b-list-group-item
 										>
 										<b-list-group-item
@@ -339,6 +339,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				</div>
 				<br />
 
+				<!-- 
+
 				<div>
 					<b-card-group deck>
 						<b-card
@@ -391,6 +393,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</b-card>
 					</b-card-group>
 				</div>
+				-->
 			</aside>
 
 			<b-modal id="modal-editar" hide-footer>

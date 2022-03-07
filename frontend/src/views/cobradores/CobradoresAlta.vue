@@ -3,45 +3,25 @@
 		<h6>Los campos en (*) son obligatorios</h6>
 		<h4>Datos</h4>
 
-		<b-form-group
-			label="*Socio"
-			label-for="numero_socio"
-			@submit.stop.prevent="handleSubmit"
-		>
-			<b-form-select
-				id="numero_socio"
-				v-model="Cobradores.numero_socio"
-				:state="validacion.numero_socio.estado"
-				type="text"
-				placeholder="Ingrese un Numero"
-				invalid-feedback="Complete este campo"
-				required
-				:options="op_socios"
-			>
-			</b-form-select>
-			<b-form-invalid-feedback id="numero_socio-live-feedback"
-				>{{ validacion.numero_socio.mensaje }}
-			</b-form-invalid-feedback>
-		</b-form-group>
-
 		<b-form>
 			<b-form-group
-				label="*ID Cobrador"
-				label-for="id_cobrador"
+				label="*Socio"
+				label-for="numero_socio"
 				@submit.stop.prevent="handleSubmit"
 			>
-				<b-form-input
-					id="id_cobrador"
-					v-model="Cobradores.id_cobrador"
-					:state="validacion.id_cobrador.estado"
-					type="number"
+				<b-form-select
+					id="numero_socio"
+					v-model="Cobradores.numero_socio"
+					:state="validacion.numero_socio.estado"
+					type="text"
 					placeholder="Ingrese un Numero"
 					invalid-feedback="Complete este campo"
 					required
+					:options="op_socios"
 				>
-				</b-form-input>
-				<b-form-invalid-feedback id="id_cobrador-live-feedback"
-					>{{ validacion.id_cobrador.mensaje }}
+				</b-form-select>
+				<b-form-invalid-feedback id="numero_socio-live-feedback"
+					>{{ validacion.numero_socio.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 
@@ -91,7 +71,7 @@
 				<b-form-input
 					id="dni"
 					v-model="Cobradores.dni"
-					type="number"
+					type="text"
 					placeholder="Ingrese un DNI"
 					:state="validacion.dni.estado"
 					invalid-feedback="Complete este campo"
@@ -145,7 +125,7 @@
 				op_socios: [{ value: null, text: "Elija un socio", disabled: true }],
 				validacion: {
 					numero_socio: { estado: null, mensaje: "" },
-					id_cobrador: { estado: null, mensaje: "" },
+					//id_cobrador: { estado: null, mensaje: "" },
 					nombre: { estado: null, mensaje: "" },
 					apellido: { estado: null, mensaje: "" },
 					dni: { estado: null, mensaje: "" },
