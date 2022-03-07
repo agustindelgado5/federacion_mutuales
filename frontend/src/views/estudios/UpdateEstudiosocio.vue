@@ -64,7 +64,7 @@
 				//list_institutos: {},
 
 				op_estudios: [
-					{ value: null, text: "Elija los consultorios", disabled: true },
+					{ value: null, text: "Elija el estudio", disabled: true },
 				],
 
 				validacion: {},
