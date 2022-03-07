@@ -445,7 +445,7 @@
 				tabla_planes: [],
                 servicios:[],
 				fields: [
-					{ key: "selected", label: ""},
+					{ key: "selected", label: "Seleccionar", sortable: true },
 					{ key: "id_plan", label: "ID", sortable: true },
 					{ key: "nombre", label: "Nombre", sortable: true },
 					{ key: "precio", label: "Precio", sortable: true },
@@ -481,6 +481,9 @@
 		computed: {
 			rows() {
 				return (this.totalRows = this.tabla_planes.length);
+			},
+			rowsFilter() {
+				return this.totalRows;
 			},
 			sortOptions() {
 				// Funcion para filtrar

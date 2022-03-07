@@ -252,8 +252,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								<b-list-group horizontal>
 									<b-list-group class="col-3">
 										<b-list-group-item
-											><b>ID:</b>
-											{{ row.item.id_cobrador }}</b-list-group-item
+											><b>ID:</b> {{ row.item.id_cobrador }}</b-list-group-item
 										>
 										<b-list-group-item
 											><b>DNI:</b> {{ row.item.dni }}
@@ -510,14 +509,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		},
 		computed: {
 			rows() {
-				return this.tabla_cobradores.length;
+				return (this.totalRows = this.tabla_cobradores.length);
 			},
 			rowsFilter() {
 				return this.totalRows;
 			},
-			id() {
-				return this.tabla_cobradores.id_cobrador;
-			},
+
 			sortOptions() {
 				// Create an options list from our fields
 				return this.fields
