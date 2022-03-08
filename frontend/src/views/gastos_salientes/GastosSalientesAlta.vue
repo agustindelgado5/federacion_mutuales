@@ -81,23 +81,19 @@
 			</b-form-group>
 
 			<!--modo_pago-->
-						<b-form-group
-							label="*Modo De Pago"
-							label-for="modo_pago"
-							
-						>
-							<b-form-select
-								id="modo_pago"
-								v-model="gastoSaliente.modo_pago"
-								:state="validacion.modo_pago.estado"
-								type="text"
-								placeholder="Ingrese la modp de pago"
-								invalid-feedback="Complete este campo"
-								required
-								:options="options1"
-							>
-							</b-form-select>
-						</b-form-group>
+			<b-form-group label="*Modo De Pago" label-for="modo_pago">
+				<b-form-select
+					id="modo_pago"
+					v-model="gastoSaliente.modo_pago"
+					:state="validacion.modo_pago.estado"
+					type="text"
+					placeholder="Ingrese la modp de pago"
+					invalid-feedback="Complete este campo"
+					required
+					:options="options1"
+				>
+				</b-form-select>
+			</b-form-group>
 		</b-form>
 		<b-button
 			class="mt-2"
@@ -120,21 +116,27 @@
 			return {
 				gastoSaliente: {},
 				data: {},
+				options1: [
+					{
+						value: null,
+						text: "Elija un modo de pago",
+						selected: true,
+					},
+					{ value: "Efectivo", text: "1- Efectivo" },
+					{ value: "CBU", text: "2- CBU" },
+					{ value: "Tarjeta de Debito", text: "3- Tarjeta de Debito" },
+					{ value: "Tarjeta de Credito", text: "4- Tarjeta de Credito" },
+				],
 				validacion: {
 					nro_ticket: { estado: null, mensaje: "" },
 					descripcion: { estado: null, mensaje: "" },
 					total: { estado: null, mensaje: "" },
 					fecha: { estado: null, mensaje: "" },
-					modo_pago:{ estado: null, mensaje: "" },
+					modo_pago: { estado: null, mensaje: "" },
 				},
 				respuesta: {},
-				options1: [
-					{ value: "Efectivo", text: "1- Efectivo" },
-					{ value: "CBU", text: "2- CBU" },
-					{ value: "debito", text: "3- debito" },
-					{ value: "Tarjeta", text: "4- Tarjeta" },
-					
-					],
+				
+				
 			};
 		},
 		methods: {
@@ -152,7 +154,7 @@
 
 			cargarFeedback() {
 				let valido;
-				this.respuesta=this.respuesta|| {}
+				this.respuesta = this.respuesta || {};
 				for (let key in this.validacion) {
 					valido = !this.respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;
