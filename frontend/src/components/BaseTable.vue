@@ -56,12 +56,12 @@ export default {
 
 <style scoped>
 .myTable {
-		position: absolute;
+		/* position: absolute;
 		left: 0;
 		padding: 1.5em;
 		margin-top: 4rem;
 		overflow: auto;
 		transition: 0.5s;
-		width: 100%;
+		width: 100%; */
 	}
 </style>

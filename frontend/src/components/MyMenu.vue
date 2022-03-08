@@ -26,13 +26,15 @@
 <script>
     import VueAwesomplete from "vue-awesomplete";
     import axios from "axios";
+    import { Fetcher } from "@/store/utils/Fetcher";
     import { APIControler } from "../store/APIControler";
     import VueCookies from 'vue-cookies';
 
     export default {
         data() {
             return {
-                usuario: true
+                usuario: true,
+                fetcher: new Fetcher(),
             }
         },
         methods: {
@@ -42,25 +44,16 @@
             },
             logout()
             {
-                axios.post('http://localhost:8081/auth/logout/',
-                    {})
-                    .then(resp => {
-                        swal("Operación Exitosa", " ", "success");
-                        $cookies.set('usuario', null);
-                        window.location.replace("/login");
-                    })
-                    .catch(err => {
-                        swal("¡ERROR!", "Error en logout", "error");
-                        console.log(err)
-                    })
+                this.fetcher.logout()
+                location.reload()
             },
             redirect() {
                 var user = $cookies.get('usuario');
                 if (null == user) {
-                    
+
                 }
                 console.log(user)
-                
+
             },
         },
         computed:
@@ -77,7 +70,7 @@
         beforeMount() {
             this.redirect();
         },
-        
+
     };
 </script>
 
