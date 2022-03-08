@@ -13,6 +13,7 @@ Vue.filter("FormatStringToTime", (value) => {
 	return value.split(":")[0] + ":" + value.split(":")[1];
 });
 
+
 Vue.filter("Date", (value) => {
 	return dayjs(value).format("DD/MM/YYYY");
 });
@@ -263,4 +264,10 @@ Vue.filter("ModoPago", (value, option) => {
 	} else {
 		return value;
 	}
+});
+
+
+Vue.filter("Split", (value) => {
+	const v=value?value.split("/")[4]:value
+	return v
 });

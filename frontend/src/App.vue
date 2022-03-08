@@ -205,6 +205,11 @@ export default {
           disable: false,
           to: "/planes",
         },
+        {
+          text: "Cristales",
+          disable: false,
+          to: "/cristales",
+        },
       ],
       name: "SidebarMenu",
       menu: [
