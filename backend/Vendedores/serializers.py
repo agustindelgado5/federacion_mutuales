@@ -8,6 +8,7 @@ class VendedoresSerializer(serializers.ModelSerializer):
     class Meta:
         model = vendedores
         fields = (
+            "id_vendedor",
             "apellido",
             "nombre",
             "dni",

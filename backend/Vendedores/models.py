@@ -1,10 +1,11 @@
 from django.db import models
-
+from django.db.models.fields import AutoField
 from backend.deptos import deptos_tucuman, comumas_municipios
 
 
 class vendedores(models.Model):
 
+    id_vendedor = AutoField(primary_key=True)
     apellido = models.CharField(max_length=80)
     nombre = models.CharField(max_length=80)
     dni = models.IntegerField(unique=True)
@@ -23,3 +24,4 @@ class vendedores(models.Model):
         db_table = "vendedores"
         verbose_name = "vendedor"
         verbose_name_plural = "vendedores"
+        ordering = ["id_vendedor"]

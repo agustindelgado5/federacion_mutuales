@@ -103,6 +103,18 @@
 							</b-form-select>
 						</b-form-group>
 
+						<b-form-group label="*Vendedor" label-for="id_vendedor">
+							<b-form-select id="id_vendedor"
+										   v-model="socio.id_vendedor"
+										   type="text"
+										   :state="validacion.id_vendedor.estado"
+										   placeholder="Ingrese el ID del cobrador"
+										   invalid-feedback="Complete este campo"
+										   required
+										   :options="op_vendedores">
+							</b-form-select>
+						</b-form-group>
+
 						<b-form-group label="*Fecha de asociacion"
 									  label-for="fecha_asociacion">
 							<b-form-input id="fecha_asociacion"
@@ -511,7 +523,8 @@
 					tel_celular: { estado: null, mensaje: "" },
 					metodoPago: { estado: null, mensaje: "" },
 					cobrador: { estado: null, mensaje: "" },
-                    id_plan: { estado: null, mensaje: "" },
+					id_plan: { estado: null, mensaje: "" },
+                    id_vendedor: { estado: null, mensaje: "" },
 				},
 				validacionFamiliar: [],
 				list_mutuales: {},
@@ -524,7 +537,9 @@
                 op_planes: [
                     { value: null, text: "Elija un plan", disabled: true },
                 ],
-
+                op_vendedores: [
+                    { value: null, text: "Elija un plan", disabled: true },
+                ],
 				btn_familiar: false,
 				cantidad: 0,
 				respuesta: {},
@@ -875,6 +890,24 @@
 					this.op_cobradores.push(option);
 				});
 			},
+            async getVendedores() {
+                let cobradoresAPI = new APIControler();
+                cobradoresAPI.apiUrl.pathname = "vendedores/";
+                this.data = await cobradoresAPI.getData();
+                this.data.forEach((element) => {
+                    let option = {};
+                    option.value =
+                        "http://localhost:8081/vendedores/" + element.id_vendedor + "/";
+					option.text =
+						element.id_vendedor +
+						", " + 
+                        element.apellido +
+                        ", " +
+                        element.nombre;
+
+                    this.op_vendedores.push(option);
+                });
+            },
             async getPlanes() {
                 let cobradoresAPI = new APIControler();
                 cobradoresAPI.apiUrl.pathname = "planes/";
@@ -922,6 +955,7 @@
 			this.getMutuales();
 			this.getCobradores();
 			this.getPlanes();
+            this.getVendedores();
 		},
 	};
 </script>

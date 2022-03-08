@@ -8,6 +8,7 @@ from django.contrib.postgres.fields import ArrayField
 from .utils import calcular_edad
 from Mutuales.models import mutuales, servicios,planes
 from Cobradores.models import cobradores
+from Vendedores.models import vendedores
 
 # Create your models here.
 
@@ -47,6 +48,7 @@ class socios(models.Model):
     metodoPago = models.CharField(max_length=50) # transferencia, link, o por cobrador
     cobrador = models.ForeignKey(cobradores,null=True, blank=True, on_delete=models.DO_NOTHING)
     id_plan = models.ForeignKey(planes,null=True, blank=True, on_delete=models.DO_NOTHING)
+    id_vendedor = models.ForeignKey(vendedores,null=True, blank=True, on_delete=models.DO_NOTHING)
     #servicios_socio = models.ManyToManyField(servicios) #Atributo multivaludo
     # servicios = ArrayField(models.CharField(choices=CHOICES, max_length=20),20)
 

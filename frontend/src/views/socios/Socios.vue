@@ -421,8 +421,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											<b-list-group-item>
 												<b>Vendedor:</b>
 												{{
-													row.item.vendedor != null
-														? row.item.vendedor
+													row.item.id_vendedor != null
+														? row.item.id_vendedor.split('/')[4]
 														: "No disponible"
 												}}
 											</b-list-group-item>

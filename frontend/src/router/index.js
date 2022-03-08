@@ -186,6 +186,12 @@ const routes = [
     component: () => import('../views/tests_components/TestTable.vue'),
     meta: { title: 'TEST' }
   },
+  {
+    path: '/vendedores',
+    name: 'Vendedores',
+    component: () => import('../views/vendedores/Vendedores.vue'),
+    meta: { title: 'TEST' }
+  },
 ];
 
 const router = new VueRouter({

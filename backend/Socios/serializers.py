@@ -30,6 +30,7 @@ class SociosSerializer(serializers.HyperlinkedModelSerializer):
             "metodoPago",
             "cobrador",
             "id_plan",
+            "id_vendedor",
             "monto"
             # "plan",
             # "vendedor",
