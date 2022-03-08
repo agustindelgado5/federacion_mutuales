@@ -347,4 +347,22 @@ Vue.filter("Marca", (value, option) => {
 	}
 });
 
+//Ventas Opticas
+Vue.filter("FechaVentaRange", (value, desde, hasta) => {
+	if (desde && hasta) {
+		if (desde <= hasta) {
+			console.log("ENTRO AL IF");
+			return value.filter(
+				(f) => f.fecha_venta >= desde && f.fecha_venta <= hasta
+			);
+		} else {
+			swal("¡ERROR!", "Ingrese correctamente las fechas", "error");
+			return value;
+		}
+	} else {
+		console.log("NO SE PUEDE REALIZAR");
+		return value;
+	}
+});
+
 
