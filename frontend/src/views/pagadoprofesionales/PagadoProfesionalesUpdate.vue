@@ -94,7 +94,8 @@
 
 <script>
 	import { APIControler } from "@/store/APIControler";
-    import axios from "axios";
+	import axios from "axios";
+    import { mapState, mapActions } from "vuex";
 
 	export default {
 		props: {
@@ -187,7 +188,8 @@
                         swal("¡ERROR!", mje, "error");
                         respuesta = error.response.data;
                     });
-                this.cargarFeedback(respuesta);
+				this.cargarFeedback(respuesta);
+                Storage.removeItem("pagos");
                 this.updateTable();
                 // console.log("respuesta:");
                 // console.log(respuesta);

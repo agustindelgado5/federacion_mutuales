@@ -97,7 +97,7 @@
 
 <script>
 	import { APIControler } from "@/store/APIControler";
-
+    import { mapState, mapActions } from "vuex";
 	export default {
 		props: {
 			updateTable: Function,
@@ -162,8 +162,8 @@
                         " ; " +
                         element.especialidad;
                     console.log(option);
-                    this.op_profesionales.push(option);
-                });
+					this.op_profesionales.push(option);
+				});
             },
 			async getPagadoProfesionales() {
 				let PagadoProfesionalAPI = new APIControler();
@@ -174,6 +174,7 @@
 				PagadoProfesionalAPI.apiUrl.pathname = "pagadoprofesionales/";
 				this.respuesta = await PagadoProfesionalAPI.postData(this.pagadoProfesional);
 				this.cargarFeedback();
+                Storage.removeItem("pagos");
 				this.updateTable();
 			},
 

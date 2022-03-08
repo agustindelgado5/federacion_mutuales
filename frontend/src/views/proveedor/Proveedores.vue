@@ -1,59 +1,79 @@
 <template>
 	<v-app id="app">
 		<div id="proveedor" class="myTable">
-			<vue-headful
-				title="Proveedor - Federación Tucumana de Mutuales"
-			></vue-headful>
+			<vue-headful title="Proveedor - Federación Tucumana de Mutuales"></vue-headful>
 
 			<h2>Listado de Proveedores</h2>
-			<b-button
-				@click="testFetch"
-				class="mb-4"
-				title="Recargar"
-				variant="light"
-			>
+			<b-button @click="testFetch"
+					  class="mb-4"
+					  title="Recargar"
+					  variant="light">
 				<v-icon dark style="color: black">mdi-cached</v-icon>
 				Actualizar
 			</b-button>
 
 			<!-- ================ALTA PROVEEDOR======================== -->
-			<b-button
-				class="mb-4 ml-2"
-				v-b-modal.modal-alta
-				@click="altaproveedor()"
-				title="Nuevo proveedor"
-				style="color: white"
-			>
+			<b-button class="mb-4 ml-2"
+					  v-b-modal.modal-alta
+					  @click="altaproveedor()"
+					  title="Nuevo proveedor"
+					  style="color: white">
 				<v-icon dark> mdi-plus </v-icon>
 				Nuevo proveedor
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
-				<template #modal-title><h5 class="modal-title">Alta</h5></template>
+				<template #modal-title>
+					<h5 class="modal-title">Alta</h5>
+				</template>
 				<proveedores-alta :updateTable="testFetch" />
 			</b-modal>
 
+			<b-button class="mb-4 ml-2"
+					  variant="success"
+					  id="btn_del_full"
+					  title="Eliminar todos los registros"
+					  style="color: white"
+					  v-b-modal.modal-excel>
+				Importar Excel
+			</b-button>
+			<b-modal ref="my-modal"
+					 id="modal-excel"
+					 hide-footer
+					 title="Importar desde Excel"
+					 ok-only>
+				<h4>Elige un archivo para importar</h4>
+				<input type="file" @change="uploadFile" ref="archivo" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+				<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
+					Volver Atras
+				</b-button>
+
+				<b-button class="mt-3"
+						  variant="success"
+						  block
+						  title="Importar"
+						  @click="importarExcel">
+					Importar
+				</b-button>
+			</b-modal>
+
 			<!-- ================ELIMINAR VARIOS PROVEEDORES======================== -->
-			<b-button
-				class="mb-4 ml-2"
-				variant="danger"
-				id="btn_del_full"
-				title="Eliminar todos los registros"
-				style="color: white"
-				:disabled="btn_del_full"
-				v-b-modal.modal-eliminarTodo
-			>
+			<b-button class="mb-4 ml-2"
+					  variant="danger"
+					  id="btn_del_full"
+					  title="Eliminar todos los registros"
+					  style="color: white"
+					  :disabled="btn_del_full"
+					  v-b-modal.modal-eliminarTodo>
 				<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
 				Eliminar
 			</b-button>
 
 			<div>
-				<b-modal
-					ref="my-modal"
-					id="modal-eliminarTodo"
-					hide-footer
-					title="Eliminar"
-					ok-only
-				>
+				<b-modal ref="my-modal"
+						 id="modal-eliminarTodo"
+						 hide-footer
+						 title="Eliminar"
+						 ok-only>
 					<div class="d-block text-center" v-if="selected.length === rows">
 						<h3>¿Esta seguro de eliminar todos los registros ?</h3>
 					</div>
@@ -65,44 +85,35 @@
 						Volver Atras
 					</b-button>
 
-					<b-button
-						class="mt-3"
-						variant="danger"
-						block
-						title="Eliminar"
-						@click="delete_all_proveedores()"
-					>
+					<b-button class="mt-3"
+							  variant="danger"
+							  block
+							  title="Eliminar"
+							  @click="delete_all_proveedores()">
 						Eliminar
 					</b-button>
 				</b-modal>
 			</div>
 
 			<!-- ======== Formulario de Busqueda ======== -->
-			<b-form-group
-				label-for="filter-input"
-				label-align-sm="right"
-				label-size="sm"
-				class="mb-0"
-				style="width: 100%; padding-bottom: 1em"
-				v-show="rows > 0"
-			>
+			<b-form-group label-for="filter-input"
+						  label-align-sm="right"
+						  label-size="sm"
+						  class="mb-0"
+						  style="width: 100%; padding-bottom: 1em"
+						  v-show="rows > 0">
 				<b-input-group size="sm">
-					<b-form-input
-						id="filter-input"
-						v-model="filter"
-						type="search"
-						placeholder="Buscar registros"
-					></b-form-input>
+					<b-form-input id="filter-input"
+								  v-model="filter"
+								  type="search"
+								  placeholder="Buscar registros"></b-form-input>
 
 					<b-input-group-append>
-						<b-button :disabled="!filter" @click="filter = ''"
-							>Limpiar</b-button
-						>
+						<b-button :disabled="!filter" @click="filter = ''">Limpiar</b-button>
 					</b-input-group-append>
 				</b-input-group>
 			</b-form-group>
 			<!-- ======================================== -->
-
 			<!-- ======================================== -->
 
 			<div v-if="rows > 0">
@@ -111,15 +122,13 @@
 						<pre>
 Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
 								selected.length
-							}}</pre
-						>
+							}}</pre>
 					</div>
 					<div v-else>
 						<pre>
 Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								selected.length
-							}}</pre
-						>
+							}}</pre>
 					</div>
 				</div>
 				<div v-else>
@@ -130,24 +139,20 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<pre>Cantidad de registros: {{ rows }}</pre>
 					</div>
 				</div>
-				<b-button
-					class="mb-4 ml-2"
-					size="sm"
-					style="color: white"
-					title="Seleccionar Todo"
-					@click="seleccionar_todas"
-					:disabled="btn_select"
-				>
+				<b-button class="mb-4 ml-2"
+						  size="sm"
+						  style="color: white"
+						  title="Seleccionar Todo"
+						  @click="seleccionar_todas"
+						  :disabled="btn_select">
 					Seleccionar Todo
 				</b-button>
-				<b-button
-					class="mb-4 ml-2"
-					size="sm"
-					style="color: white"
-					title="Limpiar Seleccion"
-					@click="limpiar_seleccion"
-					:disabled="btn_limpiar"
-				>
+				<b-button class="mb-4 ml-2"
+						  size="sm"
+						  style="color: white"
+						  title="Limpiar Seleccion"
+						  @click="limpiar_seleccion"
+						  :disabled="btn_limpiar">
 					Limpiar Seleccion
 				</b-button>
 			</div>
@@ -156,26 +161,24 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			</div>
 
 			<section class="container">
-				<b-table
-					:fields="fields"
-					striped
-					sortable
-					responsive
-					hover
-					:items="tabla_proveedores | Especialidad(filter_especialidad)"
-					show-empty
-					:per-page="perPage"
-					:current-page="currentPage"
-					:sticky-header="true"
-					:no-border-collapse="false"
-					ref="tablaregistros"
-					id="tablaregistros"
-					:filter="filter"
-					@filtered="onFiltered"
-					@row-selected="seleccionar_una"
-					selectable
-					select-mode="multi"
-				>
+				<b-table :fields="fields"
+						 striped
+						 sortable
+						 responsive
+						 hover
+						 :items="tabla_proveedores | Especialidad(filter_especialidad)"
+						 show-empty
+						 :per-page="perPage"
+						 :current-page="currentPage"
+						 :sticky-header="true"
+						 :no-border-collapse="false"
+						 ref="tablaregistros"
+						 id="tablaregistros"
+						 :filter="filter"
+						 @filtered="onFiltered"
+						 @row-selected="seleccionar_una"
+						 selectable
+						 select-mode="multi">
 					<template #empty="">
 						<b>No hay registros para mostrar</b>
 					</template>
@@ -202,36 +205,30 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					<template slot="cell(action)" slot-scope="row">
 						<div class="mt-3">
 							<b-button-group>
-								<b-button
-									variant="info"
-									id="button-1"
-									title="Mostrar Info"
-									@click="row.toggleDetails"
-									:disabled="btn_mostrar"
-								>
+								<b-button variant="info"
+										  id="button-1"
+										  title="Mostrar Info"
+										  @click="row.toggleDetails"
+										  :disabled="btn_mostrar">
 									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
 								</b-button>
 
-								<b-button
-									variant="warning"
-									id="button-2"
-									title="Editar este registro"
-									v-b-modal.modal-editar
-									@click="editarproveedor(row.item, row.index)"
-									:disabled="btn_editar"
-								>
+								<b-button variant="warning"
+										  id="button-2"
+										  title="Editar este registro"
+										  v-b-modal.modal-editar
+										  @click="editarproveedor(row.item, row.index)"
+										  :disabled="btn_editar">
 									<!-- :disabled="btn_editar" -->
 									<v-icon class="mr-2"> mdi-pencil </v-icon>
 									Editar
 								</b-button>
 
-								<b-button
-									variant="danger"
-									id="button-3"
-									@click="showModalinfo(row.item, row.index)"
-									title="Eliminar este registro"
-									:disabled="btn_eliminar"
-								>
+								<b-button variant="danger"
+										  id="button-3"
+										  @click="showModalinfo(row.item, row.index)"
+										  title="Eliminar este registro"
+										  :disabled="btn_eliminar">
 									<v-icon class="mr-2"> mdi-delete </v-icon>
 									Eliminar
 								</b-button>
@@ -243,66 +240,54 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							<div>
 								<b-list-group horizontal>
 									<b-list-group class="col-3">
-										<b-list-group-item
-											><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item
-										>
+										<b-list-group-item><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item>
+										<b-list-group-item><b>CUIT:</b> {{ row.item.cuit }}</b-list-group-item>
 									</b-list-group>
 									&nbsp;
 									<b-list-group class="col-4">
-										<b-list-group-item
-											><b>Calle:</b> {{ row.item.direccion }}
+										<b-list-group-item>
+											<b>Calle:</b> {{ row.item.direccion }}
 										</b-list-group-item>
-										<b-list-group-item
-											><b>Provincia:</b>
-											{{ row.item.provincia }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Localidad:</b>
-											{{ row.item.localidad }}</b-list-group-item
-										>
+										<b-list-group-item>
+											<b>Provincia:</b>
+											{{ row.item.provincia }}
+										</b-list-group-item>
+										<b-list-group-item>
+											<b>Localidad:</b>
+											{{ row.item.localidad }}
+										</b-list-group-item>
 									</b-list-group>
 									&nbsp;
 									<b-list-group class="col-4">
-										<b-list-group-item
-											><b>Correo:</b> {{ row.item.email }}
+										<b-list-group-item>
+											<b>Correo:</b> {{ row.item.email }}
 										</b-list-group-item>
-										<b-list-group-item
-											><b>Telefono Fijo:</b>
-											{{ row.item.tel_fijo }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Celular:</b>
-											{{ row.item.tel_celular }}</b-list-group-item
-										>
+										<b-list-group-item>
+											<b>Telefono Fijo:</b>
+											{{ row.item.tel_fijo }}
+										</b-list-group-item>
+										<b-list-group-item>
+											<b>Celular:</b>
+											{{ row.item.tel_celular }}
+										</b-list-group-item>
 									</b-list-group>
 								</b-list-group>
 							</div>
-							<b-button
-								@click="generarPDFproveedor(row.item)"
-								id="btn_down_pdf"
-								class="mb-0 ml-2"
-								title="Generar PDF"
-								variant="info"
-								style="color: white"
-							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="16"
-									height="16"
-									fill="currentColor"
-									class="bi bi-file-pdf-fill"
-									viewBox="0 0 16 16"
-								>
-									<path
-										d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
-									/>
-									<path
-										fill-rule="evenodd"
-										d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
-									/>
+							<b-button @click="generarPDFproveedor(row.item)"
+									  id="btn_down_pdf"
+									  class="mb-0 ml-2"
+									  title="Generar PDF"
+									  variant="info"
+									  style="color: white">
+								<svg xmlns="http://www.w3.org/2000/svg"
+									 width="16"
+									 height="16"
+									 fill="currentColor"
+									 class="bi bi-file-pdf-fill"
+									 viewBox="0 0 16 16">
+									<path d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z" />
+									<path fill-rule="evenodd"
+										  d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z" />
 								</svg>
 								Generar PDF
 							</b-button>
@@ -312,14 +297,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 				<b-container fluid>
 					<b-col class="my-1">
-						<b-pagination
-							v-model="currentPage"
-							align="center"
-							pills
-							:total-rows="totalRows"
-							:per-page="perPage"
-							aria-controls="tabla_proveedores"
-						>
+						<b-pagination v-model="currentPage"
+									  align="center"
+									  pills
+									  :total-rows="totalRows"
+									  :per-page="perPage"
+									  aria-controls="tabla_proveedores">
 						</b-pagination>
 					</b-col>
 				</b-container>
@@ -327,19 +310,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			<aside v-show="rows > 0">
 				<div>
 					<b-card-group deck>
-						<b-card
-							bg-variant="primary"
-							text-variant="white"
-							header="REGISTROS POR PAGINA"
-							class="text-center"
-						>
+						<b-card bg-variant="primary"
+								text-variant="white"
+								header="REGISTROS POR PAGINA"
+								class="text-center">
 							<b-form-group label-for="per-page-select" class="mb-0">
-								<b-form-select
-									id="per-page-select"
-									v-model="perPage"
-									:options="pageOptions"
-									size="sm"
-								></b-form-select>
+								<b-form-select id="per-page-select"
+											   v-model="perPage"
+											   :options="pageOptions"
+											   size="sm"></b-form-select>
 							</b-form-group>
 						</b-card>
 					</b-card-group>
@@ -347,59 +326,59 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 				<br />
 				<!--
-				<div>
-					<b-card-group deck>
-						<b-card
-							bg-variant="primary"
-							text-variant="white"
-							header="FILTRAR POR"
-							class="text-center"
-						>
-							<div class="accordion" role="tablist">
-								<b-card no-body>
-									<b-card-header header-tag="header" class="p-1" role="tab">
-										<b-button
-											block
-											v-b-toggle.accordion-1
-											variant="info"
-											style="font-size: 0.82em"
-										>
-											ESPECIALIDAD
-										</b-button>
-									</b-card-header>
-									<b-collapse
-										id="accordion-1"
-										visible
-										accordion="my-accordion"
-										role="tabpanel"
-									>
-										<b-card-body>
-											<b-form-group id="input-group-4">
-												<v-autocomplete
-													id="especialidad"
-													v-model="filter_especialidad"
-													:items="options_especialidad"
-													type="text"
-													solo
-													filled
-												></v-autocomplete>
-												<div v-show="filter_especialidad != null">
-													<b-button
-														@click="filter_especialidad = null"
-														title="Limpiar"
-													>
-														Limpiar
-													</b-button>
-												</div>
-											</b-form-group>
-										</b-card-body>
-									</b-collapse>
-								</b-card>
-							</div>
+		<div>
+			<b-card-group deck>
+				<b-card
+					bg-variant="primary"
+					text-variant="white"
+					header="FILTRAR POR"
+					class="text-center"
+				>
+					<div class="accordion" role="tablist">
+						<b-card no-body>
+							<b-card-header header-tag="header" class="p-1" role="tab">
+								<b-button
+									block
+									v-b-toggle.accordion-1
+									variant="info"
+									style="font-size: 0.82em"
+								>
+									ESPECIALIDAD
+								</b-button>
+							</b-card-header>
+							<b-collapse
+								id="accordion-1"
+								visible
+								accordion="my-accordion"
+								role="tabpanel"
+							>
+								<b-card-body>
+									<b-form-group id="input-group-4">
+										<v-autocomplete
+											id="especialidad"
+											v-model="filter_especialidad"
+											:items="options_especialidad"
+											type="text"
+											solo
+											filled
+										></v-autocomplete>
+										<div v-show="filter_especialidad != null">
+											<b-button
+												@click="filter_especialidad = null"
+												title="Limpiar"
+											>
+												Limpiar
+											</b-button>
+										</div>
+									</b-form-group>
+								</b-card-body>
+							</b-collapse>
 						</b-card>
-					</b-card-group>
-				</div>
-				-->
+					</div>
+				</b-card>
+			</b-card-group>
+		</div>
+		-->
 			</aside>
 
 			<!-- ================EDITAR PROVEEDOR======================== -->
@@ -411,42 +390,33 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<proveedores-update :proveedor="editar" :updateTable="testFetch" />
 			</b-modal>
 			<!-- ================ELIMINAR PROVEEDOR======================== -->
-			<b-modal
-				id="modal_eliminar"
-				ref="my-modal"
-				hide-footer
-				title="Eliminar"
-				ok-only
-			>
+			<b-modal id="modal_eliminar"
+					 ref="my-modal"
+					 hide-footer
+					 title="Eliminar"
+					 ok-only>
 				<div class="d-block text-center">
 					<h3>
 						¿Esta seguro de eliminar los datos de
 						{{ infoEliminar.proveedor.nombre }} ?
 					</h3>
 				</div>
-				<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
-					>Volver Atras</b-button
-				>
-				<b-button
-					class="mt-3"
-					variant="danger"
-					block
-					title="Eliminar"
-					@click="deleteproveedor(infoEliminar.proveedor.id_proveedor)"
-					>Eliminar</b-button
-				>
+				<b-button class="mt-2" block @click="hideModal" title="Volver Atras">Volver Atras</b-button>
+				<b-button class="mt-3"
+						  variant="danger"
+						  block
+						  title="Eliminar"
+						  @click="deleteproveedor(infoEliminar.proveedor.id_proveedor)">Eliminar</b-button>
 			</b-modal>
 
 			<!-- ==================================CREAR PDF================================== -->
-			<b-modal
-				size="xl"
-				ref="modal-pdfproveedor"
-				id="modal-pdfproveedor"
-				hide-footer
-			>
-				<template #modal-title
-					><h5 class="modal-title">Vista Previa</h5></template
-				>
+			<b-modal size="xl"
+					 ref="modal-pdfproveedor"
+					 id="modal-pdfproveedor"
+					 hide-footer>
+				<template #modal-title>
+					<h5 class="modal-title">Vista Previa</h5>
+				</template>
 				<proveedores-pdfdata :PDFproveedor="proveedorAPdf" />
 			</b-modal>
 			<!-- ==============================================================================-->
@@ -464,6 +434,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 	import ProveedoresAlta from "./ProveedoresAlta.vue";
 	import ProveedoresUpdate from "./ProveedoresUpdate.vue";
 	import ProveedoresPdfdata from "./ProveedoresPdfdata.vue";
+    const XLSX = require("xlsx");
 
 	import axios from "axios";
 
@@ -596,6 +567,26 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					console.log(error);
 				}
 			},
+            uploadFile() {
+                this.images = this.$refs.archivo.files[0];
+                console.log(this.images);
+            },
+            async importarExcel() {
+                const data = await this.images.arrayBuffer();
+                let workbook = XLSX.read(data);
+                var sheet_name_list = workbook.SheetNames;
+                console.log('workbook1');
+                console.log(workbook);
+                console.log('SheetNames');
+                console.log(workbook.SheetNames);
+                let ProveedorAPI = new APIControler();
+                let datos = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+                console.log("datos");
+                console.log(datos);
+                ProveedorAPI.apiUrl.pathname = "proveedor_estudios/";
+                datos.forEach(element => ProveedorAPI.postData(element));
+                this.testFetch();
+            },
 			altaproveedor() {},
 			//Funcion para mostrar el modal
 			showModal() {

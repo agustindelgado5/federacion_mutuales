@@ -78,7 +78,7 @@
 					id="ub"
 					v-model="estudio.ub"
 					:state="validacion.ub.estado"
-					type="decimal"
+					type="number"
 					placeholder="Ingrese la U.B. correspondiente al estudio "
 					invalid-feedback="Complete este campo"
 				>
@@ -124,7 +124,7 @@
 					id="precio_socio"
 					v-model="estudio.precio_socio"
 					:state="validacion.precio_socio.estado"
-					type="decimal"
+					type="number"
 					placeholder="Ingrese el precio correspondiente al estudio "
 					invalid-feedback="Complete este campo"
 				>
@@ -142,7 +142,7 @@
 					id="precio_federacion"
 					v-model="estudio.precio_federacion"
 					:state="validacion.precio_federacion.estado"
-					type="decimal"
+					type="number"
 					placeholder="Ingrese el precio correspondiente al estudio "
 					invalid-feedback="Complete este campo"
 				>

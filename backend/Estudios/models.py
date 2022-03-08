@@ -35,7 +35,7 @@ class proveedor(models.Model):
     class Meta:
         db_table = "proveedores"
         verbose_name = "proveedor"
-        verbose_name_plural = "proveedoreses"
+        verbose_name_plural = "proveedores"
         ordering = ["id_proveedor"]
 
     def __str__(self):
