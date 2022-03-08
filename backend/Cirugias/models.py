@@ -17,11 +17,10 @@ class cirugias(models.Model):
     codigo_institucion = models.ForeignKey(institutos, on_delete=models.DO_NOTHING,null=True)
     descripcion = models.CharField(max_length=30) #codigo mostrado al usuario
     nivel = models.IntegerField()
-    numero_ayudantes = models.IntegerField(null=True)
-    honorario_cirujano = models.DecimalField(null=True,max_digits=8, decimal_places=2)
-    honorario_ayudante = models.DecimalField(null=True,max_digits=8, decimal_places=2)
-    
-    observacion=models.CharField(max_length=60)
+    numero_ayudantes = models.IntegerField(blank=True, null=True)
+    honorario_cirujano = models.DecimalField(blank=True, null=True,max_digits=8, decimal_places=2)
+    honorario_ayudante = models.DecimalField(blank=True, null=True,max_digits=8, decimal_places=2)
+    observacion=models.CharField(blank=True, max_length=60)
 
     @property
     def honorario_total(self):

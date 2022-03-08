@@ -3,10 +3,10 @@
 		<div id="ventasOpticas" class="myTable">
 			<!--HEAD DE LA PAGINA -->
 			<vue-headful
-				title="VentasOpticas - Federación Tucumana de Mutuales"
+				title="Ventas Opticas - Federación Tucumana de Mutuales"
 			></vue-headful>
 
-			<h2>Listado de VentasOpticas</h2>
+			<h2>Listado de Ventas Opticas</h2>
 			<b-button
 				@click="testFetch"
 				class="mb-4"
@@ -26,7 +26,7 @@
 				style="color: white"
 			>
 				<v-icon dark> mdi-plus </v-icon>
-				Nueva VentaOptica
+				Nueva Venta Optica
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
@@ -56,10 +56,10 @@
 					ok-only
 				>
 					<div class="d-block text-center" v-if="selected.length === rows">
-						<h3>¿Esta seguro de eliminar todos los registros ?</h3>
+						<h3>¿Esta seguro de eliminar todos los registros?</h3>
 					</div>
 					<div class="d-block text-center" v-else>
-						<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
+						<h3>¿Esta seguro de eliminar {{ selected.length }} registros?</h3>
 					</div>
 
 					<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
@@ -164,14 +164,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						 responsive
 						 hover
 						 :items="
-						tabla_ventasOpticas
-							|Socio(filter_socio)
-							
+						tabla_ventasOpticas		
 					"
 						 show-empty
 						 :per-page="perPage"
 						 :current-page="currentPage"
-						 :sticky-header="true"
 						 :no-border-collapse="false"
 						 ref="tablaregistros"
 						 id="tablaregistros"
@@ -195,9 +192,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</template>
 					</template>
 
-					<template slot="cell(codigo_seguimiento)" slot-scope="data">
-						<b>{{ data.value }}</b>
-					</template>
 					<template slot="cell(numero_socio)" slot-scope="data">
 						{{ data.value.split("/")[4] }}
 					</template>
@@ -207,12 +201,21 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<div class="mt-3">
 							<b-button-group>
 								<!-- ==================================CREAR PDF================================== -->
+								<b-button
+									variant="info"
+									id="button-1"
+									title="Mostrar Info"
+									@click="row.toggleDetails"
+									:disabled="btn_mostrar"
+								>
+									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+								</b-button>
 								<!-- Generar PDF -->
 								<b-button @click="generarPDF(row.item)"
 										  id="btn_down_pdf"
-										  class="mb-0 ml-2"
+										  class="mb-0"
 										  title="Generar PDF"
-										  variant="info"
+										  variant="secondary"
 										  style="color: white"
 										  :disabled="btn_down_pdf">
 									<!-- :disabled="btn_down_pdf" -->
@@ -226,7 +229,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										<path fill-rule="evenodd"
 											  d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z" />
 									</svg>
-									Generar
+									PDF
 									<!-- ============================================================================== -->
 								</b-button>
 								<b-button variant="warning"
@@ -250,6 +253,48 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							</b-button-group>
 						</div>
 					</template>
+					<template #row-details="row">
+						<b-card title="Datos de la venta: ">
+							<div>
+								<b-list-group horizontal>
+									<b-list-group class="col-6">
+										<b-list-group-item
+											><b>N° Venta:</b>
+											{{ row.item.id_venta }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>N° Socio:</b>
+											{{ row.item.numero_socio.split("/")[4] }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Lente:</b> 
+											{{ row.item.lente.split("/")[4] }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Fecha Receta:</b> 
+											{{ row.item.fecha_receta }}</b-list-group-item
+										>
+									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-6">
+										<b-list-group-item
+											><b>Cristal Derecho:</b>
+											{{ row.item.cristal_derecho.split("/")[4] }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Cristal Izquierdo:</b>
+											{{ row.item.cristal_izquierdo.split("/")[4] }}
+											</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Fecha Venta:</b> 
+											{{ row.item.fecha_venta }}
+										</b-list-group-item>
+									</b-list-group>
+								</b-list-group>
+							</div>
+						</b-card>
+					</template>
 				</b-table>
 				<!-- ================ELIMINAR VENTA OPTICA======================== -->
 
@@ -263,7 +308,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					<div class="d-block text-center">
 						<h3>
 							¿Esta seguro de eliminar los datos de la venta optica
-							{{ infoEliminar.ventaOptica.codigo_seguimiento}}?
+							{{ infoEliminar.ventaOptica.id_venta}}?
 						</h3>
 					</div>
 					<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
@@ -273,7 +318,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						class="mt-3"
 						variant="danger"
 						block
-						@click="deleteVentaOptica(infoEliminar.ventaOptica.codigo_seguimiento)"
+						@click="deleteVentaOptica(infoEliminar.ventaOptica.id_venta)"
 						title="Eliminar"
 					>
 						Eliminar
@@ -418,6 +463,35 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								>{{ value.label }}:
 								{{ ventaOpticaAPDF[value.key] }}</b-list-group-item
 							>
+							<b-list-group-item
+								><b>N° Venta:</b>
+								{{ ventaOpticaAPDF.id_venta }}</b-list-group-item
+							>
+							<b-list-group-item
+								><b>N° Socio:</b>
+								{{ ventaOpticaAPDF.numero_socio }}</b-list-group-item
+							>
+							<b-list-group-item
+								><b>Lente:</b> 
+								{{ ventaOpticaAPDF.lente  | Split}}</b-list-group-item
+							>
+							<b-list-group-item
+								><b>Fecha Receta:</b> 
+								{{ ventaOpticaAPDF.fecha_receta }}</b-list-group-item
+							>
+							<b-list-group-item
+								><b>Cristal Derecho:</b>
+								{{ ventaOpticaAPDF.cristal_derecho | Split}}</b-list-group-item
+							>
+							<b-list-group-item
+								><b>Cristal Izquierdo:</b>
+								{{ ventaOpticaAPDF.cristal_izquierdo| Split}}
+								</b-list-group-item
+							>
+							<b-list-group-item
+								><b>Fecha Venta:</b> 
+								{{ ventaOpticaAPDF.fecha_venta }}
+							</b-list-group-item>
 						</b-list-group>
 					</section>
 				</section>
@@ -429,7 +503,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 <script>
 let api = new URL("http://localhost");
-api.pathname = "ventasOpticas";
+api.pathname = "ventasOpticas/";
 //api.port = 8000;
 api.port = 8081;
 
@@ -445,8 +519,9 @@ export default {
     return {
       tabla_ventasOpticas: [],
       fields: [
-        { key: "codigo_seguimiento", label: "Código Armazon", sortable: true },
+        { key: "id_venta", label: "N° venta", sortable: true },
         { key: "numero_socio", label: "Número Socio", sortable: true },
+        { key: "fecha_venta", label: "Fecha de venta", sortable: true },
         { key: "action", label: "Acciones", variant: "secondary" },
       ],
     	filter: null,
@@ -462,7 +537,7 @@ export default {
 				},
 				selected: [],
 				//Botones
-				btn_down_pdf: false, //Desabilito los botones, hasta que muestre los datos
+				btn_down_pdf: false, //Deshabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
 				btn_limpiar: true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
@@ -488,7 +563,7 @@ export default {
 				return this.totalRows;
 			},
 			id() {
-				return this.tabla_ventasOpticas.codigo_seguimiento;
+				return this.tabla_ventasOpticas.id_venta;
 			},
 			sortOptions() {
 			// Create an options list from our fields
@@ -506,8 +581,6 @@ export default {
 					const data = await res.json();
 
 					var lista_ventasOpticas = data.results;
-
-					console.log(lista_ventasOpticas);
 
 					this.tabla_ventasOpticas = lista_ventasOpticas;
 
@@ -546,9 +619,9 @@ export default {
 			altaVentaOptica() {},
 
 			//Elimino una venta Optica
-			async deleteVentaOptica(codigo_seguimiento) {
+			async deleteVentaOptica(id_venta) {
 				axios
-					.delete("http://localhost:8081/ventasOpticas/" + codigo_seguimiento + "/")
+					.delete("http://localhost:8081/ventasOpticas/" + id_venta + "/")
 					.then((datos) => {
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
@@ -570,7 +643,7 @@ export default {
 					for (var i = 0; i < cantidad; i++) {
 						axios.delete(
 							"http://localhost:8081/ventasOpticas/" +
-								this.selected[i].codigo_seguimiento +
+								this.selected[i].id_venta +
 								"/"
 						);
 						if (this.selected.length == 0) {
@@ -649,8 +722,9 @@ export default {
 			async generarPDF(item) {
 				
 				let resultSocio = (await axios.get(item.numero_socio)).data;
-			  
-				this.ventaOpticaAPDF = { ...item };
+				let resultVenta = (await axios.get("http://localhost:8081/ventasOpticas/"+item.id_venta)).data;
+			  	this.ventaOpticaAPDF={ ...resultVenta}
+				// this.ventaOpticaAPDF = { ...item };
 			   
 				this.ventaOpticaAPDF.numero_socio =
 					resultSocio.apellido + ", " + resultSocio.nombre;

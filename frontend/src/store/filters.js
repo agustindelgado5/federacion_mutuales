@@ -17,6 +17,12 @@ Vue.filter("Date", (value) => {
 	return dayjs(value).format("DD/MM/YYYY");
 });
 
+Vue.filter("Split", (value) => {
+	const v=value?value.split("/")[4]:value
+	return v
+});
+
+
 Vue.filter("fecha_asociacion_range", (value, desde, hasta) => {
 	if (desde && hasta) {
 		if (desde <= hasta) {
@@ -151,11 +157,39 @@ Vue.filter("Servicio", (value, option) => {
 	}
 });
 
+Vue.filter("MutualesOrden", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.mutual == option);
+	} else {
+		return value;
+	}
+});
+
 Vue.filter("Realizado", (value, option) => {
 	if (option != null) {
 		let Bool = false
 		if(option ==0) Bool = true
 		return value.filter((f) => f.realizado == Bool);
+	} else {
+		return value;
+	}
+});
+
+Vue.filter("Vencida", (value, option) => {
+	if (option != null) {
+		let Bool = false
+		if(option ==0) Bool = true
+		return value.filter((f) => f.vencida == Bool);
+	} else {
+		return value;
+	}
+});
+
+Vue.filter("Presentada", (value, option) => {
+	if (option != null) {
+		let Bool = false
+		if(option ==0) Bool = true
+		return value.filter((f) => f.presentada == Bool);
 	} else {
 		return value;
 	}
@@ -260,6 +294,16 @@ Vue.filter("Consultorio", (value, option) => {
 Vue.filter("ModoPago", (value, option) => {
 	if (option != null) {
 		return value.filter((f) => f.modo_pago == option);
+	} else {
+		return value;
+	}
+});
+
+//Filtros en Cirugias
+
+Vue.filter("Institucion", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.institucion == option);
 	} else {
 		return value;
 	}
