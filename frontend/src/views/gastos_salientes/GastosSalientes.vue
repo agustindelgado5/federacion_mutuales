@@ -6,6 +6,7 @@
 			></vue-headful>
 
 			<h2>Listado de Gastos Salientes</h2>
+			<h3>Monto total: ${{montoTotal}}</h3>
 			<b-button
 				@click="testFetch"
 				class="mb-4"
@@ -496,6 +497,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "modo_pago", label: "Modo de pago", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
+				montoTotal:0,
 				selected: [],
 				filter: null,
 				totalRows: 1, //Total de filas
@@ -541,6 +543,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			};
 		},
 		computed: {
+			
 			rows() {
 				return (this.totalRows = this.tabla_gastosSalientes.length);
 			},
@@ -560,6 +563,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 		},
 		methods: {
+			getMontoTotal(filteredItems){
+			const initialValue = 0;
+			const sumWithInitial = filteredItems.reduce(
+				(previousValue, currentValue) => parseInt(previousValue) + (parseInt(currentValue.total)||0),
+				initialValue
+			);
+			this.montoTotal=sumWithInitial
+			return sumWithInitial
+			},
+
 			async testFetch() {
 				try {
 					const res = await fetch(api);
@@ -570,6 +583,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					console.log(lista_gastosSalientes);
 
 					this.tabla_gastosSalientes = lista_gastosSalientes;
+					this.getMontoTotal(this.tabla_gastosSalientes)
 				} catch (error) {
 					console.log(error);
 				}
@@ -640,6 +654,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				// Trigger pagination to update the number of buttons/pages due to filtering
 				this.totalRows = filteredItems.length;
 				this.currentPage = 1;
+				this.getMontoTotal(filteredItems)
 			},
 
 			//-----Funciones de seleccion
