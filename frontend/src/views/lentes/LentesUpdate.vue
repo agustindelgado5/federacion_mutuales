@@ -150,24 +150,6 @@
 					role="tabpanel"
 				>
 					<b-card-body>
-						<b-form-group
-							label="Precio Laboratorio"
-							label-for="precio_laboratorio"
-						>
-							<b-form-input
-								id="precio_laboratorio"
-								v-model="lente.precio_laboratorio"
-								:state="validacion.precio_laboratorio.estado"
-								type="number"
-								placeholder="*Ingrese el numero de ayudantes"
-								invalid-feedback="Complete este campo"
-							>
-							</b-form-input>
-							<b-form-invalid-feedback id="precio_laboratorio-live-feedback"
-								>{{ validacion.precio_laboratorio.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
-
 						<b-form-group label="Precio Optica" label-for="precio_optica">
 							<b-form-input
 								id="precio_optica"

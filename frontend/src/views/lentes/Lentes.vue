@@ -30,7 +30,7 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<lentes-alta :updateTable="testFetch"/>
+				<lentes-alta :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ============================================================ -->
@@ -154,7 +154,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
 			<!-- ======================================== -->
-			<section>
+			<section class="container">
 				<!-- ======== Tabla con los registros ======= -->
 
 				<b-table
@@ -163,7 +163,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					sortable
 					responsive
 					hover
-					:items="tabla_lentes"
+					:items="
+						tabla_lentes | Marca(filter_marca) | Material(filter_material)
+					"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
@@ -254,31 +256,28 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								<b-list-group horizontal>
 									<b-list-group class="col-3">
 										<b-list-group-item
-											><b>ID:</b>
-											{{ row.item.id_lente }}</b-list-group-item
+											><b>ID:</b> {{ row.item.id_lente }}</b-list-group-item
 										>
 										<b-list-group-item
 											><b>Diámetro del cristal:</b>
 											{{ row.item.diametro_cristal }}</b-list-group-item
 										>
 										<b-list-group-item
-											><b>Largo de las patillas:</b> 
+											><b>Largo de las patillas:</b>
 											{{ row.item.largo_patillas }}</b-list-group-item
 										>
 										<b-list-group-item
-											><b>Ancho del puente:</b> 
+											><b>Ancho del puente:</b>
 											{{ row.item.ancho_puente }}</b-list-group-item
 										>
 									</b-list-group>
 									&nbsp;
 									<b-list-group class="col-5">
 										<b-list-group-item
-											><b>Marca:</b>
-											{{ row.item.marca }}</b-list-group-item
+											><b>Marca:</b> {{ row.item.marca }}</b-list-group-item
 										>
 										<b-list-group-item
-											><b>Color:</b>
-											{{ row.item.color }}</b-list-group-item
+											><b>Color:</b> {{ row.item.color }}</b-list-group-item
 										>
 										<b-list-group-item
 											><b>Material:</b>
@@ -291,27 +290,28 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									&nbsp;
 									<b-list-group class="col-4">
 										<b-list-group-item
-											><b>Precio optica:</b>
-											${{ row.item.precio_optica }}</b-list-group-item
+											><b>Precio optica:</b> ${{
+												row.item.precio_optica
+											}}</b-list-group-item
 										>
 										<b-list-group-item
-											><b>Precio mutual:</b>
-											${{ row.item.precio_mutual }}</b-list-group-item
+											><b>Precio mutual:</b> ${{
+												row.item.precio_mutual
+											}}</b-list-group-item
 										>
 										<b-list-group-item>
-											<b>Precio venta:</b> 
+											<b>Precio venta:</b>
 											${{ row.item.precio_venta }}
 										</b-list-group-item>
 										<b-list-group-item>
-											<b>Precio tarjeta:</b> 
+											<b>Precio tarjeta:</b>
 											${{ row.item.precio_tarjeta }}
 										</b-list-group-item>
 										<b-list-group-item>
-											<b>Stock:</b> 
+											<b>Stock:</b>
 											{{ row.item.stock }}
 										</b-list-group-item>
 									</b-list-group>
-									
 								</b-list-group>
 							</div>
 						</b-card>
@@ -332,6 +332,119 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					</b-col>
 				</b-container>
 			</section>
+
+			<aside v-show="rows > 0">
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="REGISTROS POR PAGINA"
+							class="text-center"
+						>
+							<b-form-group label-for="per-page-select" class="mb-0">
+								<b-form-select
+									id="per-page-select"
+									v-model="perPage"
+									:options="pageOptions"
+									size="sm"
+								></b-form-select>
+							</b-form-group>
+						</b-card>
+					</b-card-group>
+				</div>
+				<br />
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="FILTRAR POR"
+							class="text-center"
+						>
+							<div class="accordion" role="tablist">
+								<b-card no-body>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-filter-1
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											MATERIAL
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-filter-1"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="material"
+													v-model="filter_material"
+													:items="options_material"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_material != null">
+													<b-button
+														@click="filter_material = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-filter-2
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											MARCA
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-filter-2"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="proveedor"
+													v-model="filter_marca"
+													:items="options_marca"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_marca != null">
+													<b-button
+														@click="filter_marca = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+								</b-card>
+							</div>
+						</b-card>
+					</b-card-group>
+				</div>
+			</aside>
 
 			<!-- ================ELIMINAR Lente======================== -->
 			<b-modal
@@ -463,6 +576,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
+				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
 				buscar: "",
 				editar: {},
 				selected: [],
@@ -480,14 +594,23 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				btn_eliminar: false,
 				btn_select: false,
 				btn_limpiar: true,
+
+				//Opciones de filtro
+				options_material: [
+					{ value: null, text: "Elija un material", selected: true },
+				],
+				options_marca: [
+					{ value: null, text: "Elija una marca", selected: true },
+				],
+
+				//Campos a filtrar
+				filter_material: null,
+				filter_marca: null,
 			};
 		},
 		computed: {
 			rows() {
 				return (this.totalRows = this.tabla_lentes.length);
-			},
-			id() {
-				return this.tabla_lentes.id_lente;
 			},
 
 			rowsFilter() {
@@ -513,6 +636,26 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					console.log(lista_lentes);
 
 					this.tabla_lentes = lista_lentes;
+
+					this.tabla_lentes.forEach((element) => {
+						let opcionMarca = {};
+						let opcionMat = {};
+						opcionMarca.value = opcionMarca.text = element.marca;
+						opcionMat.value = opcionMat.text = element.material;
+						//opcionMattext = element.cod_farmacia.split("/")[4];
+						if (
+							this.options_material.find((x) => x.value == opcionMat.value)
+						) {
+							console.log(opcionMat, " ya se encuentra en el listado");
+						} else {
+							this.options_material.push(opcionMat);
+						}
+						if (this.options_marca.find((x) => x.value == opcionMarca.value)) {
+							console.log(opcionMarca, " ya se encuentra en el listado");
+						} else {
+							this.options_marca.push(opcionMarca);
+						}
+					});
 				} catch (error) {
 					console.log(error);
 				}
@@ -557,9 +700,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				try {
 					for (var i = 0; i < cantidad; i++) {
 						axios.delete(
-							"http://localhost:8081/lentes/" +
-								this.selected[i].id_lente +
-								"/"
+							"http://localhost:8081/lentes/" + this.selected[i].id_lente + "/"
 						);
 						if (this.selected.length == 0) {
 							console.log("Eliminacion Exitosa");
@@ -649,5 +790,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		overflow: auto;
 		transition: 0.5s;
 		width: 100%;
+	}
+	.container {
+		float: left;
+		width: 80%;
+	}
+	aside {
+		float: right;
+		width: 20%;
 	}
 </style>

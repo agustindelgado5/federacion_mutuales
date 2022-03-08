@@ -299,6 +299,8 @@ Vue.filter("ModoPago", (value, option) => {
 	}
 });
 
+
+
 //Filtros en Cirugias
 
 Vue.filter("Institucion", (value, option) => {
@@ -326,3 +328,23 @@ Vue.filter("Farmacias", (value, option) => {
 		return value;
 	}
 });
+
+
+//Lentes
+Vue.filter("Material", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.material == option);
+	} else {
+		return value;
+	}
+});
+
+Vue.filter("Marca", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.marca == option);
+	} else {
+		return value;
+	}
+});
+
+
