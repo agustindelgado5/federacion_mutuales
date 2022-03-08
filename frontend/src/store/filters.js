@@ -308,3 +308,21 @@ Vue.filter("Institucion", (value, option) => {
 		return value;
 	}
 });
+
+
+//Recetas
+
+Vue.filter("Medicamentos", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.medicamento == option);
+	} else {
+		return value;
+	}
+});
+Vue.filter("Farmacias", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.farmacia == option);
+	} else {
+		return value;
+	}
+});
