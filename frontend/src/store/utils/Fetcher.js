@@ -104,4 +104,9 @@ export class Fetcher {
         let token = this.getJWT()
         return (!token || token == {} || token == [] || token === 'undefined' || token === null) ? false : true
     }
+    async getUsers() {
+        try {
+            this.setPathname("auth/users")
+        } catch (error) { console.error(error); }
+    }
 }
