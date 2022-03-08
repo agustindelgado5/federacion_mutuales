@@ -331,6 +331,7 @@
 <script>
 	import { APIControler } from "@/store/APIControler";
 	import axios from "axios";
+    import { mapState, mapActions } from "vuex";
 
 	export default {
 		props: {
@@ -493,6 +494,7 @@
 					)
 					.then(function (data) {
 						swal("Operación Exitosa", " ", "success");
+                        sessionStorage.removeItem("pagos");
 					})
 					.catch(function (error) {
 						const mje =

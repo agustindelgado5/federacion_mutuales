@@ -801,7 +801,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 	import OrdenesUpdate from "./OrdenesUpdate.vue";
 	import VueHtml2pdf from "vue-html2pdf";
 
-	import axios from "axios";
+    import _ from "lodash";
+    import axios from "axios";
+    import { mapState, mapActions } from "vuex";
 
 	export default {
 		components: { OrdenesAlta, OrdenesUpdate, VueHtml2pdf },
@@ -1039,6 +1041,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
 						this.hideModal();
+                        sessionStorage.removeItem("pagos");
 					})
 					.catch((error) => {
 						swal("¡ERROR!", "Se ha detectado un problema ", "error");
@@ -1059,6 +1062,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								this.selected[i].numero_orden +
 								"/"
 						);
+                        sessionStorage.removeItem("pagos");
 						if (this.selected.length == 0) {
 							console.log("Eliminacion Exitosa");
 							break;

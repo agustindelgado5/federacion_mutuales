@@ -13,11 +13,11 @@
     </form>-->
             <p style="text-align:center;font-size:1.7em;">Accesos Rápidos</p>
             <div id="accesosrapidos">
-                <b-button class="accesorapido" style="background-color:darkorange;">Acceso 1</b-button>
-                <b-button class="accesorapido" style="background-color:dodgerblue;">Acceso 2</b-button>
-                <b-button class="accesorapido" style="background-color:deeppink;">Acceso 3</b-button>
-                <b-button class="accesorapido" style="background-color:dodgerblue;">Acceso 4</b-button>
-                <b-button class="accesorapido" style="background-color:darkorange;">Acceso 5</b-button>
+                <b-button class="accesorapido" href="/socios/" style="background-color:darkorange;">Agregar Socio</b-button>
+                <b-button class="accesorapido" href="/cuotas/" style="background-color:dodgerblue;">Cuota Socio</b-button>
+                <b-button class="accesorapido" href="/estudios/" style="background-color:deeppink;">Autorizar Estudio</b-button>
+                <b-button class="accesorapido" href="/ordenes/" style="background-color:dodgerblue;">Orden de Consulta</b-button>
+                <b-button class="accesorapido" href="/pagadoprofesionales/" style="background-color:darkorange;">Pago a Profesional</b-button>
             </div>
         </b-jumbotron>
     </div>
@@ -87,14 +87,16 @@
         margin: 1em;
         text-align: center;
         align-content: center;
+        color: white !important;
     }
 
         .accesorapido:hover, .accesorapido:focus {
-            color: black;
+            color: black !important;
             background-color: white !important;
         }
 
     #accesosrapidos {
         text-align: center;
+        color: white;
     }
 </style>

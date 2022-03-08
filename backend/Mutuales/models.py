@@ -9,7 +9,7 @@ Construyo la entidad para los servicios
 class servicios(models.Model):
     id_servicio=models.AutoField(primary_key=True)
     servicio=models.CharField(max_length=20)
-    created=models.DateTimeField(auto_now_add=True) 
+    created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now_add=True)
     
     class Meta:

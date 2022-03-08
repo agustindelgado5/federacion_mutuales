@@ -69,19 +69,19 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="*Mes que se pago"
-						  label-for="mespagado">
-				<b-form-select id="mespagado"
-							   v-model="pagadoProfesional.mespagado"
-							   :state="validacion.mespagado.estado"
-							   type="text"
-							   placeholder="Ingrese el mes pagado"
-							   invalid-feedback="Complete este campo"
-							   required
-							   :options="meses">
-				</b-form-select>
-				<b-form-invalid-feedback id="mespagado-live-feedback">
-					{{ validacion.mespagado.mensaje }}
+			<b-form-group title="El mes que corresponde el pago"
+						  label="*Mes"
+						  label-for="periodo"
+						  @submit.stop.prevent="handleSubmit">
+				<month-picker-input @change="setPeriodo"
+									id="periodo"
+									:state="validacion.periodo.estado"
+									:default-month="new Date().getMonth()+1"
+									:lang="'es'"
+									required>
+				</month-picker-input>
+				<b-form-invalid-feedback id="modo_pago-live-feedback">
+					{{ validacion.periodo.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 		</b-form>
@@ -97,8 +97,12 @@
 
 <script>
 	import { APIControler } from "@/store/APIControler";
-    import { mapState, mapActions } from "vuex";
+	import { mapState, mapActions } from "vuex";
+    import { MonthPickerInput } from 'vue-month-picker'
 	export default {
+        components: {
+            MonthPickerInput,
+        },
 		props: {
 			updateTable: Function,
 		},
@@ -115,7 +119,7 @@
 					total: { estado: null, mensaje: "" },
 					fecha: { estado: null, mensaje: "" },
 					modo_pago: { estado: null, mensaje: "" },
-                    mespagado: { estado: null, mensaje: "" },
+                    periodo: { estado: null, mensaje: "" },
 				},
 				respuesta: {},
 				options1: [
@@ -143,6 +147,9 @@
 			};
 		},
 		methods: {
+            setPeriodo(date) {
+				this.pagadoProfesional.periodo = date.from.toLocaleDateString('en-CA')
+            },
             async getProfesionales() {
                 let profesionalesAPI = new APIControler();
                 profesionalesAPI.apiUrl.pathname = "profesionales/";
@@ -174,7 +181,7 @@
 				PagadoProfesionalAPI.apiUrl.pathname = "pagadoprofesionales/";
 				this.respuesta = await PagadoProfesionalAPI.postData(this.pagadoProfesional);
 				this.cargarFeedback();
-                Storage.removeItem("pagos");
+                sessionStorage.removeItem("pagos");
 				this.updateTable();
 			},
 

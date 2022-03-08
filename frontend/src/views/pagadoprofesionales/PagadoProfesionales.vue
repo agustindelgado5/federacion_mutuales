@@ -153,26 +153,24 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			</div>
 
 			<!-- ======== Tabla con los registros ======= -->
-			<b-table
-				:fields="fields"
-				striped
-				sortable
-				responsive
-				hover
-				:items="tabla_pagadoProfesionales"
-				show-empty
-				:per-page="perPage"
-				:current-page="currentPage"
-				:sticky-header="true"
-				:no-border-collapse="false"
-				ref="tablaregistros"
-				id="tablaregistros"
-				:filter="filter"
-				@filtered="onFiltered"
-				@row-selected="seleccionar_una"
-				selectable
-				select-mode="multi"
-			>
+			<b-table :fields="fields"
+					 striped
+					 sortable
+					 responsive
+					 hover
+					 :items="tabla_pagadoProfesionales"
+					 show-empty
+					 :per-page="perPage"
+					 :current-page="currentPage"
+					 :sticky-header="true"
+					 :no-border-collapse="false"
+					 ref="tablaregistros"
+					 id="tablaregistros"
+					 :filter="filter"
+					 @filtered="onFiltered"
+					 @row-selected="seleccionar_una"
+					 selectable
+					 select-mode="multi">
 				<template #empty="">
 					<b>No hay registros para mostrar</b>
 				</template>
@@ -184,7 +182,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<template slot="cell(fecha)" slot-scope="data">
 					{{ data.value | Date}}
 				</template>
-
+				<template slot="cell(periodo)" slot-scope="data">
+					{{'Mes:' + data.value.split('-')[1] + ' Año:' + data.value.split('-')[0]}}
+				</template>
 				<template #cell(selected)="{ rowSelected }">
 					<template v-if="rowSelected">
 						<span aria-hidden="true">&check;</span>
@@ -199,35 +199,29 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<template slot="cell(action)" slot-scope="row">
 					<div class="mt-3">
 						<b-button-group>
-							<b-button
-								variant="info"
-								id="button-1"
-								title="Mostrar Info"
-								@click="row.toggleDetails"
-								:disabled="btn_mostrar"
-							>
+							<b-button variant="info"
+									  id="button-1"
+									  title="Mostrar Info"
+									  @click="row.toggleDetails"
+									  :disabled="btn_mostrar">
 								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
 							</b-button>
 
-							<b-button
-								variant="warning"
-								id="button-2"
-								title="Editar este registro"
-								v-b-modal.modal-editar
-								@click="editarPagadoProfesional(row.item, row.index)"
-								:disabled="btn_editar"
-							>
+							<b-button variant="warning"
+									  id="button-2"
+									  title="Editar este registro"
+									  v-b-modal.modal-editar
+									  @click="editarPagadoProfesional(row.item, row.index)"
+									  :disabled="btn_editar">
 								<v-icon class="mr-2"> mdi-pencil </v-icon>
 								Editar
 							</b-button>
 
-							<b-button
-								variant="danger"
-								id="button-3"
-								@click="showModalinfo(row.item, row.index)"
-								title="Eliminar este registro"
-								:disabled="btn_eliminar"
-							>
+							<b-button variant="danger"
+									  id="button-3"
+									  @click="showModalinfo(row.item, row.index)"
+									  title="Eliminar este registro"
+									  :disabled="btn_eliminar">
 								<v-icon class="mr-2"> mdi-delete </v-icon>
 								Eliminar
 							</b-button>
@@ -240,26 +234,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<div>
 							<b-list-group horizontal>
 								<b-list-group class="col-3">
-									<b-list-group-item
-										><b>Id pago:</b> {{ row.item.id_pagadoprofesionales }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Id Medico:</b>
-										{{ row.item.id_medico }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Total:</b>
-										{{ row.item.total }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Fecha:</b> {{ row.item.fecha }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Modo de pago:</b> {{ row.item.modo_pago }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Mes pagado:</b> {{ row.item.mespagado }}</b-list-group-item
-									>
+									<b-list-group-item><b>Id pago:</b> {{ row.item.id_pagadoprofesionales }}</b-list-group-item>
+									<b-list-group-item>
+										<b>Id Medico:</b>
+										{{ row.item.id_medico }}
+									</b-list-group-item>
+									<b-list-group-item>
+										<b>Total:</b>
+										{{ row.item.total }}
+									</b-list-group-item>
+									<b-list-group-item><b>Fecha:</b> {{ row.item.fecha }}</b-list-group-item>
+									<b-list-group-item><b>Modo de pago:</b> {{ row.item.modo_pago }}</b-list-group-item>
+									<b-list-group-item><b>Mes pagado:</b> {{ row.item.periodo }}</b-list-group-item>
 								</b-list-group>
 								&nbsp;
 							</b-list-group>
@@ -340,7 +326,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
                     { key: "total", label: "Total", sortable: true },
 					{ key: "fecha", label: "Fecha", sortable: true },
 					{ key: "modo_pago", label: "Modo de pago", sortable: true },
-                    { key: "mespagado", label: "Mes Pagado", sortable: true },
+                    { key: "periodo", label: "Mes Pagado", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				selected: [],
@@ -425,7 +411,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
 						this.hideModal();
-                        Storage.removeItem("pagos");
+                        sessionStorage.removeItem("pagos");
 					})
 					.catch((error) => {
 						swal("¡ERROR!", "Se ha detectado un problema ", "error");
@@ -446,7 +432,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								this.selected[i].id_pagoprofesional +
 								"/"
 						);
-                        Storage.removeItem("pagos");
+                        sessionStorage.removeItem("pagos");
 						if (this.selected.length == 0) {
 							console.log("Eliminacion Exitosa");
 							break;

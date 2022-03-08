@@ -16,7 +16,7 @@ class pagadoProfesionales(models.Model):
     total = models.DecimalField(decimal_places=2, max_digits=6)
     fecha = models.DateField(default=datetime.now)
     modo_pago=models.CharField(max_length=20, choices=modos_pagos)
-    mespagado=models.CharField(max_length=40, choices=meses)
+    periodo = models.DateField(default=datetime.now)
     
     class Meta:
         db_table = "pagadoProfesionales"
@@ -34,6 +34,6 @@ class pagadoProfesionales(models.Model):
             + "-"
             + self.total
             + "-"
-            + str(self.mespagado)
+            + str(self.periodo)
         )
         return cadena

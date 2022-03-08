@@ -293,7 +293,7 @@ api.pathname = "ordenes";
 api.port = 8081;
 
 import VueHtml2pdf from "vue-html2pdf";
-
+import { mapState, mapActions } from "vuex";
 import axios from "axios";
 
 export default {
@@ -385,6 +385,7 @@ async declareOrden(nro_orden) {
           swal("Operación Exitosa", " ", "success");
           console.log(datos);
           this.hideModal();
+          sessionStorage.removeItem("pagos");
         })
         .catch((error) => {
           swal("¡ERROR!", "Se ha detectado un problema ", "error");

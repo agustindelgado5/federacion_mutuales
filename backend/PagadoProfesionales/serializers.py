@@ -11,5 +11,5 @@ class PagadoProfesionalesSerializer(serializers.HyperlinkedModelSerializer):
             "total",
             "fecha",
             "modo_pago",
-            "mespagado",
+            "periodo",
         )

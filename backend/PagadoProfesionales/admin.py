@@ -5,8 +5,8 @@ from .models import pagadoProfesionales
 
 
 class pagadoProfesionalesAdmin(admin.ModelAdmin):
-    list_display = ("id_pagoprofesional", "id_medico", "total", "fecha", "modo_pago", "mespagado")
-    search_fields = ("id_pagoprofesional", "id_medico", "total", "fecha", "modo_pago", "mespagado")
+    list_display = ("id_pagoprofesional", "id_medico", "total", "fecha", "modo_pago", "periodo")
+    search_fields = ("id_pagoprofesional", "id_medico", "total", "fecha", "modo_pago", "periodo")
     ordering = ["id_pagoprofesional"]
     readonly_fields = ("created", "updated")
 

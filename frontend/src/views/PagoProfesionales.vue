@@ -391,6 +391,11 @@
                         key: "pagado",
                         label: "Ya Pagado",
                         sortable: true,
+					},
+                    {
+                        key: "sedebe",
+                        label: "Se debe",
+                        sortable: true,
                     },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
@@ -474,7 +479,7 @@
 				if (array != null) {
 					for (let index = 0; index < array.length; index++) {
 						if (array[index].liquidacionlista == 'Si') {
-                            suma += array[index].total - array[index].pagado;
+                            suma += array[index].sedebe;
 						}
 					}
 				}
@@ -509,46 +514,47 @@
 				console.log("FECHA", mesMM);
 				return mesMM[0].inicial + "/" + anio;
 			},
-			formatoMesAnio(mes, fecha)
+			formatoMesAnio(fecha)
 			{
 				let mesusado = '';
-                let anio = fecha.split('-')[0]
+                let mes = fecha.split('-')[1];
+				let anio = fecha.split('-')[0];
 				switch (mes)
 				{
-					case 'Enero':
+					case '01':
 						mesusado = 'ENE';
 						break;
-                    case 'Febrero':
+                    case '02':
                         mesusado = 'FEB';
 						break;
-                    case 'Marzo':
+                    case '03':
                         mesusado = 'MAR';
 						break;
-                    case 'Abril':
+                    case '04':
                         mesusado = 'ABR';
 						break;
-                    case 'Mayo':
+                    case '05':
                         mesusado = 'MAY';
 						break;
-                    case 'Junio':
+                    case '06':
                         mesusado = 'JUN';
 						break;
-                    case 'Julio':
+                    case '07':
                         mesusado = 'JUL';
 						break;
-                    case 'Agosto':
+                    case '08':
                         mesusado = 'AGO';
 						break;
-                    case 'Septiembre':
+                    case '09':
                         mesusado = 'SEP';
 						break;
-                    case 'Octubre':
+                    case '10':
                         mesusado = 'OCT';
 						break;
-                    case 'Noviembre':
+                    case '11':
                         mesusado = 'NOV';
 						break;
-                    case 'Diciembre':
+                    case '12':
                         mesusado = 'DIC';
                         break;
 				}
@@ -576,7 +582,7 @@
 							mesOrden.formaPago = mes.formaPago;
 							mesOrden.total = parseFloat(0);
 							mesOrden.liquidacionlista = 'No';
-                            mesOrden.pagado = this.GetPagadoDef(parseInt(result.id_medico), mesOrden.mes);
+							mesOrden.pagado = this.GetPagadoDef(parseInt(result.id_medico), mesOrden.mes);
 							lista_orden.forEach((orden) => {
 								if (
 									orden.id_medico == result.id_medico &&
@@ -611,6 +617,7 @@
 								}
 							});
 							mesOrden.total = this.sumaTotal(mesOrden.ListOrdenes);
+							mesOrden.sedebe = mesOrden.total - mesOrden.pagado;
 							if (
 								result.ordenes.find((t) => t.mes == mesOrden.mes) ||
 								mesOrden.ListOrdenes.length == 0
@@ -714,10 +721,11 @@
             GetPagadoDef(id_medicardo, mesardo)
 			{
                 let pagado = 0;
-
+				console.log("Buenardo");
 				for (var i = 0; i < this.lista_pagado.length; i++) {
-                    if ((parseInt(this.lista_pagado[i].id_medico.split("/")[4]) == id_medicardo) && (this.formatoMesAnio(this.lista_pagado[i].mespagado, this.lista_pagado[i].fecha) == mesardo)) {
+                    if ((parseInt(this.lista_pagado[i].id_medico.split("/")[4]) == id_medicardo) && (this.formatoMesAnio(this.lista_pagado[i].periodo) == mesardo)) {
 						pagado = pagado + parseInt(this.lista_pagado[i].total);
+                        console.log("Buenardovich");
 					}
 				}
 				return pagado;
@@ -809,7 +817,7 @@
 			this.show = true;
 			this.getOrdenes();
 			this.getPagado();
-			console.log(this.formatoMesAnio('Febrero', '02-03-2021'));
+			console.log(this.formatoMesAnio('02-03-2021'));
 			//this.saveFile();
 		},
 	};

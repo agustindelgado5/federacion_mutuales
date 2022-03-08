@@ -216,6 +216,7 @@
 
 <script>
 	import { APIControler } from "@/store/APIControler";
+    import { mapState, mapActions } from "vuex";
 	export default {
 		props: {
 			updateTable: Function,
@@ -360,7 +361,7 @@
 				ordenAPI.apiUrl.pathname = "ordenes/";
 				this.respuesta = await ordenAPI.postData(this.orden);
 				this.cargarFeedback();
-
+                sessionStorage.removeItem("pagos");
 				this.updateTable();
 			},
 
