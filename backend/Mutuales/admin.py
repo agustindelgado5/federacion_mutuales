@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import mutuales, servicios, servicio_mutual, planes
+from .models import mutuales, servicios, planes#,servicio_mutual
 # Register your models here.
 
 class serviciosAdmin(admin.ModelAdmin):
@@ -15,13 +15,13 @@ class mutualesAdmin(admin.ModelAdmin):
     #autocomplete_fields=['id_servicio']
     readonly_fields=('created', 'updated')
 
-class servicios_mutualesAdmin(admin.ModelAdmin):
-    list_display=('id_mutual','id_servicio')
-    search_fields=('id_mutual','id_servicio')
-    ordering=['id_mutual', 'id_servicio']
-    unique_together = ['id_mutual', 'id_servicio']
-    #autocomplete_fields=['id_servicio']
-    #readonly_fields=('created', 'updated')
+# class servicios_mutualesAdmin(admin.ModelAdmin):
+#     list_display=('id_mutual','id_servicio')
+#     search_fields=('id_mutual','id_servicio')
+#     ordering=['id_mutual', 'id_servicio']
+#     unique_together = ['id_mutual', 'id_servicio']
+#     #autocomplete_fields=['id_servicio']
+#     #readonly_fields=('created', 'updated')
 
 class planesAdmin(admin.ModelAdmin):
     list_display=('id_plan','nombre','precio')
@@ -31,6 +31,6 @@ class planesAdmin(admin.ModelAdmin):
     #readonly_fields=('created', 'updated')
 
 admin.site.register(servicios, serviciosAdmin)
-admin.site.register(servicio_mutual, servicios_mutualesAdmin)
+# admin.site.register(servicio_mutual, servicios_mutualesAdmin)
 admin.site.register(mutuales, mutualesAdmin)
 admin.site.register(planes, planesAdmin)

@@ -40,6 +40,7 @@ class mutuales(models.Model):
     representante=models.CharField(max_length=100)
       
     ##id_servicio=models.ForeignKey(servicios, on_delete=models.CASCADE)
+    servicios_mutual=models.ManyToManyField(servicios)
     created=models.DateTimeField(auto_now_add=True) 
     updated=models.DateTimeField(auto_now_add=True)
 
@@ -53,17 +54,17 @@ class mutuales(models.Model):
         cadena = str(self.id_mutual) + ' - '  + str(self.nombre) + ' - '  + str(self.sucursal)
         return cadena
 
-class servicio_mutual(models.Model):
-    id_serv_mut = AutoField(primary_key=True)
-    id_mutual=models.ForeignKey(mutuales, on_delete=models.CASCADE)
-    id_servicio=models.ForeignKey(servicios, on_delete=models.CASCADE) 
+# class servicio_mutual(models.Model):
+#     id_serv_mut = AutoField(primary_key=True)
+#     id_mutual=models.ForeignKey(mutuales, on_delete=models.CASCADE)
+#     id_servicio=models.ForeignKey(servicios, on_delete=models.CASCADE) 
 
-    class Meta:
-        db_table='servicio_mutuales'
-        verbose_name='servicio_mutual'
-        verbose_name_plural='servicios_mutual'
-        ordering=['id_mutual']
-        unique_together = ('id_mutual', 'id_servicio',)
+#     class Meta:
+#         db_table='servicio_mutuales'
+#         verbose_name='servicio_mutual'
+#         verbose_name_plural='servicios_mutual'
+#         ordering=['id_mutual']
+#         unique_together = ('id_mutual', 'id_servicio',)
 
 
 
