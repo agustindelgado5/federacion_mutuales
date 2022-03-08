@@ -20,7 +20,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="*Abreviatura" label-for="abreviatura">
+			<b-form-group label="Abreviatura" label-for="abreviatura">
 				<b-form-input
 					id="abreviatura"
 					v-model="estudio.abreviatura"
@@ -28,7 +28,6 @@
 					type="text"
 					placeholder="*Ingrese una abreviatura"
 					invalid-feedback="Complete este campo"
-					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="abreviatura-live-feedback"
@@ -52,7 +51,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="*Denominación" label-for="denominación">
+			<b-form-group label="Denominación" label-for="denominación">
 				<b-form-input
 					id="denominación"
 					v-model="estudio.denominación"
@@ -60,7 +59,6 @@
 					type="text"
 					placeholder="*Ingrese una denominación"
 					invalid-feedback="Complete este campo"
-					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="denominación-live-feedback"
@@ -103,7 +101,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="Proveedor" label-for="proveedor">
+			<b-form-group label="*Proveedor" label-for="proveedor">
 				<v-autocomplete
 					id="proveedor"
 					v-model="estudio.id_proveedor"
@@ -126,6 +124,7 @@
 					type="decimal"
 					placeholder="Ingrese el precio correspondiente al estudio "
 					invalid-feedback="Complete este campo"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="ub-live-feedback"
@@ -144,6 +143,7 @@
 					type="decimal"
 					placeholder="Ingrese el precio correspondiente al estudio "
 					invalid-feedback="Complete este campo"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="ub-live-feedback"

@@ -26,13 +26,13 @@ class profesionales(models.Model):
     fecha_ingreso = models.DateField()
     especialidad = models.CharField(max_length=40, null=True, blank=True)
     matricula = models.IntegerField(unique=True)
-    diasliquidacion = models.PositiveIntegerField(default=30)
+    diasliquidacion = models.PositiveIntegerField(default=30, blank=True)
 
     #Datos bancarios
     cbu=models.CharField(unique=True, max_length=22)
     alias_cbu=models.CharField(unique=True,max_length=20)
-    titular_cuenta = models.CharField(max_length=80)
-    tipo_cuenta = models.CharField(max_length=20)
+    titular_cuenta = models.CharField(max_length=80, blank=True)
+    tipo_cuenta = models.CharField(max_length=20, blank=True)
     banco=models.CharField(max_length=100, choices=bancos_argentina)
 
     #Datos en el sistema

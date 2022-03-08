@@ -14,7 +14,7 @@
 
     <!------------------------------------------------------------------------------------------->
     <b-form>
-      <b-form-group label="Codigo de intervencion" label-for="codigo_intervencion">
+      <b-form-group label="*Codigo de intervencion" label-for="codigo_intervencion">
         <!-- codigo_intervencion -->
         <b-form-input
           id="codigo_intervencion"
@@ -75,7 +75,6 @@
           type="number"
           placeholder="Ingrese el numero de ayudantes"
           invalid-feedback="Complete este campo"
-          required
         >
         </b-form-input>
         <b-form-invalid-feedback id="numero_ayudantes-live-feedback"
@@ -91,7 +90,6 @@
           type="text"
           placeholder="Ingrese el honorario del cirujano "
           invalid-feedback="Complete este campo"
-          required
         >
         </b-form-input>
         <b-form-invalid-feedback id="honorario-live-feedback"
@@ -107,7 +105,6 @@
           type="text"
           placeholder="Ingrese el honorario del ayudante"
           invalid-feedback="Complete este campo"
-          required
         >
         </b-form-input>
         <b-form-invalid-feedback id="honorario_ayudante-live-feedback"
@@ -115,9 +112,7 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-
-
-      <b-form-group label="*Observacion" label-for="observacion">
+      <b-form-group label="Observacion" label-for="observacion">
         <b-form-input
           id="observacion"
           v-model="cirugia.observacion"
@@ -125,7 +120,6 @@
           type="text"
           placeholder="Ingrese una observacion"
           invalid-feedback="Complete este campo"
-          required
         >
         </b-form-input>
         <b-form-invalid-feedback id="observacion-live-feedback"

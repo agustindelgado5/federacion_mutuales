@@ -142,7 +142,7 @@
 				>
 					<b-card-body>
 						<b-form-group
-							label="*Precio Laboratorio"
+							label="Precio Laboratorio"
 							label-for="precio_laboratorio"
 						>
 							<b-form-input
@@ -152,7 +152,6 @@
 								type="number"
 								placeholder="*Ingrese el numero de ayudantes"
 								invalid-feedback="Complete este campo"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="precio_laboratorio-live-feedback"
@@ -160,7 +159,7 @@
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="*Precio Optica" label-for="precio_optica">
+						<b-form-group label="Precio Optica" label-for="precio_optica">
 							<b-form-input
 								id="precio_optica"
 								v-model="lente.precio_optica"
@@ -168,7 +167,6 @@
 								type="number"
 								placeholder="*Ingrese el precio de optica"
 								invalid-feedback="Complete este campo"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="precio_optica-live-feedback"
@@ -176,7 +174,7 @@
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="*Precio Mutual" label-for="precio_mutual">
+						<b-form-group label="Precio Mutual" label-for="precio_mutual">
 							<b-form-input
 								id="precio_mutual"
 								v-model="lente.precio_mutual"
@@ -184,7 +182,6 @@
 								type="number"
 								placeholder="*Ingrese el precio de la mutual"
 								invalid-feedback="Complete este campo"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="precio_mutual-live-feedback"
@@ -192,7 +189,7 @@
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="*Precio Venta" label-for="precio_venta">
+						<b-form-group label="Precio Venta" label-for="precio_venta">
 							<b-form-input
 								id="precio_venta"
 								v-model="lente.precio_venta"
@@ -200,7 +197,6 @@
 								type="number"
 								placeholder="*Ingrese el precio de la venta"
 								invalid-feedback="Complete este campo"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="precio_venta-live-feedback"
@@ -208,7 +204,7 @@
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="*Precio Tarjeta" label-for="precio_tarjeta">
+						<b-form-group label="Precio Tarjeta" label-for="precio_tarjeta">
 							<b-form-input
 								id="precio_tarjeta"
 								v-model="lente.precio_tarjeta"
@@ -216,7 +212,6 @@
 								type="number"
 								placeholder="*Ingrese el precio de la tarjeta"
 								invalid-feedback="Complete este campo"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="precio_tarjeta-live-feedback"
@@ -224,7 +219,7 @@
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="*Stock" label-for="stock">
+						<b-form-group label="Stock" label-for="stock">
 							<b-form-input
 								id="stock"
 								v-model="lente.stock"
@@ -232,7 +227,6 @@
 								type="number"
 								placeholder="*Ingrese el stock"
 								invalid-feedback="Complete este campo"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="stock-live-feedback"

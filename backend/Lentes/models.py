@@ -16,11 +16,11 @@ class lentes(models.Model):
     patillas = models.CharField(max_length=30)
     marca = models.CharField(max_length=30)
     descripcion=models.CharField(max_length=60)
-    precio_laboratorio=models.DecimalField(null=True,max_digits=8, decimal_places=2)
-    precio_optica=models.DecimalField(null=True,max_digits=8, decimal_places=2)
-    precio_mutual=models.DecimalField(null=True,max_digits=8, decimal_places=2)
-    precio_venta=models.DecimalField(null=True,max_digits=8, decimal_places=2)
-    precio_tarjeta=models.DecimalField(null=True,max_digits=8, decimal_places=2)
+    precio_laboratorio=models.DecimalField(null=True, blank=True, max_digits=8, decimal_places=2)
+    precio_optica=models.DecimalField(null=True, blank=True, max_digits=8, decimal_places=2)
+    precio_mutual=models.DecimalField(null=True, blank=True, max_digits=8, decimal_places=2)
+    precio_venta=models.DecimalField(null=True, blank=True, max_digits=8, decimal_places=2)
+    precio_tarjeta=models.DecimalField(null=True, blank=True, max_digits=8, decimal_places=2)
     stock=models.IntegerField(null=True, blank=True)
     
     
