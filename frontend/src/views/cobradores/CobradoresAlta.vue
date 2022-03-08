@@ -5,27 +5,6 @@
 
 		<b-form>
 			<b-form-group
-				label="*Socio"
-				label-for="numero_socio"
-				@submit.stop.prevent="handleSubmit"
-			>
-				<b-form-select
-					id="numero_socio"
-					v-model="Cobradores.numero_socio"
-					:state="validacion.numero_socio.estado"
-					type="text"
-					placeholder="Ingrese un Numero"
-					invalid-feedback="Complete este campo"
-					required
-					:options="op_socios"
-				>
-				</b-form-select>
-				<b-form-invalid-feedback id="numero_socio-live-feedback"
-					>{{ validacion.numero_socio.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
-
-			<b-form-group
 				label="*Nombre/s"
 				label-for="nombre"
 				@submit.stop.prevent="handleSubmit"

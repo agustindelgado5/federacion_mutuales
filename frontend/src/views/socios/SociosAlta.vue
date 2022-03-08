@@ -19,162 +19,154 @@
 					role="tabpanel"
 				>
 					<b-card-body>
-						<!-- 
-						<b-form-group label="*N° Socio" label-for="numero_socio">
-							<b-form-input
-								id="numero_socio"
-								v-model="socio.numero_socio"
-								:state="validacion.numero_socio.estado"
-								type="number"
-								placeholder="Ingrese un Numero"
-								invalid-feedback="Complete este campo"
-								required
-							>
-							</b-form-input>
-							<b-form-invalid-feedback id="numero_socio-live-feedback"
-								>{{ validacion.numero_socio.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
-						-->
+						<!--
+	<b-form-group label="*N° Socio" label-for="numero_socio">
+		<b-form-input
+			id="numero_socio"
+			v-model="socio.numero_socio"
+			:state="validacion.numero_socio.estado"
+			type="number"
+			placeholder="Ingrese un Numero"
+			invalid-feedback="Complete este campo"
+			required
+		>
+		</b-form-input>
+		<b-form-invalid-feedback id="numero_socio-live-feedback"
+			>{{ validacion.numero_socio.mensaje }}
+		</b-form-invalid-feedback>
+	</b-form-group>
+	-->
 						<b-form-group label="*Nombre/s" label-for="nombre">
-							<b-form-input
-								id="nombre"
-								v-model="socio.nombre"
-								:state="validacion.nombre.estado"
-								type="text"
-								placeholder="*Ingrese los Nombre/s"
-								invalid-feedback="Complete este campo"
-								required
-							>
+							<b-form-input id="nombre"
+										  v-model="socio.nombre"
+										  :state="validacion.nombre.estado"
+										  type="text"
+										  placeholder="*Ingrese los Nombre/s"
+										  invalid-feedback="Complete este campo"
+										  required>
 							</b-form-input>
-							<b-form-invalid-feedback id="nombre-live-feedback"
-								>{{ validacion.nombre.mensaje }}
+							<b-form-invalid-feedback id="nombre-live-feedback">
+								{{ validacion.nombre.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*Apellido/s" label-for="apellido">
-							<b-form-input
-								id="apellido"
-								v-model="socio.apellido"
-								:state="validacion.apellido.estado"
-								type="text"
-								placeholder="*Ingrese los Apellido/s"
-								invalid-feedback="Complete este campo"
-								required
-							>
+							<b-form-input id="apellido"
+										  v-model="socio.apellido"
+										  :state="validacion.apellido.estado"
+										  type="text"
+										  placeholder="*Ingrese los Apellido/s"
+										  invalid-feedback="Complete este campo"
+										  required>
 							</b-form-input>
-							<b-form-invalid-feedback id="apellido-live-feedback"
-								>{{ validacion.apellido.mensaje }}
+							<b-form-invalid-feedback id="apellido-live-feedback">
+								{{ validacion.apellido.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*DNI" label-for="dni">
-							<b-form-input
-								id="dni"
-								v-model="socio.dni"
-								:state="validacion.dni.estado"
-								type="number"
-								placeholder="Ingrese un DNI"
-								invalid-feedback="Complete este campo"
-								required
-							>
+							<b-form-input id="dni"
+										  v-model="socio.dni"
+										  :state="validacion.dni.estado"
+										  type="number"
+										  placeholder="Ingrese un DNI"
+										  invalid-feedback="Complete este campo"
+										  required>
 							</b-form-input>
-							<b-form-invalid-feedback id="dni-live-feedback"
-								>{{ validacion.dni.mensaje }}
+							<b-form-invalid-feedback id="dni-live-feedback">
+								{{ validacion.dni.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group
-							label="*Fecha de nacimiento"
-							label-for="fecha_nacimiento"
-						>
-							<b-form-input
-								id="fecha_nacimiento"
-								v-model="socio.fecha_nacimiento"
-								:state="validacion.fecha_nacimiento.estado"
-								type="date"
-								placeholder="Ingrese una fecha"
-								invalid-feedback="Complete este campo"
-								required
-							>
+						<b-form-group label="*Fecha de nacimiento"
+									  label-for="fecha_nacimiento">
+							<b-form-input id="fecha_nacimiento"
+										  v-model="socio.fecha_nacimiento"
+										  :state="validacion.fecha_nacimiento.estado"
+										  type="date"
+										  placeholder="Ingrese una fecha"
+										  invalid-feedback="Complete este campo"
+										  required>
 							</b-form-input>
-							<b-form-invalid-feedback id="fecha_nacimiento-live-feedback"
-								>{{ validacion.fecha_nacimiento.mensaje }}
+							<b-form-invalid-feedback id="fecha_nacimiento-live-feedback">
+								{{ validacion.fecha_nacimiento.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group
-							label="*Fecha de asociacion"
-							label-for="fecha_asociacion"
-						>
-							<b-form-input
-								id="fecha_asociacion"
-								v-model="socio.fecha_asociacion"
-								:state="validacion.fecha_asociacion.estado"
-								type="date"
-								placeholder="Ingrese la fecha de asociacion"
-								invalid-feedback="Complete este campo"
-								required
-							>
+						<b-form-group label="*Plan" label-for="id_plan">
+							<b-form-select id="id_plan"
+										   v-model="socio.id_plan"
+										   type="text"
+										   :state="validacion.id_plan.estado"
+										   placeholder="Ingrese el ID del cobrador"
+										   invalid-feedback="Complete este campo"
+										   required
+										   :options="op_planes">
+							</b-form-select>
+						</b-form-group>
+
+						<b-form-group label="*Fecha de asociacion"
+									  label-for="fecha_asociacion">
+							<b-form-input id="fecha_asociacion"
+										  v-model="socio.fecha_asociacion"
+										  :state="validacion.fecha_asociacion.estado"
+										  type="date"
+										  placeholder="Ingrese la fecha de asociacion"
+										  invalid-feedback="Complete este campo"
+										  required>
 							</b-form-input>
-							<b-form-invalid-feedback id="fecha_asociacion-live-feedback"
-								>{{ validacion.fecha_asociacion.mensaje }}
+							<b-form-invalid-feedback id="fecha_asociacion-live-feedback">
+								{{ validacion.fecha_asociacion.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 
 						<b-form-group label="Mutual de asociación" label-for="id_mutual">
-							<b-form-select
-								id="id_mutual"
-								v-model="socio.id_mutual"
-								type="text"
-								:state="validacion.id_mutual.estado"
-								placeholder="Ingrese el ID de la mutual"
-								invalid-feedback="Complete este campo"
-								:options="op_mutuales"
-							>
+							<b-form-select id="id_mutual"
+										   v-model="socio.id_mutual"
+										   type="text"
+										   :state="validacion.id_mutual.estado"
+										   placeholder="Ingrese el ID de la mutual"
+										   invalid-feedback="Complete este campo"
+										   :options="op_mutuales">
 							</b-form-select>
 							<!-- <b-form-invalid-feedback id="id_mutual-live-feedback"
-              >{{ validacion.id_mutual.mensaje }}
-            </b-form-invalid-feedback> -->
+		  >{{ validacion.id_mutual.mensaje }}
+		</b-form-invalid-feedback> -->
 						</b-form-group>
 
 						<b-form-group label="*Método de pago" label-for="metodoPago">
-							<b-form-select
-								id="metodoPago"
-								v-model="socio.metodoPago"
-								:state="validacion.metodoPago.estado"
-								type="text"
-								placeholder="Ingrese un método de pago"
-								invalid-feedback="Complete este campo"
-								required
-								:options="op_metodosPago"
-							>
+							<b-form-select id="metodoPago"
+										   v-model="socio.metodoPago"
+										   :state="validacion.metodoPago.estado"
+										   type="text"
+										   placeholder="Ingrese un método de pago"
+										   invalid-feedback="Complete este campo"
+										   required
+										   :options="op_metodosPago">
+								="
 							</b-form-select>
-							<b-form-invalid-feedback id="metodoPago-live-feedback"
-								>{{ validacion.metodoPago.mensaje }}
+							<b-form-invalid-feedback id="metodoPago-live-feedback">
+								{{ validacion.metodoPago.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group v-show="socio.metodoPago=='Cobrador'" label="*Cobrador" label-for="id_cobrador">
-							<b-form-select
-								id="id_cobrador"
-								v-model="socio.cobrador"
-								type="text"
-								:state="validacion.cobrador.estado"
-								placeholder="Ingrese el ID del cobrador"
-								invalid-feedback="Complete este campo"
-								required
-								:options="op_cobradores"
-							>
+							<b-form-select id="id_cobrador"
+										   v-model="socio.cobrador"
+										   type="text"
+										   :state="validacion.cobrador.estado"
+										   placeholder="Ingrese el ID del cobrador"
+										   invalid-feedback="Complete este campo"
+										   required
+										   :options="op_cobradores">
 							</b-form-select>
 						</b-form-group>
+
 						<b-form-group label="*Tiene Obra social" label-for="obra_social">
-							<b-form-checkbox
-								id="obra_social"
-								v-model="socio.tieneObraSocial"
-								:state="validacion.tieneObraSocial.estado"
-								value="true"
-								type="boolean"
-								invalid-feedback="Complete este campo"
-								required
-							>
+							<b-form-checkbox id="obra_social"
+											 v-model="socio.tieneObraSocial"
+											 :state="validacion.tieneObraSocial.estado"
+											 value="true"
+											 type="boolean"
+											 invalid-feedback="Complete este campo"
+											 required>
 							</b-form-checkbox>
 						</b-form-group>
 					</b-card-body>
@@ -519,6 +511,7 @@
 					tel_celular: { estado: null, mensaje: "" },
 					metodoPago: { estado: null, mensaje: "" },
 					cobrador: { estado: null, mensaje: "" },
+                    id_plan: { estado: null, mensaje: "" },
 				},
 				validacionFamiliar: [],
 				list_mutuales: {},
@@ -528,6 +521,9 @@
 				op_cobradores: [
 					{ value: null, text: "Elija un cobrador", disabled: true },
 				],
+                op_planes: [
+                    { value: null, text: "Elija un plan", disabled: true },
+                ],
 
 				btn_familiar: false,
 				cantidad: 0,
@@ -879,6 +875,24 @@
 					this.op_cobradores.push(option);
 				});
 			},
+            async getPlanes() {
+                let cobradoresAPI = new APIControler();
+                cobradoresAPI.apiUrl.pathname = "planes/";
+                this.data = await cobradoresAPI.getData();
+                this.data.forEach((element) => {
+                    let option = {};
+                    option.value =
+                        "http://localhost:8081/planes/" + element.id_plan + "/";
+                    option.text =
+                        element.id_plan +
+                        "-- " +
+                        element.nombre +
+                        ", " +
+                        element.precio;
+
+                    this.op_planes.push(option);
+                });
+            },
 			async resetForm() {
 				this.socio.numero_socio = null;
 				this.socio.apellido = "";
@@ -907,6 +921,7 @@
 		beforeMount() {
 			this.getMutuales();
 			this.getCobradores();
+			this.getPlanes();
 		},
 	};
 </script>

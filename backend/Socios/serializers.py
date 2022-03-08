@@ -29,6 +29,7 @@ class SociosSerializer(serializers.HyperlinkedModelSerializer):
             "tieneObraSocial",
             "metodoPago",
             "cobrador",
+            "id_plan",
             "monto"
             # "plan",
             # "vendedor",

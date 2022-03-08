@@ -258,16 +258,15 @@ export default {
             },
             {
               title: `Estudios`,
-              href: "/estudios",
               child: [
                 {
-                  title: `Imagenes`,
-                  href: `/`,
+                  title: `Estudios`,
+                  href: `/estudios`,
                   child: [],
                 },
                 {
-                  title: `Analisis Bioquimicos`,
-                  href: `/`,
+                  title: `Proveedores`,
+                  href: `/proveedor_estudios`,
                   child: [],
                 },
               ],

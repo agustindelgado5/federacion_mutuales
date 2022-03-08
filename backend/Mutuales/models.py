@@ -75,6 +75,11 @@ class planes(models.Model):
 
     def __str__(self):
         return self.nombre
+    class Meta:
+        db_table='planes'
+        verbose_name='plan'
+        verbose_name_plural='planes'
+        ordering=['id_plan']
 
 class beneficiosDelPlan(models.Model):
 

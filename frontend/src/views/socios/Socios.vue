@@ -175,14 +175,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			>
 				<section class="container">
 					<!-- ======== Tabla con los registros ======= -->
-					<b-table
-						:fields="fields"
-						striped
-						sortable
-						responsive
-						:no-border-collapse="false"
-						hover
-						:items="
+					<b-table :fields="fields"
+							 striped
+							 sortable
+							 responsive
+							 :no-border-collapse="false"
+							 hover
+							 :items="
 							tabla_socios
 								| fecha_asociacion_range(
 									filter_fechaAsociacion.desde,
@@ -192,17 +191,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								| Departamento(filter_departamento)
 								| AlDia(filter_realizado)
 						"
-						show-empty
-						:per-page="perPage"
-						:current-page="currentPage"
-						ref="tablaregistros"
-						id="tablaregistros"
-						selectable
-						select-mode="multi"
-						@row-selected="seleccionar_una"
-						:filter="filter"
-						@filtered="onFiltered"
-					>
+							 show-empty
+							 :per-page="perPage"
+							 :current-page="currentPage"
+							 ref="tablaregistros"
+							 id="tablaregistros"
+							 selectable
+							 select-mode="multi"
+							 @row-selected="seleccionar_una"
+							 :filter="filter"
+							 @filtered="onFiltered">
 						<template #empty="">
 							<b>No hay registros para mostrar</b>
 						</template>
@@ -227,7 +225,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<template slot="cell(apellido)" slot-scope="data">
 							{{ data.value.toUpperCase() }}
 						</template>
-
+						<template slot="cell(id_plan)" slot-scope="data">
+							{{ data.value.split('/')[4] }}
+						</template>
 						<template slot="cell(nombre)" slot-scope="data">
 							{{ data.value.toUpperCase() }}
 						</template>
@@ -236,11 +236,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							{{ data.value }}
 						</template>
 						<!-- <template slot="cell(fecha_nacimiento)" slot-scope="data">
-							{{ data.value.split("-")[2] }}/{{ data.value.split("-")[1] }}/{{
-								data.value.split("-")[0]
-							}}
-						</template>
-						 -->
+		{{ data.value.split("-")[2] }}/{{ data.value.split("-")[1] }}/{{
+			data.value.split("-")[0]
+		}}
+	</template>
+	 -->
 
 						<template slot="cell(fecha_asociacion)" slot-scope="data">
 							{{ data.value | FormatStringToDate }}
@@ -257,80 +257,67 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<template slot="cell(action)" slot-scope="row">
 							<div class="mt-3">
 								<b-button-group>
-									<b-button
-										variant="info"
-										id="button-1"
-										title="Mostrar Info"
-										@click="
+									<b-button variant="info"
+											  id="button-1"
+											  title="Mostrar Info"
+											  @click="
 											row.toggleDetails();
 											getFamiliar();
 										"
-										:disabled="btn_mostrar"
-									>
+											  :disabled="btn_mostrar">
 										{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} Detalles
 									</b-button>
 
-									<b-button
-										variant="warning"
-										id="button-2"
-										title="Editar este registro"
-										v-b-modal.modal-editar
-										@click="editarSocio(row.item, row.index)"
-										:disabled="btn_editar"
-									>
+									<b-button variant="warning"
+											  id="button-2"
+											  title="Editar este registro"
+											  v-b-modal.modal-editar
+											  @click="editarSocio(row.item, row.index)"
+											  :disabled="btn_editar">
 										<!-- :disabled="btn_editar" -->
 										<v-icon class="mr-2"> mdi-pencil </v-icon>
 										Editar
 									</b-button>
 
-									<b-button
-										variant="success"
-										id="button-2"
-										@click="showModalinfo1(row.item, row.index)"
-										:disabled="btn_pagado"
-										title="Ver si el socio pago"
-									>
+									<b-button variant="success"
+											  id="button-2"
+											  @click="showModalinfo1(row.item, row.index)"
+											  :disabled="btn_pagado"
+											  title="Ver si el socio pago">
 										<!-- isabled="btn_editar" -->
 										<v-icon class="mr-2"> mdi-cash </v-icon>
 										¿Pagado?
 									</b-button>
 
-									<b-button
-										:to="{
+									<b-button :to="{
 											name: 'estudioSocio',
 											params: { socio: row.item },
 											query: { id: row.item.numero_socio },
 										}"
-										variant="primary"
-										id="button-3"
-										title="Ver estudios asociadas"
-										
-										style="color: white"
-									>
+											  variant="primary"
+											  id="button-3"
+											  title="Ver estudios asociadas"
+											  style="color: white">
 										<!-- @click="ordenesProfesional(row.item)" -->
 										<v-icon dark>mdi-format-list-bulleted-square</v-icon>
 										Estudios
 									</b-button>
 
-									<b-button
-										variant="danger"
-										id="button-3"
-										@click="showModalinfo(row.item, row.index)"
-										title="Eliminar este registro"
-										:disabled="btn_eliminar"
-									>
+									<b-button variant="danger"
+											  id="button-3"
+											  @click="showModalinfo(row.item, row.index)"
+											  title="Eliminar este registro"
+											  :disabled="btn_eliminar">
 										<v-icon class="mr-2"> mdi-delete </v-icon>
 										Eliminar
 									</b-button>
 
 									<!-- ================ELIMINAR SOCIO======================== -->
-									<b-modal
-										id="modal_eliminar"
-										ref="my-modal"
-										hide-footer
-										title="Eliminar"
-										ok-only
-									>
+									<b-modal id="modal_eliminar"
+											 ref="my-modal"
+											 hide-footer
+											 title="Eliminar"
+											 ok-only>
 										<div class="d-block text-center">
 											<h3>
 												¿Esta seguro de eliminar los datos de
@@ -338,30 +325,23 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 												{{ infoEliminar.socio.nombre }} ?
 											</h3>
 										</div>
-										<b-button
-											class="mt-2"
-											block
-											@click="hideModal"
-											title="Volver Atras"
-											>Volver Atras</b-button
-										>
-										<b-button
-											class="mt-3"
-											variant="danger"
-											block
-											@click="deleteSocio(infoEliminar.socio.numero_socio)"
-											title="Eliminar"
-										>
+										<b-button class="mt-2"
+												  block
+												  @click="hideModal"
+												  title="Volver Atras">Volver Atras</b-button>
+										<b-button class="mt-3"
+												  variant="danger"
+												  block
+												  @click="deleteSocio(infoEliminar.socio.numero_socio)"
+												  title="Eliminar">
 											Eliminar
 										</b-button>
 									</b-modal>
-									<b-modal
-										id="modal_pagado"
-										ref="my-modalpagado"
-										hide-footer
-										title="¿Pagado?"
-										ok-only
-									>
+									<b-modal id="modal_pagado"
+											 ref="my-modalpagado"
+											 hide-footer
+											 title="¿Pagado?"
+											 ok-only>
 										<div class="d-block text-center">
 											<h3>
 												El socio
@@ -371,20 +351,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 												{{ infopagado.mensaje }}
 											</h3>
 										</div>
-										<b-button
-											class="mt-2"
-											block
-											@click="hideModal"
-											title="Volver Atras"
-											>Volver Atras</b-button
-										>
-										<b-button
-											class="mt-3"
-											variant="success"
-											block
-											href="/cuotas/"
-											title="Pagar"
-										>
+										<b-button class="mt-2"
+												  block
+												  @click="hideModal"
+												  title="Volver Atras">Volver Atras</b-button>
+										<b-button class="mt-3"
+												  variant="success"
+												  block
+												  href="/cuotas/"
+												  title="Pagar">
 											Pagar
 										</b-button>
 									</b-modal>
@@ -398,57 +373,53 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								<div>
 									<b-list-group horizontal>
 										<b-list-group>
-											<b-list-group-item
-												><b>Nombre Completo:</b>
+											<b-list-group-item>
+												<b>Nombre Completo:</b>
 												{{ row.item.apellido.toUpperCase() }},
-												{{ row.item.nombre.toUpperCase() }}</b-list-group-item
-											>
-											<b-list-group-item
-												><b>DNI:</b> {{ row.item.dni }}</b-list-group-item
-											>
-											<b-list-group-item
-												><b>Fecha de Nacimiento:</b>
+												{{ row.item.nombre.toUpperCase() }}
+											</b-list-group-item>
+											<b-list-group-item><b>DNI:</b> {{ row.item.dni }}</b-list-group-item>
+											<b-list-group-item>
+												<b>Fecha de Nacimiento:</b>
 												{{
 													row.item.fecha_nacimiento | FormatStringToDate
-												}}</b-list-group-item
-											>
-											<b-list-group-item
-												><b>Fecha de Asociacion:</b>
+												}}
+											</b-list-group-item>
+											<b-list-group-item>
+												<b>Fecha de Asociacion:</b>
 												{{
 													row.item.fecha_asociacion | FormatStringToDate
-												}}</b-list-group-item
-											>
-											<b-list-group-item
-												><b>Edad:</b> {{ row.item.edad }}</b-list-group-item
-											>
+												}}
+											</b-list-group-item>
+											<b-list-group-item><b>Edad:</b> {{ row.item.edad }}</b-list-group-item>
 										</b-list-group>
 										&nbsp;
 										<b-list-group>
-											<b-list-group-item
-												><b>Domicilio:</b> {{ row.item.calle.toUpperCase() }} -
+											<b-list-group-item>
+												<b>Domicilio:</b> {{ row.item.calle.toUpperCase() }} -
 												{{ row.item.localidad.toUpperCase() }}
 											</b-list-group-item>
-											<b-list-group-item
-												><b>Departamento:</b>
+											<b-list-group-item>
+												<b>Departamento:</b>
 												{{
 													row.item.departamento.toUpperCase()
-												}}</b-list-group-item
-											>
-											<b-list-group-item
-												><b>Codigo Postal:</b>
-												{{ row.item.cod_postal }}</b-list-group-item
-											>
-											<b-list-group-item
-												><b>Correo:</b> {{ row.item.email }}
+												}}
+											</b-list-group-item>
+											<b-list-group-item>
+												<b>Codigo Postal:</b>
+												{{ row.item.cod_postal }}
+											</b-list-group-item>
+											<b-list-group-item>
+												<b>Correo:</b> {{ row.item.email }}
 											</b-list-group-item>
 											<!--
-											<b-list-group-item
-											
-												><b>Mutual:</b> {{ row.item.id_mutual.split("/")[4] }}
-											</b-list-group-item>
-											-->
-											<b-list-group-item
-												><b>Vendedor:</b>
+						<b-list-group-item
+
+							><b>Mutual:</b> {{ row.item.id_mutual.split("/")[4] }}
+						</b-list-group-item>
+						-->
+											<b-list-group-item>
+												<b>Vendedor:</b>
 												{{
 													row.item.vendedor != null
 														? row.item.vendedor
@@ -458,27 +429,27 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										</b-list-group>
 										&nbsp;
 										<b-list-group>
-											<b-list-group-item
-												><b>Telefono Fijo:</b>
-												{{ row.item.tel_fijo }}</b-list-group-item
-											>
-											<b-list-group-item
-												><b>Celular:</b>
-												{{ row.item.tel_celular }}</b-list-group-item
-											>
+											<b-list-group-item>
+												<b>Telefono Fijo:</b>
+												{{ row.item.tel_fijo }}
+											</b-list-group-item>
+											<b-list-group-item>
+												<b>Celular:</b>
+												{{ row.item.tel_celular }}
+											</b-list-group-item>
 											<!-- <b-list-group-item
-												><b>Carencia:</b>
-												{{ row.item.carencia | FormatStringToDate }}
-											</b-list-group-item> -->
-											<b-list-group-item
-												><b>Tiene Obra social:</b>
+							><b>Carencia:</b>
+							{{ row.item.carencia | FormatStringToDate }}
+						</b-list-group-item> -->
+											<b-list-group-item>
+												<b>Tiene Obra social:</b>
 												{{ row.item.tieneObraSocial ? "Si" : "No" }}
 											</b-list-group-item>
-											<b-list-group-item
-												><b>Plan:</b>
+											<b-list-group-item>
+												<b>Plan:</b>
 												{{
-													row.item.plan != null
-														? row.item.plan
+													row.item.id_plan != null
+														? row.item.id_plan.split('/')[4]
 														: "No disponible"
 												}}
 											</b-list-group-item>
@@ -490,55 +461,51 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							<b-card title="Adherentes: ">
 								<div>
 									<b-list-group horizontal>
-										<div
-											v-for="adherente in data"
-											:key="adherente.dni_familiar"
-										>
-											<div
-												v-if="
+										<div v-for="adherente in data"
+											 :key="adherente.dni_familiar">
+											<div v-if="
 													adherente.numero_socio.split('/')[4] ==
 													row.item.numero_socio
-												"
-											>
+												">
 												<b-list-group>
-													<b-list-group-item
-														><b>DNI:</b>
-														{{ adherente.dni_familiar }}</b-list-group-item
-													>
-													<b-list-group-item
-														><b>Nombre Completo:</b>
+													<b-list-group-item>
+														<b>DNI:</b>
+														{{ adherente.dni_familiar }}
+													</b-list-group-item>
+													<b-list-group-item>
+														<b>Nombre Completo:</b>
 														{{ adherente.apellido.toUpperCase() }},
 														{{
 															adherente.nombre.toUpperCase()
-														}}</b-list-group-item
-													>
-													<b-list-group-item
-														><b>Fecha de Nacimiento:</b>
+														}}
+													</b-list-group-item>
+													<b-list-group-item>
+														<b>Fecha de Nacimiento:</b>
 														{{
 															adherente.fecha_nacimiento | FormatStringToDate
 														}}
 														| <b>Edad:</b>
-														{{ adherente.edad }}</b-list-group-item
-													>
-													<b-list-group-item
-														><b>Carencia:</b> {{ adherente.carencia }}
+														{{ adherente.edad }}
 													</b-list-group-item>
-													<b-list-group-item
-														><b>Fecha de Asociación:</b>
+													<b-list-group-item>
+														<b>Carencia:</b> {{ adherente.carencia }}
+													</b-list-group-item>
+													<b-list-group-item>
+														<b>Fecha de Asociación:</b>
 														{{
 															adherente.fecha_asociacion | FormatStringToDate
 														}}
 													</b-list-group-item>
-													<b-list-group-item
-														><b>Tiene Obra Social:</b>
+													<b-list-group-item>
+														<b>Tiene Obra Social:</b>
 														{{ adherente.tieneObraSocial ? "Si" : "No" }}
 													</b-list-group-item>
 
-													<b-list-group-item
-														><b>Plan:</b>
+													<b-list-group-item>
+														<b>Plan:</b>
 														{{
-															adherente.plan != null
-																? adherente.plan
+															adherente.id_plan != null
+																?	adherente.id_plan.split('/')[4]
 																: "No disponible"
 														}}
 													</b-list-group-item>
@@ -549,55 +516,39 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									</b-list-group>
 								</div>
 
-								<b-button
-									@click="generarCarnet(row.item)"
-									id="btn_down_pdf"
-									class="mb-0 ml-2"
-									title="Generar PDF"
-									variant="info"
-									style="color: white"
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="16"
-										height="16"
-										fill="currentColor"
-										class="bi bi-file-pdf-fill"
-										viewBox="0 0 16 16"
-									>
-										<path
-											d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
-										/>
-										<path
-											fill-rule="evenodd"
-											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
-										/>
+								<b-button @click="generarCarnet(row.item)"
+										  id="btn_down_pdf"
+										  class="mb-0 ml-2"
+										  title="Generar PDF"
+										  variant="info"
+										  style="color: white">
+									<svg xmlns="http://www.w3.org/2000/svg"
+										 width="16"
+										 height="16"
+										 fill="currentColor"
+										 class="bi bi-file-pdf-fill"
+										 viewBox="0 0 16 16">
+										<path d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z" />
+										<path fill-rule="evenodd"
+											  d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z" />
 									</svg>
 									Generar Carnet
 								</b-button>
-								<b-button
-									@click="generarSolicitudBaja(row.item)"
-									id="btn_down_pdf"
-									class="mb-0 ml-2"
-									title="Generar Solicitud de Baja"
-									variant="info"
-									style="color: white"
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="16"
-										height="16"
-										fill="currentColor"
-										class="bi bi-file-pdf-fill"
-										viewBox="0 0 16 16"
-									>
-										<path
-											d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
-										/>
-										<path
-											fill-rule="evenodd"
-											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
-										/>
+								<b-button @click="generarSolicitudBaja(row.item)"
+										  id="btn_down_pdf"
+										  class="mb-0 ml-2"
+										  title="Generar Solicitud de Baja"
+										  variant="info"
+										  style="color: white">
+									<svg xmlns="http://www.w3.org/2000/svg"
+										 width="16"
+										 height="16"
+										 fill="currentColor"
+										 class="bi bi-file-pdf-fill"
+										 viewBox="0 0 16 16">
+										<path d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z" />
+										<path fill-rule="evenodd"
+											  d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z" />
 									</svg>
 									Solicitud de baja
 								</b-button>
@@ -914,6 +865,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "dni", label: "DNI", sortable: true },
 					{ key: "edad", label: "Edad", sortable: true },
 					{ key: "monto", label: "Monto", sortable: true },
+                    { key: "id_plan", label: "Plan", sortable: true },
 					/*{
 						key: "fecha_nacimiento",
 						label: "Fecha de Nacimiento",
