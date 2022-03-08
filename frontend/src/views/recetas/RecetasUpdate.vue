@@ -15,31 +15,27 @@
 
 		<!------------------------------------------------------------------------------------------->
 
-		<!-- Numero de Socio -->
-		<!-- <b-button @click="getSocios()">GET TEST</b-button>
-      {{ list_socios }} -->
-		<b-form-group label="*Socio" label-for="numero_socio">
-			<b-form-select
-				id="numero_socio"
-				v-model="receta.numero_socio"
-				type="text"
-				placeholder="Ingrese un Numero"
-				invalid-feedback="Complete este campo"
-				required
-				:state="validacion.numero_socio.estado"
-				:options="op_socios"
-				@change="getPaciente()"
-			>
-			</b-form-select>
-			<b-form-invalid-feedback id="numero_socio-live-feedback"
-				>{{ validacion.numero_socio.mensaje }}
-			</b-form-invalid-feedback>
-		</b-form-group>
-
 		<b-form>
+			<!-- Numero de Socio -->
+			<b-form-group label="*Socio" label-for="numero_socio">
+				<b-form-select
+					id="numero_socio"
+					v-model="receta.numero_socio"
+					type="text"
+					placeholder="Ingrese un Numero"
+					invalid-feedback="Complete este campo"
+					required
+					:state="validacion.numero_socio.estado"
+					:options="op_socios"
+					@change="getPaciente()"
+				>
+				</b-form-select>
+				<b-form-invalid-feedback id="numero_socio-live-feedback"
+					>{{ validacion.numero_socio.mensaje }}
+				</b-form-invalid-feedback>
+			</b-form-group>
 			<!-- Paciente para el cual se emite la receta -->
-			<!-- <b-button @click="getPaciente()">GET TEST</b-button>
-      {{ list_pacientes }} -->
+
 			<b-form-group label="*Paciente" label-for="paciente">
 				<b-form-select
 					id="paciente"
@@ -75,8 +71,7 @@
 			</b-form-group>
 
 			<!-- Id del medicamento -->
-			<!-- <b-button @click="getMedicamentos()">GET TEST</b-button>
-      {{ list_medicamentos }} -->
+			
 			<b-form-group label="*Medicamento" label-for="id_medicamento">
 				<b-form-select
 					id="id_medicamento"
@@ -95,8 +90,7 @@
 			</b-form-group>
 
 			<!-- Id de la farmacia -->
-			<!-- <b-button @click="getFarmacias()">GET TEST</b-button>
-      {{list_farmacias}} -->
+			
 			<b-form-group label="*Farmacia" label-for="cod_farmacia">
 				<b-form-select
 					id="cod_farmacia"
@@ -127,9 +121,7 @@
 					required
 				></v-autocomplete>
 
-				<!-- <b-form-invalid-feedback id="id_medico-live-feedback"
-          >{{ validacion.id_medico.mensaje }}
-        </b-form-invalid-feedback> -->
+			
 			</b-form-group>
 
 			<!-- Fecha de emision -->
@@ -217,6 +209,14 @@
 			};
 		},
 		methods: {
+
+			getForeingKeys(){
+				this.receta.id_medicamento = "http://localhost:8081/medicamentos/"+this.receta.medicamento.split('-')[0]+"/";
+				this.receta.cod_farmacia = "http://localhost:8081/farmacias/"+this.receta.farmacia.split('-')[0]+"/";
+				this.receta.numero_socio = "http://localhost:8081/socios/"+this.receta.socio.split('-')[0]+"/";
+				this.receta.id_medico = "http://localhost:8081/profesionales/"+this.receta.medico.split('-')[0]+"/";
+			},
+
 			async getSocios() {
 				let socioAPI = new APIControler();
 				socioAPI.apiUrl.pathname = "socios/";
@@ -367,6 +367,7 @@
 			},
 		},
 		beforeMount() {
+			this.getForeingKeys();
 			this.getSocios();
 			this.getMedicamentos();
 			this.getFarmacias();
