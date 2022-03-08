@@ -12,13 +12,13 @@ from Mutuales.serializers import  MutualesSerializer, ServiciosSerializer, Servi
 class ServiciosViewSet(viewsets.ModelViewSet):
     queryset = servicios.objects.all()
     serializer_class = ServiciosSerializer
-    permission_required = (
-        'Servicios.view_servicios',
-        'Servicios.add_servicios',
-        'Servicios.change_servicios',
-        'Servicios.delete_servicios',
-    )
-    permission_classes = (IsAuthenticated,)
+    # permission_required = (
+    #     'Servicios.view_servicios',
+    #     'Servicios.add_servicios',
+    #     'Servicios.change_servicios',
+    #     'Servicios.delete_servicios',
+    # )
+    # permission_classes = (IsAuthenticated,)
     # login_url = '/auth/login/'
     #redirect_field_name = 'redirect_to'
 
