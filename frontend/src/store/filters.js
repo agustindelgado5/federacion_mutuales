@@ -299,3 +299,12 @@ Vue.filter("ModoPago", (value, option) => {
 	}
 });
 
+//Filtros en Cirugias
+
+Vue.filter("Institucion", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.institucion == option);
+	} else {
+		return value;
+	}
+});

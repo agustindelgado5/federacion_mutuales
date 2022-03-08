@@ -86,10 +86,11 @@
 				<b-form-input
 					id="numero_ayudantes"
 					v-model="cirugia.numero_ayudantes"
+					:state="validacion.numero_ayudantes.estado"
 					type="number"
 					placeholder="Ingrese el numero de ayudantes"
 					invalid-feedback="Complete este campo"
-					:state="validacion.numero_ayudantes.estado"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="numero_ayudantes-live-feedback"
@@ -101,9 +102,11 @@
 				<b-form-input
 					id="honorario_cirujano"
 					v-model="cirugia.honorario_cirujano"
+					:state="validacion.honorario_cirujano.estado"
 					type="text"
 					placeholder="Ingrese el honorario del cirujano "
 					invalid-feedback="Complete este campo"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="honorario-live-feedback"
@@ -115,10 +118,11 @@
 				<b-form-input
 					id="honorario_ayudante"
 					v-model="cirugia.honorario_ayudante"
+					:state="validacion.honorario_ayudante.estado"
 					type="text"
 					placeholder="Ingrese el honorario del ayudante"
 					invalid-feedback="Complete este campo"
-					:state="validacion.honorario_ayudante.estado"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="honorario_ayudante-live-feedback"
@@ -126,14 +130,15 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="Observacion" label-for="observacion">
+			<b-form-group label="*Observacion" label-for="observacion">
 				<b-form-input
 					id="observacion"
 					v-model="cirugia.observacion"
+					:state="validacion.observacion.estado"
 					type="text"
 					placeholder="Ingrese una observacion"
 					invalid-feedback="Complete este campo"
-					:state="validacion.observacion.estado"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="observacion-live-feedback"
