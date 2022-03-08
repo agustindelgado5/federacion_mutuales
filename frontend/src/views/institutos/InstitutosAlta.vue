@@ -20,21 +20,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 			-->
-			<b-form-group label="*Codigo de instituto" label-for="codigo_institucion">
-				<b-form-input
-					id="codigo_institucion"
-					v-model="instituto.codigo_institucion"
-					type="text"
-					placeholder="Ingrese el código"
-					invalid-feedback="Complete este campo"
-					:state="validacion.codigo_institucion.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="codigo_institucion-live-feedback"
-					>{{ validacion.codigo_institucion.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
+			
 
 			<b-form-group label="*Nombre" label-for="nombre">
 				<b-form-input
@@ -228,7 +214,7 @@
 				validacion: {
 					//id_medico: { estado: null, mensaje: "" },
 					//codigo_institucion: { estado: null, mensaje: "" },
-					codigo_institucion: { estado: null, mensaje: "" },
+					//codigo_institucion: { estado: null, mensaje: "" },
 					nombre: { estado: null, mensaje: "" },
 					cuit: { estado: null, mensaje: "" },
 					direccion: { estado: null, mensaje: "" },

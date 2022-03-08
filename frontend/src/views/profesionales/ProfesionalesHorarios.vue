@@ -24,7 +24,9 @@
 						rows="3"
 						max-rows="6"
 					></b-form-textarea>
+					<!--
 					{{ cons.horariosAtencion }}
+					-->
 				</div>
 			</div>
 

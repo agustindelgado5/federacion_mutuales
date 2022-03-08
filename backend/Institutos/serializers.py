@@ -29,6 +29,7 @@ class InstitutosProfesionalesSerializer(serializers.HyperlinkedModelSerializer):
             "id_inst_prof",
             "codigo_institucion",
             "id_medico",
+            "horarios",
         
         )
         #read_only_fields = ["created ", "updated"]

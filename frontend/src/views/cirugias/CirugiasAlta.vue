@@ -15,59 +15,40 @@
 
 		<!------------------------------------------------------------------------------------------->
 		<b-form>
-			<b-form-group
-				label="*Codigo de intervencion"
-				label-for="codigo_intervencion"
-			>
-				<!-- codigo_intervencion -->
-				<b-form-input
-					id="codigo_intervencion"
-					v-model="cirugia.codigo_intervencion"
+			<!-- numero_socio-->
+			<b-form-group label="*Socio" label-for="numero_socio">
+				<b-form-select
+					id="numero_socio"
+					v-model="cirugia.numero_socio"
 					type="text"
-					placeholder="Ingrese el código"
+					placeholder="Ingrese un Numero"
 					invalid-feedback="Complete este campo"
-					:state="validacion.codigo_intervencion.estado"
+					:state="validacion.numero_socio.estado"
 					required
+					:options="op_socios"
 				>
-				</b-form-input>
-				<b-form-invalid-feedback id="codigo_intervencion-live-feedback"
-					>{{ validacion.codigo_intervencion.mensaje }}
+				</b-form-select>
+				<b-form-invalid-feedback id="numero_socio-live-feedback"
+					>{{ validacion.numero_socio.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
-				<!-- numero_socio-->
-			<b-form-group label="*Socio" label-for="numero_socio">
-			<b-form-select
-				id="numero_socio"
-				v-model="cirugia.numero_socio"
-				type="text"
-				placeholder="Ingrese un Numero"
-				invalid-feedback="Complete este campo"
-				:state="validacion.numero_socio.estado"
-				required
-				:options="op_socios"
-			>
-			</b-form-select>
-			<b-form-invalid-feedback id="numero_socio-live-feedback"
-				>{{ validacion.numero_socio.mensaje }}
-			</b-form-invalid-feedback>
-		</b-form-group>
-		<!--codigo_institucion-->
-		<b-form-group label="*Codigo de instituto" label-for="codigo_institucion">
-			<b-form-select
-				id="codigo_institucion"
-				v-model="cirugia.codigo_institucion"
-				type="text"
-				placeholder="Ingrese un Numero"
-				invalid-feedback="Complete este campo"
-				:state="validacion.codigo_institucion.estado"
-				required
-				:options="op_institucion"
-			>
-			</b-form-select>
-			<b-form-invalid-feedback id="codigo_institucion-live-feedback"
-				>{{ validacion.codigo_institucion.mensaje }}
-			</b-form-invalid-feedback>
-		</b-form-group>
+			<!--codigo_institucion-->
+			<b-form-group label="*Codigo de instituto" label-for="codigo_institucion">
+				<b-form-select
+					id="codigo_institucion"
+					v-model="cirugia.codigo_institucion"
+					type="text"
+					placeholder="Ingrese un Numero"
+					invalid-feedback="Complete este campo"
+					:state="validacion.codigo_institucion.estado"
+					required
+					:options="op_institucion"
+				>
+				</b-form-select>
+				<b-form-invalid-feedback id="codigo_institucion-live-feedback"
+					>{{ validacion.codigo_institucion.mensaje }}
+				</b-form-invalid-feedback>
+			</b-form-group>
 
 			<b-form-group label="*Descripcion" label-for="descripcion">
 				<b-form-input
@@ -130,10 +111,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group
-				label="Honorarios ayudantes"
-				label-for="honorario_ayudante"
-			>
+			<b-form-group label="Honorarios ayudantes" label-for="honorario_ayudante">
 				<b-form-input
 					id="honorario_ayudante"
 					v-model="cirugia.honorario_ayudante"
@@ -183,9 +161,11 @@
 				cirugia: {},
 				data: {},
 				op_socios: [{ value: null, text: "Elija un socio", disabled: true }],
-				op_institucion: [{ value: null, text: "Elija una Institución", disabled: true }],
+				op_institucion: [
+					{ value: null, text: "Elija una Institución", disabled: true },
+				],
 				validacion: {
-					codigo_intervencion: { estado: null, mensaje: "" },
+					//codigo_intervencion: { estado: null, mensaje: "" },
 					codigo_institucion: { estado: null, mensaje: "" },
 					numero_socio: { estado: null, mensaje: "" },
 					descripcion: { estado: null, mensaje: "" },
@@ -201,8 +181,7 @@
 		},
 
 		methods: {
-
-				async getSocios() {
+			async getSocios() {
 				let socioAPI = new APIControler();
 				socioAPI.apiUrl.pathname = "socios/";
 				this.data = await socioAPI.getData(this.list_socios);
@@ -223,18 +202,17 @@
 					}
 				});
 			},
-				async getInstitucion() {
+			async getInstitucion() {
 				let institutoAPI = new APIControler();
 				institutoAPI.apiUrl.pathname = "institutos/";
 				this.data = await institutoAPI.getData(this.list_institutos);
 				this.data.forEach((element) => {
 					let option = {};
 					option.value =
-						"http://localhost:8081/institutos/" + element.codigo_institucion + "/";
-					option.text =
-						element.codigo_institucion+
-						"-- " +
-						element.nombre;
+						"http://localhost:8081/institutos/" +
+						element.codigo_institucion +
+						"/";
+					option.text = element.codigo_institucion + "-- " + element.nombre;
 					console.log(option);
 					this.op_institucion.push(option);
 				});
@@ -248,7 +226,7 @@
 				cirugiaAPI.apiUrl.pathname = "cirugias/";
 				this.respuesta = await cirugiaAPI.postData(this.cirugia);
 				this.cargarFeedback();
-        		this.updateTable();
+				this.updateTable();
 			},
 
 			cargarFeedback() {
@@ -265,8 +243,7 @@
 		},
 		beforeMount() {
 			this.getSocios();
-			this.getInstitucion()
-
+			this.getInstitucion();
 		},
 	};
 </script>

@@ -1,6 +1,6 @@
 modos_pagos= [
     ("Efectivo","1- Efectivo"),
     ("CBU","2- CBU" ),
-    ("debito","3- debito"),
-    ("Tarjeta","4- Tarjeta"),
-    ]
+    ("Tarjeta de Debito","3- Tarjeta de Debito"),
+    ("Tarjeta de Credito","4- Tarjeta de Credito"),
+]

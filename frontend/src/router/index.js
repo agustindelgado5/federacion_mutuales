@@ -11,7 +11,10 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () =>
+      import(
+        /* webpackChunkName: "profesionales" */ "../components/MyMenu.vue"
+      ),
     meta: { title: 'Home - Federación Tucumana de Mutuales' },
     webpackChunkName: "Home",
   },
@@ -23,6 +26,15 @@ const routes = [
         /* webpackChunkName: "profesionales" */ "../views/profesionales/Profesionales.vue"
       ),
     meta: { title: 'Profesionales - Federación Tucumana de Mutuales' }
+  },
+  {
+    path: "/pagadoprofesionales",
+    name: "Pagado Profesionales",
+    component: () =>
+      import(
+        /* webpackChunkName: "profesionales" */ "../views/pagadoprofesionales/PagadoProfesionales.vue"
+      ),
+    meta: { title: 'Pagado Profesionales - Federación Tucumana de Mutuales' }
   },
   {
     path: "/profesionales/list_pagos",
@@ -149,6 +161,12 @@ const routes = [
     name: 'Planes',
     component: () => import('../views/planes/Planes.vue'),
     meta: { title: 'Planes - Federación Tucumana de Mutuales' }
+  },
+  {
+    path: '/cristales',
+    name: 'Cristales',
+    component: () => import('../views/cristales/Cristales.vue'),
+    meta: { title: 'Cristales - Federación Tucumana de Mutuales' }
   },
   {
     path: '/test_form',

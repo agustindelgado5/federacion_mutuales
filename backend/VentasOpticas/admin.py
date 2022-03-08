@@ -5,9 +5,9 @@ from .models import ventasOpticas
 
 
 class ventasOpticasAdmin(admin.ModelAdmin):
-    list_display = ("codigo_seguimiento")
-    search_fields = ("codigo_seguimiento")
-    ordering = ["codigo_seguimiento"]
+    list_display = ("id_venta","numero_socio","lente","cristal_derecho","cristal_izquierdo","fecha_receta","fecha_venta")
+    search_fields = ("id_venta","numero_socio","lente","cristal_derecho","cristal_izquierdo","fecha_receta","fecha_venta")
+    ordering = ["id_venta"]
 
     readonly_fields = ("created", "updated")
 

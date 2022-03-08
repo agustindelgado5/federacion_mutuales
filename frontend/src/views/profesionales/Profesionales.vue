@@ -345,13 +345,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									<b-input-group size="sm">
 										<b-form-input
 											id="filter-input"
-											v-model="filter"
+											v-model="filter_consultorios"
 											type="search"
 											placeholder="Buscar registros"
 										></b-form-input>
 
 										<b-input-group-append>
-											<b-button :disabled="!filter" @click="filter = ''">
+											<b-button :disabled="!filter_consultorios" @click="filter_consultorios = ''">
 												Limpiar
 											</b-button>
 										</b-input-group-append>
@@ -364,7 +364,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									:fields="fields_consultorios"
 									:sticky-header="true"
 									:no-border-collapse="true"
-									:filter="filter"
+									:filter="filter_consultorios"
+									@filtered="onFiltered"
 									show-empty
 								>
 									<template #empty="">
@@ -647,16 +648,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						key: "especialidad",
 						sortable: true,
 					},
-                    {
-                        key: "diasliquidacion",
-                        label: "Dias de Liquidacion",
-                        sortable: true,
-                    },
-                    {
-						key: "totaldepago",
-                        label: "Total a pagar",
-                        sortable: true,
-                    },
+					{
+						key: "diasliquidacion",
+						label: "Dias de Liquidacion",
+						sortable: true,
+					},
+					{
+						key: "totalapagar",
+						label: "Total a pagar",
+						sortable: true,
+					},
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				fields_consultorios: [
@@ -720,6 +721,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 				//Campos a filtrar
 				filter_especialidad: null,
+				filter_consultorios: null,
 			};
 		},
 

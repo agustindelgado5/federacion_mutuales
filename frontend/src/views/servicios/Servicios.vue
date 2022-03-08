@@ -1,106 +1,103 @@
 <template>
   <div>
-    <h1>Listado de Servicios</h1>
-    <v-data-table
-      :headers="headers"
-      :items="tabla_servicios"
-      :items-per-page="10"
-      class="elevation-1"
+    <vue-headful
+      title="Servicios - Federación Tucumana de Mutuales"
+    ></vue-headful>
+    <h2>Listado de Servicios</h2>
+    <b-button v-b-modal.modal-form style="color: white" class="mb-4 ml-2">
+      Nuevo Servicio
+    </b-button>
+    <b-modal id="modal-form" title="Alta" hide-footer ok-only>
+      <BaseForm :fields="formFields" :createFunction="createServicios" />
+    </b-modal>
+    <b-modal
+      id="modal-form-update"
+      ref="modal-form-update"
+      title="Modificar"
+      hide-footer
+      ok-only
     >
-      <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title>Servicios</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-spacer></v-spacer>
-          <v-dialog v-model="dialog">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn class="mb-2" v-bind="attrs" v-on="on"> Nuevo </v-btn>
-            </template>
-            <servicio-form v-on:close="closeDialog()" v-on:new="saveNewItem" />
-          </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="text-h5"
-                >¿Seguro que quieres elminar?</v-card-title
-              >
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete"
-                  >Cancelar</v-btn
-                >
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-                  >Eliminar</v-btn
-                >
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
-      </template>
-      <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-      </template>
-    </v-data-table>
+      <BaseForm :fields="formFields" :updateFunction="updateServicio" />
+    </b-modal>
+    <BaseTable
+      :fields="fields"
+      :items="items"
+      :deleteFunction="deleteServicio"
+      :selectRow="selectRow"
+    />
   </div>
 </template>
 
 <script>
+import BaseTable from "@/components/BaseTable.vue";
+import BaseForm from "@/components/BaseForm.vue";
+
 import { Fetcher } from "@/store/utils/Fetcher";
-import ServicioForm from "./ServicioForm.vue";
 
 export default {
-  components: { ServicioForm },
+  components: { BaseTable, BaseForm },
   data() {
     return {
-      headers: [
-        { text: "servicio", value: "servicio", sortable: true },
-        { text: "Acciones", value: "actions", sortable: false },
+      fields: [
+        { key: "servicio", label: "Servicios", sortable: true },
+        { key: "action", label: "Acciones", variant: "secondary" },
       ],
-      tabla_servicios: [],
-      itemSelected: {},
-      dialog: false,
-      dialogDelete: false,
+      formFields: [
+        {
+          form_input: "input",
+          id: "servicio",
+          name: "servicio",
+          value: "",
+          type: "text",
+          label: "Servicio",
+          placeholder: "Ej: Odontología",
+          invalid_feedback: "Ingrese un nombre de servicio valido",
+          required: true,
+        },
+      ],
+      items: [],
       fetcher: new Fetcher("servicios/"),
+      selectedRow: {},
     };
   },
   methods: {
-    async llenar_tabla() {
-      let res = await this.fetcher.get();
-      let items = await res.json();
-      this.tabla_servicios = items.results;
+    async getServicios() {
+      this.items = await this.fetcher.getList();
     },
-    async saveNewItem(item) {
-      let res = await this.fetcher.post(item);
-      res.status === 201
-        ? this.tabla_servicios.push(item)
-        : console.error("No se pudo agregar");
+    async createServicios(payload) {
+      let res = await this.fetcher.post(payload);
+      if (res.status === 201) {
+        alert("Servicio creado: " + payload.servicio);
+        this.getServicios();
+      } else alert("No se pudo crear el servicio: " + payload.servicio);
     },
-    editItem(item) {},
-    deleteItem(item) {
-      this.itemSelected = item;
-      this.dialogDelete = true;
+    async updateServicio(payload) {
+      let res = await this.fetcher.put(
+        this.selectedRow.item.id_servicio,
+        payload
+      );
+      if (res.status === 200) {
+        alert("Servicio modificado: " + payload.servicio);
+        this.getServicios();
+      } else alert("No se pudo modificar el servicio: " + payload.servicio);
     },
-    closeDialog() {
-      this.dialog = false;
+    async deleteServicio(row) {
+      let res = await this.fetcher.delete(row.item.id_servicio);
+      if (res.status === 204) {
+        alert("Servicio Eliminado: " + row.item.servicio);
+        this.getServicios();
+      } else alert("No se pudo elminar el servicio");
     },
-    closeDelete() {
-      this.dialogDelete = false;
-    },
-    async deleteItemConfirm() {
-      let res = await this.fetcher.delete(this.itemSelected.id_servicio);
-      res.status === 204
-        ? this.llenar_tabla()
-        : console.error("No se pudo eliminar");
-
-      this.closeDelete();
+    selectRow(row) {
+      this.selectedRow = row;
+      this.$refs["modal-form-update"].show();
     },
   },
   created() {
-    this.llenar_tabla();
+    this.getServicios();
   },
 };
 </script>
 
-<style>
+<style scoped>
 </style>

@@ -326,6 +326,7 @@
 	import { APIControler } from "../store/APIControler";
 	import swal from "sweetalert";
 	import _ from "lodash";
+    import axios from "axios";
 	import { mapState, mapActions } from "vuex";
 
 	export default {
@@ -335,6 +336,7 @@
 				tabla_profesionales: [],
 				data: {},
 				tabla_ordenes: [],
+                list_pagado: {},
 				//profesionales:[],
 				fields: [
 					{
@@ -384,6 +386,11 @@
                         key: "liquidacionlista",
                         label: "Liquidacion Lista",
                         sortable: true,
+					},
+                    {
+                        key: "pagado",
+                        label: "Ya Pagado",
+                        sortable: true,
                     },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
@@ -395,6 +402,7 @@
 				currentPage: 1, //Pagina actual
 				perPage: 30, // Datos en la tabla por pagina
 				ordenAPDF: {},
+				pagadardo: 0,
 				options: [
 					{
 						value: null,
@@ -453,16 +461,23 @@
 			//Funcion para sumar el total de las ordenes por mes
 			sumaTotal(array) {
 				let suma = 0;
-				for (let index = 0; index < array.length; index++) {
-					suma += array[index].preciomutual;
+				if (array != null)
+				{
+                    for (let index = 0; index < array.length; index++) {
+                        suma += array[index].preciomutual;
+                    }
 				}
 				return suma;
 			},
             sumaTotal2(array) {
-                let suma = 0;
-                for (let index = 0; index < array.length; index++) {
-                    suma += array[index].total;
-                }
+				let suma = 0;
+				if (array != null) {
+					for (let index = 0; index < array.length; index++) {
+						if (array[index].liquidacionlista == 'Si') {
+                            suma += array[index].total - array[index].pagado;
+						}
+					}
+				}
                 return suma;
 			},
             diasdediff(fecha) {
@@ -494,7 +509,52 @@
 				console.log("FECHA", mesMM);
 				return mesMM[0].inicial + "/" + anio;
 			},
-
+			formatoMesAnio(mes, fecha)
+			{
+				let mesusado = '';
+                let anio = fecha.split('-')[0]
+				switch (mes)
+				{
+					case 'Enero':
+						mesusado = 'ENE';
+						break;
+                    case 'Febrero':
+                        mesusado = 'FEB';
+						break;
+                    case 'Marzo':
+                        mesusado = 'MAR';
+						break;
+                    case 'Abril':
+                        mesusado = 'ABR';
+						break;
+                    case 'Mayo':
+                        mesusado = 'MAY';
+						break;
+                    case 'Junio':
+                        mesusado = 'JUN';
+						break;
+                    case 'Julio':
+                        mesusado = 'JUL';
+						break;
+                    case 'Agosto':
+                        mesusado = 'AGO';
+						break;
+                    case 'Septiembre':
+                        mesusado = 'SEP';
+						break;
+                    case 'Octubre':
+                        mesusado = 'OCT';
+						break;
+                    case 'Noviembre':
+                        mesusado = 'NOV';
+						break;
+                    case 'Diciembre':
+                        mesusado = 'DIC';
+                        break;
+				}
+				mesusado = mesusado + '/' + anio;
+				return mesusado;
+			},
 			//Funcion para agrupar las ordenes por profesional y mes
 			async GroupOrdenes(lista_orden) {
 				let pagos = sessionStorage.getItem("pagos");
@@ -515,7 +575,8 @@
 							mesOrden.ListOrdenes = [];
 							mesOrden.formaPago = mes.formaPago;
 							mesOrden.total = parseFloat(0);
-                            mesOrden.liquidacionlista = 'No';
+							mesOrden.liquidacionlista = 'No';
+                            mesOrden.pagado = this.GetPagadoDef(parseInt(result.id_medico), mesOrden.mes);
 							lista_orden.forEach((orden) => {
 								if (
 									orden.id_medico == result.id_medico &&
@@ -559,7 +620,9 @@
 								result.ordenes.push(mesOrden);
 							}
 						});
+						console.log("Hoal");
                         result.totalapagar = this.sumaTotal2(result.ordenes);
+						this.cambioenprof(result.id_medico, result.totalapagar);
 						if (
 							this.tabla_ordenes.find((x) => x.id_medico == result.id_medico)
 						) {
@@ -584,6 +647,7 @@
 					var lista_orden = data.results;
 					var modo_pago = null;
 
+					console.log("1");
 					for (var i = 0; i < lista_orden.length; i++) {
 						var medico = await this.getProfesional(
 							lista_orden[i].id_medico.split("/")[4]
@@ -604,7 +668,6 @@
 							lista_orden[i].fecha.split("-")[0]
 						);
 					}
-
 					console.log(lista_orden);
 
 					this.GroupOrdenes(lista_orden);
@@ -620,7 +683,48 @@
 					this.show = false;
 				}
 			},
+            async getPagado() {
+				try {
+                    let apiPag = new URL("http://localhost");
+                    apiPag.pathname = "pagadoprofesionales";
+                    //api.port = 8000;
+                    apiPag.port = 8081;
 
+                    const res = await fetch(apiPag);
+					const data = await res.json();
+
+                    this.lista_pagado = data.results;
+                } catch (error) {
+                    console.log(error);
+                }
+			},
+			async cambioenprof(id_medico, totalapagarlo)
+			{
+                const item_prof = await fetch("http://localhost:8081/profesionales/" +
+					id_medico);
+                const data = await item_prof.json();
+				data.totalapagar = totalapagarlo;
+				this.respuesta = await axios.put(
+					"http://localhost:8081/profesionales/" +
+					id_medico +
+					"/",
+					data
+                );
+			},
+            GetPagadoDef(id_medicardo, mesardo)
+			{
+                let pagado = 0;
+
+				for (var i = 0; i < this.lista_pagado.length; i++) {
+					console.log("Mes Pagado:", this.lista_pagado[i].mespagado);
+					console.log("Fecha:", this.lista_pagado[i].fecha);
+                    console.log("Resultado:", );
+                    if ((parseInt(this.lista_pagado[i].id_medico.split("/")[4]) == id_medicardo) && (this.formatoMesAnio(this.lista_pagado[i].mespagado, this.lista_pagado[i].fecha) == mesardo)) {
+						pagado = pagado + parseInt(this.lista_pagado[i].total);
+					}
+				}
+				return pagado;
+			},
 			//Funcion para mostrar el modal
 			showModal() {
 				this.$refs["my-modal"].show();
@@ -660,6 +764,7 @@
 					this.set_pagos(this.tabla_ordenes);
 				}
 			},
+
 			/*
 			auxOrdenesMes(orden){
 				this.orden_del_mes.push(orden);
@@ -706,6 +811,8 @@
 		beforeMount() {
 			this.show = true;
 			this.getOrdenes();
+			this.getPagado();
+			console.log(this.formatoMesAnio('Febrero', '02-03-2021'));
 			//this.saveFile();
 		},
 	};

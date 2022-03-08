@@ -27,7 +27,7 @@ class SociosSerializer(serializers.HyperlinkedModelSerializer):
             "carencia",
             "id_mutual",
             "tieneObraSocial",
-            "metodoPago",
+            "metodopago",
             "cobrador",
             "monto"
             # "plan",

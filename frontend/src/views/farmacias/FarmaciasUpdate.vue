@@ -20,27 +20,6 @@
 					role="tabpanel"
 				>
 					<b-card-body>
-						<!-- cod_farmacia -->
-						<b-form-group
-							label="*ID Farmacia"
-							label-for="cod_farmacia"
-							@submit.stop.prevent="handleSubmit"
-						>
-							<b-form-input
-								id="cod_farmacia"
-								v-model="farmacia.cod_farmacia"
-								:state="validacion.cod_farmacia.estado"
-								type="number"
-								placeholder="Ingrese el ID de la farmacia"
-								invalid-feedback="Complete este campo"
-								required
-							>
-							</b-form-input>
-							<b-form-invalid-feedback id="cod_farmacia-live-feedback"
-								>{{ validacion.cod_farmacia.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
-
 						<!-- matricula_farm -->
 						<b-form-group
 							label="*Matricula Farmacia"
@@ -88,7 +67,7 @@
 							<b-form-input
 								id="cuit"
 								v-model="farmacia.cuit"
-								type="number"
+								type="text"
 								placeholder="Ingrese el CUIT de la farmacia"
 								:state="validacion.cuit.estado"
 								invalid-feedback="Complete este campo"
@@ -291,7 +270,11 @@
 						</b-form-group>
 
 						<!-- entidad_bancaria -->
-						<b-form-group label="*Entidad Bancaria" label-for="entidad_bancaria">
+						<b-form-group
+							label="*Entidad Bancaria"
+							label-for="entidad_bancaria"
+						>
+							<!--
 							<b-form-input
 								id="entidad_bancaria"
 								v-model="farmacia.entidad_bancaria"
@@ -302,6 +285,15 @@
 								required
 							>
 							</b-form-input>
+							-->
+							<v-autocomplete
+								id="entidad_bancaria"
+								v-model="farmacia.entidad_bancaria"
+								:items="options_banco"
+								type="text"
+								solo
+								filled
+							></v-autocomplete>
 							<b-form-invalid-feedback id="entidad_bancaria-live-feedback"
 								>{{ validacion.entidad_bancaria.mensaje }}
 							</b-form-invalid-feedback>
@@ -328,11 +320,7 @@
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<!--tipo_cuenta-->
-						<b-form-group
-							label="*Tipo de cuenta"
-							label-for="tipo_cuenta"
-							
-						>
+						<b-form-group label="*Tipo de cuenta" label-for="tipo_cuenta">
 							<b-form-select
 								id="tipo_cuenta"
 								v-model="farmacia.tipo_cuenta"
@@ -346,11 +334,7 @@
 							</b-form-select>
 						</b-form-group>
 						<!--modalidad_pago-->
-						<b-form-group
-							label="*Modalidad De Pago"
-							label-for="modalidad_pago"
-							
-						>
+						<b-form-group label="*Modalidad De Pago" label-for="modalidad_pago">
 							<b-form-select
 								id="modalidad_pago"
 								v-model="farmacia.modalidad_pago"
@@ -390,7 +374,7 @@
 				options: [{ value: null, text: "Elija una farmacia", disabled: true }],
 
 				validacion: {
-					cod_farmacia: { estado: null, mensaje: "" },
+					//cod_farmacia: { estado: null, mensaje: "" },
 					cuit: { estado: null, mensaje: "" },
 					farmacia: { estado: null, mensaje: "" },
 					direccion: { estado: null, mensaje: "" },
@@ -402,18 +386,20 @@
 					matricula_farm: { estado: null, mensaje: "" },
 					representante: { estado: null, mensaje: "" },
 					cbu: { estado: null, mensaje: "" },
-					entidad_bancaria:{ estado: null, mensaje: "" },
+					entidad_bancaria: { estado: null, mensaje: "" },
 					nro_cuenta: { estado: null, mensaje: "" },
 					tipo_cuenta: { estado: null, mensaje: "" },
 					modalidad_pago: { estado: null, mensaje: "" },
 				},
 				options1: [
 					{ value: "Cuenta Corriente", text: "1- Cuenta Corriente" },
-					{ value: "Caja de ahorros", text: "2- Caja de ahorros" },],
+					{ value: "Caja de ahorros", text: "2- Caja de ahorros" },
+				],
 
 				options2: [
 					{ value: "Efectivo", text: "1- Efectivo" },
-					{ value: "Transferencia", text: "2- Transferencia" },],
+					{ value: "Transferencia", text: "2- Transferencia" },
+				],
 			};
 		},
 		created: function () {

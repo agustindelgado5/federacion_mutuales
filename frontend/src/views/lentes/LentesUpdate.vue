@@ -19,78 +19,55 @@
 					role="tabpanel"
 				>
 					<b-card-body>
-						<b-form-group label="*Codigo Optica" label-for="codigo_optica">
-							<!-- codigo_optica -->
+						
+						<b-form-group label="*Diametro del cristal" label-for="diametro_cristal">
 							<b-form-input
-								id="codigo_optica"
-								v-model="lente.codigo_optica"
+								id="diametro_cristal"
+								v-model="lente.diametro_cristal"
+								:state="validacion.diametro_cristal.estado"
 								type="text"
-								placeholder="Ingrese el código"
-								invalid-feedback="Complete este campo"
-								:state="validacion.codigo_optica.estado"
-								required
-								:disabled="true"
-							>
-							</b-form-input>
-							<b-form-invalid-feedback id="codigo_optica-live-feedback"
-								>{{ validacion.codigo_optica.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
-						<!-- 
-						<b-form-group
-							label="*Codigo Seguimiento"
-							label-for="codigo_seguimiento"
-						>
-							<b-form-input
-								id="cod_seguimiento"
-								v-model="lente.codigo_seguimiento"
-								type="text"
-								placeholder="Ingrese un Numero"
+								placeholder="*Ingrese un diametro"
 								invalid-feedback="Complete este campo"
 								required
-								:state="validacion.codigo_seguimiento.estado"
-								:options="options"
 							>
 							</b-form-input>
-							<b-form-invalid-feedback id="codigo_seguimiento-live-feedback">
-								{{ validacion.codigo_seguimiento.mensaje }}
+							<b-form-invalid-feedback id="diametro_cristal-live-feedback"
+								>{{ validacion.diametro_cristal.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
-            -->
 
-						<b-form-group label="*Medida Lente" label-for="medida_lente">
+						<b-form-group label="*Largo de las Patillas" label-for="largo_patillas">
 							<b-form-input
-								id="medida_lente"
-								v-model="lente.medida_lente"
-								:state="validacion.medida_lente.estado"
-								type="text"
+								id="largo_patillas"
+								v-model="lente.largo_patillas"
+								:state="validacion.largo_patillas.estado"
+								type="number"
 								placeholder="*Ingrese una medida"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
-							<b-form-invalid-feedback id="medida_lente-live-feedback"
-								>{{ validacion.medida_lente.mensaje }}
+							<b-form-invalid-feedback id="largo_patillas-live-feedback"
+								>{{ validacion.largo_patillas.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="*Patillas" label-for="patillas">
+						<b-form-group label="*Ancho del puente" label-for="ancho_puente">
 							<b-form-input
-								id="patillas"
-								v-model="lente.patillas"
-								:state="validacion.patillas.estado"
+								id="ancho_puente"
+								v-model="lente.ancho_puente"
+								:state="validacion.ancho_puente.estado"
 								type="number"
-								placeholder="*Ingrese una abrebiatura"
+								placeholder="*Ingrese una medida"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
-							<b-form-invalid-feedback id="patillas-live-feedback"
-								>{{ validacion.patillas.mensaje }}
+							<b-form-invalid-feedback id="ancho_puente-live-feedback"
+								>{{ validacion.ancho_puente.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
-
-						<b-form-group label="*Marca" label-for="marca">
+						<b-form-group label="Marca" label-for="marca">
 							<b-form-input
 								id="marca"
 								v-model="lente.marca"
@@ -98,7 +75,7 @@
 								type="text"
 								placeholder="*Ingrese una marca"
 								invalid-feedback="Complete este campo"
-								required
+								
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="marca-live-feedback"
@@ -106,7 +83,39 @@
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="*Descripcion" label-for="descripcion">
+						<b-form-group label="Color" label-for="color">
+							<b-form-input
+								id="color"
+								v-model="lente.color"
+								:state="validacion.color.estado"
+								type="text"
+								placeholder="*Ingrese un color"
+								invalid-feedback="Complete este campo"
+								
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="color-live-feedback"
+								>{{ validacion.color.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+
+						<b-form-group label="Material" label-for="material">
+							<b-form-input
+								id="material"
+								v-model="lente.material"
+								:state="validacion.material.estado"
+								type="text"
+								placeholder="*Ingrese un material"
+								invalid-feedback="Complete este campo"
+								
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="material-live-feedback"
+								>{{ validacion.material.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+						
+						<b-form-group label="Descripcion" label-for="descripcion">
 							<b-form-input
 								id="descripcion"
 								v-model="lente.descripcion"
@@ -263,21 +272,20 @@
 				text: "",
 
 				validacion: {
-					codigo_optica: { estado: null, mensaje: "" },
-					codigo_seguimiento: { estado: null, mensaje: "" },
-					medida_lente: { estado: null, mensaje: "" },
-					patillas: { estado: null, mensaje: "" },
+					id_lente: { estado: null, mensaje: "" },
+					diametro_cristal: { estado: null, mensaje: "" },
+					largo_patillas: { estado: null, mensaje: "" },
+					ancho_puente: { estado: null, mensaje: "" },
 					marca: { estado: null, mensaje: "" },
+					color: { estado: null, mensaje: "" },
+					material: { estado: null, mensaje: "" },
 					descripcion: { estado: null, mensaje: "" },
-					precio_laboratorio: { estado: null, mensaje: "" },
 					precio_optica: { estado: null, mensaje: "" },
 					precio_mutual: { estado: null, mensaje: "" },
 					precio_venta: { estado: null, mensaje: "" },
 					precio_tarjeta: { estado: null, mensaje: "" },
 					stock: { estado: null, mensaje: "" },
 				},
-
-				respuesta: null,
 			};
 		},
 
@@ -300,16 +308,16 @@
 			},
 			*/
 
-			async getLentes() {
-				let lenteAPI = new APIControler();
-				this.data = await lenteAPI.getData();
-			},
+			// async getLentes() {
+			// 	let lenteAPI = new APIControler();
+			// 	this.data = await lenteAPI.getData();
+			// },
 			async putLente() {
 				let respuesta = "vacio";
 				// try{
 				await axios
 					.put(
-						"http://localhost:8081/lentes/" + this.lente.codigo_optica + "/",
+						"http://localhost:8081/lentes/" + this.lente.id_lente + "/",
 						this.lente
 					)
 					.then(function (data) {

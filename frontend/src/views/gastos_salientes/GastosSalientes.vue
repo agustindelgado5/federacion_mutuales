@@ -29,7 +29,7 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<gastosSalientes-alta :updateTable="testFetch"/>
+				<gastosSalientes-alta :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ================ELIMINAR VARIOS GASTOS======================== -->
@@ -152,121 +152,284 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
 
-			<!-- ======== Tabla con los registros ======= -->
-			<b-table
-				:fields="fields"
-				striped
-				sortable
-				responsive
-				hover
-				:items="tabla_gastosSalientes"
-				show-empty
-				:per-page="perPage"
-				:current-page="currentPage"
-				:sticky-header="true"
-				:no-border-collapse="false"
-				ref="tablaregistros"
-				id="tablaregistros"
-				:filter="filter"
-				@filtered="onFiltered"
-				@row-selected="seleccionar_una"
-				selectable
-				select-mode="multi"
-			>
-				<template #empty="">
-					<b>No hay registros para mostrar</b>
-				</template>
-
-				<template slot="cell(total)" slot-scope="data">
-					<b>${{ data.value }}</b>
-				</template>
-
-				<template slot="cell(fecha)" slot-scope="data">
-					{{ data.value | Date}}
-				</template>
-
-				<template #cell(selected)="{ rowSelected }">
-					<template v-if="rowSelected">
-						<span aria-hidden="true">&check;</span>
-						<span class="sr-only">Selected</span>
+			<section class="container">
+				<!-- ======== Tabla con los registros ======= -->
+				<b-table
+					:fields="fields"
+					striped
+					sortable
+					responsive
+					hover
+					:items="
+						tabla_gastosSalientes
+							| FechaRealizacionRange(
+								filter_fechaGasto.desde,
+								filter_fechaGasto.hasta
+							)
+							| ModoPago(filter_modoPago)
+					"
+					show-empty
+					:per-page="perPage"
+					:current-page="currentPage"
+					:sticky-header="true"
+					:no-border-collapse="false"
+					ref="tablaregistros"
+					id="tablaregistros"
+					:filter="filter"
+					@filtered="onFiltered"
+					@row-selected="seleccionar_una"
+					selectable
+					select-mode="multi"
+				>
+					<template #empty="">
+						<b>No hay registros para mostrar</b>
 					</template>
-					<template v-else>
-						<span aria-hidden="true">&nbsp;</span>
-						<span class="sr-only">Not selected</span>
+
+					<template slot="cell(id_gasto)" slot-scope="data">
+						<b>{{ data.value }}</b>
 					</template>
-				</template>
 
-				<template slot="cell(action)" slot-scope="row">
-					<div class="mt-3">
-						<b-button-group>
-							<b-button
-								variant="info"
-								id="button-1"
-								title="Mostrar Info"
-								@click="row.toggleDetails"
-								:disabled="btn_mostrar"
-							>
-								{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
-							</b-button>
+					<template slot="cell(total)" slot-scope="data">
+						<b>${{ data.value }}</b>
+					</template>
 
-							<b-button
-								variant="warning"
-								id="button-2"
-								title="Editar este registro"
-								v-b-modal.modal-editar
-								@click="editarGastoSaliente(row.item, row.index)"
-								:disabled="btn_editar"
-							>
-								<v-icon class="mr-2"> mdi-pencil </v-icon>
-								Editar
-							</b-button>
+					<template slot="cell(fecha)" slot-scope="data">
+						{{ data.value | Date }}
+					</template>
 
-							<b-button
-								variant="danger"
-								id="button-3"
-								@click="showModalinfo(row.item, row.index)"
-								title="Eliminar este registro"
-								:disabled="btn_eliminar"
-							>
-								<v-icon class="mr-2"> mdi-delete </v-icon>
-								Eliminar
-							</b-button>
-						</b-button-group>
-					</div>
-				</template>
+					<template #cell(selected)="{ rowSelected }">
+						<template v-if="rowSelected">
+							<span aria-hidden="true">&check;</span>
+							<span class="sr-only">Selected</span>
+						</template>
+						<template v-else>
+							<span aria-hidden="true">&nbsp;</span>
+							<span class="sr-only">Not selected</span>
+						</template>
+					</template>
 
-				<template #row-details="row">
-					<b-card title="Datos del gasto saliente: ">
-						<div>
-							<b-list-group horizontal>
-								<b-list-group class="col-3">
-									<b-list-group-item
-										><b>Id gasto:</b> {{ row.item.id_gasto }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Numero de ticket:</b>
-										{{ row.item.nro_ticket }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Descripcion:</b>
-										{{ row.item.descripcion }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Total:</b> {{ row.item.total }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Fecha:</b> {{ row.item.fecha }}</b-list-group-item
-									>
-									<b-list-group-item
-										><b>Modo de pago:</b> {{ row.item.modo_pago }}</b-list-group-item
-									>
-								</b-list-group>
-								&nbsp;
-							</b-list-group>
+					<template slot="cell(action)" slot-scope="row">
+						<div class="mt-3">
+							<b-button-group>
+								<b-button
+									variant="info"
+									id="button-1"
+									title="Mostrar Info"
+									@click="row.toggleDetails"
+									:disabled="btn_mostrar"
+								>
+									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+								</b-button>
+
+								<b-button
+									variant="warning"
+									id="button-2"
+									title="Editar este registro"
+									v-b-modal.modal-editar
+									@click="editarGastoSaliente(row.item, row.index)"
+									:disabled="btn_editar"
+								>
+									<v-icon class="mr-2"> mdi-pencil </v-icon>
+									Editar
+								</b-button>
+
+								<b-button
+									variant="danger"
+									id="button-3"
+									@click="showModalinfo(row.item, row.index)"
+									title="Eliminar este registro"
+									:disabled="btn_eliminar"
+								>
+									<v-icon class="mr-2"> mdi-delete </v-icon>
+									Eliminar
+								</b-button>
+							</b-button-group>
 						</div>
-					</b-card>
-				</template>
-			</b-table>
+					</template>
+
+					<template #row-details="row">
+						<b-card title="Datos del gasto saliente: ">
+							<div>
+								<b-list-group horizontal>
+									<b-list-group class="col-3">
+										<b-list-group-item
+											><b>Id gasto:</b>
+											{{ row.item.id_gasto }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Numero de ticket:</b>
+											{{ row.item.nro_ticket }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Descripcion:</b>
+											{{ row.item.descripcion }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Total:</b> {{ row.item.total }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Fecha:</b> {{ row.item.fecha }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Modo de pago:</b>
+											{{ row.item.modo_pago }}</b-list-group-item
+										>
+									</b-list-group>
+									&nbsp;
+								</b-list-group>
+							</div>
+						</b-card>
+					</template>
+				</b-table>
+				<b-container fluid>
+					<b-col class="my-1">
+						<b-pagination
+							v-model="currentPage"
+							align="center"
+							pills
+							:total-rows="totalRows"
+							:per-page="perPage"
+							aria-controls="table_gastosSalientes"
+						>
+						</b-pagination>
+					</b-col>
+				</b-container>
+			</section>
+
+			<aside v-show="rows > 0">
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="REGISTROS POR PAGINA"
+							class="text-center"
+						>
+							<b-form-group label-for="per-page-select" class="mb-0">
+								<b-form-select
+									id="per-page-select"
+									v-model="perPage"
+									:options="pageOptions"
+									size="sm"
+								></b-form-select>
+							</b-form-group>
+						</b-card>
+					</b-card-group>
+				</div>
+				<br />
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="FILTRAR POR"
+							class="text-center"
+						>
+							<div class="accordion" role="tablist">
+								<b-card no-body>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-filter-1
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											REALIZACION
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-filter-1"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+										style="color: black"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<b-form-group
+													label="Desde"
+													label-for="fecha_inicio_desde"
+												>
+													<b-form-input
+														id="fecha_inicio_desde"
+														v-model="filter_fechaGasto.desde"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+												<b-form-group
+													label="Hasta"
+													label-for="fecha_inicio_hasta"
+												>
+													<b-form-input
+														id="fecha_inicio_hasta"
+														v-model="filter_fechaGasto.hasta"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+
+												<div style="color: black">
+													{{ filter_fechaGasto.desde }} <br />
+													{{ filter_fechaGasto.hasta }} <br />
+												</div>
+												<div
+													v-show="
+														filter_fechaGasto.desde != null &&
+														filter_fechaGasto.hasta != null
+													"
+												>
+													<b-button
+														@click="limpiar_filtro_fechaGasto()"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-filter-2
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											MODO DE PAGO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-filter-2"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="localidad"
+													v-model="filter_modoPago"
+													:items="opcion_modoPago"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_modoPago != null">
+													<b-button
+														@click="filter_modoPago = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+								</b-card>
+							</div>
+						</b-card>
+					</b-card-group>
+				</div>
+			</aside>
 			<!-- ================ELIMINAR GASTO SALIENTE======================== -->
 
 			<b-modal
@@ -296,22 +459,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					Eliminar
 				</b-button>
 			</b-modal>
-			<b-container fluid>
-				<b-col class="my-1">
-					<b-pagination
-						v-model="currentPage"
-						align="center"
-						pills
-						:total-rows="rows"
-						:per-page="perPage"
-						aria-controls="table_gastosSalientes"
-					>
-					</b-pagination>
-				</b-col>
-			</b-container>
+
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<gastosSalientes-update :gastoSaliente="editar" :updateTable="testFetch"/>
+				<gastosSalientes-update
+					:gastoSaliente="editar"
+					:updateTable="testFetch"
+				/>
 			</b-modal>
 		</div>
 	</v-app>
@@ -347,12 +501,15 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
+				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
 				buscar: "",
 				editar: {},
 				infoEliminar: {
 					id: "modal_eliminar",
 					gastoSaliente: -1,
 				},
+
+				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
@@ -361,6 +518,26 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				btn_eliminar: false,
 				btn_select: false,
 				btn_limpiar: true,
+
+				//Opciones para filtar
+				opcion_modoPago: [
+					{
+						value: null,
+						text: "Elija un modo de pago",
+						selected: true,
+					},
+					{ value: "Efectivo", text: "1- Efectivo" },
+					{ value: "CBU", text: "2- CBU" },
+					{ value: "Tarjeta de Debito", text: "3- Tarjeta de Debito" },
+					{ value: "Tarjeta de Credito", text: "4- Tarjeta de Credito" },
+				],
+
+				//Campos a filtrar
+				filter_fechaGasto: {
+					desde: null,
+					hasta: null,
+				},
+				filter_modoPago: null,
 			};
 		},
 		computed: {
@@ -512,6 +689,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.btn_select = false;
 				this.btn_limpiar = true;
 			},
+
+			limpiar_filtro_fechaGasto() {
+				this.filter_fechaGasto.desde = null;
+				this.filter_fechaGasto.hasta = null;
+			},
 		},
 
 		beforeMount() {
@@ -529,5 +711,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		overflow: auto;
 		transition: 0.5s;
 		width: 100%;
+	}
+	.container {
+		float: left;
+		width: 80%;
+	}
+	aside {
+		float: right;
+		width: 20%;
 	}
 </style>

@@ -169,6 +169,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							| FechaRange(filter_fecha.desde, filter_fecha.hasta)
 							| Servicio(filter_servicio)
 							| Realizado(filter_realizado)
+							|Socio(filter_socio)
+							|Paciente(filter_paciente)
+							|Medico(filter_medico)
+							|Mutual(filter_mutual)
+							
 					"
 						 show-empty
 						 :per-page="perPage"
@@ -558,6 +563,154 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											</b-form-group>
 										</b-card-body>
 									</b-collapse>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-4
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											SOCIO
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-4"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="socio"
+													v-model="filter_socio"
+													:items="options_socio"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_socio != null">
+													<b-button
+														@click="filter_socio = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-5
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											Paciente
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-5"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-5">
+												<v-autocomplete
+													id="paciente"
+													v-model="filter_paciente"
+													:items="options_paciente"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_paciente!= null">
+													<b-button
+														@click="filter_paciente= null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-6
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											Medico
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-6"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-6">
+												<v-autocomplete
+													id="medico"
+													v-model="filter_medico"
+													:items="options_medico"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_medico!= null">
+													<b-button
+														@click="filter_medico= null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-7
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											Mutual
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-7"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-7">
+												<v-autocomplete
+													id="mutual"
+													v-model="filter_mutual"
+													:items="options_mutual"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_mutual != null">
+													<b-button
+														@click="filter_mutual = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
 								</b-card>
 							</div>
 						</b-card>
@@ -685,8 +838,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				},
 				filter_servicio: null,
 				filter_realizado: null,
+				filter_socio: null,
+				filter_paciente:null,
+				filter_medico:null,
+				filter_mutual:null,
 
 				//Opciones de filtrado
+				options_mutual: [{ value: null, text: "Elija un mutual",selected: true  }],
+				options_medico: [{ value: null, text: "Elija un medico",selected: true  }],
+				options_paciente: [{ value: null, text: "Elija un paciente",selected: true  }],
+				options_socio: [{ value: null, text: "Elija un socio",selected: true  }],
 				options_servicio: [{ value: null, text: "Elija un servicio" }],
 				ordenAPDF: {}, //Se carga cuando se hace clic en exportar a pdf, con la orden a exportar
 			};
@@ -723,13 +884,45 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					this.tabla_ordenes = lista_ordenes;
 
 					this.tabla_ordenes.forEach((element) => {
+						let opcionSoc = {};
 						let opcion = {};
+						let opcionPac={};
+						let opcionMed={};
+						let opcionMut={};
 						opcion.value = element.servicio;
 						opcion.text = element.servicio;
+						opcionPac.value = element.paciente;
+						opcionPac.text = element.paciente.split("/")[4];
+						opcionSoc.value = element.numero_socio;
+						opcionSoc.text = element.numero_socio.split("/")[4];
+						opcionMed.value = element.id_medico;
+						opcionMed.text = element.id_medico.split("/")[4];
+						opcionMut.value = element.id_mutual;
+						opcionMut.text = element.id_mutual.split("/")[4];;
 						if (this.options_servicio.find((x) => x.value == opcion.value)) {
 							console.log(opcion, " ya se encuentra en el listado");
 						} else {
 							this.options_servicio.push(opcion);
+						}
+						if (this.options_socio.find((x) => x.value == opcionSoc.value)) {
+							console.log(opcionSoc, " ya se encuentra en el listado");
+						} else {
+							this.options_socio.push(opcionSoc);
+						}
+						if (this.options_paciente.find((x) => x.value == opcionPac.value)) {
+							console.log(opcionPac, " ya se encuentra en el listado");
+						} else {
+							this.options_paciente.push(opcionPac);
+						}
+						if (this.options_medico.find((x) => x.value == opcionMed.value)) {
+							console.log(opcionMed, " ya se encuentra en el listado");
+						} else {
+							this.options_medico.push(opcionMed);
+						}
+						if (this.options_mutual.find((x) => x.value == opcionMut.value)) {
+							console.log(opcionMut, " ya se encuentra en el listado");
+						} else {
+							this.options_mutual.push(opcionMut);
 						}
 					});
 				} catch (error) {

@@ -190,31 +190,39 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							<span class="sr-only">Not selected</span>
 						</template>
 					</template>
-
-					<template slot="cell(codigo_optica)" slot-scope="data">
-						<b>{{ data.value }}</b>
+					<template slot="cell(descripcion)" slot-scope="data">
+						<b v-if="data.value">{{ data.value }}</b>
+						<b v-else>-</b>
 					</template>
-
-					<template slot="cell(precio_laboratorio)" slot-scope="data">
-						<b>${{ data.value }}</b>
-					</template>
-
 					<template slot="cell(precio_mutual)" slot-scope="data">
-						<b>${{ data.value }}</b>
-					</template>
-					<template slot="cell(precio_tarjeta)" slot-scope="data">
-						<b>${{ data.value }}</b>
-					</template>
-					<template slot="cell(precio_venta)" slot-scope="data">
-						<b>${{ data.value }}</b>
+						<b v-if="data.value">${{ data.value }}</b>
+						<b v-else>-</b>
 					</template>
 					<template slot="cell(precio_optica)" slot-scope="data">
-						<b>${{ data.value }}</b>
+						<b v-if="data.value">${{ data.value }}</b>
+						<b v-else>-</b>
+					</template>
+					<template slot="cell(precio_tarjeta)" slot-scope="data">
+						<b v-if="data.value">${{ data.value }}</b>
+						<b v-else>-</b>
+					</template>
+					<template slot="cell(precio_venta)" slot-scope="data">
+						<b v-if="data.value">${{ data.value }}</b>
+						<b v-else>-</b>
 					</template>
 
 					<template slot="cell(action)" slot-scope="row">
 						<div class="mt-3">
 							<b-button-group>
+								<b-button
+									variant="info"
+									id="button-1"
+									title="Mostrar Info"
+									@click="row.toggleDetails"
+									:disabled="btn_mostrar"
+								>
+									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+								</b-button>
 								<b-button
 									variant="warning"
 									id="button-2"
@@ -239,6 +247,74 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								</b-button>
 							</b-button-group>
 						</div>
+					</template>
+					<template #row-details="row">
+						<b-card title="Datos de la lente: ">
+							<div>
+								<b-list-group horizontal>
+									<b-list-group class="col-3">
+										<b-list-group-item
+											><b>ID:</b>
+											{{ row.item.id_lente }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Diámetro del cristal:</b>
+											{{ row.item.diametro_cristal }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Largo de las patillas:</b> 
+											{{ row.item.largo_patillas }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Ancho del puente:</b> 
+											{{ row.item.ancho_puente }}</b-list-group-item
+										>
+									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-5">
+										<b-list-group-item
+											><b>Marca:</b>
+											{{ row.item.marca }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Color:</b>
+											{{ row.item.color }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Material:</b>
+											{{ row.item.material }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Descripción:</b> {{ row.item.descripcion }}
+										</b-list-group-item>
+									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-4">
+										<b-list-group-item
+											><b>Precio optica:</b>
+											${{ row.item.precio_optica }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Precio mutual:</b>
+											${{ row.item.precio_mutual }}</b-list-group-item
+										>
+										<b-list-group-item>
+											<b>Precio venta:</b> 
+											${{ row.item.precio_venta }}
+										</b-list-group-item>
+										<b-list-group-item>
+											<b>Precio tarjeta:</b> 
+											${{ row.item.precio_tarjeta }}
+										</b-list-group-item>
+										<b-list-group-item>
+											<b>Stock:</b> 
+											{{ row.item.stock }}
+										</b-list-group-item>
+									</b-list-group>
+									
+								</b-list-group>
+							</div>
+						</b-card>
 					</template>
 				</b-table>
 
@@ -268,7 +344,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<div class="d-block text-center">
 					<h3>
 						¿Esta seguro de eliminar los datos del registro
-						{{ infoEliminar.lente.codigo_optica }}?
+						{{ infoEliminar.lente.id_lente }}?
 					</h3>
 				</div>
 				<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
@@ -278,7 +354,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					class="mt-3"
 					variant="danger"
 					block
-					@click="deleteLente(infoEliminar.lente.codigo_optica)"
+					@click="deleteLente(infoEliminar.lente.id_lente)"
 					title="Eliminar"
 				>
 					Eliminar
@@ -356,7 +432,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 <script>
 	let api = new URL("http://localhost");
-	api.pathname = "lentes";
+	api.pathname = "lentes/";
 	//api.port = 8000;
 	api.port = 8081;
 
@@ -372,18 +448,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			return {
 				tabla_lentes: [],
 				fields: [
-					{ key: "selected", label: "Seleccionar", sortable: true },
-					{ key: "codigo_optica", label: "Codigo Optica", sortable: true },
-					//{ key: "codigo_seguimiento", label: "Codigo Seguimiento", sortable: true },
-					{ key: "medida_lente", label: "Medida Lente", sortable: true },
-					{ key: "patillas", label: "Patillas", sortable: true },
+					{ key: "selected", label: "", sortable: true },
+					{ key: "id_lente", label: "ID", sortable: true },
 					{ key: "marca", label: "Marca", sortable: true },
+					{ key: "material", label: "Material", sortable: true },
 					{ key: "descripcion", label: "Descripcion", sortable: true },
-					{
-						key: "precio_laboratorio",
-						label: "Precio Laboratorio",
-						sortable: true,
-					},
 					{ key: "precio_optica", label: "Precio Optica", sortable: true },
 					{ key: "precio_mutual", label: "Precio Mutual", sortable: true },
 					{ key: "precio_venta", label: "Precio Venta", sortable: true },
@@ -418,7 +487,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				return (this.totalRows = this.tabla_lentes.length);
 			},
 			id() {
-				return this.tabla_lentes.codigo_optica;
+				return this.tabla_lentes.id_lente;
 			},
 
 			rowsFilter() {
@@ -465,9 +534,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 			altaLente() {},
 
-			async deleteLente(codigo_optica) {
+			async deleteLente(id_lente) {
 				axios
-					.delete("http://localhost:8081/lentes/" + codigo_optica + "/")
+					.delete("http://localhost:8081/lentes/" + id_lente + "/")
 					.then((datos) => {
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
@@ -489,7 +558,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					for (var i = 0; i < cantidad; i++) {
 						axios.delete(
 							"http://localhost:8081/lentes/" +
-								this.selected[i].codigo_optica +
+								this.selected[i].id_lente +
 								"/"
 						);
 						if (this.selected.length == 0) {

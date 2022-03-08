@@ -6,7 +6,7 @@ from .models import cuotas
 
 
 class cuotasAdmin(admin.ModelAdmin):
-    list_display = ("id_cuota", "personapago", "monto", "fecharealizacion")
+    list_display = ("id_cuota", "personapago", "monto", "fecharealizacion", "pagado")
     search_fields = ("id_cuota", "personapago", "monto", "fecharealizacion")
     ordering = ["id_cuota"]
     readonly_fields = ("created", "updated")

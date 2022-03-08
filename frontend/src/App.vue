@@ -205,6 +205,11 @@ export default {
           disable: false,
           to: "/planes",
         },
+        {
+          text: "Cristales",
+          disable: false,
+          to: "/cristales",
+        },
       ],
       name: "SidebarMenu",
       menu: [
@@ -312,6 +317,11 @@ export default {
             {
               title: `Gastos Profesionales`,
               href: `/profesionales/list_pagos`,
+              child: [],
+            },
+            {
+              title: `Pagado a Profesionales`,
+              href: `/pagadoprofesionales`,
               child: [],
             },
             {
