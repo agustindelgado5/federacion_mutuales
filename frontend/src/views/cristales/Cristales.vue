@@ -30,7 +30,7 @@
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<cristales-alta :updateTable="testFetch"/>
+				<cristales-alta :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ============================================================ -->
@@ -154,7 +154,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
 			<!-- ======================================== -->
-			<section>
+			<section class="container">
 				<!-- ======== Tabla con los registros ======= -->
 
 				<b-table
@@ -163,7 +163,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					sortable
 					responsive
 					hover
-					:items="tabla_cristales"
+					:items="tabla_cristales | Material(filter_material)"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
@@ -255,6 +255,80 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					</b-col>
 				</b-container>
 			</section>
+			<aside v-show="rows > 0">
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="REGISTROS POR PAGINA"
+							class="text-center"
+						>
+							<b-form-group label-for="per-page-select" class="mb-0">
+								<b-form-select
+									id="per-page-select"
+									v-model="perPage"
+									:options="pageOptions"
+									size="sm"
+								></b-form-select>
+							</b-form-group>
+						</b-card>
+					</b-card-group>
+				</div>
+				<br />
+				<div>
+					<b-card-group deck>
+						<b-card
+							bg-variant="primary"
+							text-variant="white"
+							header="FILTRAR POR"
+							class="text-center"
+						>
+							<div class="accordion" role="tablist">
+								<b-card no-body>
+									<b-card-header header-tag="header" class="p-1" role="tab">
+										<b-button
+											block
+											v-b-toggle.accordion-filter-1
+											variant="info"
+											style="font-size: 0.82em"
+										>
+											MATERIAL
+										</b-button>
+									</b-card-header>
+									<b-collapse
+										id="accordion-filter-1"
+										visible
+										accordion="my-accordion"
+										role="tabpanel"
+									>
+										<b-card-body>
+											<b-form-group id="input-group-4">
+												<v-autocomplete
+													id="material"
+													v-model="filter_material"
+													:items="options_material"
+													type="text"
+													solo
+													filled
+												></v-autocomplete>
+												<div v-show="filter_material != null">
+													<b-button
+														@click="filter_material = null"
+														title="Limpiar"
+													>
+														Limpiar
+													</b-button>
+												</div>
+											</b-form-group>
+										</b-card-body>
+									</b-collapse>
+								</b-card>
+							</div>
+						</b-card>
+					</b-card-group>
+				</div>
+			</aside>
 
 			<!-- ================ELIMINAR Cristal======================== -->
 			<b-modal
@@ -377,7 +451,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "esfera", label: "Esfera", sortable: true },
 					{ key: "cilindro", label: "Cilindro", sortable: true },
 					{ key: "eje", label: "Eje", sortable: true },
-					{ key: "precio_laboratorio", label: "Precio Laboratorio", sortable: true },
+					{
+						key: "precio_laboratorio",
+						label: "Precio Laboratorio",
+						sortable: true,
+					},
 					{ key: "precio_optica", label: "Precio Optica", sortable: true },
 					{ key: "precio_mutual", label: "Precio Mutual", sortable: true },
 					{ key: "precio_venta", label: "Precio Venta", sortable: true },
@@ -385,6 +463,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "stock", label: "Stock", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
+				pageOptions: [10, 20, 40, 100, { value: 10000, text: "Todos" }],
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
@@ -405,14 +484,19 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				btn_eliminar: false,
 				btn_select: false,
 				btn_limpiar: true,
+
+				//Opciones de filtro
+				options_material: [
+					{ value: null, text: "Elija un material", selected: true },
+				],
+
+				//Campos a filtrar
+				filter_material: null,
 			};
 		},
 		computed: {
 			rows() {
 				return (this.totalRows = this.tabla_cristales.length);
-			},
-			id() {
-				return this.tabla_cristales.id_cristal;
 			},
 
 			rowsFilter() {
@@ -438,6 +522,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					console.log(lista_cristales);
 
 					this.tabla_cristales = lista_cristales;
+
+					this.tabla_cristales.forEach((element) => {
+						let opcionMat = {};
+
+						opcionMat.value = opcionMat.text = element.material;
+
+						if (this.options_material.find((x) => x.value == opcionMat.value)) {
+							console.log(opcionMat, " ya se encuentra en el listado");
+						} else {
+							this.options_material.push(opcionMat);
+						}
+					});
 				} catch (error) {
 					console.log(error);
 				}
@@ -574,5 +670,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		overflow: auto;
 		transition: 0.5s;
 		width: 100%;
+	}
+	.container {
+		float: left;
+		width: 80%;
+	}
+	aside {
+		float: right;
+		width: 20%;
 	}
 </style>
