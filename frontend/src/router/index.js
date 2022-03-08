@@ -86,6 +86,12 @@ const routes = [
     name: "Cobradores",
     component: () => import("../views/cobradores/Cobradores.vue"),
     meta: { title: 'Cobradores - Federación Tucumana de Mutuales' }
+   },
+   {
+    path: "/usuarios",
+    name: "Usuarios",
+    component: () => import("../views/users/Users.vue"),
+    meta: { title: 'Usuarios - Federación Tucumana de Mutuales' }
   },
   {
     path: "/login",
