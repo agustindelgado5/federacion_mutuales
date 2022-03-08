@@ -558,7 +558,7 @@
 			//Funcion para agrupar las ordenes por profesional y mes
 			async GroupOrdenes(lista_orden) {
 				let pagos = sessionStorage.getItem("pagos");
-				if (pagos) {
+				if (!pagos) {
 					//	Agrupo primero por el profesional
 
 					lista_orden.forEach((element) => {
@@ -716,9 +716,6 @@
                 let pagado = 0;
 
 				for (var i = 0; i < this.lista_pagado.length; i++) {
-					console.log("Mes Pagado:", this.lista_pagado[i].mespagado);
-					console.log("Fecha:", this.lista_pagado[i].fecha);
-                    console.log("Resultado:", );
                     if ((parseInt(this.lista_pagado[i].id_medico.split("/")[4]) == id_medicardo) && (this.formatoMesAnio(this.lista_pagado[i].mespagado, this.lista_pagado[i].fecha) == mesardo)) {
 						pagado = pagado + parseInt(this.lista_pagado[i].total);
 					}

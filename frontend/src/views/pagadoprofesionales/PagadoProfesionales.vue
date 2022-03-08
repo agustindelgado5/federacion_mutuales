@@ -326,7 +326,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 	import PagadoProfesionalesUpdate from "./PagadoProfesionalesUpdate.vue";
 
 	import axios from "axios";
-
+    import _ from "lodash";
+    import { mapState, mapActions } from "vuex";
 	export default {
 		components: { PagadoProfesionalesAlta, PagadoProfesionalesUpdate },
 		data() {
@@ -364,6 +365,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			};
 		},
 		computed: {
+            ...mapState("PagosProf", ["pagos"]),
+
 			rows() {
 				return (this.totalRows = this.tabla_pagadoProfesionales.length);
 			},
@@ -422,6 +425,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
 						this.hideModal();
+                        Storage.removeItem("pagos");
 					})
 					.catch((error) => {
 						swal("¡ERROR!", "Se ha detectado un problema ", "error");
@@ -442,6 +446,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								this.selected[i].id_pagoprofesional +
 								"/"
 						);
+                        Storage.removeItem("pagos");
 						if (this.selected.length == 0) {
 							console.log("Eliminacion Exitosa");
 							break;

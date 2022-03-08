@@ -1,12 +1,12 @@
 <template>
 	<v-app id="app">
-		<div id="cirugias" class="myTable">
+		<div id="users" class="myTable">
 			<!--HEAD DE LA PAGINA -->
 			<vue-headful
-				title="Cirugias - Federación Tucumana de Mutuales"
+				title="Users - Federación Tucumana de Mutuales"
 			></vue-headful>
 
-			<h2>Listado de Cirugias</h2>
+			<h2>Listado de Users</h2>
 			<b-button
 				@click="testFetch"
 				class="mb-4"
@@ -17,23 +17,23 @@
 				Actualizar
 			</b-button>
 
-			<!-- ================ALTA CIRUGIAS======================== -->
+			<!-- ================ALTA COBRADORES======================== -->
 			<b-button
 				class="mb-4 ml-2"
 				v-b-modal.modal-alta
-				@click="altaCirugia()"
-				title="Nueva Cirugia"
+				@click="altaUser()"
+				title="Nuevo User"
 				style="color: white"
 			>
 				<v-icon dark> mdi-plus </v-icon>
-				Nueva Orden
+				Nuevo User
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<cirugias-alta :updateTable="testFetch" />
+				<users-alta :updateTable="testFetch" />
 			</b-modal>
 
-			<!-- ================ELIMINAR VARIAS CIRUGIAS======================== -->
+			<!-- ================ELIMINAR VARIAS COBRADORES======================== -->
 			<b-button
 				class="mb-4 ml-2"
 				variant="danger"
@@ -71,7 +71,7 @@
 						variant="danger"
 						block
 						title="Eliminar"
-						@click="delete_all_Cirugias()"
+						@click="delete_all_Users()"
 					>
 						Eliminar
 					</b-button>
@@ -104,32 +104,16 @@
 			</b-form-group>
 			<!-- ======================================== -->
 
-			<!-- ======================================== -->
-
 			<div v-if="rows > 0">
 				<div v-if="selected.length > 0">
-					<div v-if="rows != rowsFilter">
-						<pre>
-Registros Fitrados: {{ rowsFilter }} | Filas seleccionadas: {{
-								selected.length
-							}}</pre
-						>
-					</div>
-					<div v-else>
-						<pre>
+					<pre>
 Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
-								selected.length
-							}}</pre
-						>
-					</div>
+							selected.length
+						}}</pre
+					>
 				</div>
 				<div v-else>
-					<div v-if="rows != rowsFilter">
-						<pre>Registros Fitrados: {{ rowsFilter }} </pre>
-					</div>
-					<div v-else>
-						<pre>Cantidad de registros: {{ rows }}</pre>
-					</div>
+					<pre>Cantidad de registros: {{ rows }}</pre>
 				</div>
 				<b-button
 					class="mb-4 ml-2"
@@ -155,33 +139,52 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			<div v-else>
 				<pre>Cantidad de registros: {{ rows }}</pre>
 			</div>
-			<section class="container">
-				<!-- ======== Tabla con los registros ======= -->
 
+			<section class="container">
 				<b-table
 					:fields="fields"
 					striped
 					sortable
 					responsive
 					hover
-					:items="tabla_cirugias | Institucion(filter_institucion)"
+					:items="tabla_users"
 					show-empty
-					:per-page="perPage"
-					:current-page="currentPage"
 					:sticky-header="true"
 					:no-border-collapse="false"
+					:per-page="perPage"
+					:current-page="currentPage"
 					ref="tablaregistros"
 					id="tablaregistros"
-					:filter="filter"
-					@filtered="onFiltered"
-					@row-selected="seleccionar_una"
 					selectable
 					select-mode="multi"
+					@row-selected="seleccionar_una"
+					empty-text="No hay registros cargados"
+					empty-filtered-text="No hemos encontrado registros que coincidan con lo que está buscando"
+					:filter="filter"
+					@filtered="onFiltered"
 				>
 					<template #empty="">
 						<b>No hay registros para mostrar</b>
 					</template>
 
+					<template slot="cell(apellido)" slot-scope="data">
+						{{ data.value.toUpperCase() }}
+					</template>
+
+					<template slot="cell(nombre)" slot-scope="data">
+						{{ data.value.toUpperCase() }}
+					</template>
+
+					<template slot="cell(id_user)" slot-scope="data">
+						<b>{{ data.value }}</b>
+					</template>
+
+					<template #cell(selected)="{ rowSelected }">
+						<template v-if="rowSelected">
+							<span aria-hidden="true">&check;</span>
+							<span class="sr-only">Selected</span>
+						</template>
+						<!--
 					<template #cell(selected)="{ rowSelected }">
 						<template v-if="rowSelected">
 							<span aria-hidden="true">&check;</span>
@@ -192,81 +195,40 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							<span class="sr-only">Not selected</span>
 						</template>
 					</template>
-
-					<template slot="cell(codigo_intervencion)" slot-scope="data">
-						<b>{{ data.value }}</b>
-					</template>
-					<template slot="cell(socio)" slot-scope="data">
-						{{ data.value.toUpperCase() }}
-					</template>
-					<template slot="cell(institucion)" slot-scope="data">
-						{{ data.value.toUpperCase() }}
-					</template>
-					<template slot="cell(descripcion)" slot-scope="data">
-						{{ data.value }}
-					</template>
-					<template slot="cell(nivel)" slot-scope="data">
-						{{ data.value }}
-					</template>
-					<template slot="cell(numero_ayudantes)" slot-scope="data">
-						{{ data.value }}
-					</template>
-
-					<template slot="cell(honorario_cirujano)" slot-scope="data">
-						<b>${{ data.value }}</b>
-					</template>
-
-					<template slot="cell(honorario_ayudante)" slot-scope="data">
-						<b>${{ data.value }}</b>
-					</template>
-					<template slot="cell(honorario_total)" slot-scope="data">
-						<b>${{ data.value }}</b>
-					</template>
-					<template slot="cell(observacion)" slot-scope="data">
-						{{ data.value }}
+					-->
 					</template>
 
 					<template slot="cell(action)" slot-scope="row">
 						<div class="mt-3">
 							<b-button-group>
-								<!-- ==================================CREAR PDF================================== -->
-								<!-- Generar PDF -->
 								<b-button
-									@click="generarPDF(row.item)"
-									id="btn_down_pdf"
-									class="mb-0 ml-2"
-									title="Generar PDF"
 									variant="info"
-									style="color: white"
-									:disabled="btn_down_pdf"
+									id="button-1"
+									title="Mostrar Info"
+									@click="row.toggleDetails"
 								>
-									<!-- :disabled="btn_down_pdf" -->
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="16"
-										height="16"
-										fill="currentColor"
-										class="bi bi-file-pdf-fill"
-										viewBox="0 0 16 16"
-									>
-										<path
-											d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
-										/>
-										<path
-											fill-rule="evenodd"
-											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
-										/>
-									</svg>
-									Generar
-									<!-- ============================================================================== -->
+									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
+								</b-button>
+								<b-button
+									:to="{
+										name: 'user',
+										params: { id: row.item },
+										query: { id: row.item.id_user },
+									}"
+									variant="primary"
+									id="button-4"
+									title="Ver socios del user"
+									style="color: white"
+								>
+									<v-icon dark>mdi-format-list-bulleted-square</v-icon>
+									Socios
 								</b-button>
 								<b-button
 									variant="warning"
 									id="button-2"
 									title="Editar este registro"
 									v-b-modal.modal-editar
-									@click="editarCirugia(row.item, row.index)"
-									:disabled="btn_editar"
+									@click="editarUser(row.item, row.index)"
 								>
 									<v-icon class="mr-2"> mdi-pencil </v-icon>
 									Editar
@@ -277,7 +239,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									id="button-3"
 									@click="showModalinfo(row.item, row.index)"
 									title="Eliminar este registro"
-									:disabled="btn_eliminar"
 								>
 									<v-icon class="mr-2"> mdi-delete </v-icon>
 									Eliminar
@@ -285,8 +246,61 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							</b-button-group>
 						</div>
 					</template>
+					<template #row-details="row">
+						<b-card title="Datos del user: ">
+							<div>
+								<b-list-group horizontal>
+									<b-list-group class="col-3">
+										<b-list-group-item
+											><b>ID:</b> {{ row.item.id_user }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>DNI:</b> {{ row.item.dni }}
+										</b-list-group-item>
+									</b-list-group>
+									&nbsp;
+									<b-list-group class="col-5">
+										<b-list-group-item
+											><b>Apellido:</b>
+											{{ row.item.apellido }}</b-list-group-item
+										>
+										<b-list-group-item
+											><b>Nombre:</b> {{ row.item.nombre }}</b-list-group-item
+										>
+									</b-list-group>
+								</b-list-group>
+							</div>
+						</b-card>
+					</template>
 				</b-table>
+				<!-- ================ELIMINAR COBRADOR======================== -->
 
+				<b-modal
+					id="modal_eliminar"
+					ref="my-modal"
+					hide-footer
+					title="Eliminar"
+					ok-only
+				>
+					<div class="d-block text-center">
+						<h3>
+							¿Esta seguro de eliminar los datos del user
+							{{ infoEliminar.user.id_user }}?
+						</h3>
+					</div>
+					<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
+						>Volver Atras</b-button
+					>
+					<b-button
+						class="mt-3"
+						variant="danger"
+						block
+						@click="deleteUser(infoEliminar.user.id_user)"
+						title="Eliminar"
+					>
+						Eliminar
+					</b-button>
+				</b-modal>
 				<b-container fluid>
 					<b-col class="my-1">
 						<b-pagination
@@ -295,7 +309,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							pills
 							:total-rows="totalRows"
 							:per-page="perPage"
-							aria-controls="table_cirugias"
+							aria-controls="table_users"
 						>
 						</b-pagination>
 					</b-col>
@@ -324,6 +338,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				</div>
 				<br />
 
+				<!-- 
+
 				<div>
 					<b-card-group deck>
 						<b-card
@@ -334,14 +350,14 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						>
 							<div class="accordion" role="tablist">
 								<b-card no-body>
-									<b-card-header header-tag="header" class="p-2" role="tab">
+									<b-card-header header-tag="header" class="p-1" role="tab">
 										<b-button
 											block
 											v-b-toggle.accordion-1
 											variant="info"
 											style="font-size: 0.82em"
 										>
-											INSTITTUTOS
+											SOCIO
 										</b-button>
 									</b-card-header>
 									<b-collapse
@@ -351,18 +367,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										role="tabpanel"
 									>
 										<b-card-body>
-											<b-form-group id="input-group-2">
+											<b-form-group id="input-group-1">
 												<v-autocomplete
-													id="institucion"
-													v-model="filter_institucion"
-													:items="options_institucion"
+													id="socio"
+													v-model="filter_socio"
+													:items="options_socio"
 													type="text"
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter_institucion != null">
+												<div v-show="filter_socio != null">
 													<b-button
-														@click="filter_institucion = null"
+														@click="filter_socio = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -376,41 +392,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</b-card>
 					</b-card-group>
 				</div>
+				-->
 			</aside>
 
-			<!-- ================ELIMINAR CIRUGIA======================== -->
-
-			<b-modal
-				id="modal_eliminar"
-				ref="my-modal"
-				hide-footer
-				title="Eliminar"
-				ok-only
-			>
-				<div class="d-block text-center">
-					<h3>
-						¿Esta seguro de eliminar los datos de la cirugia
-						{{ infoEliminar.cirugia.codigo_intervencion }}?
-					</h3>
-				</div>
-				<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
-					>Volver Atras</b-button
-				>
-				<b-button
-					class="mt-3"
-					variant="danger"
-					block
-					@click="deleteCirugia(infoEliminar.cirugia.codigo_intervencion)"
-					title="Eliminar"
-				>
-					Eliminar
-				</b-button>
-			</b-modal>
-
-			<!-- ================EDITAR CIRUGIA======================== -->
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<cirugias-update :cirugia="editar" :updateTable="testFetch" />
+				<users-update :user="editar" :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ==================================CREAR PDF================================== -->
@@ -420,7 +407,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				:enable-download="false"
 				:preview-modal="true"
 				:paginate-elements-by-height="1400"
-				filename="DetalleCirugia"
+				filename="DetalleUser"
 				:pdf-quality="2"
 				:manual-pagination="false"
 				pdf-format="a4"
@@ -445,14 +432,14 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						/>
 					</section>
 					<section class="pdf-item">
-						<h3>Cirugia</h3>
+						<h3>User</h3>
 
 						<b-list-group>
 							<b-list-group-item
 								v-for="value in fields.slice(0, -1)"
 								:key="value.key"
 								>{{ value.label }}:
-								{{ cirugiaAPDF[value.key] }}</b-list-group-item
+								{{ userAPDF[value.key] }}</b-list-group-item
 							>
 						</b-list-group>
 					</section>
@@ -462,55 +449,36 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		</div>
 	</v-app>
 </template>
+
 <script>
 	let api = new URL("http://localhost");
-	api.pathname = "cirugias/";
+    api.pathname = "/auth/users/";
+	//api.port = 8000;
 	api.port = 8081;
 
-	import { APIControler } from "@/store/APIControler";
-	import CirugiasAlta from "./CirugiasAlta.vue";
-	import CirugiasUpdate from "./CirugiasUpdate.vue";
+    import { Fetcher } from "@/store/utils/Fetcher";
+	import UsersAlta from "../users/UsersAlta.vue";
+	import UsersUpdate from "../users/UsersUpdate.vue";
 	import VueHtml2pdf from "vue-html2pdf";
-
 	import axios from "axios";
 
 	export default {
-		components: { CirugiasAlta, CirugiasUpdate, VueHtml2pdf },
+		components: { UsersAlta, UsersUpdate, VueHtml2pdf },
 		data() {
 			return {
-				tabla_cirugias: [],
-				filter: null,
+               
+				fetcher: new Fetcher(),
+                
+				tabla_users: [],
 				fields: [
-					{
-						key: "codigo_intervencion",
-						label: "Código Intervención",
-						sortable: true,
-					},
-					{ key: "socio", label: "N° Socio", sortable: true },
-					{
-						key: "institucion",
-						label: "Institucion",
-						sortable: true,
-					},
-					{ key: "descripcion", label: "Descripción", sortable: true },
-					{ key: "nivel", label: "Nivel", sortable: true },
-					{
-						key: "numero_ayudantes",
-						label: "Número de ayudantes",
-						sortable: true,
-					},
-					{
-						key: "honorario_cirujano",
-						label: "Honorarios Cirujano",
-						sortable: true,
-					},
-					{
-						key: "honorario_ayudante",
-						label: "Honorarios Ayudantes",
-						sortable: true,
-					},
-					{ key: "honorario_total", label: "Honorario Total", sortable: true },
-					{ key: "observacion", label: "Observación", sortable: true },
+					{ key: "selected", label: "Seleccionar", sortable: true },
+					{ key: "id_user", label: "ID User", sortable: true },
+                    { key: "username", label: "username", sortable: true },
+					{ key: "apellido", label: "Apellido", sortable: true },
+					{ key: "nombre", label: "Nombre", sortable: true },
+					{ key: "email", label: "email", sortable: true },
+					{ key: "is_staff", label: "Es del Staff", sortable: true },
+                    { key: "is_superuser", label: "Es un Administrador", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				filter: null,
@@ -522,7 +490,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				editar: {},
 				infoEliminar: {
 					id: "modal_eliminar",
-					cirugia: -1,
+					user: -1,
 				},
 				selected: [],
 				//Botones
@@ -532,22 +500,23 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
 				btn_mostrar: false,
 				btn_editar: false,
-				btn_cirugias: false,
+				btn_users: false,
 				btn_eliminar: false,
 				btn_select: false,
 				//Campos a filtrar
-				filter_institucion: null,
-				//Opciones de filtrado
+				filter_socio: null,
 
-				options_institucion: [
-					{ value: null, text: "Elija una institucion", selected: true },
+				//Opciones de filtrado
+				options_socio: [
+					{ value: null, text: "Elija un socio", selected: true },
 				],
-				cirugiaAPDF: {}, //Se carga cuando se hace clic en exportar a pdf, con la cirugia a exportar
+
+				userAPDF: {}, //Se carga cuando se hace clic en exportar a pdf, con el user a exportar
 			};
 		},
 		computed: {
 			rows() {
-				return (this.totalRows = this.tabla_cirugias.length);
+				return (this.totalRows = this.tabla_users.length);
 			},
 			rowsFilter() {
 				return this.totalRows;
@@ -568,92 +537,29 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					const res = await fetch(api);
 					const data = await res.json();
 
-					var lista_cirugias = data.results;
+					var lista_users = data.results;
 
-					console.log(lista_cirugias);
+					console.log(lista_users);
 
-					//this.tabla_cirugias = lista_cirugias;
-					this.tabla_cirugias = await this.getInstitutos(lista_cirugias);
-					this.getSocio();
+					this.tabla_users = lista_users;
 
-					this.tabla_cirugias.forEach((element) => {
-						let opcionInst = {};
-						opcionInst.value = element.institucion;
-						opcionInst.text = element.institucion;
+					this.tabla_users.forEach((element) => {
+						let opcionSoc = {};
 
-						if (
-							this.options_institucion.find((x) => x.value == opcionInst.value)
-						) {
-							console.log(opcionInst, " ya se encuentra en el listado");
+						opcionSoc.value = element.numero_socio;
+						opcionSoc.text = element.numero_socio.split("/")[4];
+
+						if (this.options_socio.find((x) => x.value == opcionSoc.value)) {
+							console.log(opcionSoc, " ya se encuentra en el listado");
 						} else {
-							this.options_institucion.push(opcionInst);
+							this.options_socio.push(opcionSoc);
 						}
 					});
 				} catch (error) {
 					console.log(error);
 				}
 			},
-
-			async getInstitutos(lista_cirugias) {
-				let listado = {};
-				let DataReturn = [];
-				let instAPI = new APIControler();
-				instAPI.apiUrl.pathname = "institutos/";
-				let institutos = await instAPI.getData(listado);
-				console.log("DATA LOS INSTITTUTOS: ", institutos);
-
-				institutos.forEach((element) => {
-					var idIns =
-						"http://localhost:8081/institutos/" +
-						element.codigo_institucion +
-						"/";
-					lista_cirugias.forEach((cirugia) => {
-						if (idIns == cirugia.codigo_institucion) {
-							let datos = {};
-							datos.codigo_intervencion = cirugia.codigo_intervencion;
-							datos.socio = cirugia.numero_socio;
-							datos.institucion =
-								element.codigo_institucion + "- " + element.nombre;
-							datos.descripcion = cirugia.descripcion;
-							datos.numero_ayudantes = cirugia.numero_ayudantes;
-
-							datos.nivel = cirugia.nivel;
-							datos.observacion = cirugia.observacion;
-							datos.honorario_ayudante = cirugia.honorario_ayudante;
-							datos.honorario_cirujano = cirugia.honorario_cirujano;
-							datos.honorario_total = cirugia.honorario_total;
-
-							DataReturn.push(datos);
-						}
-					});
-				});
-				return DataReturn;
-			},
-
-			async getSocio() {
-				let listado = {};
-				//let DataReturn = [];
-				let socioAPI = new APIControler();
-				socioAPI.apiUrl.pathname = "socios/";
-				let socios = await socioAPI.getData(listado);
-				console.log("DATA LOS SOCIOS: ", socios);
-
-				socios.forEach((element) => {
-					var IdSocio =
-						"http://localhost:8081/socios/" + element.numero_socio + "/";
-					this.tabla_cirugias.forEach((orden) => {
-						if (IdSocio == orden.socio) {
-							orden.socio =
-								element.numero_socio +
-								"- " +
-								element.apellido +
-								", " +
-								element.nombre;
-						}
-					});
-				});
-			},
-			editarCirugia(item, index) {
+			editarUser(item, index) {
 				this.editar = item;
 			},
 			//Funcion para mostrar el modal
@@ -661,19 +567,19 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.$refs["my-modal"].show();
 			},
 			showModalinfo(item, index) {
-				this.infoEliminar.cirugia = item;
+				this.infoEliminar.user = item;
 				this.showModal();
 			},
 			//Funcion para esconder el modal
 			hideModal() {
 				this.$refs["my-modal"].hide();
 			},
-			altaCirugia() {},
+			altaUser() {},
 
-			//Elimino una cirugia
-			async deleteCirugia(codigo_intervencion) {
+			//Elimino un user
+			async deleteUser(id_user) {
 				axios
-					.delete("http://localhost:8081/cirugias/" + codigo_intervencion + "/")
+                    .delete("http://localhost:8081/admin/auth/user/" + id_user + "/")
 					.then((datos) => {
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
@@ -688,14 +594,14 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 
 			//Funcion para eliminar todos los profesionales
-			async delete_all_Cirugias() {
+			async delete_all_Users() {
 				var cantidad = this.selected.length;
 
 				try {
 					for (var i = 0; i < cantidad; i++) {
 						axios.delete(
-							"http://localhost:8081/cirugias/" +
-								this.selected[i].codigo_intervencion +
+							"http://localhost:8081/users/" +
+								this.selected[i].id_user +
 								"/"
 						);
 						if (this.selected.length == 0) {
@@ -772,16 +678,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 			//Funcion para crear el PDF
 			async generarPDF(item) {
-				/*
 				let resultSocio = (await axios.get(item.numero_socio)).data;
-				let resultInstitucion = (await axios.get(item.codigo_institucion)).data;
-				*/
-				this.cirugiaAPDF = { ...item };
-				/*
-				this.cirugiaAPDF.numero_socio =
+
+				this.userAPDF = { ...item };
+
+				this.userAPDF.numero_socio =
 					resultSocio.apellido + ", " + resultSocio.nombre;
-				this.cirugiaAPDF.codigo_institucion = resultInstitucion.nombre;
-				*/
 
 				this.$refs.html2Pdf.generatePdf();
 			},

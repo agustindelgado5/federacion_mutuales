@@ -186,6 +186,16 @@
 		},
 
 		methods: {
+			getForeingKeys() {
+				this.cirugia.codigo_institucion =
+					"http://localhost:8081/institutos/" +
+					this.cirugia.institucion.split("-")[0] +
+					"/";
+				this.cirugia.numero_socio =
+					"http://localhost:8081/socios/" +
+					this.cirugia.socio.split("-")[0] +
+					"/";
+			},
 
 			async getSocios() {
 				let socioAPI = new APIControler();
@@ -258,6 +268,7 @@
 			},
 		},
 		beforeMount() {
+			this.getForeingKeys();
 			this.getSocios();
 			this.getInstitucion();
 		},

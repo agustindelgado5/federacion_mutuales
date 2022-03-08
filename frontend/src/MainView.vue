@@ -220,7 +220,7 @@ export default {
         },
         {
           title: `Usuarios`,
-          href: `/socios`,
+          href: `/usuarios`,
           icon: "fa fa-user",
           child: [],
         },

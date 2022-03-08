@@ -879,9 +879,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			rowsFilter() {
 				return this.totalRows;
 			},
-			id() {
-				return this.tabla_ordenes.numero_orden;
-			},
+
 			sortOptions() {
 				// Create an options list from our fields
 				return this.fields
@@ -1135,19 +1133,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 			//Funcion para crear el PDF
 			async generarPDF(item) {
-				let resultMed = (await axios.get(item.id_medico)).data;
-				let resultMutual = (await axios.get(item.id_mutual)).data;
-				let resultSocio = (await axios.get(item.numero_socio)).data;
+				//let resultMed = (await axios.get(item.id_medico)).data;
+				//let resultMutual = (await axios.get(item.id_mutual)).data;
+				//let resultSocio = (await axios.get(item.numero_socio)).data;
 				let resultPaciente = (await axios.get(item.paciente)).data;
 
 				this.ordenAPDF = { ...item };
 				this.ordenAPDF.realizado = item.realizado ? "Si" : "No";
-				this.ordenAPDF.presentada = item.realizado ? "Si" : "No";
-				this.ordenAPDF.vencida = item.realizado ? "Si" : "No";
-				this.ordenAPDF.id_medico = resultMed.apellido + ", " + resultMed.nombre;
-				this.ordenAPDF.id_mutual = resultMutual.nombre;
-				this.ordenAPDF.numero_socio =
-					resultSocio.apellido + ", " + resultSocio.nombre;
+				this.ordenAPDF.presentada = item.presentada ? "Si" : "No";
+				this.ordenAPDF.vencida = item.vencida ? "Si" : "No";
+				//this.ordenAPDF.id_medico = resultMed.apellido + ", " + resultMed.nombre;
+				//this.ordenAPDF.id_mutual = resultMutual.nombre;
+				//this.ordenAPDF.numero_socio = resultSocio.apellido + ", " + resultSocio.nombre;
 				this.ordenAPDF.paciente =
 					resultPaciente.apellido + ", " + resultPaciente.nombre;
 

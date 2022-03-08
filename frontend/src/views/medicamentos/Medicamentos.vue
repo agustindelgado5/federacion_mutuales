@@ -520,7 +520,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 	api.pathname = "medicamentos";
 	//api.port = 8000;
 	api.port = 8081;
-
+	import { APIControler } from "@/store/APIControler";
 	import MedicamentoAlta from "./MedicamentosAlta.vue";
 	import MedicamentoUpdate from "./MedicamentosUpdate.vue";
 	import axios from "axios";
@@ -537,7 +537,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "nombre", label: "Nombre", sortable: true },
 					{ key: "presentacion", label: "Presentacion", sortable: true },
 					{ key: "laboratorio", label: "Laboratorio", sortable: true },
-					{ key: "cod_farmacia", label: "Farmacia", sortable: true },
+					{ key: "farmacia", label: "Farmacia", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				fieldsPDF: [
@@ -545,7 +545,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					{ key: "nombre", label: "Nombre" },
 					{ key: "presentacion", label: "Presentacion" },
 					{ key: "laboratorio", label: "Laboratorio" },
-					{ key: "cod_farmacia", label: "Farmacia" },
+					{ key: "farmacia", label: "Farmacia" },
 				],
 				editar: {},
 				//buscar: '',
@@ -611,15 +611,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 					console.log(lista_med);
 
-					this.tabla_med = lista_med;
+					//this.tabla_med = lista_med;
+					this.tabla_med = await this.getFarmacia(lista_med);
 
 					this.tabla_med.forEach((element) => {
 						let opcionLabo = {};
 						let opcionFarm = {};
 						opcionLabo.value = element.laboratorio;
 						opcionLabo.text = element.laboratorio;
-						opcionFarm.value = element.cod_farmacia;
-						opcionFarm.text = element.cod_farmacia.split("/")[4];
+						opcionFarm.value = element.farmacia;
+						opcionFarm.text = element.farmacia;
 						if (
 							this.options_laboratorio.find((x) => x.value == opcionLabo.value)
 						) {
@@ -644,6 +645,33 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				} catch (error) {
 					console.log(error);
 				}
+			},
+
+			async getFarmacia(lista_med) {
+				let listado = {};
+				let DataReturn = [];
+				let farmaciaAPI = new APIControler();
+				farmaciaAPI.apiUrl.pathname = "farmacias/";
+				let farmacias = await farmaciaAPI.getData(listado);
+				console.log("DATA LAS FARMACIAS: ", farmacias);
+
+				farmacias.forEach((element) => {
+					var idfarmacia =
+						"http://localhost:8081/farmacias/" + element.cod_farmacia + "/";
+					lista_med.forEach((farm) => {
+						if (idfarmacia == farm.cod_farmacia) {
+							let datos = {};
+							datos.id_medicamento = farm.id_medicamento;
+							datos.nombre = farm.nombre;
+							datos.presentacion = farm.presentacion;
+							datos.laboratorio = farm.laboratorio;
+							datos.farmacia = element.cod_farmacia + "- " + element.farmacia;
+
+							DataReturn.push(datos);
+						}
+					});
+				});
+				return DataReturn;
 			},
 			//Funcion para mostrar el modal
 			showModal() {
