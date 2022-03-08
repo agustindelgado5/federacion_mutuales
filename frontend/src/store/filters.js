@@ -13,10 +13,15 @@ Vue.filter("FormatStringToTime", (value) => {
 	return value.split(":")[0] + ":" + value.split(":")[1];
 });
 
-
 Vue.filter("Date", (value) => {
 	return dayjs(value).format("DD/MM/YYYY");
 });
+
+Vue.filter("Split", (value) => {
+	const v=value?value.split("/")[4]:value
+	return v
+});
+
 
 Vue.filter("fecha_asociacion_range", (value, desde, hasta) => {
 	if (desde && hasta) {
@@ -152,11 +157,39 @@ Vue.filter("Servicio", (value, option) => {
 	}
 });
 
+Vue.filter("MutualesOrden", (value, option) => {
+	if (option != null) {
+		return value.filter((f) => f.mutual == option);
+	} else {
+		return value;
+	}
+});
+
 Vue.filter("Realizado", (value, option) => {
 	if (option != null) {
 		let Bool = false
 		if(option ==0) Bool = true
 		return value.filter((f) => f.realizado == Bool);
+	} else {
+		return value;
+	}
+});
+
+Vue.filter("Vencida", (value, option) => {
+	if (option != null) {
+		let Bool = false
+		if(option ==0) Bool = true
+		return value.filter((f) => f.vencida == Bool);
+	} else {
+		return value;
+	}
+});
+
+Vue.filter("Presentada", (value, option) => {
+	if (option != null) {
+		let Bool = false
+		if(option ==0) Bool = true
+		return value.filter((f) => f.presentada == Bool);
 	} else {
 		return value;
 	}
@@ -266,8 +299,3 @@ Vue.filter("ModoPago", (value, option) => {
 	}
 });
 
-
-Vue.filter("Split", (value) => {
-	const v=value?value.split("/")[4]:value
-	return v
-});
