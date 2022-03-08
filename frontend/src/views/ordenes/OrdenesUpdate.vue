@@ -6,14 +6,16 @@
 		<b-form>
 			<b-form-group label="*N° Orden" label-for="numero_orden">
 				<!-- Numero de Orden -->
-				<b-form-input id="numero_orden"
-							  v-model="orden.numero_orden"
-							  type="number"
-							  :disabled="true"
-							  placeholder="Ingrese un Numero"
-							  invalid-feedback="Complete este campo"
-							  :state="validacion.numero_orden.estado"
-							  required>
+				<b-form-input
+					id="numero_orden"
+					v-model="orden.numero_orden"
+					type="number"
+					:disabled="true"
+					placeholder="Ingrese un Numero"
+					invalid-feedback="Complete este campo"
+					:state="validacion.numero_orden.estado"
+					required
+				>
 				</b-form-input>
 				<b-form-invalid-feedback id="numero_orden-live-feedback">
 					{{ validacion.numero_orden.mensaje }}
@@ -36,15 +38,17 @@
 			<!-- <b-button @click="getSocios()">GET TEST</b-button> -->
 			<!-- {{ list_socios }} -->
 			<b-form-group label="*Socio" label-for="numero_socio">
-				<b-form-select id="numero_socio"
-							   v-model="orden.numero_socio"
-							   type="text"
-							   placeholder="Ingrese un Numero"
-							   invalid-feedback="Complete este campo"
-							   :state="validacion.numero_socio.estado"
-							   required
-							   :options="op_socios"
-							   @change="getPaciente()">
+				<b-form-select
+					id="numero_socio"
+					v-model="orden.numero_socio"
+					type="text"
+					placeholder="Ingrese un Numero"
+					invalid-feedback="Complete este campo"
+					:state="validacion.numero_socio.estado"
+					required
+					:options="op_socios"
+					@change="getPaciente()"
+				>
 				</b-form-select>
 				<b-form-invalid-feedback id="numero_socio-live-feedback">
 					{{ validacion.numero_socio.mensaje }}
@@ -68,14 +72,16 @@
 			<!-- <b-button @click="getPaciente()">GET TEST</b-button>
 	{{ list_pacientes }} -->
 			<b-form-group label="*Paciente" label-for="paciente">
-				<b-form-select id="dni_familiar"
-							   v-model="orden.paciente"
-							   type="text"
-							   placeholder="*Ingrese el nombre completo del paciente"
-							   :state="validacion.paciente.estado"
-							   invalid-feedback="Complete este campo"
-							   required
-							   :options="list_pacientes">
+				<b-form-select
+					id="dni_familiar"
+					v-model="orden.paciente"
+					type="text"
+					placeholder="*Ingrese el nombre completo del paciente"
+					:state="validacion.paciente.estado"
+					invalid-feedback="Complete este campo"
+					required
+					:options="list_pacientes"
+				>
 				</b-form-select>
 				<b-form-invalid-feedback id="paciente-live-feedback">
 					{{ validacion.paciente.mensaje }}
@@ -84,13 +90,15 @@
 
 			<!-- Servicio -->
 			<b-form-group label="*Servicio" label-for="servicio">
-				<b-form-input id="servicio"
-							  v-model="orden.servicio"
-							  :state="validacion.servicio.estado"
-							  type="text"
-							  placeholder="*Ingrese el tipo de servicio"
-							  invalid-feedback="Complete este campo"
-							  required>
+				<b-form-input
+					id="servicio"
+					v-model="orden.servicio"
+					:state="validacion.servicio.estado"
+					type="text"
+					placeholder="*Ingrese el tipo de servicio"
+					invalid-feedback="Complete este campo"
+					required
+				>
 				</b-form-input>
 				<b-form-invalid-feedback id="servicio-live-feedback">
 					{{ validacion.servicio.mensaje }}
@@ -152,14 +160,16 @@
 	</b-form-group>   -->
 
 			<b-form-group data-app label="*Medico" label-for="id_medico">
-				<v-autocomplete id="id_medico"
-								v-model="orden.id_medico"
-								:items="op_profesionales"
-								type="text"
-								solo
-								placeholder="Ingrese el ID del medico"
-								invalid-feedback="Complete este campo"
-								required></v-autocomplete>
+				<v-autocomplete
+					id="id_medico"
+					v-model="orden.id_medico"
+					:items="op_profesionales"
+					type="text"
+					solo
+					placeholder="Ingrese el ID del medico"
+					invalid-feedback="Complete este campo"
+					required
+				></v-autocomplete>
 
 				<b-form-invalid-feedback id="id_medico-live-feedback">
 					{{ validacion.id_medico.mensaje }}
@@ -183,14 +193,16 @@
 			<!-- <b-button @click="getMutuales()">GET TEST</b-button>
 	{{ list_mutuales }} -->
 			<b-form-group label="*ID Mutual" label-for="id_mutual">
-				<b-form-select id="id_mutual"
-							   v-model="orden.id_mutual"
-							   :state="validacion.id_mutual.estado"
-							   type="text"
-							   placeholder="Ingrese el ID de la mutual"
-							   invalid-feedback="Complete este campo"
-							   required
-							   :options="op_mutuales">
+				<b-form-select
+					id="id_mutual"
+					v-model="orden.id_mutual"
+					:state="validacion.id_mutual.estado"
+					type="text"
+					placeholder="Ingrese el ID de la mutual"
+					invalid-feedback="Complete este campo"
+					required
+					:options="op_mutuales"
+				>
 				</b-form-select>
 				<b-form-invalid-feedback id="id_mutual-live-feedback">
 					{{ validacion.id_mutual.mensaje }}
@@ -199,13 +211,15 @@
 
 			<!-- Fecha de emision -->
 			<b-form-group label="*Fecha" label-for="fecha">
-				<b-form-input id="fecha"
-							  v-model="orden.fecha"
-							  :state="validacion.fecha.estado"
-							  type="date"
-							  placeholder="Ingrese una fecha"
-							  invalid-feedback="Complete este campo"
-							  required>
+				<b-form-input
+					id="fecha"
+					v-model="orden.fecha"
+					:state="validacion.fecha.estado"
+					type="date"
+					placeholder="Ingrese una fecha"
+					invalid-feedback="Complete este campo"
+					required
+				>
 				</b-form-input>
 				<b-form-invalid-feedback id="fecha-live-feedback">
 					{{ validacion.fecha.mensaje }}
@@ -214,13 +228,15 @@
 
 			<!-- Hora -->
 			<b-form-group label="*Hora" label-for="hora">
-				<b-form-input id="hora"
-							  v-model="orden.hora"
-							  :state="validacion.hora.estado"
-							  type="time"
-							  placeholder="Ingrese una hora"
-							  invalid-feedback="Complete este campo"
-							  required>
+				<b-form-input
+					id="hora"
+					v-model="orden.hora"
+					:state="validacion.hora.estado"
+					type="time"
+					placeholder="Ingrese una hora"
+					invalid-feedback="Complete este campo"
+					required
+				>
 				</b-form-input>
 				<b-form-invalid-feedback id="hora-live-feedback">
 					{{ validacion.hora.mensaje }}
@@ -229,13 +245,15 @@
 
 			<!-- Precio Socio-->
 			<b-form-group label="*Precio Socio" label-for="preciosocio">
-				<b-form-input id="preciosocio"
-							  v-model="orden.preciosocio"
-							  :state="validacion.preciosocio.estado"
-							  type="decimal"
-							  placeholder="Ingrese el precio que paga el socio correspondiente a la orden "
-							  invalid-feedback="Complete este campo"
-							  required>
+				<b-form-input
+					id="preciosocio"
+					v-model="orden.preciosocio"
+					:state="validacion.preciosocio.estado"
+					type="decimal"
+					placeholder="Ingrese el precio que paga el socio correspondiente a la orden "
+					invalid-feedback="Complete este campo"
+					required
+				>
 				</b-form-input>
 				<b-form-invalid-feedback id="preciosocio-live-feedback">
 					{{ validacion.preciosocio.mensaje }}
@@ -244,13 +262,15 @@
 
 			<!-- Precio -->
 			<b-form-group label="*Precio Mutual" label-for="preciomutual">
-				<b-form-input id="preciomutual"
-							  v-model="orden.preciomutual"
-							  :state="validacion.preciomutual.estado"
-							  type="decimal"
-							  placeholder="Ingrese el precio que paga la Mutual correspondiente a la orden "
-							  invalid-feedback="Complete este campo"
-							  required>
+				<b-form-input
+					id="preciomutual"
+					v-model="orden.preciomutual"
+					:state="validacion.preciomutual.estado"
+					type="decimal"
+					placeholder="Ingrese el precio que paga la Mutual correspondiente a la orden "
+					invalid-feedback="Complete este campo"
+					required
+				>
 				</b-form-input>
 				<b-form-invalid-feedback id="preciomutual-live-feedback">
 					{{ validacion.preciomutual.mensaje }}
@@ -260,35 +280,44 @@
 			<!-- Realizado -->
 
 			<b-form-group label="*Realizado" label-for="realizado">
-				<b-form-checkbox id="realizado"
-								 v-model="orden.realizado"
-								 value="true"
-								 type="boolean"
-								 invalid-feedback="Complete este campo"
-								 required
-								 unchecked-value="false">
+				<b-form-checkbox
+					id="realizado"
+					v-model="orden.realizado"
+					value="true"
+					type="boolean"
+					invalid-feedback="Complete este campo"
+					required
+					unchecked-value="false"
+				>
 				</b-form-checkbox>
 			</b-form-group>
 
 			<b-form-group label="*Presentada" label-for="presentada">
-				<b-form-checkbox id="presentada"
-								 v-model="orden.presentada"
-								 value="true"
-								 type="boolean"
-								 invalid-feedback="Complete este campo"
-								 required
-								 unchecked-value="false">
+				<b-form-checkbox
+					id="presentada"
+					v-model="orden.presentada"
+					value="true"
+					type="boolean"
+					invalid-feedback="Complete este campo"
+					required
+					unchecked-value="false"
+				>
 				</b-form-checkbox>
 			</b-form-group>
 
-			<b-form-group label="*Fecha Presentacion" label-for="fechapresentacion"
-						  v-show="this.orden.presentada">
-				<b-form-input id="fechapresentacion"
-							  v-model="orden.fechapresentacion"
-							  type="date"
-							  placeholder="Ingrese una fecha"
-							  invalid-feedback="Complete este campo"
-							  required>
+			<b-form-group
+				label="*Fecha Presentacion"
+				label-for="fechapresentacion"
+				v-show="this.orden.presentada"
+			>
+				<b-form-input
+					id="fechapresentacion"
+					v-model="orden.fechapresentacion"
+					type="date"
+					placeholder="Ingrese una fecha"
+					invalid-feedback="Complete este campo"
+					required
+				>
 				</b-form-input>
 			</b-form-group>
 		</b-form>
@@ -326,21 +355,36 @@
 					{ value: null, text: "Elija una persona", disabled: true },
 				],
 				validacion: {
-                    numero_orden: { estado: null, mensaje: "" },
-                    numero_socio: { estado: null, mensaje: "" },
-                    paciente: { estado: null, mensaje: "" },
-                    servicio: { estado: null, mensaje: "" },
-                    id_medico: { estado: null, mensaje: "" },
-                    id_mutual: { estado: null, mensaje: "" },
-                    fecha: { estado: null, mensaje: "" },
-                    hora: { estado: null, mensaje: "" },
-                    preciosocio: { estado: null, mensaje: "" },
-                    preciomutual: { estado: null, mensaje: "" },
+					numero_orden: { estado: null, mensaje: "" },
+					numero_socio: { estado: null, mensaje: "" },
+					paciente: { estado: null, mensaje: "" },
+					servicio: { estado: null, mensaje: "" },
+					id_medico: { estado: null, mensaje: "" },
+					id_mutual: { estado: null, mensaje: "" },
+					fecha: { estado: null, mensaje: "" },
+					hora: { estado: null, mensaje: "" },
+					preciosocio: { estado: null, mensaje: "" },
+					preciomutual: { estado: null, mensaje: "" },
 				},
 			};
 		},
 
 		methods: {
+			getForeingKeys() {
+				this.orden.id_mutual =
+					"http://localhost:8081/mutuales/" +
+					this.orden.mutual.split("-")[0] +
+					"/";
+				this.orden.numero_socio =
+					"http://localhost:8081/socios/" +
+					this.orden.socio.split("-")[0] +
+					"/";
+				this.orden.id_medico =
+					"http://localhost:8081/profesionales/" +
+					this.orden.medico.split("-")[0] +
+					"/";
+			},
+
 			async getSocios() {
 				let socioAPI = new APIControler();
 				socioAPI.apiUrl.pathname = "socios/";
@@ -478,6 +522,7 @@
 			},
 		},
 		beforeMount() {
+			this.getForeingKeys();
 			this.getSocios();
 			this.getProfesionales();
 			this.getMutuales();

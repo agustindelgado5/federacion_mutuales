@@ -772,13 +772,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 			//Funcion para crear el PDF
 			async generarPDF(item) {
+				/*
 				let resultSocio = (await axios.get(item.numero_socio)).data;
 				let resultInstitucion = (await axios.get(item.codigo_institucion)).data;
+				*/
 				this.cirugiaAPDF = { ...item };
-
+				/*
 				this.cirugiaAPDF.numero_socio =
 					resultSocio.apellido + ", " + resultSocio.nombre;
 				this.cirugiaAPDF.codigo_institucion = resultInstitucion.nombre;
+				*/
 
 				this.$refs.html2Pdf.generatePdf();
 			},

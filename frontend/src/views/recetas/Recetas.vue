@@ -918,17 +918,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 			//Funcion para crear el PDF
 			async generarPDF(item) {
-				let resultMed = (await axios.get(item.id_medicamento)).data;
-				let resultSocio = (await axios.get(item.numero_socio)).data;
+				//let resultMed = (await axios.get(item.medicamento)).data;
+				//let resultSocio = (await axios.get(item.socio)).data;
 				let resultPaciente = (await axios.get(item.paciente)).data;
-				let resulFarmacia = (await axios.get(item.cod_farmacia)).data;
+				//let resulFarmacia = (await axios.get(item.farmacia)).data;
 				this.recetaAPDF = { ...item };
-				this.recetaAPDF.id_medicamento = resultMed.nombre;
-				this.recetaAPDF.numero_socio =
-					resultSocio.apellido + ", " + resultSocio.nombre;
+				//this.recetaAPDF.id_medicamento = resultMed.nombre;
+				//this.recetaAPDF.numero_socio = resultSocio.apellido + ", " + resultSocio.nombre;
 				this.recetaAPDF.paciente =
 					resultPaciente.apellido + ", " + resultPaciente.nombre;
-				this.recetaAPDF.cod_farmacia = resulFarmacia.farmacia;
+				//this.recetaAPDF.cod_farmacia = resulFarmacia.farmacia;
 
 				this.$refs.html2Pdf.generatePdf();
 			},
