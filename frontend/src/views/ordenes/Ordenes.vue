@@ -935,9 +935,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			async getMutual(lista_ordenes) {
 				let listado = {};
 				let DataReturn = [];
-				let socioAPI = new APIControler();
-				socioAPI.apiUrl.pathname = "mutuales/";
-				let mutuales = await socioAPI.getData(listado);
+				let mutualAPI = new APIControler();
+				mutualAPI.apiUrl.pathname = "mutuales/";
+				let mutuales = await mutualAPI.getData(listado);
 				console.log("DATA LAS MUTUALES: ", mutuales);
 
 				mutuales.forEach((element) => {
