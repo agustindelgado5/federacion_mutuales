@@ -52,8 +52,6 @@
                 if (null == user) {
 
                 }
-                console.log(user)
-
             },
         },
         computed:

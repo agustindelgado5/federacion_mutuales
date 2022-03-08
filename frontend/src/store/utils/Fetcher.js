@@ -101,6 +101,7 @@ export class Fetcher {
         this.deleteJWT()
     }
     isLogged() {
-        return this.getJWT() ? true : false
+        let token = this.getJWT()
+        return (!token || token == {} || token == [] || token === 'undefined' || token === null) ? false : true
     }
 }
