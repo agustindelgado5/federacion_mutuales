@@ -158,25 +158,31 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			<section class="container">
 				<!-- ======== Tabla con los registros ======= -->
 
-				<b-table :fields="fields"
-						 striped
-						 sortable
-						 responsive
-						 hover
-						 :items="
-						tabla_ventasOpticas		
+				<b-table
+					:fields="fields"
+					striped
+					sortable
+					responsive
+					hover
+					:items="
+						tabla_ventasOpticas
+							| FechaVentaRange(
+								filter_fechaVenta.desde,
+								filter_fechaVenta.hasta
+							)
 					"
-						 show-empty
-						 :per-page="perPage"
-						 :current-page="currentPage"
-						 :no-border-collapse="false"
-						 ref="tablaregistros"
-						 id="tablaregistros"
-						 :filter="filter"
-						 @filtered="onFiltered"
-						 @row-selected="seleccionar_una"
-						 selectable
-						 select-mode="multi">
+					show-empty
+					:per-page="perPage"
+					:current-page="currentPage"
+					:no-border-collapse="false"
+					ref="tablaregistros"
+					id="tablaregistros"
+					:filter="filter"
+					@filtered="onFiltered"
+					@row-selected="seleccionar_una"
+					selectable
+					select-mode="multi"
+				>
 					<template #empty="">
 						<b>No hay registros para mostrar</b>
 					</template>
@@ -192,11 +198,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</template>
 					</template>
 
-					<template slot="cell(numero_socio)" slot-scope="data">
-						{{ data.value.split("/")[4] }}
+					<template slot="cell(socio)" slot-scope="data">
+						{{ data.value.toUpperCase() }}
 					</template>
-					
-					
+					<template slot="cell(fecha_venta)" slot-scope="data">
+						{{ data.value | Date }}
+					</template>
+
 					<template slot="cell(action)" slot-scope="row">
 						<div class="mt-3">
 							<b-button-group>
@@ -211,42 +219,54 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
 								</b-button>
 								<!-- Generar PDF -->
-								<b-button @click="generarPDF(row.item)"
-										  id="btn_down_pdf"
-										  class="mb-0"
-										  title="Generar PDF"
-										  variant="secondary"
-										  style="color: white"
-										  :disabled="btn_down_pdf">
+								<b-button
+									@click="generarPDF(row.item)"
+									id="btn_down_pdf"
+									class="mb-0"
+									title="Generar PDF"
+									variant="secondary"
+									style="color: white"
+									:disabled="btn_down_pdf"
+								>
 									<!-- :disabled="btn_down_pdf" -->
-									<svg xmlns="http://www.w3.org/2000/svg"
-										 width="16"
-										 height="16"
-										 fill="currentColor"
-										 class="bi bi-file-pdf-fill"
-										 viewBox="0 0 16 16">
-										<path d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z" />
-										<path fill-rule="evenodd"
-											  d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z" />
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										fill="currentColor"
+										class="bi bi-file-pdf-fill"
+										viewBox="0 0 16 16"
+									>
+										<path
+											d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"
+										/>
+										<path
+											fill-rule="evenodd"
+											d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"
+										/>
 									</svg>
 									PDF
 									<!-- ============================================================================== -->
 								</b-button>
-								<b-button variant="warning"
-										  id="button-2"
-										  title="Editar este registro"
-										  v-b-modal.modal-editar
-										  @click="editarVentaOptica(row.item, row.index)"
-										  :disabled="btn_editar">
+								<b-button
+									variant="warning"
+									id="button-2"
+									title="Editar este registro"
+									v-b-modal.modal-editar
+									@click="editarVentaOptica(row.item, row.index)"
+									:disabled="btn_editar"
+								>
 									<v-icon class="mr-2"> mdi-pencil </v-icon>
 									Editar
 								</b-button>
 
-								<b-button variant="danger"
-										  id="button-3"
-										  @click="showModalinfo(row.item, row.index)"
-										  title="Eliminar este registro"
-										  :disabled="btn_eliminar">
+								<b-button
+									variant="danger"
+									id="button-3"
+									@click="showModalinfo(row.item, row.index)"
+									title="Eliminar este registro"
+									:disabled="btn_eliminar"
+								>
 									<v-icon class="mr-2"> mdi-delete </v-icon>
 									Eliminar
 								</b-button>
@@ -264,14 +284,14 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										>
 										<b-list-group-item
 											><b>N° Socio:</b>
-											{{ row.item.numero_socio.split("/")[4] }}</b-list-group-item
+											{{ row.item.socio.toUpperCase() }}</b-list-group-item
 										>
 										<b-list-group-item
-											><b>Lente:</b> 
+											><b>Lente:</b>
 											{{ row.item.lente.split("/")[4] }}</b-list-group-item
 										>
 										<b-list-group-item
-											><b>Fecha Receta:</b> 
+											><b>Fecha Receta:</b>
 											{{ row.item.fecha_receta }}</b-list-group-item
 										>
 									</b-list-group>
@@ -279,15 +299,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									<b-list-group class="col-6">
 										<b-list-group-item
 											><b>Cristal Derecho:</b>
-											{{ row.item.cristal_derecho.split("/")[4] }}</b-list-group-item
+											{{
+												row.item.cristal_derecho.split("/")[4]
+											}}</b-list-group-item
 										>
 										<b-list-group-item
 											><b>Cristal Izquierdo:</b>
 											{{ row.item.cristal_izquierdo.split("/")[4] }}
-											</b-list-group-item
-										>
+										</b-list-group-item>
 										<b-list-group-item
-											><b>Fecha Venta:</b> 
+											><b>Fecha Venta:</b>
 											{{ row.item.fecha_venta }}
 										</b-list-group-item>
 									</b-list-group>
@@ -308,7 +329,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					<div class="d-block text-center">
 						<h3>
 							¿Esta seguro de eliminar los datos de la venta optica
-							{{ infoEliminar.ventaOptica.id_venta}}?
+							{{ infoEliminar.ventaOptica.id_venta }}?
 						</h3>
 					</div>
 					<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
@@ -359,7 +380,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						</b-card>
 					</b-card-group>
 				</div>
-					<br />
+				<br />
 
 				<div>
 					<b-card-group deck>
@@ -378,7 +399,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											variant="info"
 											style="font-size: 0.82em"
 										>
-											SOCIO
+											FECHA VENTA
 										</b-button>
 									</b-card-header>
 									<b-collapse
@@ -386,20 +407,37 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										visible
 										accordion="my-accordion"
 										role="tabpanel"
+										style="color: black"
 									>
 										<b-card-body>
-											<b-form-group id="input-group-1">
-												<v-autocomplete
-													id="socio"
-													v-model="filter_socio"
-													:items="options_socio"
-													type="text"
-													solo
-													filled
-												></v-autocomplete>
-												<div v-show="filter_socio != null">
+											<b-form-group id="input-group-4">
+												<b-form-group label="Desde" label-for="fecha_desde">
+													<b-form-input
+														id="fecha_desde"
+														v-model="filter_fechaVenta.desde"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+												<b-form-group label="Hasta" label-for="fecha_hasta">
+													<b-form-input
+														id="fecha_inicio_hasta"
+														v-model="filter_fechaVenta.hasta"
+														type="date"
+													></b-form-input>
+												</b-form-group>
+
+												<div style="color: black">
+													{{ filter_fechaVenta.desde }} <br />
+													{{ filter_fechaVenta.hasta }} <br />
+												</div>
+												<div
+													v-show="
+														filter_fechaVenta.desde != null &&
+														filter_fechaVenta.hasta != null
+													"
+												>
 													<b-button
-														@click="filter_socio = null"
+														@click="limpiar_filtro_fecha()"
 														title="Limpiar"
 													>
 														Limpiar
@@ -408,9 +446,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 											</b-form-group>
 										</b-card-body>
 									</b-collapse>
-										
 								</b-card>
-								
 							</div>
 						</b-card>
 					</b-card-group>
@@ -472,24 +508,23 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								{{ ventaOpticaAPDF.numero_socio }}</b-list-group-item
 							>
 							<b-list-group-item
-								><b>Lente:</b> 
-								{{ ventaOpticaAPDF.lente  | Split}}</b-list-group-item
+								><b>Lente:</b>
+								{{ ventaOpticaAPDF.lente | Split }}</b-list-group-item
 							>
 							<b-list-group-item
-								><b>Fecha Receta:</b> 
+								><b>Fecha Receta:</b>
 								{{ ventaOpticaAPDF.fecha_receta }}</b-list-group-item
 							>
 							<b-list-group-item
 								><b>Cristal Derecho:</b>
-								{{ ventaOpticaAPDF.cristal_derecho | Split}}</b-list-group-item
+								{{ ventaOpticaAPDF.cristal_derecho | Split }}</b-list-group-item
 							>
 							<b-list-group-item
 								><b>Cristal Izquierdo:</b>
-								{{ ventaOpticaAPDF.cristal_izquierdo| Split}}
-								</b-list-group-item
-							>
+								{{ ventaOpticaAPDF.cristal_izquierdo | Split }}
+							</b-list-group-item>
 							<b-list-group-item
-								><b>Fecha Venta:</b> 
+								><b>Fecha Venta:</b>
 								{{ ventaOpticaAPDF.fecha_venta }}
 							</b-list-group-item>
 						</b-list-group>
@@ -502,29 +537,29 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 </template>
 
 <script>
-let api = new URL("http://localhost");
-api.pathname = "ventasOpticas/";
-//api.port = 8000;
-api.port = 8081;
+	let api = new URL("http://localhost");
+	api.pathname = "ventasOpticas/";
+	//api.port = 8000;
+	api.port = 8081;
+	import { APIControler } from "@/store/APIControler";
+	import VentasOpticasAlta from "./VentasOpticasAlta.vue";
+	import VentasOpticasUpdate from "./VentasOpticasUpdate.vue";
+	import VueHtml2pdf from "vue-html2pdf";
 
-import VentasOpticasAlta from "./VentasOpticasAlta.vue";
-import VentasOpticasUpdate from "./VentasOpticasUpdate.vue";
-import VueHtml2pdf from "vue-html2pdf";
+	import axios from "axios";
 
-import axios from "axios";
-
-export default {
-  components: { VentasOpticasAlta, VentasOpticasUpdate, VueHtml2pdf },
-  data() {
-    return {
-      tabla_ventasOpticas: [],
-      fields: [
-        { key: "id_venta", label: "N° venta", sortable: true },
-        { key: "numero_socio", label: "Número Socio", sortable: true },
-        { key: "fecha_venta", label: "Fecha de venta", sortable: true },
-        { key: "action", label: "Acciones", variant: "secondary" },
-      ],
-    	filter: null,
+	export default {
+		components: { VentasOpticasAlta, VentasOpticasUpdate, VueHtml2pdf },
+		data() {
+			return {
+				tabla_ventasOpticas: [],
+				fields: [
+					{ key: "id_venta", label: "N° venta", sortable: true },
+					{ key: "socio", label: "Número Socio", sortable: true },
+					{ key: "fecha_venta", label: "Fecha de venta", sortable: true },
+					{ key: "action", label: "Acciones", variant: "secondary" },
+				],
+				filter: null,
 				totalRows: 1, //Total de filas
 				currentPage: 1, //Pagina actual
 				perPage: 10, // Datos en la tabla por pagina
@@ -546,35 +581,34 @@ export default {
 				btn_ventasOpticas: false,
 				btn_eliminar: false,
 				btn_select: false,
+
 				//Campos a filtrar
-				filter_socio: null,
-				
-				//Opciones de filtrado
-				options_socio: [{ value: null, text: "Elija un socio",selected: true  }],
-			
+				filter_fechaVenta: {
+					desde: null,
+					hasta: null,
+				},
+
 				ventaOpticaAPDF: {}, //Se carga cuando se hace clic en exportar a pdf, con la venta a exportar
 			};
 		},
 		computed: {
 			rows() {
-				return this.tabla_ventasOpticas.length;
+				return (this.totalRows = this.tabla_ventasOpticas.length);
 			},
 			rowsFilter() {
 				return this.totalRows;
 			},
-			id() {
-				return this.tabla_ventasOpticas.id_venta;
-			},
+
 			sortOptions() {
-			// Create an options list from our fields
-			return this.fields
-				.filter(f => f.sortable)
-				.map(f => {
-					return { text: f.label, value: f.key }
-				})
+				// Create an options list from our fields
+				return this.fields
+					.filter((f) => f.sortable)
+					.map((f) => {
+						return { text: f.label, value: f.key };
+					});
 			},
 		},
-	methods: {
+		methods: {
 			async testFetch() {
 				try {
 					const res = await fetch(api);
@@ -582,24 +616,50 @@ export default {
 
 					var lista_ventasOpticas = data.results;
 
-					this.tabla_ventasOpticas = lista_ventasOpticas;
-
-					this.tabla_ventasOpticas.forEach((element) => {
-						let opcionSoc = {};
-						
-						opcionSoc.value = element.numero_socio;
-						opcionSoc.text = element.numero_socio.split("/")[4];
-						
-
-						if (this.options_socio.find((x) => x.value == opcionSoc.value)) {
-							console.log(opcionSoc, " ya se encuentra en el listado");
-						} else {
-							this.options_socio.push(opcionSoc);
-						}
-					});
+					//this.tabla_ventasOpticas = lista_ventasOpticas;
+					this.tabla_ventasOpticas = await this.getSocio(lista_ventasOpticas);
+					
+					
+					
 				} catch (error) {
 					console.log(error);
 				}
+			},
+
+			async getSocio(lista_ventasOptica) {
+				let listado = {};
+				let DataReturn = [];
+				let socioAPI = new APIControler();
+				socioAPI.apiUrl.pathname = "socios/";
+				let socios = await socioAPI.getData(listado);
+				console.log("DATA LOS SOCIOS: ", socios);
+				
+				socios.forEach((element) => {
+					var IdSocio =
+						"http://localhost:8081/socios/" + element.numero_socio + "/";
+					lista_ventasOptica.forEach((venta) => {
+						if (IdSocio == venta.numero_socio) {
+							let datos = {};
+							datos.id_venta = venta.id_venta;
+							datos.socio =
+								element.numero_socio +
+								"- " +
+								element.apellido +
+								", " +
+								element.nombre;
+
+							datos.cristal_derecho = venta.cristal_derecho;
+							datos.cristal_izquierdo = venta.cristal_izquierdo;
+							datos.fecha_receta = venta.fecha_receta;
+							datos.fecha_venta = venta.fecha_venta;
+							datos.lente = venta.lente;
+
+							DataReturn.push(datos);
+						}
+					});
+				});
+				console.log("DATOS! :", DataReturn);
+				return DataReturn;
 			},
 			editarVentaOptica(item, index) {
 				this.editar = item;
@@ -720,20 +780,23 @@ export default {
 			},
 			//Funcion para crear el PDF
 			async generarPDF(item) {
-				
-				let resultSocio = (await axios.get(item.numero_socio)).data;
-				let resultVenta = (await axios.get("http://localhost:8081/ventasOpticas/"+item.id_venta)).data;
-			  	this.ventaOpticaAPDF={ ...resultVenta}
+				//let resultSocio = (await axios.get(item.numero_socio)).data;
+				let resultVenta = (
+					await axios.get(
+						"http://localhost:8081/ventasOpticas/" + item.id_venta
+					)
+				).data;
+				this.ventaOpticaAPDF = { ...resultVenta };
 				// this.ventaOpticaAPDF = { ...item };
-			   
-				this.ventaOpticaAPDF.numero_socio =
-					resultSocio.apellido + ", " + resultSocio.nombre;
-				
+
+				this.ventaOpticaAPDF.numero_socio = item.socio;
 
 				this.$refs.html2Pdf.generatePdf();
 			},
-
-			
+			limpiar_filtro_fecha() {
+				this.filter_fechaVenta.desde = null;
+				this.filter_fechaVenta.hasta = null;
+			},
 		},
 		beforeMount() {
 			this.testFetch();
@@ -760,4 +823,3 @@ export default {
 		width: 20%;
 	}
 </style>
-

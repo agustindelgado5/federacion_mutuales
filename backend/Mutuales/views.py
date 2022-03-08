@@ -4,8 +4,8 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 #from rest_framework.decorators import action
 #from rest_framework.response import Response
 
-from Mutuales.models import mutuales, servicio_mutual, servicios, planes,beneficiosDelPlan
-from Mutuales.serializers import  MutualesSerializer, ServiciosSerializer, ServiciosMutualSerializer,PlanesSerializer,BeneficiosSerializer
+from Mutuales.models import mutuales, servicios, planes,beneficiosDelPlan#, servicio_mutual
+from Mutuales.serializers import  MutualesSerializer, ServiciosSerializer,PlanesSerializer,BeneficiosSerializer#, ServiciosMutualSerializer
 #from django.contrib.auth.models import User
 
 
@@ -37,9 +37,9 @@ class MutualesViewSet(viewsets.ModelViewSet):
     #redirect_field_name = 'redirect_to'
 
 
-class ServiciosMutualViewSet(viewsets.ModelViewSet):
-    serializer_class = ServiciosMutualSerializer
-    queryset = servicio_mutual.objects.all()
+# class ServiciosMutualViewSet(viewsets.ModelViewSet):
+#     serializer_class = ServiciosMutualSerializer
+#     queryset = servicio_mutual.objects.all()
 
 
 class PlanesViewSet(viewsets.ModelViewSet):

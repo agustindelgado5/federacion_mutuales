@@ -44,23 +44,23 @@
 				<v-icon class="mr-2" style="color: white"> mdi-delete </v-icon>
 				Eliminar
 			</b-button>
-			<!-- ================ELIMINAR VARIOS MUTUALES======================== -->
+			<!-- ================ELIMINAR VARIAS MUTUALES======================== -->
 			<div>
 				<b-modal
-					ref="my-modal"
+					ref="modal-eliminarTodo"
 					id="modal-eliminarTodo"
 					hide-footer
 					title="Eliminar"
 					ok-only
 				>
 					<div class="d-block text-center" v-if="selected.length === rows">
-						<h3>¿Esta seguro de eliminar todos los registros ?</h3>
+						<h3>¿Esta seguro de eliminar todos los registros?</h3>
 					</div>
 					<div class="d-block text-center" v-else>
-						<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
+						<h3>¿Esta seguro de eliminar {{ selected.length }} registros?</h3>
 					</div>
 
-					<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
+					<b-button class="mt-2" block @click="hideModal('modal-eliminarTodo')" title="Volver Atras">
 						Volver Atras
 					</b-button>
 
@@ -162,7 +162,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					striped
 					sortable
 					responsive
-					:sticky-header="true"
 					:no-border-collapse="false"
 					hover
 					:items="
@@ -250,7 +249,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								<b-button
 									variant="danger"
 									id="button-3"
-									@click="showModalinfo(row.item, row.index)"
+									@click="showModalEliminar(row.item, row.index)"
 									title="Eliminar este registro"
 									:disabled="btn_eliminar"
 								>
@@ -297,27 +296,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									<b-list-group class="col-6">
 										<b-list-group-item>
 											<b>Servicios:</b>
-											<div v-for="servicios in data" :key="servicios.id_mutual">
-												<div
-													v-for="tareas in server_mutual"
-													:key="tareas.id_servicio"
-												>
-													<div
-														v-if="
-															servicios.id_mutual.split('/')[4] ==
-																row.item.id_mutual &&
-															servicios.id_servicio.split('/')[4] ==
-																tareas.id_servicio
-														"
-													>
-														<ul>
-															<li>
-																<b>{{ tareas.id_servicio }}:</b>
-																{{ tareas.servicio }}
-															</li>
-														</ul>
-													</div>
-												</div>
+											<div v-for="servicio in row.item.servicios_mutual" :key="servicio">
+												<ul>
+													<li>
+														<b>ID servicio: {{ servicio.split('/')[4]}}</b>
+														<!-- {{ servicio.servicio }} -->
+													</li>
+												</ul>
 											</div>
 										</b-list-group-item>
 									</b-list-group>
@@ -664,7 +649,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						{{ infoEliminar.mutual.nombre }}?
 					</h3>
 				</div>
-				<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
+				<b-button class="mt-2" block @click="hideModal('modal_eliminar')" title="Volver Atras"
 					>Volver Atras</b-button
 				>
 				<b-button
@@ -699,18 +684,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			return {
 				tabla_mutuales: [],
 				fields: [
-					{ key: "selected", label: "Seleccionar", sortable: true },
+					{ key: "selected", label: "", sortable: true },
 					{ key: "matricula", label: "Matricula", sortable: true },
 					{ key: "nombre", label: "Mutual", sortable: true },
-					{ key: "direccion", label: "Direccion", sortable: true },
+					// { key: "direccion", label: "Direccion", sortable: true },
 					{ key: "localidad", label: "Localidad", sortable: true },
 					{ key: "sucursal", label: "Filial", sortable: true },
 					{ key: "cuit", label: "CUIT", sortable: true },
-					{ key: "email", label: "Email", sortable: true },
+					// { key: "email", label: "Email", sortable: true },
 					{ key: "telefono", label: "Telefono", sortable: true },
 					{ key: "representante", label: "Autoridad", sortable: true },
-					{ key: "fecha_inicio", label: "Fecha Inicio", sortable: true },
-					{ key: "fecha_ingreso", label: "Fecha Ingreso", sortable: true },
+					// { key: "fecha_inicio", label: "Fecha Inicio", sortable: true },
+					// { key: "fecha_ingreso", label: "Fecha Ingreso", sortable: true },
 
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
@@ -725,7 +710,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					mutual: -1,
 				},
 				servicios: {},
-				data: {},
+				// data: {},
 				editar: {},
 
 				//Opciones de filtro
@@ -957,7 +942,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
 				btn_del_full: true,
-				msj_tabla: " Presione 'Mostrar' para ver los regitros ",
+				msj_tabla: " Presione 'Mostrar' para ver los registros ",
 				btn_mostrar: false,
 				btn_editar: false,
 				btn_eliminar: false,
@@ -979,12 +964,12 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					hasta: null,
 				},
 
-				server_mutual: [
-					//{
-					//id_servicio:0,
-					//servicio:''
-					// }
-				],
+				// server_mutual: [
+				// 	//{
+				// 	//id_servicio:0,
+				// 	//servicio:''
+				// 	// }
+				// ],
 			};
 		},
 		computed: {
@@ -1018,54 +1003,54 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 					var lista_mutuales = data.results;
 
-					console.log(lista_mutuales);
+					// console.log(lista_mutuales);
 
 					this.tabla_mutuales = lista_mutuales;
 
-					this.tabla_mutuales.forEach((element) => {
-						let opcionCorreo = {};
-						let opcionRepre = {};
-						opcionCorreo.value = element.email;
-						opcionCorreo.text = element.email;
-						opcionRepre.value = element.representante;
-						opcionRepre.text = element.representante;
-						if (
-							this.options_correo.find((x) => x.value == opcionCorreo.value)
-						) {
-							console.log(opcionCorreo, " ya se encuentra en el listado");
-						} else {
-							this.options_correo.push(opcionCorreo);
-						}
+					// this.tabla_mutuales.forEach((element) => {
+					// 	let opcionCorreo = {};
+					// 	let opcionRepre = {};
+					// 	opcionCorreo.value = element.email;
+					// 	opcionCorreo.text = element.email;
+					// 	opcionRepre.value = element.representante;
+					// 	opcionRepre.text = element.representante;
+					// 	if (
+					// 		this.options_correo.find((x) => x.value == opcionCorreo.value)
+					// 	) {
+					// 		console.log(opcionCorreo, " ya se encuentra en el listado");
+					// 	} else {
+					// 		this.options_correo.push(opcionCorreo);
+					// 	}
 
-						if (
-							this.options_representante.find(
-								(x) => x.value == opcionRepre.value
-							)
-						) {
-							console.log(opcionRepre, " ya se encuentra en el listado");
-						} else {
-							this.options_representante.push(opcionRepre);
-						}
-					});
+					// 	if (
+					// 		this.options_representante.find(
+					// 			(x) => x.value == opcionRepre.value
+					// 		)
+					// 	) {
+					// 		console.log(opcionRepre, " ya se encuentra en el listado");
+					// 	} else {
+					// 		this.options_representante.push(opcionRepre);
+					// 	}
+					// });
 				} catch (error) {
 					console.log(error);
 				}
 			},
-			//Funcion para mostrar el modal
-			showModal() {
-				this.$refs["modal_eliminar"].show();
-			},
-
-			showModalinfo(item, index) {
+			
+			showModalEliminar(item, index) {
 				console.log("Mostrando info eliminar");
 				console.log(this.infoEliminar);
 				this.infoEliminar.mutual = item;
-				this.showModal();
+				this.showModal("modal_eliminar");
 			},
 
+			//Funcion para mostrar el modal
+			showModal(id_ref) {
+			this.$refs[id_ref].show();
+			},
 			//Funcion para esconder el modal
-			hideModal() {
-				this.$refs["modal_eliminar"].hide();
+			hideModal(id_ref) {
+			this.$refs[id_ref].hide();
 			},
 			altaMutual() {},
 
@@ -1080,7 +1065,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					.then((datos) => {
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
-						this.hideModal();
+						this.hideModal('modal_eliminar');
 					})
 					.catch((error) => {
 						swal("¡ERROR!", "Se ha detectado un problema ", "error");
@@ -1104,10 +1089,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							break;
 						}
 					}
-					this.hideModal();
+					this.hideModal("modal-eliminarTodo");
 					swal("Eliminacion Exitosa", " ", "success");
 				} catch (error) {
-					this.hideModal();
+					this.hideModal(modal-eliminarTodo);
 					swal("¡ERROR!", "Se ha detectado un problema ", "error");
 					console.log(error);
 				} finally {
@@ -1181,31 +1166,28 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 
 			async getServicios() {
-				var count = 0;
+				// var count = 0;
 				let serviciosAPI = new APIControler();
-				serviciosAPI.apiUrl.pathname = "servicio_mutual/";
-				this.data = await serviciosAPI.getData(this.servicios);
-				this.data.forEach((element) => {
-					console.log(element);
-					this.getPublic(element.id_servicio);
-				});
+				serviciosAPI.apiUrl.pathname = "servicios/";
+				this.servicios = await serviciosAPI.getData();
+				
 			},
 
-			async getPublic(id) {
-				//let url = 'http://localhost:8081/'+ id + '/'
+			// async getPublic(id) {
+			// 	//let url = 'http://localhost:8081/'+ id + '/'
 
-				axios
-					.get(id)
-					.then((response) => {
-						console.log(response);
-						this.server_mutual.push(response.data);
-						//this.server_mutual[count].id_servicio=response.data.id_servicio
-						//this.server_mutual[count].servicio=response.data.servicio
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-			},
+			// 	axios
+			// 		.get(id)
+			// 		.then((response) => {
+			// 			console.log(response);
+			// 			this.server_mutual.push(response.data);
+			// 			//this.server_mutual[count].id_servicio=response.data.id_servicio
+			// 			//this.server_mutual[count].servicio=response.data.servicio
+			// 		})
+			// 		.catch((error) => {
+			// 			console.log(error);
+			// 		});
+			// },
 		},
 		beforeMount() {
 			this.testFetch();

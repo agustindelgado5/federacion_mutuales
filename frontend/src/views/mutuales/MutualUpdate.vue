@@ -236,12 +236,12 @@
 			</b-card>
 
 			<b-form-group
-				label="*Servicio"
+				label="*Servicios"
 				label-for="servicio"
 				v-slot="{ ariaDescribedby }"
 			>
 				<b-form-checkbox-group
-					v-model="selected"
+					v-model="mutual.servicios_mutual"
 					:options="op_servicios"
 					:aria-describedby="ariaDescribedby"
 					name="flavour-2a"
@@ -267,15 +267,15 @@
 		},
 		data() {
 			return {
-				mutuales: {},
-				data: {},
-				key_mutual: this.mutual.id_mutual,
-				key_serv_mutual: [],
+				// mutuales: {},
+				// data: {},
+				// key_mutual: this.mutual.id_mutual,
+				// key_serv_mutual: [],
 
-				selected: [],
-				selected_anterior: [],
-				new_selected: [],
-				list_servicios: {},
+				// selected: [],
+				// selected_anterior: [],
+				// new_selected: [],
+				// list_servicios: {},
 				op_servicios: [
 					{ value: null, text: "Elija un servicio", disabled: true },
 				],
@@ -317,7 +317,7 @@
 					fecha_ingreso: { estado: null, mensaje: "" },
 					direccion: { estado: null, mensaje: "" },
 					sucursal: { estado: null, mensaje: "" },
-					id_servicio: { estado: null, mensaje: "" },
+					servicios: { estado: null, mensaje: "" },
 				},
 				op_localidad: [
 					{ value: null, text: "Elija una localidad" },
@@ -524,8 +524,8 @@
 			async getServicios() {
 				let serviciosAPI = new APIControler();
 				serviciosAPI.apiUrl.pathname = "servicios/";
-				this.data = await serviciosAPI.getData(this.list_servicios);
-				this.data.forEach((element) => {
+				let servicios = await serviciosAPI.getData();
+				servicios.forEach((element) => {
 					let option = {};
 					option.value =
 						"http://localhost:8081/servicios/" + element.id_servicio + "/";
@@ -535,23 +535,23 @@
 				});
 			},
 
-			//Obtengo los servicios
-			async getOpcionesSelected() {
-				let opcionesAPI = new APIControler();
-				opcionesAPI.apiUrl.pathname = "servicio_mutual/";
-				this.data = await opcionesAPI.getData(this.list_servicios);
-				this.data.forEach((element) => {
-					if (
-						element.id_mutual ==
-						"http://localhost:8081/mutuales/" + this.mutual.id_mutual + "/"
-					)
-						this.key_serv_mutual.push(element.id_serv_mut);
-					this.selected.push(element.id_servicio);
-				});
-				this.selected_anterior = this.selected;
+			// //Obtengo los servicios
+			// async getOpcionesSelected() {
+			// 	let opcionesAPI = new APIControler();
+			// 	opcionesAPI.apiUrl.pathname = "servicio_mutual/";
+			// 	this.data = await opcionesAPI.getData(this.list_servicios);
+			// 	this.data.forEach((element) => {
+			// 		if (
+			// 			element.id_mutual ==
+			// 			"http://localhost:8081/mutuales/" + this.mutual.id_mutual + "/"
+			// 		)
+			// 			this.key_serv_mutual.push(element.id_serv_mut);
+			// 		this.selected.push(element.id_servicio);
+			// 	});
+			// 	this.selected_anterior = this.selected;
 
-				//this.new_selected=  this.selected + this.selected_anterior;
-			},
+			// 	//this.new_selected=  this.selected + this.selected_anterior;
+			// },
 
 			async putMutual() {
 				var id = this.mutual.id_mutual;
@@ -562,7 +562,7 @@
 						this.validarError
 					);
 					const content = this.respuesta.request;
-					this.putServicios();
+					// this.putServicios();
 
 					if (content.statusText == "OK") {
 						this.respuesta = "";
@@ -580,68 +580,68 @@
 				this.updateTable();
 			},
 
-			async putServicios() {
-				this.new_selected = this.selected.filter(
-					(x) => !this.selected_anterior[x]
-				);
-				console.log(this.new_selected);
-				console.log("****ID: ", this.key_mutual);
-				for (var i = 0; i < this.selected.length; i++) {
-					if (this.estaCargado(i) != false) {
-						this.PostServicio(i);
-					} else {
-						this.DeleteServicio(i);
-					}
-				}
-			},
+			// async putServicios() {
+			// 	this.new_selected = this.selected.filter(
+			// 		(x) => !this.selected_anterior[x]
+			// 	);
+			// 	console.log(this.new_selected);
+			// 	console.log("****ID: ", this.key_mutual);
+			// 	for (var i = 0; i < this.selected.length; i++) {
+			// 		if (this.estaCargado(i) != false) {
+			// 			this.PostServicio(i);
+			// 		} else {
+			// 			this.DeleteServicio(i);
+			// 		}
+			// 	}
+			// },
 			//Me fijo si el servicio ya esta cargado
-			async estaCargado(i) {
-				let valor = false;
-				try {
-					axios
-						.get("http://localhost:8081/servicio_mutual/", {
-							id_mutual:
-								"http://localhost:8081/mutuales/" + this.key_mutual + "/",
-							id_servicio: this.new_selected[i],
-						})
-						.then((datos) => {
-							console.log("¡El Servicio ya se encuentra cargado!");
-							valor = true;
-						});
-				} catch (error) {
-					console.log(error);
-					valor = false;
-				}
-				return valor;
-			},
-			//Hago un post de un nuevo servicio
-			async PostServicio(i) {
-				try {
-					axios.post("http://localhost:8081/servicio_mutual/", {
-						id_mutual:
-							"http://localhost:8081/mutuales/" + this.key_mutual + "/",
-						id_servicio: this.new_selected[i],
-					});
+			// async estaCargado(i) {
+			// 	let valor = false;
+			// 	try {
+			// 		axios
+			// 			.get("http://localhost:8081/servicio_mutual/", {
+			// 				id_mutual:
+			// 					"http://localhost:8081/mutuales/" + this.key_mutual + "/",
+			// 				id_servicio: this.new_selected[i],
+			// 			})
+			// 			.then((datos) => {
+			// 				console.log("¡El Servicio ya se encuentra cargado!");
+			// 				valor = true;
+			// 			});
+			// 	} catch (error) {
+			// 		console.log(error);
+			// 		valor = false;
+			// 	}
+			// 	return valor;
+			// },
+			// //Hago un post de un nuevo servicio
+			// async PostServicio(i) {
+			// 	try {
+			// 		axios.post("http://localhost:8081/servicio_mutual/", {
+			// 			id_mutual:
+			// 				"http://localhost:8081/mutuales/" + this.key_mutual + "/",
+			// 			id_servicio: this.new_selected[i],
+			// 		});
 
-					console.log("¡Servicios cargados con exito!");
-				} catch (error) {
-					console.log(error);
-				}
-			},
-			//Hago una eliminacion de un registro
-			async DeleteServicio(i) {
-				try {
-					axios.delete(
-						"http://localhost:8081/servicio_mutual/" +
-							this.key_serv_mutual[i] +
-							"/"
-					);
-					console.log(data);
-					console.log("¡Servicio eliminado con exito!");
-				} catch (error) {
-					console.log(error);
-				}
-			},
+			// 		console.log("¡Servicios cargados con exito!");
+			// 	} catch (error) {
+			// 		console.log(error);
+			// 	}
+			// },
+			// //Hago una eliminacion de un registro
+			// async DeleteServicio(i) {
+			// 	try {
+			// 		axios.delete(
+			// 			"http://localhost:8081/servicio_mutual/" +
+			// 				this.key_serv_mutual[i] +
+			// 				"/"
+			// 		);
+			// 		console.log(data);
+			// 		console.log("¡Servicio eliminado con exito!");
+			// 	} catch (error) {
+			// 		console.log(error);
+			// 	}
+			// },
 
 			cargarFeedback() {
 				let valido;
@@ -657,11 +657,11 @@
 		beforeMount() {
 			//this.getID();
 			this.getServicios();
-			this.getOpcionesSelected();
+			// this.getOpcionesSelected();
 		},
 
 		created() {
-			this.putServicios();
+			// this.putServicios();
 		},
 	};
 </script>

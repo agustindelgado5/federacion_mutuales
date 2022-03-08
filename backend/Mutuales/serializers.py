@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Mutuales.models import mutuales, servicios, servicio_mutual, planes,beneficiosDelPlan
+from Mutuales.models import mutuales, servicios, planes,beneficiosDelPlan#,servicio_mutual
 
 class ServiciosSerializer(serializers.HyperlinkedModelSerializer):
     
@@ -24,6 +24,7 @@ class MutualesSerializer(serializers.HyperlinkedModelSerializer):
             'sucursal',
             'matricula',
             'cuit',
+            'servicios_mutual',
             'email',
             'telefono',
             'representante',
@@ -33,16 +34,16 @@ class MutualesSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ['id_mutual','created ','updated']
 
 
-class ServiciosMutualSerializer(serializers.HyperlinkedModelSerializer):
+# class ServiciosMutualSerializer(serializers.HyperlinkedModelSerializer):
     
-    class Meta:
-        model = servicio_mutual
-        fields = (
-            'id_serv_mut',
-            'id_mutual',
-            'id_servicio',
-        )
-        #read_only_fields = ['id_mutual','id_servicio']
+#     class Meta:
+#         model = servicio_mutual
+#         fields = (
+#             'id_serv_mut',
+#             'id_mutual',
+#             'id_servicio',
+#         )
+#         #read_only_fields = ['id_mutual','id_servicio']
         
 class BeneficiosSerializer(serializers.HyperlinkedModelSerializer):
     #idS = serializers.ReadOnlyField(source='servicio.id_servicio')
