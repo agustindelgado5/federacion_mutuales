@@ -120,7 +120,7 @@
 <script>
 	import { APIControler } from "@/store/APIControler";
 	import axios from "axios";
-	1;
+
 	export default {
 		props: {
 			item_med: {},
@@ -147,6 +147,9 @@
 			this.getFarmacias();
 		},
 		methods: {
+			getForeingKeys() {
+				this.item_med.cod_farmacia = "http://localhost:8081/farmacias/"+this.item_med.farmacia.split('-')[0]+"/";
+			},
 			async getFarmacias() {
 				let farmaciaAPI = new APIControler();
 				farmaciaAPI.apiUrl.pathname = "farmacias/";
@@ -194,6 +197,9 @@
 					if (!valido) this.validacion[key].mensaje = this.respuesta[key][0];
 				}
 			},
+		},
+		beforeMount() {
+			this.getForeingKeys();
 		},
 	};
 </script>

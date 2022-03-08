@@ -127,7 +127,7 @@ Vue.filter("Laboratorio", (value, option) => {
 
 Vue.filter("Farmacia", (value, option) => {
 	if (option != null) {
-		return value.filter((f) => f.cod_farmacia == option);
+		return value.filter((f) => f.farmacia == option);
 	} else {
 		return value;
 	}
