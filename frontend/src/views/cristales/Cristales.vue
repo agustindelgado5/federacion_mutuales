@@ -1,12 +1,12 @@
 <template>
 	<v-app id="app">
-		<div id="lentes" class="myTable">
+		<div id="cristales" class="myTable">
 			<!--HEAD DE LA PAGINA -->
 			<vue-headful
-				title="Lentes - Federación Tucumana de Mutuales"
+				title="Cristales - Federación Tucumana de Mutuales"
 			></vue-headful>
 
-			<h2>Listado de Lentes</h2>
+			<h2>Listado de Cristales</h2>
 			<b-button
 				@click="testFetch"
 				class="mb-4"
@@ -17,20 +17,20 @@
 				Actualizar
 			</b-button>
 
-			<!-- ================ALTA Lentes======================== -->
+			<!-- ================ALTA Cristales======================== -->
 			<b-button
 				class="mb-4 ml-2"
 				v-b-modal.modal-alta
-				@click="altaLente()"
-				title="Nuevo Lente"
+				@click="altaCristal()"
+				title="Nuevo Cristal"
 				style="color: white"
 			>
 				<v-icon dark> mdi-plus </v-icon>
-				Nuevo Lente
+				Nuevo Cristal
 			</b-button>
 			<b-modal id="modal-alta" hide-footer>
 				<template #modal-title><h5 class="modal-title">Alta</h5></template>
-				<lentes-alta :updateTable="testFetch"/>
+				<cristales-alta :updateTable="testFetch"/>
 			</b-modal>
 
 			<!-- ============================================================ -->
@@ -56,10 +56,10 @@
 					ok-only
 				>
 					<div class="d-block text-center" v-if="selected.length === rows">
-						<h3>¿Esta seguro de eliminar todos los registros ?</h3>
+						<h3>¿Esta seguro de eliminar todos los registros?</h3>
 					</div>
 					<div class="d-block text-center" v-else>
-						<h3>¿Esta seguro de eliminar {{ selected.length }} registros ?</h3>
+						<h3>¿Esta seguro de eliminar {{ selected.length }} registros?</h3>
 					</div>
 
 					<b-button class="mt-2" block @click="hideModal" title="Volver Atras">
@@ -71,7 +71,7 @@
 						variant="danger"
 						block
 						title="Eliminar"
-						@click="delete_all_Lentes()"
+						@click="delete_all_Cristales()"
 					>
 						Eliminar
 					</b-button>
@@ -163,7 +163,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					sortable
 					responsive
 					hover
-					:items="tabla_lentes"
+					:items="tabla_cristales"
 					show-empty
 					:per-page="perPage"
 					:current-page="currentPage"
@@ -190,8 +190,8 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							<span class="sr-only">Not selected</span>
 						</template>
 					</template>
-					<template slot="cell(descripcion)" slot-scope="data">
-						<b v-if="data.value">{{ data.value }}</b>
+					<template slot="cell(precio_laboratorio)" slot-scope="data">
+						<b v-if="data.value">${{ data.value }}</b>
 						<b v-else>-</b>
 					</template>
 					<template slot="cell(precio_mutual)" slot-scope="data">
@@ -215,20 +215,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<div class="mt-3">
 							<b-button-group>
 								<b-button
-									variant="info"
-									id="button-1"
-									title="Mostrar Info"
-									@click="row.toggleDetails"
-									:disabled="btn_mostrar"
-								>
-									{{ row.detailsShowing ? "Ocultar" : "Mostrar" }} detalles
-								</b-button>
-								<b-button
 									variant="warning"
 									id="button-2"
 									title="Editar este registro"
 									v-b-modal.modal-editar
-									@click="editarLente(row.item, row.index)"
+									@click="editarCristal(row.item, row.index)"
 									:disabled="btn_editar"
 								>
 									<v-icon class="mr-2"> mdi-pencil </v-icon>
@@ -248,74 +239,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							</b-button-group>
 						</div>
 					</template>
-					<template #row-details="row">
-						<b-card title="Datos de la lente: ">
-							<div>
-								<b-list-group horizontal>
-									<b-list-group class="col-3">
-										<b-list-group-item
-											><b>ID:</b>
-											{{ row.item.id_lente }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Diámetro del cristal:</b>
-											{{ row.item.diametro_cristal }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Largo de las patillas:</b> 
-											{{ row.item.largo_patillas }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Ancho del puente:</b> 
-											{{ row.item.ancho_puente }}</b-list-group-item
-										>
-									</b-list-group>
-									&nbsp;
-									<b-list-group class="col-5">
-										<b-list-group-item
-											><b>Marca:</b>
-											{{ row.item.marca }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Color:</b>
-											{{ row.item.color }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Material:</b>
-											{{ row.item.material }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Descripción:</b> {{ row.item.descripcion }}
-										</b-list-group-item>
-									</b-list-group>
-									&nbsp;
-									<b-list-group class="col-4">
-										<b-list-group-item
-											><b>Precio optica:</b>
-											${{ row.item.precio_optica }}</b-list-group-item
-										>
-										<b-list-group-item
-											><b>Precio mutual:</b>
-											${{ row.item.precio_mutual }}</b-list-group-item
-										>
-										<b-list-group-item>
-											<b>Precio venta:</b> 
-											${{ row.item.precio_venta }}
-										</b-list-group-item>
-										<b-list-group-item>
-											<b>Precio tarjeta:</b> 
-											${{ row.item.precio_tarjeta }}
-										</b-list-group-item>
-										<b-list-group-item>
-											<b>Stock:</b> 
-											{{ row.item.stock }}
-										</b-list-group-item>
-									</b-list-group>
-									
-								</b-list-group>
-							</div>
-						</b-card>
-					</template>
 				</b-table>
 
 				<b-container fluid>
@@ -326,14 +249,14 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 							pills
 							:total-rows="totalRows"
 							:per-page="perPage"
-							aria-controls="tabla_lentes"
+							aria-controls="tabla_cristales"
 						>
 						</b-pagination>
 					</b-col>
 				</b-container>
 			</section>
 
-			<!-- ================ELIMINAR Lente======================== -->
+			<!-- ================ELIMINAR Cristal======================== -->
 			<b-modal
 				id="modal_eliminar"
 				ref="my-modal"
@@ -344,7 +267,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				<div class="d-block text-center">
 					<h3>
 						¿Esta seguro de eliminar los datos del registro
-						{{ infoEliminar.lente.id_lente }}?
+						{{ infoEliminar.cristal.id_cristal }}?
 					</h3>
 				</div>
 				<b-button class="mt-2" block @click="hideModal" title="Volver Atras"
@@ -354,17 +277,17 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					class="mt-3"
 					variant="danger"
 					block
-					@click="deleteLente(infoEliminar.lente.id_lente)"
+					@click="deleteCristal(infoEliminar.cristal.id_cristal)"
 					title="Eliminar"
 				>
 					Eliminar
 				</b-button>
 			</b-modal>
 
-			<!-- ================EDITAR Lente======================== -->
+			<!-- ================EDITAR Cristal======================== -->
 			<b-modal id="modal-editar" hide-footer>
 				<template #modal-title><h5 class="modal-title">Editar</h5></template>
-				<lentes-update :lente="editar" :updateTable="testFetch" />
+				<cristales-update :cristal="editar" :updateTable="testFetch" />
 			</b-modal>
 
 			<!-- ==================================CREAR PDF================================== -->
@@ -432,27 +355,29 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 <script>
 	let api = new URL("http://localhost");
-	api.pathname = "lentes/";
+	api.pathname = "cristales/";
 	//api.port = 8000;
 	api.port = 8081;
 
-	import LentesAlta from "./LentesAlta.vue";
-	import LentesUpdate from "./LentesUpdate.vue";
+	import CristalesAlta from "./CristalesAlta.vue";
+	import CristalesUpdate from "./CristalesUpdate.vue";
 	import VueHtml2pdf from "vue-html2pdf";
 
 	import axios from "axios";
 
 	export default {
-		components: { LentesAlta, LentesUpdate, VueHtml2pdf },
+		components: { CristalesAlta, CristalesUpdate, VueHtml2pdf },
 		data() {
 			return {
-				tabla_lentes: [],
+				tabla_cristales: [],
 				fields: [
 					{ key: "selected", label: "", sortable: true },
-					{ key: "id_lente", label: "ID", sortable: true },
-					{ key: "marca", label: "Marca", sortable: true },
+					{ key: "id_cristal", label: "ID", sortable: true },
 					{ key: "material", label: "Material", sortable: true },
-					{ key: "descripcion", label: "Descripcion", sortable: true },
+					{ key: "esfera", label: "Esfera", sortable: true },
+					{ key: "cilindro", label: "Cilindro", sortable: true },
+					{ key: "eje", label: "Eje", sortable: true },
+					{ key: "precio_laboratorio", label: "Precio Laboratorio", sortable: true },
 					{ key: "precio_optica", label: "Precio Optica", sortable: true },
 					{ key: "precio_mutual", label: "Precio Mutual", sortable: true },
 					{ key: "precio_venta", label: "Precio Venta", sortable: true },
@@ -468,7 +393,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				selected: [],
 				infoEliminar: {
 					id: "modal_eliminar",
-					lente: -1,
+					cristal: -1,
 				},
 				filter: null,
 
@@ -484,10 +409,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 		},
 		computed: {
 			rows() {
-				return (this.totalRows = this.tabla_lentes.length);
+				return (this.totalRows = this.tabla_cristales.length);
 			},
 			id() {
-				return this.tabla_lentes.id_lente;
+				return this.tabla_cristales.id_cristal;
 			},
 
 			rowsFilter() {
@@ -508,16 +433,16 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					const res = await fetch(api);
 					const data = await res.json();
 
-					var lista_lentes = data.results;
+					var lista_cristales = data.results;
 
-					console.log(lista_lentes);
+					console.log(lista_cristales);
 
-					this.tabla_lentes = lista_lentes;
+					this.tabla_cristales = lista_cristales;
 				} catch (error) {
 					console.log(error);
 				}
 			},
-			editarLente(item, index) {
+			editarCristal(item, index) {
 				this.editar = item;
 			},
 			//Funcion para mostrar el modal
@@ -525,18 +450,18 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				this.$refs["my-modal"].show();
 			},
 			showModalinfo(item, index) {
-				this.infoEliminar.lente = item;
+				this.infoEliminar.cristal = item;
 				this.showModal();
 			},
 			//Funcion para esconder el modal
 			hideModal() {
 				this.$refs["my-modal"].hide();
 			},
-			altaLente() {},
+			altaCristal() {},
 
-			async deleteLente(id_lente) {
+			async deleteCristal(id_cristal) {
 				axios
-					.delete("http://localhost:8081/lentes/" + id_lente + "/")
+					.delete("http://localhost:8081/cristales/" + id_cristal + "/")
 					.then((datos) => {
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
@@ -551,14 +476,14 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			},
 
 			//Funcion para eliminar todos los socios seleccionados
-			async delete_all_Lentes() {
+			async delete_all_Cristales() {
 				var cantidad = this.selected.length;
 
 				try {
 					for (var i = 0; i < cantidad; i++) {
 						axios.delete(
-							"http://localhost:8081/lentes/" +
-								this.selected[i].id_lente +
+							"http://localhost:8081/cristales/" +
+								this.selected[i].id_cristal +
 								"/"
 						);
 						if (this.selected.length == 0) {

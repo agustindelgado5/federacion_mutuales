@@ -65,7 +65,7 @@
 			
 			<b-form-group
 				title="El mes que corresponde la cuota"
-				label="Mes"
+				label="*Mes"
 				label-for="periodo"
 				@submit.stop.prevent="handleSubmit"
 			>
@@ -82,7 +82,6 @@
 					type="boolean"
 					:state="validacion.pagado.estado"
 					invalid-feedback="Complete este campo"
-					required
 					unchecked-value="false"
 				>
 				</b-form-checkbox>
@@ -100,7 +99,6 @@
 					:state="validacion.fecharealizacion.estado"
 					placeholder="Ingrese una Fecha"
 					invalid-feedback="Complete este campo"
-					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="fecharealizacion-live-feedback">
@@ -110,7 +108,7 @@
 
 			<b-form-group
 				v-if="cuotas.pagado==true"
-				label="*Persona que pagó"
+				label="Persona que pagó"
 				label-for="personapago"
 				@submit.stop.prevent="handleSubmit"
 			>
@@ -121,7 +119,6 @@
 					placeholder="Ingrese el nombre de la persona que pagó"
 					invalid-feedback="Complete este campo"
 					:state="validacion.personapago.estado"
-					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="personapago-live-feedback">
@@ -129,7 +126,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group v-if="cuotas.pagado==true" label="*Método de pago" label-for="metodoPago">
+			<b-form-group v-if="cuotas.pagado==true" label="Método de pago" label-for="metodoPago">
 				<b-form-select
 					id="metodoPago"
 					v-model="cuotas.metodoPago"
@@ -137,7 +134,6 @@
 					type="text"
 					placeholder="Ingrese un método de pago"
 					invalid-feedback="Complete este campo"
-					required
 					:options="op_metodosPago"
 				>
 				</b-form-select>

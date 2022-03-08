@@ -58,14 +58,14 @@ por imagen, estudio oftalmológico, etc
 class estudios(models.Model):
     id_estudio = models.AutoField(primary_key=True) #id interno
     tipo = models.CharField(max_length=60,choices=estudios_tipos)
-    abreviatura = models.CharField(null=True,max_length=30)
-    ub = models.DecimalField(null=True, blank=True,max_digits=8, decimal_places=2)
-    nbu = models.IntegerField(null=True, blank=True)
+    abreviatura = models.CharField(null=True, blank=True, max_length=30)
     descripcion=models.CharField(max_length=60)
-    denominación=models.CharField(null=True,max_length=30)
+    denominación=models.CharField(null=True, blank=True, max_length=30)
+    nbu = models.IntegerField(null=True, blank=True)
     id_proveedor = models.ForeignKey(proveedor, models.DO_NOTHING)
     precio_socio = models.DecimalField(max_digits=8, decimal_places=2)
     precio_federacion = models.DecimalField(max_digits=8, decimal_places=2)
+    ub = models.DecimalField(null=True, blank=True,max_digits=8, decimal_places=2)
     
     #Datos del sistema
     created = models.DateTimeField(auto_now_add=True)

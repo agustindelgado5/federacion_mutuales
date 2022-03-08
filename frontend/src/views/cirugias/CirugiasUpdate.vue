@@ -153,6 +153,7 @@
 
 <script>
 	import axios from "axios";
+	import { APIControler } from "@/store/APIControler";
 
 	export default {
 		props: {
@@ -163,8 +164,15 @@
 			return {
 				data: {},
 
+				op_socios: [{ value: null, text: "Elija un socio", disabled: true }],
+				op_institucion: [
+					{ value: null, text: "Elija una Institución", disabled: true },
+				],
+
 				validacion: {
 					//codigo_intervencion: { estado: null, mensaje: "" },
+					codigo_institucion: { estado: null, mensaje: "" },
+					numero_socio: { estado: null, mensaje: "" },
 					descripcion: { estado: null, mensaje: "" },
 					nivel: { estado: null, mensaje: "" },
 					numero_ayudantes: { estado: null, mensaje: "" },
@@ -178,6 +186,43 @@
 		},
 
 		methods: {
+
+			async getSocios() {
+				let socioAPI = new APIControler();
+				socioAPI.apiUrl.pathname = "socios/";
+				this.data = await socioAPI.getData(this.list_socios);
+				this.data.forEach((element) => {
+					let option = {};
+					option.value =
+						"http://localhost:8081/socios/" + element.numero_socio + "/";
+					option.text =
+						element.numero_socio +
+						"-- " +
+						element.apellido +
+						", " +
+						element.nombre;
+					console.log(option);
+					this.op_socios.push(option);
+					if (element.numero_socio == this.cirugia.numero_socio) {
+						this.list_socios.push(option);
+					}
+				});
+			},
+			async getInstitucion() {
+				let institutoAPI = new APIControler();
+				institutoAPI.apiUrl.pathname = "institutos/";
+				this.data = await institutoAPI.getData(this.list_institutos);
+				this.data.forEach((element) => {
+					let option = {};
+					option.value =
+						"http://localhost:8081/institutos/" +
+						element.codigo_institucion +
+						"/";
+					option.text = element.codigo_institucion + "-- " + element.nombre;
+					console.log(option);
+					this.op_institucion.push(option);
+				});
+			},
 			async putCirugia() {
 				let respuesta = "vacio";
 				// try{
@@ -212,7 +257,10 @@
 				}
 			},
 		},
-		beforeMount() {},
+		beforeMount() {
+			this.getSocios();
+			this.getInstitucion();
+		},
 	};
 </script>
 

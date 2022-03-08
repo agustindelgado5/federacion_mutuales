@@ -194,7 +194,6 @@
 								placeholder="Ingrese una sucursal"
 								invalid-feedback="Complete este campo"
 								:state="validacion.email.estado"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="email-live-feedback"
@@ -210,7 +209,6 @@
 								placeholder="Ingrese una sucursal"
 								invalid-feedback="Complete este campo"
 								:state="validacion.telefono.estado"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="telefono-live-feedback"

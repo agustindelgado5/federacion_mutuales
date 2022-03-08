@@ -262,6 +262,7 @@
 								type="text"
 								solo
 								filled
+								required
 							></v-autocomplete>
 							
 							<b-form-invalid-feedback id="banco-live-feedback"
@@ -276,6 +277,7 @@
 								:state="validacion.cbu.estado"
 								type="text"
 								placeholder="Ingrese un cbu"
+								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="cbu-live-feedback"
@@ -290,6 +292,7 @@
 								:state="validacion.alias_cbu.estado"
 								type="text"
 								placeholder="Ingrese un alias"
+								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="alias_cbu-live-feedback"

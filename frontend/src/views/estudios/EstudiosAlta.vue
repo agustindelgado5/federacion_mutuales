@@ -20,15 +20,14 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="*Abreviatura" label-for="abreviatura">
+			<b-form-group label="Abreviatura" label-for="abreviatura">
 				<b-form-input
 					id="abreviatura"
 					v-model="estudio.abreviatura"
-					:state="validacion.abreviatura.estado"
 					type="text"
 					placeholder="*Ingrese una abreviatura"
 					invalid-feedback="Complete este campo"
-					required
+					:state="validacion.abreviatura.estado"
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="abreviatura-live-feedback"
@@ -52,15 +51,14 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="*Denominación" label-for="denominación">
+			<b-form-group label="Denominación" label-for="denominación">
 				<b-form-input
 					id="denominación"
 					v-model="estudio.denominación"
-					:state="validacion.denominación.estado"
 					type="text"
 					placeholder="*Ingrese una denominación"
 					invalid-feedback="Complete este campo"
-					required
+					:state="validacion.denominación.estado"
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="denominación-live-feedback"
@@ -92,10 +90,10 @@
 				<b-form-input
 					id="nbu"
 					v-model="estudio.nbu"
-					:state="validacion.nbu.estado"
 					type="number"
 					placeholder="Ingrese la N.B.U. correspondiente al estudio "
 					invalid-feedback="Complete este campo"
+					:state="validacion.nbu.estado"
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="ub-live-feedback"
@@ -103,7 +101,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group label="Proveedor" label-for="proveedor">
+			<b-form-group label="*Proveedor" label-for="proveedor">
 				
 				<v-autocomplete
 					id="proveedor"
@@ -127,6 +125,7 @@
 					type="number"
 					placeholder="Ingrese el precio correspondiente al estudio "
 					invalid-feedback="Complete este campo"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="ub-live-feedback"
@@ -145,6 +144,7 @@
 					type="number"
 					placeholder="Ingrese el precio correspondiente al estudio "
 					invalid-feedback="Complete este campo"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="ub-live-feedback"

@@ -20,116 +20,70 @@
 				>
 					<b-card-body>
 						
-						<b-form-group label="*Diametro del cristal" label-for="diametro_cristal">
+						<b-form-group label="*Material del cristal" label-for="material">
 							<b-form-input
-								id="diametro_cristal"
-								v-model="lente.diametro_cristal"
-								:state="validacion.diametro_cristal.estado"
+								id="material"
+								v-model="cristal.material"
+								:state="validacion.material.estado"
 								type="text"
 								placeholder="*Ingrese un diametro"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
-							<b-form-invalid-feedback id="diametro_cristal-live-feedback"
-								>{{ validacion.diametro_cristal.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
-
-						<b-form-group label="*Largo de las Patillas" label-for="largo_patillas">
-							<b-form-input
-								id="largo_patillas"
-								v-model="lente.largo_patillas"
-								:state="validacion.largo_patillas.estado"
-								type="number"
-								placeholder="*Ingrese una medida"
-								invalid-feedback="Complete este campo"
-								required
-							>
-							</b-form-input>
-							<b-form-invalid-feedback id="largo_patillas-live-feedback"
-								>{{ validacion.largo_patillas.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
-
-						<b-form-group label="*Ancho del puente" label-for="ancho_puente">
-							<b-form-input
-								id="ancho_puente"
-								v-model="lente.ancho_puente"
-								:state="validacion.ancho_puente.estado"
-								type="number"
-								placeholder="*Ingrese una medida"
-								invalid-feedback="Complete este campo"
-								required
-							>
-							</b-form-input>
-							<b-form-invalid-feedback id="ancho_puente-live-feedback"
-								>{{ validacion.ancho_puente.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
-						<b-form-group label="Marca" label-for="marca">
-							<b-form-input
-								id="marca"
-								v-model="lente.marca"
-								:state="validacion.marca.estado"
-								type="text"
-								placeholder="*Ingrese una marca"
-								invalid-feedback="Complete este campo"
-								
-							>
-							</b-form-input>
-							<b-form-invalid-feedback id="marca-live-feedback"
-								>{{ validacion.marca.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
-
-						<b-form-group label="Color" label-for="color">
-							<b-form-input
-								id="color"
-								v-model="lente.color"
-								:state="validacion.color.estado"
-								type="text"
-								placeholder="*Ingrese un color"
-								invalid-feedback="Complete este campo"
-								
-							>
-							</b-form-input>
-							<b-form-invalid-feedback id="color-live-feedback"
-								>{{ validacion.color.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
-
-						<b-form-group label="Material" label-for="material">
-							<b-form-input
-								id="material"
-								v-model="lente.material"
-								:state="validacion.material.estado"
-								type="text"
-								placeholder="*Ingrese un material"
-								invalid-feedback="Complete este campo"
-								
-							>
-							</b-form-input>
 							<b-form-invalid-feedback id="material-live-feedback"
 								>{{ validacion.material.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
-						
-						<b-form-group label="Descripcion" label-for="descripcion">
+
+						<b-form-group label="*Esfera" label-for="esfera">
 							<b-form-input
-								id="descripcion"
-								v-model="lente.descripcion"
-								:state="validacion.descripcion.estado"
-								type="text"
-								placeholder="*Ingrese la descripcion"
+								id="esfera"
+								v-model="cristal.esfera"
+								:state="validacion.esfera.estado"
+								type="number"
+								placeholder="*Ingrese un valor"
 								invalid-feedback="Complete este campo"
 								required
 							>
 							</b-form-input>
-							<b-form-invalid-feedback id="descripcion-live-feedback"
-								>{{ validacion.descripcion.mensaje }}
+							<b-form-invalid-feedback id="esfera-live-feedback"
+								>{{ validacion.esfera.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
+
+						<b-form-group label="*Cilindro" label-for="cilindro">
+							<b-form-input
+								id="cilindro"
+								v-model="cristal.cilindro"
+								:state="validacion.cilindro.estado"
+								type="number"
+								placeholder="*Ingrese un valor"
+								invalid-feedback="Complete este campo"
+								required
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="cilindro-live-feedback"
+								>{{ validacion.cilindro.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+						<b-form-group label="Eje" label-for="eje">
+							<b-form-input
+								id="eje"
+								v-model="cristal.eje"
+								:state="validacion.eje.estado"
+								type="text"
+								placeholder="*Ingrese un valor"
+								invalid-feedback="Complete este campo"
+								
+							>
+							</b-form-input>
+							<b-form-invalid-feedback id="eje-live-feedback"
+								>{{ validacion.eje.mensaje }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+
+						
 					</b-card-body>
 				</b-collapse>
 			</b-card>
@@ -150,17 +104,16 @@
 					role="tabpanel"
 				>
 					<b-card-body>
-						<b-form-group
-							label="Precio Laboratorio"
-							label-for="precio_laboratorio"
-						>
+						
+						<b-form-group label="Precio Laboratorio" label-for="precio_laboratorio">
 							<b-form-input
 								id="precio_laboratorio"
-								v-model="lente.precio_laboratorio"
+								v-model="cristal.precio_laboratorio"
 								:state="validacion.precio_laboratorio.estado"
 								type="number"
-								placeholder="*Ingrese el numero de ayudantes"
+								placeholder="*Ingrese el precio de optica"
 								invalid-feedback="Complete este campo"
+								
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="precio_laboratorio-live-feedback"
@@ -171,11 +124,12 @@
 						<b-form-group label="Precio Optica" label-for="precio_optica">
 							<b-form-input
 								id="precio_optica"
-								v-model="lente.precio_optica"
+								v-model="cristal.precio_optica"
 								:state="validacion.precio_optica.estado"
 								type="number"
 								placeholder="*Ingrese el precio de optica"
 								invalid-feedback="Complete este campo"
+								
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="precio_optica-live-feedback"
@@ -186,11 +140,12 @@
 						<b-form-group label="Precio Mutual" label-for="precio_mutual">
 							<b-form-input
 								id="precio_mutual"
-								v-model="lente.precio_mutual"
+								v-model="cristal.precio_mutual"
 								:state="validacion.precio_mutual.estado"
 								type="number"
 								placeholder="*Ingrese el precio de la mutual"
 								invalid-feedback="Complete este campo"
+								
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="precio_mutual-live-feedback"
@@ -201,11 +156,12 @@
 						<b-form-group label="Precio Venta" label-for="precio_venta">
 							<b-form-input
 								id="precio_venta"
-								v-model="lente.precio_venta"
+								v-model="cristal.precio_venta"
 								:state="validacion.precio_venta.estado"
 								type="number"
 								placeholder="*Ingrese el precio de la venta"
 								invalid-feedback="Complete este campo"
+								
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="precio_venta-live-feedback"
@@ -216,11 +172,12 @@
 						<b-form-group label="Precio Tarjeta" label-for="precio_tarjeta">
 							<b-form-input
 								id="precio_tarjeta"
-								v-model="lente.precio_tarjeta"
+								v-model="cristal.precio_tarjeta"
 								:state="validacion.precio_tarjeta.estado"
 								type="number"
 								placeholder="*Ingrese el precio de la tarjeta"
 								invalid-feedback="Complete este campo"
+								
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="precio_tarjeta-live-feedback"
@@ -228,14 +185,15 @@
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="Stock" label-for="stock">
+						<b-form-group label="*Stock" label-for="stock">
 							<b-form-input
 								id="stock"
-								v-model="lente.stock"
+								v-model="cristal.stock"
 								:state="validacion.stock.estado"
 								type="number"
 								placeholder="*Ingrese el stock"
 								invalid-feedback="Complete este campo"
+								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="stock-live-feedback"
@@ -246,7 +204,7 @@
 				</b-collapse>
 			</b-card>
 		</b-form>
-		<b-button class="mt-2" variant="success" block @click="putLente()"
+		<b-button class="mt-2" variant="success" block @click="putCristal()"
 			>Guardar</b-button
 		>
 	</div>
@@ -258,7 +216,7 @@
 
 	export default {
 		props: {
-			lente: {},
+			cristal: {},
 			updateTable: Function,
 		},
 		data() {
@@ -272,14 +230,12 @@
 				text: "",
 
 				validacion: {
-					id_lente: { estado: null, mensaje: "" },
-					diametro_cristal: { estado: null, mensaje: "" },
-					largo_patillas: { estado: null, mensaje: "" },
-					ancho_puente: { estado: null, mensaje: "" },
-					marca: { estado: null, mensaje: "" },
-					color: { estado: null, mensaje: "" },
+					id_cristal: { estado: null, mensaje: "" },
 					material: { estado: null, mensaje: "" },
-					descripcion: { estado: null, mensaje: "" },
+					esfera: { estado: null, mensaje: "" },
+					cilindro: { estado: null, mensaje: "" },
+					eje: { estado: null, mensaje: "" },
+					precio_laboratorio: { estado: null, mensaje: "" },
 					precio_optica: { estado: null, mensaje: "" },
 					precio_mutual: { estado: null, mensaje: "" },
 					precio_venta: { estado: null, mensaje: "" },
@@ -308,17 +264,17 @@
 			},
 			*/
 
-			// async getLentes() {
-			// 	let lenteAPI = new APIControler();
-			// 	this.data = await lenteAPI.getData();
+			// async getCristales() {
+			// 	let cristalAPI = new APIControler();
+			// 	this.data = await cristalAPI.getData();
 			// },
-			async putLente() {
+			async putCristal() {
 				let respuesta = "vacio";
 				// try{
 				await axios
 					.put(
-						"http://localhost:8081/lentes/" + this.lente.id_lente + "/",
-						this.lente
+						"http://localhost:8081/cristales/" + this.cristal.id_cristal + "/",
+						this.cristal
 					)
 					.then(function (data) {
 						console.log("Data");

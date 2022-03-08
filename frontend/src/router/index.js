@@ -163,6 +163,12 @@ const routes = [
     meta: { title: 'Planes - Federación Tucumana de Mutuales' }
   },
   {
+    path: '/cristales',
+    name: 'Cristales',
+    component: () => import('../views/cristales/Cristales.vue'),
+    meta: { title: 'Cristales - Federación Tucumana de Mutuales' }
+  },
+  {
     path: '/test_form',
     name: 'TestForm',
     component: () => import('../views/tests_components/TestForm.vue'),

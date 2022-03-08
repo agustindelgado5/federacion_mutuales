@@ -120,7 +120,7 @@
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="*Mutual de asociación" label-for="id_mutual">
+						<b-form-group label="Mutual de asociación" label-for="id_mutual">
 							<b-form-select
 								id="id_mutual"
 								v-model="socio.mutual"
@@ -128,7 +128,6 @@
 								:state="validacion.mutual.estado"
 								placeholder="Ingrese el ID de la mutual"
 								invalid-feedback="Complete este campo"
-								required
 								:options="op_mutuales"
 							>
 							</b-form-select>
@@ -324,7 +323,6 @@
 								type="date"
 								placeholder="Ingrese una fecha"
 								invalid-feedback="Complete este campo"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="carencia-live-feedback"
@@ -451,7 +449,6 @@
 						type="date"
 						placeholder="Ingrese una fecha"
 						invalid-feedback="Complete este campo"
-						required
 					>
 					</b-form-input>
 					<b-form-invalid-feedback id="carencia-live-feedback"
