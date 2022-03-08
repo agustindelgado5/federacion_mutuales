@@ -1,9 +1,10 @@
 <template>
   <div style="width:24rem; margin:0 auto;">
-    <h1>Federacion de Mutuales</h1>
+    <h1>Federación de Mutuales</h1>
+    <img src="@/assets/logo.jpg" alt="Logo Federación" srcset="" id="Logo_fed" style="margin-top:1em;margin-bottom:1em;">
     <v-card max-width="500">
       <v-card-title>
-        Iniciar Sesion
+        Iniciar Sesión
       </v-card-title>
       <v-form v-on:submit.prevent="logIn">
         <v-container>
