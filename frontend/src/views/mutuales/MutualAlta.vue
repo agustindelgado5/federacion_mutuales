@@ -136,6 +136,7 @@
 						</b-form-group>
 
 						<b-form-group label="*Localidad" label-for="localidad">
+							<!--
 							<b-form-select
 								id="localidad"
 								v-model="mutuales.localidad"
@@ -147,12 +148,22 @@
 								required
 							>
 							</b-form-select>
+							-->
+							<v-autocomplete
+								id="localidad"
+								v-model="mutuales.localidad"
+								:items="op_localidad"
+								type="text"
+								solo
+								filled
+							></v-autocomplete>
 							<b-form-invalid-feedback id="localidad-live-feedback"
 								>{{ validacion.localidad.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="*Sucursal" label-for="sucursal">
+						<b-form-group label="*Depto. de la Sucursal" label-for="sucursal">
+							<!--
 							<b-form-select
 								id="sucursal"
 								v-model="mutuales.sucursal"
@@ -164,6 +175,15 @@
 								required
 							>
 							</b-form-select>
+							-->
+							<v-autocomplete
+								id="sucursal"
+								v-model="mutuales.sucursal"
+								:items="options"
+								type="text"
+								solo
+								filled
+							></v-autocomplete>
 							<b-form-invalid-feedback id="sucursal-live-feedback"
 								>{{ validacion.sucursal.mensaje }}
 							</b-form-invalid-feedback>

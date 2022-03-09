@@ -135,34 +135,28 @@
 						</b-form-group>
 
 						<b-form-group label="*Localidad" label-for="localidad">
-							<b-form-select
+							<v-autocomplete
 								id="localidad"
 								v-model="mutual.localidad"
+								:items="op_localidad"
 								type="text"
-								placeholder="Ingrese una sucursal"
-								invalid-feedback="Complete este campo"
-								:state="validacion.localidad.estado"
-								:options="op_localidad"
-								required
-							>
-							</b-form-select>
+								solo
+								filled
+							></v-autocomplete>
 							<b-form-invalid-feedback id="localidad-live-feedback"
 								>{{ validacion.localidad.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 
-						<b-form-group label="*Sucursal" label-for="sucursal">
-							<b-form-select
+						<b-form-group label="*Depto. de la Sucursal" label-for="sucursal">
+							<v-autocomplete
 								id="sucursal"
 								v-model="mutual.sucursal"
+								:items="options"
 								type="text"
-								placeholder="Ingrese una sucursal"
-								invalid-feedback="Complete este campo"
-								:state="validacion.sucursal.estado"
-								:options="options"
-								required
-							>
-							</b-form-select>
+								solo
+								filled
+							></v-autocomplete>
 							<b-form-invalid-feedback id="sucursal-live-feedback"
 								>{{ validacion.sucursal.mensaje }}
 							</b-form-invalid-feedback>
