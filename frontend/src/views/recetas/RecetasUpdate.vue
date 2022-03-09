@@ -17,19 +17,31 @@
 
 		<b-form>
 			<!-- Numero de Socio -->
+
 			<b-form-group label="*Socio" label-for="numero_socio">
-				<b-form-select
+				<!--
+			<b-form-select
+				id="numero_socio"
+				v-model="receta.numero_socio"
+				type="text"
+				placeholder="Ingrese un Numero"
+				invalid-feedback="Complete este campo"
+				required
+				:state="validacion.numero_socio.estado"
+				:options="op_socios"
+				@change="getPaciente()"
+			>
+			</b-form-select>
+			-->
+				<v-autocomplete
 					id="numero_socio"
 					v-model="receta.numero_socio"
+					:items="op_socios"
 					type="text"
-					placeholder="Ingrese un Numero"
-					invalid-feedback="Complete este campo"
-					required
-					:state="validacion.numero_socio.estado"
-					:options="op_socios"
+					solo
+					filled
 					@change="getPaciente()"
-				>
-				</b-form-select>
+				></v-autocomplete>
 				<b-form-invalid-feedback id="numero_socio-live-feedback"
 					>{{ validacion.numero_socio.mensaje }}
 				</b-form-invalid-feedback>
@@ -37,6 +49,7 @@
 			<!-- Paciente para el cual se emite la receta -->
 
 			<b-form-group label="*Paciente" label-for="paciente">
+				<!--
 				<b-form-select
 					id="paciente"
 					v-model="receta.paciente"
@@ -48,6 +61,15 @@
 					:options="list_pacientes"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="paciente"
+					v-model="receta.paciente"
+					:items="list_pacientes"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="paciente-live-feedback"
 					>{{ validacion.paciente.mensaje }}
 				</b-form-invalid-feedback>
@@ -71,8 +93,9 @@
 			</b-form-group>
 
 			<!-- Id del medicamento -->
-			
+
 			<b-form-group label="*Medicamento" label-for="id_medicamento">
+				<!--
 				<b-form-select
 					id="id_medicamento"
 					v-model="receta.id_medicamento"
@@ -84,14 +107,24 @@
 					:options="op_medicamentos"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="id_medicamento"
+					v-model="receta.id_medicamento"
+					:items="op_medicamentos"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="id_medicamento-live-feedback"
 					>{{ validacion.id_medicamento.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 
 			<!-- Id de la farmacia -->
-			
+
 			<b-form-group label="*Farmacia" label-for="cod_farmacia">
+				<!--
 				<b-form-select
 					id="cod_farmacia"
 					v-model="receta.cod_farmacia"
@@ -103,6 +136,15 @@
 					:options="op_farmacias"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="cod_farmacia"
+					v-model="receta.cod_farmacia"
+					:items="op_farmacias"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="cod_farmacia-live-feedback"
 					>{{ validacion.cod_farmacia.mensaje }}
 				</b-form-invalid-feedback>
@@ -121,7 +163,9 @@
 					required
 				></v-autocomplete>
 
-			
+				<!-- <b-form-invalid-feedback id="id_medico-live-feedback"
+          >{{ validacion.id_medico.mensaje }}
+        </b-form-invalid-feedback> -->
 			</b-form-group>
 
 			<!-- Fecha de emision -->
