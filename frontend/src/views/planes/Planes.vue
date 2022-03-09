@@ -174,6 +174,10 @@
 							<span class="sr-only">Not selected</span>
 						</template>
 					</template>
+					
+					<template slot="cell(precio)" slot-scope="data">
+						${{ data.value }}
+					</template>
 
 					
 
