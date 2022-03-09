@@ -19,67 +19,61 @@
 					role="tabpanel"
 				>
 					<b-card-body>
-						<b-form-group label="*Id Medico" label-for="id_medico">
-							<b-form-input id="id_medico"
-										  v-model="item_prof.id_medico"
-										  type="number"
-										  placeholder="Ingrese un Numero"
-										  invalid-feedback="Complete este campo"
-										  :state="validacion.id_medico.estado"
-										  required
-										  :disabled="true">
-							</b-form-input>
-							<b-form-invalid-feedback id="id_medico-live-feedback">
-								{{ validacion.id_medico.mensaje }}
-							</b-form-invalid-feedback>
-						</b-form-group>
 						<b-form-group label="*Matricula" label-for="matricula">
-							<b-form-input id="matricula"
-										  v-model="item_prof.matricula"
-										  type="number"
-										  placeholder="Ingrese un Numero"
-										  invalid-feedback="Complete este campo"
-										  :state="validacion.matricula.estado"
-										  required>
+							<b-form-input
+								id="matricula"
+								v-model="item_prof.matricula"
+								type="number"
+								placeholder="Ingrese un Numero"
+								invalid-feedback="Complete este campo"
+								:state="validacion.matricula.estado"
+								required
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="matricula-live-feedback">
 								{{ validacion.matricula.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*Nombre/s" label-for="nombre">
-							<b-form-input id="nombre"
-										  v-model="item_prof.nombre"
-										  type="text"
-										  placeholder="*Ingrese los Nombre/s"
-										  :state="validacion.nombre.estado"
-										  invalid-feedback="Complete este campo"
-										  required>
+							<b-form-input
+								id="nombre"
+								v-model="item_prof.nombre"
+								type="text"
+								placeholder="*Ingrese los Nombre/s"
+								:state="validacion.nombre.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="nombre-live-feedback">
 								{{ validacion.nombre.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*Apellido/s" label-for="apellido">
-							<b-form-input id="apellido"
-										  v-model="item_prof.apellido"
-										  type="text"
-										  placeholder="*Ingrese los Apellido/s"
-										  :state="validacion.apellido.estado"
-										  invalid-feedback="Complete este campo"
-										  required>
+							<b-form-input
+								id="apellido"
+								v-model="item_prof.apellido"
+								type="text"
+								:state="validacion.apellido.estado"
+								placeholder="*Ingrese los Apellido/s"
+								invalid-feedback="Complete este campo"
+								required
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="apellido-live-feedback">
 								{{ validacion.apellido.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*DNI" label-for="dni">
-							<b-form-input id="dni"
-										  v-model="item_prof.dni"
-										  type="number"
-										  placeholder="Ingrese un DNI"
-										  :state="validacion.dni.estado"
-										  invalid-feedback="Complete este campo"
-										  required>
+							<b-form-input
+								id="dni"
+								v-model="item_prof.dni"
+								:state="validacion.dni.estado"
+								type="number"
+								placeholder="Ingrese un DNI"
+								invalid-feedback="Complete este campo"
+								required
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="dni-live-feedback">
 								{{ validacion.dni.mensaje }}
@@ -87,46 +81,54 @@
 						</b-form-group>
 
 						<b-form-group label="*Fecha de ingreso" label-for="fecha_ingreso">
-							<b-form-input id="fecha_ingreso"
-										  v-model="item_prof.fecha_ingreso"
-										  type="date"
-										  :state="validacion.fecha_ingreso.estado"
-										  placeholder="Ingrese una fecha"
-										  invalid-feedback="Complete este campo"
-										  required>
+							<b-form-input
+								id="fecha_ingreso"
+								v-model="item_prof.fecha_ingreso"
+								:state="validacion.fecha_ingreso.estado"
+								type="date"
+								placeholder="Ingrese una fecha"
+								invalid-feedback="Complete este campo"
+								required
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="fecha_ingreso-live-feedback">
 								{{ validacion.fecha_ingreso.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="Especialidad" label-for="especialidad">
-							<b-form-input id="especialidad"
-										  :state="validacion.especialidad.estado"
-										  v-model="item_prof.especialidad"
-										  type="text"
-										  placeholder="*Ingrese la Especialidad"
-										  invalid-feedback="Complete este campo">
+							<b-form-input
+								id="especialidad"
+								v-model="item_prof.especialidad"
+								:state="validacion.especialidad.estado"
+								type="text"
+								placeholder="*Ingrese la Especialidad"
+								invalid-feedback="Complete este campo"
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="especialidad-live-feedback">
 								{{ validacion.especialidad.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<b-form-group label="Dias de Liquidacion" label-for="diasliquidacion">
-							<b-form-input id="diasliquidacion"
-										  :state="validacion.diasliquidacion.estado"
-										  v-model="item_prof.diasliquidacion"
-										  type="text"
-										  placeholder="*Ingrese los Dias de Liquidacion"
-										  invalid-feedback="Complete este campo">
+						<b-form-group
+							label="Dias de Liquidacion"
+							label-for="diasliquidacion"
+						>
+							<b-form-input
+								id="diasliquidacion"
+								v-model="item_prof.diasliquidacion"
+								:state="validacion.diasliquidacion.estado"
+								type="text"
+								placeholder="*Ingrese la Especialidad"
+								invalid-feedback="Complete este campo"
+							>
 							</b-form-input>
-							<b-form-invalid-feedback id="especialidad-live-feedback">
-								{{ validacion.especialidad.mensaje }}
+							<b-form-invalid-feedback id="diasliquidacion-live-feedback">
+								{{ validacion.diasliquidacion.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 					</b-card-body>
 				</b-collapse>
 			</b-card>
-			<!-- <h4>Domicilio:</h4> -->
 			<b-card no-body class="mb-1">
 				<b-card-header header-tag="header" class="p-1" role="tab">
 					<b-button
@@ -153,7 +155,6 @@
 								>{{ validacion.domicilio.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
-
 						<b-form-group label="*Localidad" label-for="localidad">
 							<b-form-input
 								id="localidad"
@@ -165,22 +166,27 @@
 								required
 							>
 							</b-form-input>
+							
+							
+							
 							<b-form-invalid-feedback id="localidad-live-feedback"
 								>{{ validacion.localidad.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
+
 						<b-form-group label="*Provincia" label-for="provincia">
-							<b-form-select
+							
+							<v-autocomplete
 								id="provincia"
 								v-model="item_prof.provincia"
+								:items="options"
 								type="text"
-								:state="validacion.provincia.estado"
-								placeholder="Ingrese una provincia"
-								invalid-feedback="Complete este campo"
-								required
-								:options="options"
-							>
-							</b-form-select>
+								solo
+								filled
+							></v-autocomplete>
+							<b-form-invalid-feedback id="provincia-live-feedback"
+								>{{ validacion.provincia.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 					</b-card-body>
 				</b-collapse>
@@ -262,7 +268,6 @@
 								type="text"
 								solo
 								filled
-								required
 							></v-autocomplete>
 							
 							<b-form-invalid-feedback id="banco-live-feedback"
@@ -277,7 +282,6 @@
 								:state="validacion.cbu.estado"
 								type="text"
 								placeholder="Ingrese un cbu"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="cbu-live-feedback"
@@ -292,7 +296,6 @@
 								:state="validacion.alias_cbu.estado"
 								type="text"
 								placeholder="Ingrese un alias"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="alias_cbu-live-feedback"

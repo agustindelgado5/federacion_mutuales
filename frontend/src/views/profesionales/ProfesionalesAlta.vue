@@ -19,70 +19,61 @@
 					role="tabpanel"
 				>
 					<b-card-body>
-						<!--
-	<b-form-group label="*Id Medico" label-for="id_medico">
-		<b-form-input
-			id="id_medico"
-			v-model="profesional.id_medico"
-			type="number"
-			placeholder="Ingrese un Numero"
-			invalid-feedback="Complete este campo"
-			:state="validacion.id_medico.estado"
-			required
-		>
-		</b-form-input>
-		<b-form-invalid-feedback id="id_medico-live-feedback"
-			>{{ validacion.id_medico.mensaje }}
-		</b-form-invalid-feedback>
-	</b-form-group>
-	-->
 						<b-form-group label="*Matricula" label-for="matricula">
-							<b-form-input id="matricula"
-										  v-model="profesional.matricula"
-										  type="number"
-										  placeholder="Ingrese un Numero"
-										  invalid-feedback="Complete este campo"
-										  :state="validacion.matricula.estado"
-										  required>
+							<b-form-input
+								id="matricula"
+								v-model="profesional.matricula"
+								type="number"
+								placeholder="Ingrese un Numero"
+								invalid-feedback="Complete este campo"
+								:state="validacion.matricula.estado"
+								required
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="matricula-live-feedback">
 								{{ validacion.matricula.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*Nombre/s" label-for="nombre">
-							<b-form-input id="nombre"
-										  v-model="profesional.nombre"
-										  type="text"
-										  placeholder="*Ingrese los Nombre/s"
-										  :state="validacion.nombre.estado"
-										  invalid-feedback="Complete este campo"
-										  required>
+							<b-form-input
+								id="nombre"
+								v-model="profesional.nombre"
+								type="text"
+								placeholder="*Ingrese los Nombre/s"
+								:state="validacion.nombre.estado"
+								invalid-feedback="Complete este campo"
+								required
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="nombre-live-feedback">
 								{{ validacion.nombre.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*Apellido/s" label-for="apellido">
-							<b-form-input id="apellido"
-										  v-model="profesional.apellido"
-										  type="text"
-										  :state="validacion.apellido.estado"
-										  placeholder="*Ingrese los Apellido/s"
-										  invalid-feedback="Complete este campo"
-										  required>
+							<b-form-input
+								id="apellido"
+								v-model="profesional.apellido"
+								type="text"
+								:state="validacion.apellido.estado"
+								placeholder="*Ingrese los Apellido/s"
+								invalid-feedback="Complete este campo"
+								required
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="apellido-live-feedback">
 								{{ validacion.apellido.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="*DNI" label-for="dni">
-							<b-form-input id="dni"
-										  v-model="profesional.dni"
-										  :state="validacion.dni.estado"
-										  type="number"
-										  placeholder="Ingrese un DNI"
-										  invalid-feedback="Complete este campo"
-										  required>
+							<b-form-input
+								id="dni"
+								v-model="profesional.dni"
+								:state="validacion.dni.estado"
+								type="number"
+								placeholder="Ingrese un DNI"
+								invalid-feedback="Complete este campo"
+								required
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="dni-live-feedback">
 								{{ validacion.dni.mensaje }}
@@ -90,37 +81,46 @@
 						</b-form-group>
 
 						<b-form-group label="*Fecha de ingreso" label-for="fecha_ingreso">
-							<b-form-input id="fecha_ingreso"
-										  v-model="profesional.fecha_ingreso"
-										  :state="validacion.fecha_ingreso.estado"
-										  type="date"
-										  placeholder="Ingrese una fecha"
-										  invalid-feedback="Complete este campo"
-										  required>
+							<b-form-input
+								id="fecha_ingreso"
+								v-model="profesional.fecha_ingreso"
+								:state="validacion.fecha_ingreso.estado"
+								type="date"
+								placeholder="Ingrese una fecha"
+								invalid-feedback="Complete este campo"
+								required
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="fecha_ingreso-live-feedback">
 								{{ validacion.fecha_ingreso.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
 						<b-form-group label="Especialidad" label-for="especialidad">
-							<b-form-input id="especialidad"
-										  v-model="profesional.especialidad"
-										  :state="validacion.especialidad.estado"
-										  type="text"
-										  placeholder="*Ingrese la Especialidad"
-										  invalid-feedback="Complete este campo">
+							<b-form-input
+								id="especialidad"
+								v-model="profesional.especialidad"
+								:state="validacion.especialidad.estado"
+								type="text"
+								placeholder="*Ingrese la Especialidad"
+								invalid-feedback="Complete este campo"
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="especialidad-live-feedback">
 								{{ validacion.especialidad.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<b-form-group label="Dias de Liquidacion" label-for="diasliquidacion">
-							<b-form-input id="diasliquidacion"
-										  v-model="profesional.diasliquidacion"
-										  :state="validacion.diasliquidacion.estado"
-										  type="text"
-										  placeholder="*Ingrese la Especialidad"
-										  invalid-feedback="Complete este campo">
+						<b-form-group
+							label="Dias de Liquidacion"
+							label-for="diasliquidacion"
+						>
+							<b-form-input
+								id="diasliquidacion"
+								v-model="profesional.diasliquidacion"
+								:state="validacion.diasliquidacion.estado"
+								type="text"
+								placeholder="*Ingrese la Especialidad"
+								invalid-feedback="Complete este campo"
+							>
 							</b-form-input>
 							<b-form-invalid-feedback id="diasliquidacion-live-feedback">
 								{{ validacion.diasliquidacion.mensaje }}
@@ -166,22 +166,27 @@
 								required
 							>
 							</b-form-input>
+							
+							
+							
 							<b-form-invalid-feedback id="localidad-live-feedback"
 								>{{ validacion.localidad.mensaje }}
 							</b-form-invalid-feedback>
 						</b-form-group>
+
 						<b-form-group label="*Provincia" label-for="provincia">
-							<b-form-select
+							
+							<v-autocomplete
 								id="provincia"
 								v-model="profesional.provincia"
-								:state="validacion.provincia.estado"
+								:items="options"
 								type="text"
-								placeholder="Ingrese una provincia"
-								invalid-feedback="Complete este campo"
-								required
-								:options="options"
-							>
-							</b-form-select>
+								solo
+								filled
+							></v-autocomplete>
+							<b-form-invalid-feedback id="provincia-live-feedback"
+								>{{ validacion.provincia.mensaje }}
+							</b-form-invalid-feedback>
 						</b-form-group>
 					</b-card-body>
 				</b-collapse>
@@ -263,7 +268,6 @@
 								type="text"
 								solo
 								filled
-								required
 							></v-autocomplete>
 							<b-form-invalid-feedback id="banco-live-feedback"
 								>{{ validacion.banco.mensaje }}
@@ -277,7 +281,6 @@
 								:state="validacion.cbu.estado"
 								type="text"
 								placeholder="Ingrese un cbu"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="cbu-live-feedback"
@@ -292,7 +295,6 @@
 								:state="validacion.alias_cbu.estado"
 								type="text"
 								placeholder="Ingrese un alias"
-								required
 							>
 							</b-form-input>
 							<b-form-invalid-feedback id="alias_cbu-live-feedback"
@@ -365,7 +367,7 @@
 					dni: { estado: null, mensaje: "" },
 					fecha_ingreso: { estado: null, mensaje: "" },
 					especialidad: { estado: null, mensaje: "" },
-                    diasliquidacion: { estado: null, mensaje: "" },
+					diasliquidacion: { estado: null, mensaje: "" },
 					domicilio: { estado: null, mensaje: "" },
 					provincia: { estado: null, mensaje: "" },
 					localidad: { estado: null, mensaje: "" },
