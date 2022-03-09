@@ -179,6 +179,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						<b>{{ data.value }}</b>
 					</template>
 
+					<template slot="cell(fecha_nacimiento)" slot-scope="data">
+						{{ data.value | Date}}
+					</template>
+
 					<template #cell(selected)="{ rowSelected }">
 						<template v-if="rowSelected">
 							<span aria-hidden="true">&check;</span>
