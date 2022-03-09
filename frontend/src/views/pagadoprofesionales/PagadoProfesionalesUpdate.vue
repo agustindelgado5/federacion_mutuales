@@ -7,14 +7,16 @@
 			<!-- id_medico -->
 
 			<b-form-group data-app label="*Medico" label-for="id_medico">
-				<v-autocomplete id="id_medico"
-								v-model="pagadoProfesional.id_medico"
-								:items="op_profesionales"
-								type="text"
-								solo
-								placeholder="Ingrese el ID del medico"
-								invalid-feedback="Complete este campo"
-								required></v-autocomplete>
+				<v-autocomplete
+					id="id_medico"
+					v-model="pagadoProfesional.id_medico"
+					:items="op_profesionales"
+					type="text"
+					solo
+					placeholder="Ingrese el ID del medico"
+					invalid-feedback="Complete este campo"
+					required
+				></v-autocomplete>
 
 				<b-form-invalid-feedback id="id_medico-live-feedback">
 					{{ validacion.id_medico.mensaje }}
@@ -22,15 +24,16 @@
 			</b-form-group>
 
 			<!-- total -->
-			<b-form-group label="*Total"
-						  label-for="total">
-				<b-form-input id="total"
-							  v-model="pagadoProfesional.total"
-							  type="number"
-							  :state="validacion.total.estado"
-							  placeholder="Ingrese el total del pago"
-							  invalid-feedback="Complete este campo"
-							  required>
+			<b-form-group label="*Total" label-for="total">
+				<b-form-input
+					id="total"
+					v-model="pagadoProfesional.total"
+					type="number"
+					:state="validacion.total.estado"
+					placeholder="Ingrese el total del pago"
+					invalid-feedback="Complete este campo"
+					required
+				>
 				</b-form-input>
 				<b-form-invalid-feedback id="total-live-feedback">
 					{{ validacion.total.mensaje }}
@@ -39,13 +42,15 @@
 
 			<!-- fecha -->
 			<b-form-group label="*Fecha" label-for="fecha">
-				<b-form-input id="fecha"
-							  v-model="pagadoProfesional.fecha"
-							  :state="validacion.fecha.estado"
-							  type="date"
-							  placeholder="Ingrese una fecha"
-							  invalid-feedback="Complete este campo"
-							  required>
+				<b-form-input
+					id="fecha"
+					v-model="pagadoProfesional.fecha"
+					:state="validacion.fecha.estado"
+					type="date"
+					placeholder="Ingrese una fecha"
+					invalid-feedback="Complete este campo"
+					required
+				>
 				</b-form-input>
 				<b-form-invalid-feedback id="fecha-live-feedback">
 					{{ validacion.fecha.mensaje }}
@@ -53,42 +58,50 @@
 			</b-form-group>
 
 			<!--modo_pago-->
-			<b-form-group label="*Modo De Pago"
-						  label-for="modo_pago">
-				<b-form-select id="modo_pago"
-							   v-model="pagadoProfesional.modo_pago"
-							   :state="validacion.modo_pago.estado"
-							   type="text"
-							   placeholder="Ingrese la modp de pago"
-							   invalid-feedback="Complete este campo"
-							   required
-							   :options="options1">
+			<b-form-group label="*Modo De Pago" label-for="modo_pago">
+				<b-form-select
+					id="modo_pago"
+					v-model="pagadoProfesional.modo_pago"
+					:state="validacion.modo_pago.estado"
+					type="text"
+					placeholder="Ingrese la modp de pago"
+					invalid-feedback="Complete este campo"
+					required
+					:options="options1"
+				>
 				</b-form-select>
 				<b-form-invalid-feedback id="modo_pago-live-feedback">
 					{{ validacion.modo_pago.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group title="El mes que corresponde el pago"
-						  label="*Mes"
-						  label-for="periodo"
-						  @submit.stop.prevent="handleSubmit">
-				<month-picker-input @change="setPeriodo"
-									id="periodo"
-									:state="validacion.periodo.estado"
-									:default-month="new Date().getMonth()+1"
-									:lang="'es'"
-									required>
+			<b-form-group
+				title="El mes que corresponde el pago"
+				label="*Mes"
+				label-for="periodo"
+				@submit.stop.prevent="handleSubmit"
+			>
+				<month-picker-input
+					@change="setPeriodo"
+					id="periodo"
+					:state="validacion.periodo.estado"
+					:default-month="new Date().getMonth() + 1"
+					:lang="'es'"
+					required
+				>
 				</month-picker-input>
 				<b-form-invalid-feedback id="modo_pago-live-feedback">
 					{{ validacion.periodo.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 		</b-form>
-		<b-button class="mt-2"
-				  variant="success"
-				  block
-				  @click="putPagadoProfesionales()">Guardar</b-button>
+		<b-button
+			class="mt-2"
+			variant="success"
+			block
+			@click="putPagadoProfesionales()"
+			>Guardar</b-button
+		>
 	</div>
 </template>
 
@@ -96,20 +109,20 @@
 	import { APIControler } from "@/store/APIControler";
 	import axios from "axios";
 	import { mapState, mapActions } from "vuex";
-    import { MonthPickerInput } from 'vue-month-picker'
+	import { MonthPickerInput } from "vue-month-picker";
 
 	export default {
-        components: {
-            MonthPickerInput,
-        },
+		components: {
+			MonthPickerInput,
+		},
 		props: {
-            pagadoProfesional: {},
+			pagadoProfesional: {},
 			updateTable: Function,
 		},
 		data() {
 			return {
 				data: {},
-                list_profesionales: [],
+				list_profesionales: [],
 				op_profesionales: [
 					{ value: null, text: "Elija un profesional", disabled: true },
 				],
@@ -118,15 +131,19 @@
 					total: { estado: null, mensaje: "" },
 					fecha: { estado: null, mensaje: "" },
 					modo_pago: { estado: null, mensaje: "" },
-                    periodo: { estado: null, mensaje: "" },
+					periodo: { estado: null, mensaje: "" },
 				},
 				respuesta: {},
 				options1: [
+					{
+						value: null,
+						text: "Elija un modo de pago",
+						selected: true,
+					},
 					{ value: "Efectivo", text: "1- Efectivo" },
 					{ value: "CBU", text: "2- CBU" },
-					{ value: "debito", text: "3- debito" },
-					{ value: "Tarjeta", text: "4- Tarjeta" },
-
+					{ value: "Tarjeta de Debito", text: "3- Tarjeta de Debito" },
+					{ value: "Tarjeta de Credito", text: "4- Tarjeta de Credito" },
 				],
 				meses: [
 					{ value: "Enero", text: "01- Enero" },
@@ -141,70 +158,75 @@
 					{ value: "Octubre", text: "10- Octubre" },
 					{ value: "Noviembre", text: "11- Noviembre" },
 					{ value: "Diciembre", text: "12- Diciembre" },
-
 				],
 			};
 		},
 		methods: {
-            setPeriodo(date) {
-                this.pagadoProfesional.periodo = date.from.toLocaleDateString('en-CA')
-            },
-            async getProfesionales() {
-                let profesionalesAPI = new APIControler();
-                profesionalesAPI.apiUrl.pathname = "profesionales/";
-                this.data = await profesionalesAPI.getData(this.list_profesionales);
-                this.data.forEach((element) => {
-                    let option = {};
-                    option.value =
-                        "http://localhost:8081/profesionales/" + element.id_medico + "/";
-                    option.text =
-                        element.id_medico +
-                        "-- " +
-                        element.apellido +
-                        ", " +
-                        element.nombre +
-                        "; Mat: " +
-                        element.matricula +
-                        " ; " +
-                        element.especialidad;
-                    console.log(option);
-                    this.op_profesionales.push(option);
-                });
-            },
+			setPeriodo(date) {
+				this.pagadoProfesional.periodo = date.from.toLocaleDateString("en-CA");
+			},
+			getForeingKeys() {
+				this.pagadoProfesional.id_medico =
+					"http://localhost:8081/profesionales/" +
+					this.pagadoProfesional.medico.split("-")[0] +
+					"/";
+			},
+			async getProfesionales() {
+				let profesionalesAPI = new APIControler();
+				profesionalesAPI.apiUrl.pathname = "profesionales/";
+				this.data = await profesionalesAPI.getData(this.list_profesionales);
+				this.data.forEach((element) => {
+					let option = {};
+					option.value =
+						"http://localhost:8081/profesionales/" + element.id_medico + "/";
+					option.text =
+						element.id_medico +
+						"-- " +
+						element.apellido +
+						", " +
+						element.nombre +
+						"; Mat: " +
+						element.matricula +
+						" ; " +
+						element.especialidad;
+					console.log(option);
+					this.op_profesionales.push(option);
+				});
+			},
 			async getPagadoProfesionales() {
 				let PagadoProfesionalAPI = new APIControler();
 				this.data = await PagadoProfesionalAPI.getData();
 			},
-            async putPagadoProfesionales() {
-                let respuesta = "vacio";
-                await axios
-                    .put(
-                        "http://localhost:8081/pagadoprofesionales/" +
-                        this.pagadoProfesional.id_pagoprofesional +
-                        "/",
-                        this.pagadoProfesional
-                    )
-                    .then(function (data) {
+			async putPagadoProfesionales() {
+				let respuesta = "vacio";
+				await axios
+					.put(
+						"http://localhost:8081/pagadoprofesionales/" +
+							this.pagadoProfesional.id_pagoprofesional +
+							"/",
+						this.pagadoProfesional
+					)
+					.then(function (data) {
 						swal("Operación Exitosa", " ", "success");
-                    })
-                    .catch(function (error) {
-                        const mje =
-                            error.response.status < 500
-                                ? "Los datos no son válidos"
-                                : "Se ha detectado un problema ";
-                        swal("¡ERROR!", mje, "error");
-                        respuesta = error.response.data;
-                    });
+					})
+					.catch(function (error) {
+						const mje =
+							error.response.status < 500
+								? "Los datos no son válidos"
+								: "Se ha detectado un problema ";
+						swal("¡ERROR!", mje, "error");
+						respuesta = error.response.data;
+					});
 				this.cargarFeedback(respuesta);
-                sessionStorage.removeItem("pagos");
-                this.updateTable();
-                // console.log("respuesta:");
-                // console.log(respuesta);
-            },
+				sessionStorage.removeItem("pagos");
+				this.updateTable();
+				// console.log("respuesta:");
+				// console.log(respuesta);
+			},
 
 			cargarFeedback() {
 				let valido;
-				this.respuesta = this.respuesta || {}
+				this.respuesta = this.respuesta || {};
 				for (let key in this.validacion) {
 					valido = !this.respuesta.hasOwnProperty(key);
 					this.validacion[key].estado = valido;
@@ -214,6 +236,7 @@
 			},
 		},
 		beforeMount() {
+			this.getForeingKeys();
 			this.getProfesionales();
 		},
 	};
