@@ -10,6 +10,7 @@
 		<!------------------------------------------------------------------------------------------->
 		<b-form>
 			<b-form-group label="*Socio" label-for="numero_socio">
+				<!--
 				<b-form-select
 					id="numero_socio"
 					v-model="ventaOptica.numero_socio"
@@ -21,11 +22,21 @@
 					:options="op_socios"
 				>
 				</b-form-select>
+        -->
+				<v-autocomplete
+					id="numero_socio"
+					v-model="ventaOptica.numero_socio"
+					:items="op_socios"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="numero_socio-live-feedback"
 					>{{ validacion.numero_socio.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 			<b-form-group label="*Lente" label-for="lente">
+				<!--
 				<b-form-select
 					id="lente"
 					v-model="ventaOptica.lente"
@@ -37,6 +48,15 @@
 					:options="op_lentes"
 				>
 				</b-form-select>
+        -->
+				<v-autocomplete
+					id="lente"
+					v-model="ventaOptica.lente"
+					:items="op_lentes"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="lente-live-feedback"
 					>{{ validacion.lente.mensaje }}
 				</b-form-invalid-feedback>
@@ -258,7 +278,7 @@
 			},
 		},
 		beforeMount() {
-      this.getForeingKeys();
+			this.getForeingKeys();
 			this.getSocios();
 			this.getLentes();
 			this.getCristales();
