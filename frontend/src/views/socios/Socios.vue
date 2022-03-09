@@ -22,8 +22,9 @@
 				@click="testFetch2"
 				class="mb-4"
 				style="margin-left: 0.5em"
-				title="Mostrar"
+				title="Mostrar Cuotas"
 				variant="success"
+				:disabled="rows==0"
 			>
 				<v-icon dark style="color: black">mdi-check</v-icon>
 				Mostrar Cuotas
