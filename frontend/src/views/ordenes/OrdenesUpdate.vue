@@ -4,40 +4,8 @@
 		<h4>Nueva Orden:</h4>
 
 		<b-form>
-			<b-form-group label="*N° Orden" label-for="numero_orden">
-				<!-- Numero de Orden -->
-				<b-form-input
-					id="numero_orden"
-					v-model="orden.numero_orden"
-					type="number"
-					:disabled="true"
-					placeholder="Ingrese un Numero"
-					invalid-feedback="Complete este campo"
-					:state="validacion.numero_orden.estado"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="numero_orden-live-feedback">
-					{{ validacion.numero_orden.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
-
-			<!--
-	  <b-form-group label="*N° Socio" label-for="numero_socio">
-		  <b-form-input
-		  id="numero_socio"
-		  v-model="orden.numero_socio"
-		  type="number"
-		  placeholder="Ingrese un Numero"
-		  invalid-feedback="Complete este campo"
-		  required
-		  >
-		  </b-form-input>
-	  </b-form-group>
-	-->
-			<!-- <b-button @click="getSocios()">GET TEST</b-button> -->
-			<!-- {{ list_socios }} -->
 			<b-form-group label="*Socio" label-for="numero_socio">
+				<!--
 				<b-form-select
 					id="numero_socio"
 					v-model="orden.numero_socio"
@@ -50,28 +18,25 @@
 					@change="getPaciente()"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="numero_socio"
+					v-model="orden.numero_socio"
+					:items="op_socios"
+					type="text"
+					solo
+					filled
+					@change="getPaciente()"
+				></v-autocomplete>
 				<b-form-invalid-feedback id="numero_socio-live-feedback">
 					{{ validacion.numero_socio.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 
 			<!-- Paciente para el cual se emite la receta -->
-			<!--
-	<b-form-group label="*Paciente" label-for="paciente">
-	  <b-form-input
-		id="paciente"
-		v-model="orden.paciente"
-		type="number"
-		placeholder="*Ingrese el nombre completo del paciente"
-		invalid-feedback="Complete este campo"
-		required
-	  >
-	  </b-form-input>
-	</b-form-group>
-	-->
-			<!-- <b-button @click="getPaciente()">GET TEST</b-button>
-	{{ list_pacientes }} -->
+
 			<b-form-group label="*Paciente" label-for="paciente">
+				<!--
 				<b-form-select
 					id="dni_familiar"
 					v-model="orden.paciente"
@@ -83,6 +48,15 @@
 					:options="list_pacientes"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="paciente"
+					v-model="orden.paciente"
+					:items="list_pacientes"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="paciente-live-feedback">
 					{{ validacion.paciente.mensaje }}
 				</b-form-invalid-feedback>
@@ -106,58 +80,6 @@
 			</b-form-group>
 
 			<!-- Id del medico -->
-			<!--
-	<b-form-group label="*ID Medico" label-for="id_medico">
-	  <b-form-input
-		id="id_medico"
-		v-model="orden.id_medico"
-		type="number"
-		placeholder="Ingrese el ID del medico"
-		invalid-feedback="Complete este campo"
-		required
-	  >
-	  </b-form-input>
-	</b-form-group>
-	-->
-			<!-- <b-button @click="getProfesionales()">GET TEST</b-button>
-	{{ list_profesionales }} -->
-			<!-- <b-form-group label="*Medico" label-for="id_medico">
-	  <b-form-select
-		id="id_medico"
-		v-model="orden.id_medico"
-		:state="validacion.id_medico.estado"
-		type="text"
-		placeholder="Ingrese el ID del medico"
-		invalid-feedback="Complete este campo"
-		required
-		:options="op_profesionales"
-	  >
-	  </b-form-select>
-	<b-form-invalid-feedback
-			  id="id_medico-live-feedback"
-			>{{validacion.id_medico.mensaje}}
-	  </b-form-invalid-feedback>
-	</b-form-group> -->
-			<!-- <b-form-group label="*Medico" label-for="id_medico">
-	  <b-form-input list="lista_med_id"
-		id="id_medico"
-		v-model="orden.id_medico"
-		:state="validacion.id_medico.estado"
-		type="text"
-		placeholder="Ingrese el ID del medico"
-		invalid-feedback="Complete este campo"
-		required
-	  ></b-form-input>
-
-	  <datalist id="lista_med_id">
-		<option v-for="medico in op_profesionales" :key="medico.id_medico" :value="medico.value">{{ medico.text }}</option>
-	  </datalist>
-
-	<b-form-invalid-feedback
-			  id="id_medico-live-feedback"
-			>{{validacion.id_medico.mensaje}}
-	  </b-form-invalid-feedback>
-	</b-form-group>   -->
 
 			<b-form-group data-app label="*Medico" label-for="id_medico">
 				<v-autocomplete
@@ -177,22 +99,9 @@
 			</b-form-group>
 
 			<!-- Id de la mutual -->
-			<!--
-	<b-form-group label="*ID Mutual" label-for="id_mutual">
-	  <b-form-input
-		id="id_mutual"
-		v-model="orden.id_mutual"
-		type="number"
-		placeholder="Ingrese el ID de la mutual"
-		invalid-feedback="Complete este campo"
-		required
-	  >
-	  </b-form-input>
-	</b-form-group>
-	-->
-			<!-- <b-button @click="getMutuales()">GET TEST</b-button>
-	{{ list_mutuales }} -->
+
 			<b-form-group label="*ID Mutual" label-for="id_mutual">
+				<!--
 				<b-form-select
 					id="id_mutual"
 					v-model="orden.id_mutual"
@@ -204,6 +113,15 @@
 					:options="op_mutuales"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="id_mutual"
+					v-model="orden.id_mutual"
+					:items="op_mutuales"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="id_mutual-live-feedback">
 					{{ validacion.id_mutual.mensaje }}
 				</b-form-invalid-feedback>
@@ -308,7 +226,7 @@
 			<b-form-group
 				label="*Fecha Presentacion"
 				label-for="fechapresentacion"
-				v-show="this.orden.presentada"
+				v-show="this.orden.presentada == 'true'"
 			>
 				<b-form-input
 					id="fechapresentacion"
@@ -331,7 +249,7 @@
 <script>
 	import { APIControler } from "@/store/APIControler";
 	import axios from "axios";
-    import { mapState, mapActions } from "vuex";
+	import { mapState, mapActions } from "vuex";
 
 	export default {
 		props: {
@@ -494,7 +412,7 @@
 					)
 					.then(function (data) {
 						swal("Operación Exitosa", " ", "success");
-                        sessionStorage.removeItem("pagos");
+						sessionStorage.removeItem("pagos");
 					})
 					.catch(function (error) {
 						const mje =

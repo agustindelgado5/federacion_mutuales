@@ -4,6 +4,7 @@
 
 		<b-form>
 			<b-form-group label="*Socio" label-for="numero_socio">
+				<!--
 				<b-form-select
 					id="numero_socio"
 					v-model="orden.numero_socio"
@@ -16,6 +17,16 @@
 					@change="getPaciente()"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="numero_socio"
+					v-model="orden.numero_socio"
+					:items="op_socios"
+					type="text"
+					solo
+					filled
+					@change="getPaciente()"
+				></v-autocomplete>
 				<b-form-invalid-feedback id="numero_socio-live-feedback">
 					{{ validacion.numero_socio.mensaje }}
 				</b-form-invalid-feedback>
@@ -24,6 +35,7 @@
 			<!-- Paciente para el cual se emite la receta -->
 
 			<b-form-group label="*Paciente" label-for="paciente">
+				<!--
 				<b-form-select
 					id="dni_familiar"
 					v-model="orden.paciente"
@@ -35,6 +47,15 @@
 					:options="list_pacientes"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="paciente"
+					v-model="orden.paciente"
+					:items="list_pacientes"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="paciente-live-feedback">
 					{{ validacion.paciente.mensaje }}
 				</b-form-invalid-feedback>
@@ -79,6 +100,7 @@
 			<!-- Id de la mutual -->
 
 			<b-form-group label="*ID Mutual" label-for="id_mutual">
+				<!--
 				<b-form-select
 					id="id_mutual"
 					v-model="orden.id_mutual"
@@ -90,6 +112,15 @@
 					:options="op_mutuales"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="id_mutual"
+					v-model="orden.id_mutual"
+					:items="op_mutuales"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="id_mutual-live-feedback">
 					{{ validacion.id_mutual.mensaje }}
 				</b-form-invalid-feedback>
