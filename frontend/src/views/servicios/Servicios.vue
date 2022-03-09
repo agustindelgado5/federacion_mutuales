@@ -24,7 +24,7 @@
     </b-button>
     <b-modal id="modal-alta" hide-footer>
       <template #modal-title><h5 class="modal-title">Alta</h5></template>
-      <servicio-alta />
+      <servicio-alta :updateTable="testFetch"/>
     </b-modal>
 
     <!-- ================ELIMINAR VARIOS SERVICIOS======================== -->
@@ -244,7 +244,7 @@
 
     <b-modal id="modal-editar" hide-footer>
       <template #modal-title><h5 class="modal-title">Editar</h5></template>
-      <servicio-update :servicio="editar" />
+      <servicio-update :servicio="editar" :updateTable="testFetch"/>
     </b-modal>
 
     <b-container fluid>

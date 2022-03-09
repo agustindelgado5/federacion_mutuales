@@ -34,6 +34,8 @@ import axios from "axios";
 export default {
   props: {
     servicio: {},
+    updateTable: Function,
+
   },
   data() {
     return {
@@ -75,6 +77,7 @@ export default {
         swal("¡ERROR!", "Se ha detectado un problema ", "error");
         respuesta=error.response.data;
       })
+      this.updateTable();
       this.cargarFeedback(respuesta)
       console.log("respuesta:");
       console.log(respuesta);

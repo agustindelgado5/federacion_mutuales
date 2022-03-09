@@ -30,6 +30,9 @@
 import { APIControler } from "../../store/APIControler";
 
 export default {
+  props: {
+			updateTable: Function,
+		},
   data() {
     return {
       servicio: {},
@@ -49,19 +52,18 @@ export default {
       console.log(servicioAPI.apiUrl)
       servicioAPI.apiUrl.pathname='servicios/';
       let respuesta = await servicioAPI.postData(this.servicio);
+      this.updateTable();
       this.cargarFeedback(respuesta)
     },
 
-    cargarFeedback(respuestaAPI){
-      for(let key in this.validacion){
-        this.validacion[key].estado=true
-      }
-      for(let key in respuestaAPI){
-        this.validacion[key].estado=false
-        this.validacion[key].mensaje=respuestaAPI[key][0]
-
-      }
-    }
+    cargarFeedback(respuestaAPI) {
+				let valido;
+				for (let key in this.validacion) {
+					valido = !respuestaAPI.hasOwnProperty(key);
+					this.validacion[key].estado = valido;
+					if (!valido) this.validacion[key].mensaje = respuestaAPI[key][0];
+				}
+			},
   },
 };
 </script>
