@@ -17,6 +17,7 @@
 		<b-form>
 			<!-- numero_socio-->
 			<b-form-group label="*Socio" label-for="numero_socio">
+				<!--
 				<b-form-select
 					id="numero_socio"
 					v-model="cirugia.numero_socio"
@@ -28,12 +29,22 @@
 					:options="op_socios"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="numero_socio"
+					v-model="cirugia.numero_socio"
+					:items="op_socios"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="numero_socio-live-feedback"
 					>{{ validacion.numero_socio.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 			<!--codigo_institucion-->
 			<b-form-group label="*Codigo de instituto" label-for="codigo_institucion">
+				<!--
 				<b-form-select
 					id="codigo_institucion"
 					v-model="cirugia.codigo_institucion"
@@ -45,6 +56,15 @@
 					:options="op_institucion"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="codigo_institucion"
+					v-model="cirugia.codigo_institucion"
+					:items="op_institucion"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="codigo_institucion-live-feedback"
 					>{{ validacion.codigo_institucion.mensaje }}
 				</b-form-invalid-feedback>
