@@ -3,6 +3,7 @@
 		<h6>Los campos en (*) son obligatorios</h6>
 		<h4>Datos</h4>
 		<b-form @submit.stop.prevent>
+			<!--
 			<b-form-group label="*ID">
 				<b-form-input
 					id="id_cuota"
@@ -19,11 +20,13 @@
 					{{ validacion.id_cuota.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
+			-->
 
-			<b-form-group label="*Socio">
+			<b-form-group label="*Socio" label-for="numero_socio">
+				<!--
 				<b-form-select
 					id="numero_socio"
-					v-model="item_cuot.numero_socio"
+					v-model="cuotas.numero_socio"
 					type="text"
 					placeholder="Ingrese un Numero"
 					invalid-feedback="Complete este campo"
@@ -32,13 +35,22 @@
 					:options="op_socios"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="numero_socio"
+					v-model="cuotas.numero_socio"
+					:items="op_socios"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="numero_socio-live-feedback">
 					{{ validacion.numero_socio.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
 
 			<!-- {{ list_familiar }} -->
-			<b-form-group label="Persona que pagó">
+			<b-form-group label="*Persona que pagó">
 				<b-form-input
 					id="personapago"
 					v-model="item_cuot.personapago"
@@ -46,13 +58,13 @@
 					placeholder="Ingrese el nombre de la persona que pagó"
 					invalid-feedback="Complete este campo"
 					:state="validacion.personapago.estado"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="personapago-live-feedback">
 					{{ validacion.personapago.mensaje }}
 				</b-form-invalid-feedback>
 			</b-form-group>
-
 			<b-form-group
 				label="*Monto"
 				label-for="monto"
@@ -75,7 +87,7 @@
 			
 			<b-form-group
 				title="El mes que corresponde la cuota"
-				label="*Mes"
+				label="Mes"
 				label-for="periodo"
 				@submit.stop.prevent="handleSubmit"
 			>
@@ -92,6 +104,7 @@
 					type="boolean"
 					:state="validacion.pagado.estado"
 					invalid-feedback="Complete este campo"
+					required
 					unchecked-value="false"
 				>
 				</b-form-checkbox>
@@ -109,6 +122,7 @@
 					:state="validacion.fecharealizacion.estado"
 					placeholder="Ingrese una Fecha"
 					invalid-feedback="Complete este campo"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="fecharealizacion-live-feedback">
@@ -118,7 +132,7 @@
 
 			<b-form-group
 				v-if="item_cuot.pagado==true"
-				label="Persona que pagó"
+				label="*Persona que pagó"
 				label-for="personapago"
 				@submit.stop.prevent="handleSubmit"
 			>
@@ -129,6 +143,7 @@
 					placeholder="Ingrese el nombre de la persona que pagó"
 					invalid-feedback="Complete este campo"
 					:state="validacion.personapago.estado"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="personapago-live-feedback">
@@ -136,7 +151,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group v-if="item_cuot.pagado==true" label="Método de pago" label-for="metodoPago">
+			<b-form-group v-if="item_cuot.pagado==true" label="*Método de pago" label-for="metodoPago">
 				<b-form-select
 					id="metodoPago"
 					v-model="item_cuot.metodoPago"
@@ -144,6 +159,7 @@
 					type="text"
 					placeholder="Ingrese un método de pago"
 					invalid-feedback="Complete este campo"
+					required
 					:options="op_metodosPago"
 				>
 				</b-form-select>

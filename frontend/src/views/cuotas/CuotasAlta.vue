@@ -25,7 +25,10 @@
 			</b-form-group>
 			-->
 
+			
+
 			<b-form-group label="*Socio" label-for="numero_socio">
+				<!--
 				<b-form-select
 					id="numero_socio"
 					v-model="cuotas.numero_socio"
@@ -37,6 +40,15 @@
 					:options="op_socios"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="numero_socio"
+					v-model="cuotas.numero_socio"
+					:items="op_socios"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="numero_socio-live-feedback">
 					{{ validacion.numero_socio.mensaje }}
 				</b-form-invalid-feedback>
@@ -65,7 +77,7 @@
 			
 			<b-form-group
 				title="El mes que corresponde la cuota"
-				label="*Mes"
+				label="Mes"
 				label-for="periodo"
 				@submit.stop.prevent="handleSubmit"
 			>
@@ -82,6 +94,7 @@
 					type="boolean"
 					:state="validacion.pagado.estado"
 					invalid-feedback="Complete este campo"
+					required
 					unchecked-value="false"
 				>
 				</b-form-checkbox>
@@ -99,6 +112,7 @@
 					:state="validacion.fecharealizacion.estado"
 					placeholder="Ingrese una Fecha"
 					invalid-feedback="Complete este campo"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="fecharealizacion-live-feedback">
@@ -108,7 +122,7 @@
 
 			<b-form-group
 				v-if="cuotas.pagado==true"
-				label="Persona que pagó"
+				label="*Persona que pagó"
 				label-for="personapago"
 				@submit.stop.prevent="handleSubmit"
 			>
@@ -119,6 +133,7 @@
 					placeholder="Ingrese el nombre de la persona que pagó"
 					invalid-feedback="Complete este campo"
 					:state="validacion.personapago.estado"
+					required
 				>
 				</b-form-input>
 				<b-form-invalid-feedback id="personapago-live-feedback">
@@ -126,7 +141,7 @@
 				</b-form-invalid-feedback>
 			</b-form-group>
 
-			<b-form-group v-if="cuotas.pagado==true" label="Método de pago" label-for="metodoPago">
+			<b-form-group v-if="cuotas.pagado==true" label="*Método de pago" label-for="metodoPago">
 				<b-form-select
 					id="metodoPago"
 					v-model="cuotas.metodoPago"
@@ -134,6 +149,7 @@
 					type="text"
 					placeholder="Ingrese un método de pago"
 					invalid-feedback="Complete este campo"
+					required
 					:options="op_metodosPago"
 				>
 				</b-form-select>
