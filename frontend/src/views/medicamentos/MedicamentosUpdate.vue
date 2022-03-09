@@ -94,6 +94,7 @@
 				label-for="cod_farmacia"
 				@submit.stop.prevent="handleSubmit"
 			>
+				<!--
 				<b-form-select
 					id="cod_farmacia"
 					v-model="item_med.cod_farmacia"
@@ -105,6 +106,15 @@
 					:options="options"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="cod_farmacia"
+					v-model="item_med.cod_farmacia"
+					:items="options"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="cod_farmacia-live-feedback">
 					{{ validacion.cod_farmacia.mensaje }}
 				</b-form-invalid-feedback>

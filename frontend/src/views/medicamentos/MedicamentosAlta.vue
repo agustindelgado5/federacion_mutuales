@@ -3,28 +3,6 @@
 		<h6>Los campos en (*) son obligatorios</h6>
 		<h4>Datos</h4>
 		<b-form @submit.stop.prevent>
-			<!-- 
-			<b-form-group
-				label="*ID"
-				label-for="id_medicamento"
-				@submit.stop.prevent="handleSubmit"
-			>
-				<b-form-input
-					id="id_medicamento"
-					v-model="medicamentos.id_medicamento"
-					type="number"
-					:state="validacion.id_medicamento.estado"
-					placeholder="Ingrese un Numero"
-					invalid-feedback="Complete este campo"
-					required
-				>
-				</b-form-input>
-				<b-form-invalid-feedback id="id_medicamento-live-feedback">
-					{{ validacion.id_medicamento.mensaje }}
-				</b-form-invalid-feedback>
-			</b-form-group>
-			-->
-
 			<b-form-group
 				label="*Nombre"
 				label-for="nombre"
@@ -95,6 +73,7 @@
 				label-for="cod_farmacia"
 				@submit.stop.prevent="handleSubmit"
 			>
+				<!--
 				<b-form-select
 					id="cod_farmacia"
 					v-model="medicamentos.cod_farmacia"
@@ -106,6 +85,15 @@
 					:options="options"
 				>
 				</b-form-select>
+				-->
+				<v-autocomplete
+					id="cod_farmacia"
+					v-model="medicamentos.cod_farmacia"
+					:items="options"
+					type="text"
+					solo
+					filled
+				></v-autocomplete>
 				<b-form-invalid-feedback id="cod_farmacia-live-feedback">
 					{{ validacion.cod_farmacia.mensaje }}
 				</b-form-invalid-feedback>
