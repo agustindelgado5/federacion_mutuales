@@ -60,7 +60,12 @@
 						<h3>¿Esta seguro de eliminar {{ selected.length }} registros?</h3>
 					</div>
 
-					<b-button class="mt-2" block @click="hideModal('modal-eliminarTodo')" title="Volver Atras">
+					<b-button
+						class="mt-2"
+						block
+						@click="hideModal('modal-eliminarTodo')"
+						title="Volver Atras"
+					>
 						Volver Atras
 					</b-button>
 
@@ -174,18 +179,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 								filter_fechaIngreso.desde,
 								filter_fechaIngreso.hasta
 							)
-							| Localidad(
-								filter_localidad
-							)
-							| Sucursal(
-								filter_departamento
-							)
-							| Representante(
-								filter_representante
-							)
-							| Correo(
-								filter_correo
-							)
+							| Localidad(filter_localidad)
+							| Sucursal(filter_departamento)
+							| Representante(filter_representante)
 					"
 					show-empty
 					:per-page="perPage"
@@ -296,10 +292,13 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									<b-list-group class="col-6">
 										<b-list-group-item>
 											<b>Servicios:</b>
-											<div v-for="servicio in row.item.servicios_mutual" :key="servicio">
+											<div
+												v-for="servicio in row.item.servicios_mutual"
+												:key="servicio"
+											>
 												<ul>
 													<li>
-														<b>ID servicio: {{ servicio.split('/')[4]}}</b>
+														<b>ID servicio: {{ servicio.split("/")[4] }}</b>
 														<!-- {{ servicio.servicio }} -->
 													</li>
 												</ul>
@@ -469,46 +468,9 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 													solo
 													filled
 												></v-autocomplete>
-												<div v-show="filter_representante!= null">
+												<div v-show="filter_representante != null">
 													<b-button
 														@click="filter_representante = null"
-														title="Limpiar"
-													>
-														Limpiar
-													</b-button>
-												</div>
-											</b-form-group>
-										</b-card-body>
-									</b-collapse>
-									<b-card-header header-tag="header" class="p-1" role="tab">
-										<b-button
-											block
-											v-b-toggle.accordion-4
-											variant="info"
-											style="font-size: 0.82em"
-										>
-											CORREO
-										</b-button>
-									</b-card-header>
-									<b-collapse
-										id="accordion-4"
-										visible
-										accordion="my-accordion"
-										role="tabpanel"
-									>
-										<b-card-body>
-											<b-form-group id="input-group-4">
-												<v-autocomplete
-													id="correo"
-													v-model="filter_correo"
-													:items="options_correo"
-													type="text"
-													solo
-													filled
-												></v-autocomplete>
-												<div v-show="filter_correo != null">
-													<b-button
-														@click="filter_correo = null"
 														title="Limpiar"
 													>
 														Limpiar
@@ -541,14 +503,20 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									>
 										<b-card-body>
 											<b-form-group id="input-group-4">
-												<b-form-group label="Desde" label-for="fecha_inicio_desde">
+												<b-form-group
+													label="Desde"
+													label-for="fecha_inicio_desde"
+												>
 													<b-form-input
 														id="fecha_inicio_desde"
 														v-model="filter_fechaInicio.desde"
 														type="date"
 													></b-form-input>
 												</b-form-group>
-												<b-form-group label="Hasta" label-for="fecha_inicio_hasta">
+												<b-form-group
+													label="Hasta"
+													label-for="fecha_inicio_hasta"
+												>
 													<b-form-input
 														id="fecha_inicio_hasta"
 														v-model="filter_fechaInicio.hasta"
@@ -595,14 +563,20 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 									>
 										<b-card-body>
 											<b-form-group id="input-group-4">
-												<b-form-group label="Desde" label-for="fecha_ingreso_desde">
+												<b-form-group
+													label="Desde"
+													label-for="fecha_ingreso_desde"
+												>
 													<b-form-input
 														id="fecha_ingreso_desde"
 														v-model="filter_fechaIngreso.desde"
 														type="date"
 													></b-form-input>
 												</b-form-group>
-												<b-form-group label="Hasta" label-for="fecha_ingreso_hasta">
+												<b-form-group
+													label="Hasta"
+													label-for="fecha_ingreso_hasta"
+												>
 													<b-form-input
 														id="fecha_ingreso_hasta"
 														v-model="filter_fechaIngreso.hasta"
@@ -649,7 +623,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 						{{ infoEliminar.mutual.nombre }}?
 					</h3>
 				</div>
-				<b-button class="mt-2" block @click="hideModal('modal_eliminar')" title="Volver Atras"
+				<b-button
+					class="mt-2"
+					block
+					@click="hideModal('modal_eliminar')"
+					title="Volver Atras"
 					>Volver Atras</b-button
 				>
 				<b-button
@@ -935,9 +913,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				options_representante: [
 					{ value: null, text: "Elija un representante", selected: true },
 				],
-				options_correo: [
-					{ value: null, text: "Elija un correo", selected: true },
-				],
+
 				selected: [],
 				//Botones
 				btn_down_pdf: true, //Desabilito los botones, hasta que muestre los datos
@@ -948,10 +924,10 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				btn_eliminar: false,
 				btn_select: false,
 				btn_limpiar: true,
-				
+
 				//Campos a filtrar
-				filter_correo : null,
-				filter_localidad : null,
+				filter_correo: null,
+				filter_localidad: null,
 				filter_departamento: null,
 				filter_representante: null,
 				filter_fechaInicio: {
@@ -1007,36 +983,27 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 					this.tabla_mutuales = lista_mutuales;
 
-					// this.tabla_mutuales.forEach((element) => {
-					// 	let opcionCorreo = {};
-					// 	let opcionRepre = {};
-					// 	opcionCorreo.value = element.email;
-					// 	opcionCorreo.text = element.email;
-					// 	opcionRepre.value = element.representante;
-					// 	opcionRepre.text = element.representante;
-					// 	if (
-					// 		this.options_correo.find((x) => x.value == opcionCorreo.value)
-					// 	) {
-					// 		console.log(opcionCorreo, " ya se encuentra en el listado");
-					// 	} else {
-					// 		this.options_correo.push(opcionCorreo);
-					// 	}
+					this.tabla_mutuales.forEach((element) => {
+						let opcionRepre = {};
 
-					// 	if (
-					// 		this.options_representante.find(
-					// 			(x) => x.value == opcionRepre.value
-					// 		)
-					// 	) {
-					// 		console.log(opcionRepre, " ya se encuentra en el listado");
-					// 	} else {
-					// 		this.options_representante.push(opcionRepre);
-					// 	}
-					// });
+						opcionRepre.value = element.representante;
+						opcionRepre.text = element.representante;
+
+						if (
+							this.options_representante.find(
+								(x) => x.value == opcionRepre.value
+							)
+						) {
+							console.log(opcionRepre, " ya se encuentra en el listado");
+						} else {
+							this.options_representante.push(opcionRepre);
+						}
+					});
 				} catch (error) {
 					console.log(error);
 				}
 			},
-			
+
 			showModalEliminar(item, index) {
 				console.log("Mostrando info eliminar");
 				console.log(this.infoEliminar);
@@ -1046,11 +1013,11 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 
 			//Funcion para mostrar el modal
 			showModal(id_ref) {
-			this.$refs[id_ref].show();
+				this.$refs[id_ref].show();
 			},
 			//Funcion para esconder el modal
 			hideModal(id_ref) {
-			this.$refs[id_ref].hide();
+				this.$refs[id_ref].hide();
 			},
 			altaMutual() {},
 
@@ -1065,7 +1032,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					.then((datos) => {
 						swal("Operación Exitosa", " ", "success");
 						console.log(datos);
-						this.hideModal('modal_eliminar');
+						this.hideModal("modal_eliminar");
 					})
 					.catch((error) => {
 						swal("¡ERROR!", "Se ha detectado un problema ", "error");
@@ -1092,7 +1059,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					this.hideModal("modal-eliminarTodo");
 					swal("Eliminacion Exitosa", " ", "success");
 				} catch (error) {
-					this.hideModal(modal-eliminarTodo);
+					this.hideModal(modal - eliminarTodo);
 					swal("¡ERROR!", "Se ha detectado un problema ", "error");
 					console.log(error);
 				} finally {
@@ -1170,7 +1137,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 				let serviciosAPI = new APIControler();
 				serviciosAPI.apiUrl.pathname = "servicios/";
 				this.servicios = await serviciosAPI.getData();
-				
 			},
 
 			// async getPublic(id) {
