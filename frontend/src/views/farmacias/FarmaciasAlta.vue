@@ -269,22 +269,7 @@
 						</b-form-group>
 
 						<!-- entidad_bancaria -->
-						<b-form-group
-							label="*Entidad Bancaria"
-							label-for="entidad_bancaria"
-						>
-							<!--
-							<b-form-input
-								id="entidad_bancaria"
-								v-model="farmacia.entidad_bancaria"
-								type="text"
-								placeholder="*Ingrese la entidad bancaria"
-								:state="validacion.entidad_bancaria.estado"
-								invalid-feedback="Complete este campo"
-								required
-							>
-							</b-form-input>
-							-->
+						<b-form-group label="*Entidad Bancaria" label-for="entidad_bancaria">
 							<v-autocomplete
 								id="entidad_bancaria"
 								v-model="farmacia.entidad_bancaria"
@@ -373,12 +358,12 @@
 					farmacia: { estado: null, mensaje: "" },
 					direccion: { estado: null, mensaje: "" },
 					localidad: { estado: null, mensaje: "" },
-					email: { estado: null, mensaje: "" },
 					cod_postal: { estado: null, mensaje: "" },
+					email: { estado: null, mensaje: "" },
 					tel_fijo: { estado: null, mensaje: "" },
-					tel_celular: { estado: null, mensaje: "" },
-					matricula_farm: { estado: null, mensaje: "" },
 					representante: { estado: null, mensaje: "" },
+					matricula_farm: { estado: null, mensaje: "" },
+					tel_celular: { estado: null, mensaje: "" },
 					cbu: { estado: null, mensaje: "" },
 					entidad_bancaria: { estado: null, mensaje: "" },
 					nro_cuenta: { estado: null, mensaje: "" },
@@ -682,16 +667,18 @@
 				this.cargarFeedback(respuesta);
 				this.updateTable();
 			},
-
+			
 			cargarFeedback(respuestaAPI) {
+				let valido;
 				for (let key in this.validacion) {
-					this.validacion[key].estado = true;
-				}
-				for (let key in respuestaAPI) {
-					this.validacion[key].estado = false;
-					this.validacion[key].mensaje = respuestaAPI[key][0];
+					valido = !respuestaAPI.hasOwnProperty(key);
+					this.validacion[key].estado = valido;
+					console.log(key);
+
+					if (!valido) this.validacion[key].mensaje = respuestaAPI[key][0];
 				}
 			},
+
 		},
 	};
 </script>

@@ -192,7 +192,6 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 					striped
 					sortable
 					responsive
-					:sticky-header="true"
 					:no-border-collapse="false"
 					hover
 					:items="
@@ -283,7 +282,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										>
 									</b-list-group>
 									&nbsp;
-									<b-list-group class="col-5">
+									<b-list-group class="col-3">
 										<b-list-group-item
 											><b>Farmacia:</b>
 											{{ row.item.farmacia }}</b-list-group-item
@@ -301,7 +300,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										</b-list-group-item>
 									</b-list-group>
 									&nbsp;
-									<b-list-group class="col-4">
+									<b-list-group class="col-3">
 										<b-list-group-item
 											><b>Telefono Fijo:</b>
 											{{ row.item.tel_fijo }}</b-list-group-item
@@ -315,7 +314,7 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 										</b-list-group-item>
 									</b-list-group>
 									&nbsp;
-									<b-list-group class="col-2">
+									<b-list-group class="col-3">
 										<b-list-group-item
 											><b>CBU:</b>
 											{{ row.item.cbu }}</b-list-group-item
@@ -534,22 +533,22 @@ Cantidad de registros: {{ rows }} | Filas seleccionadas: {{
 			return {
 				tabla_farmacias: [],
 				fields: [
-					{ key: "selected", label: "Seleccionar", sortable: true },
-					{ key: "cod_farmacia", label: "Codigo", sortable: true },
+					{ key: "selected", label: "", sortable: true },
+					// { key: "cod_farmacia", label: "Codigo", sortable: true },
 					{ key: "matricula_farm", label: "Matricula", sortable: true },
 					{ key: "cuit", label: "CUIT", sortable: true },
 					{ key: "farmacia", label: "Farmacia", sortable: true },
 					{ key: "localidad", label: "Sucursal", sortable: true },
-					{ key: "direccion", label: "Direccion", sortable: true },
-					{ key: "email", label: "Correo", sortable: true },
-					{ key: "tel_fijo", label: "Telefono Fijo", sortable: true },
-					{ key: "tel_celular", label: "Celular", sortable: true },
+					// { key: "direccion", label: "Direccion", sortable: true },
+					// { key: "email", label: "Correo", sortable: true },
+					// { key: "tel_fijo", label: "Telefono Fijo", sortable: true },
+					// { key: "tel_celular", label: "Celular", sortable: true },
 					{ key: "representante", label: "Representante", sortable: true },
-					{ key: "cbu", label: "CBU", sortable: true },
-					{ key: "entidad_bancaria", label: "Entidad Bancaria", sortable: true },
-					{ key: "nro_cuenta", label: "Nro Cuenta", sortable: true },
-					{ key: "tipo_cuenta", label: "Tipo De Cuenta", sortable: true },
-					{ key: "modalidad_pago", label: "Modalidad De Pago", sortable: true },
+					// { key: "cbu", label: "CBU", sortable: true },
+					// { key: "entidad_bancaria", label: "Entidad Bancaria", sortable: true },
+					// { key: "nro_cuenta", label: "Nro Cuenta", sortable: true },
+					// { key: "tipo_cuenta", label: "Tipo De Cuenta", sortable: true },
+					// { key: "modalidad_pago", label: "Modalidad De Pago", sortable: true },
 					{ key: "action", label: "Acciones", variant: "secondary" },
 				],
 				totalRows: 1, //Total de filas
